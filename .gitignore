@@ -1,3 +1,4 @@
+.idea
 src/bin/*
 src/*/*/cmdb_*
 src/apiserver/*apiserver
