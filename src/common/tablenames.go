@@ -94,6 +94,10 @@ const (
 	BKTableNameCloudSyncHistory       = "cc_CloudSyncHistory"
 	BKTableNameCloudResourceConfirm   = "cc_CloudResourceConfirm"
 	BKTableNameResourceConfirmHistory = "cc_ResourceConfirmHistory"
+
+	//学生模块
+	BKTableNameStudentClass			= "cc_StudentClass"
+	BKTableNameStudent				= "cc_Student"
 )
 
 // AllTables alltables
@@ -142,6 +146,9 @@ var AllTables = []string{
 	BKTableNameResourceConfirmHistory,
 	BKTableNameObjUnique,
 	BKTableNameAsstDes,
+
+	BKTableNameStudentClass,
+	BKTableNameStudent,
 }
 
 // GetInstTableName returns inst data table name

@@ -11,7 +11,7 @@ from string import Template
 class FileTemplate(Template):
     delimiter = '$'
 
-
+##生成配置文件
 def generate_config_file(
         rd_server_v, db_name_v, redis_ip_v, redis_port_v, redis_user_v,
         redis_pass_v, mongo_ip_v, mongo_port_v, mongo_user_v, mongo_pass_v,
@@ -439,6 +439,34 @@ agent_app_url = ${agent_url}/console/?app=bk_agent_setup
     with open(output + "webserver.conf", 'w') as tmp_file:
         tmp_file.write(result)
 
+    # testservice.conf
+    testservice_file_template_str = '''
+[mongodb]
+host = $mongo_host
+usr = $mongo_user
+pwd = $mongo_pass
+database = $db
+port = $mongo_port
+maxOpenConns = 3000
+maxIDleConns = 1000
+mechanism = SCRAM-SHA-1
+
+[redis]
+host = $redis_host
+port = $redis_port
+usr = $redis_user
+pwd = $redis_pass
+database = 0
+port = $redis_port
+maxOpenConns = 3000
+maxIDleConns = 1000
+'''
+
+    template = FileTemplate(testservice_file_template_str)
+    result = template.substitute(**context)
+    with open(output + "testservice.conf", 'w') as tmp_file:
+        tmp_file.write(result)
+
 
 def update_start_script(rd_server, server_ports):
     list_dirs = os.walk(os.getcwd()+"/")
@@ -509,7 +537,8 @@ def main(argv):
         "cmdb_tmserver": 60008,
         "cmdb_toposerver": 60002,
         "cmdb_webserver": 8083,
-        "cmdb_synchronizeserver": 60010
+        "cmdb_synchronizeserver": 60010,
+        "cmdb_testservice": 30001
     }
     arr = [
         "help", "discovery=", "database=", "redis_ip=", "redis_port=",
