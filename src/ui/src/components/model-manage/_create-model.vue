@@ -124,7 +124,7 @@
             localClassifications () {
                 const localClassifications = []
                 this.classifications.forEach(classification => {
-                    if (!['bk_biz_topo', 'bk_host_manage', 'bk_organization'].includes(classification['bk_classification_id'])) {
+                    if (!['bk_biz_topo', 'bk_host_manage'].includes(classification['bk_classification_id'])) {
                         const localClassification = {
                             ...classification,
                             isModelShow: false
