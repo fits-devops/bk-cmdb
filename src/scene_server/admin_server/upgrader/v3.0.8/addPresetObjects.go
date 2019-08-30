@@ -295,9 +295,10 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 }
 
 var classificationRows = []*metadata.Classification{
-	&metadata.Classification{ClassificationID: "bk_host_manage", ClassificationName: "主机管理", ClassificationType: "inner", ClassificationIcon: "icon-cc-host"},
-	&metadata.Classification{ClassificationID: "bk_biz_topo", ClassificationName: "业务拓扑", ClassificationType: "inner", ClassificationIcon: "icon-cc-business"},
+	&metadata.Classification{ClassificationID: "bk_host_manage", ClassificationName: "基础设施", ClassificationType: "inner", ClassificationIcon: "icon-cc-host"},
+	&metadata.Classification{ClassificationID: "bk_biz_topo", ClassificationName: "平台资源", ClassificationType: "inner", ClassificationIcon: "icon-cc-business"},
 	&metadata.Classification{ClassificationID: "bk_organization", ClassificationName: "组织架构", ClassificationType: "inner", ClassificationIcon: "icon-cc-organization"},
 	&metadata.Classification{ClassificationID: "bk_network", ClassificationName: "网络", ClassificationType: "inner", ClassificationIcon: "icon-cc-network-equipment"},
 	&metadata.Classification{ClassificationID: "bk_middleware", ClassificationName: "中间件", ClassificationType: "inner", ClassificationIcon: "icon-cc-middleware"},
+	&metadata.Classification{ClassificationID: "bk_application", ClassificationName: "应用资源", ClassificationType: "inner", ClassificationIcon: "icon-cc-application"},
 }
