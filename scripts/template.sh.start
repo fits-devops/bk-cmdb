@@ -5,7 +5,6 @@ set -e
 basedir=`cd $(dirname $0); pwd -P`
 cd $basedir
 
-
 # get local IP.
 localIp=`python ip.py`
 
