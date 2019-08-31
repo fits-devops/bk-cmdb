@@ -1,0 +1,41 @@
+version: '2'
+services:
+  cmdb-webserver:
+    scale: 1
+    start_on_create: true
+  cmdb-datacollection:
+    scale: 1
+    start_on_create: true
+  cmdb-coreservice:
+    scale: 1
+    start_on_create: true
+  cmdb-objectcontroller:
+    scale: 1
+    start_on_create: true
+  cmdb-procserver:
+    scale: 1
+    start_on_create: true
+  cmdb-proccontroller:
+    scale: 1
+    start_on_create: true
+  cmdb-adminserver:
+    scale: 1
+    start_on_create: true
+  cmdb-apiserver:
+    scale: 1
+    start_on_create: true
+  cmdb-hostcontroller:
+    scale: 1
+    start_on_create: true
+  cmdb-tmserver:
+    scale: 1
+    start_on_create: true
+  cmdb-hostserver:
+    scale: 1
+    start_on_create: true
+  cmdb-toposerver:
+    scale: 1
+    start_on_create: true
+  cmdb-eventserver:
+    scale: 1
+    start_on_create: true
