@@ -1,0 +1,156 @@
+version: '2'
+services:
+  cmdb-webserver:
+    image: 192.168.31.200:5000/cmdb_webserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 8083:8083/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-datacollection:
+    image: 192.168.31.200:5000/cmdb_datacollection
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60005:60005/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-coreservice:
+    image: 192.168.31.200:5000/cmdb_coreservice
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 50009:50009/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-objectcontroller:
+    image: 192.168.31.200:5000/cmdb_objectcontroller
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 50001:50001/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-procserver:
+    image: 192.168.31.200:5000/cmdb_procserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60003:60003/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-proccontroller:
+    image: 192.168.31.200:5000/cmdb_proccontroller
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 50003:50003/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-adminserver:
+    image: 192.168.31.200:5000/cmdb_adminserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60004:60004/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-apiserver:
+    image: 192.168.31.200:5000/cmdb_apiserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-hostcontroller:
+    image: 192.168.31.200:5000/cmdb_hostcontroller
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 50002:50002/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-tmserver:
+    image: 192.168.31.200:5000/cmdb_tmserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60008:60008/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-hostserver:
+    image: 192.168.31.200:5000/cmdb_hostserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60001:60001/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-toposerver:
+    image: 192.168.31.200:5000/cmdb_toposerver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60002:60002/tcp
+    labels:
+      io.rancher.container.pull_image: always
+  cmdb-eventserver:
+    image: 192.168.31.200:5000/cmdb_eventserver
+    stdin_open: true
+    external_links:
+    - redis/redis:rdserver
+    - zookeeper/zk:zkserver
+    - Mongo/mongodb:mgserver
+    tty: true
+    ports:
+    - 60009:60009/tcp
+    labels:
+      io.rancher.container.pull_image: always
