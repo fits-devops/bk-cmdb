@@ -2,6 +2,7 @@
 
 set -e
 
+#支持在docker下运行
 basedir=`cd $(dirname $0); pwd -P`
 cd $basedir
 
