@@ -47,7 +47,7 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 	}
 
 	shouldCheck := []string{
-		keyfunc(common.BKInnerObjIDSwitch, common.BKAssetIDField),
+		keyfunc(common.BKInnerObjIDSwitch, "asset_id"),
 		keyfunc(common.BKInnerObjIDRouter, common.BKAssetIDField),
 		keyfunc(common.BKInnerObjIDBlance, common.BKAssetIDField),
 		keyfunc(common.BKInnerObjIDFirewall, common.BKAssetIDField),
@@ -61,7 +61,7 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 	}
 
 	uniques := []metadata.ObjectUnique{
-		buildUnique(propertyIDToProperty, common.BKInnerObjIDSwitch, common.BKAssetIDField),
+		buildUnique(propertyIDToProperty, common.BKInnerObjIDSwitch, "asset_id"),
 		buildUnique(propertyIDToProperty, common.BKInnerObjIDRouter, common.BKAssetIDField),
 		buildUnique(propertyIDToProperty, common.BKInnerObjIDBlance, common.BKAssetIDField),
 		buildUnique(propertyIDToProperty, common.BKInnerObjIDFirewall, common.BKAssetIDField),
