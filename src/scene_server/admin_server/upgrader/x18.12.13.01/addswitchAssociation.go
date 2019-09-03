@@ -27,9 +27,9 @@ func addswitchAssociation(ctx context.Context, db dal.RDB, conf *upgrader.Config
 	switchAsst := metadata.Association{
 		OwnerID:         conf.OwnerID,
 		AsstKindID:      "connect",
-		ObjectID:        "bk_switch",
+		ObjectID:        "_switch",
 		AsstObjID:       "host",
-		AssociationName: "bk_switch_connect_host",
+		AssociationName: "switch_connect_host",
 		Mapping:         metadata.OneToManyMapping,
 		OnDelete:        metadata.NoAction,
 		IsPre:           &falseVar,

@@ -107,7 +107,7 @@ const (
 	BKInnerObjIDPlat = "plat"
 
 	// BKInnerObjIDSwitch the inner object
-	BKInnerObjIDSwitch = "bk_switch"
+	BKInnerObjIDSwitch = "_switch"
 	// BKInnerObjIDRouter the inner object
 	BKInnerObjIDRouter = "bk_router"
 	// BKInnerObjIDBlance the inner object

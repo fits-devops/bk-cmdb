@@ -81,7 +81,7 @@ func addObjAttDescData(ctx context.Context, db dal.RDB, conf *upgrader.Config) e
 	}
 	selector := map[string]interface{}{
 		common.BKObjIDField: map[string]interface{}{
-			common.BKDBIN: []string{"bk_switch",
+			common.BKDBIN: []string{"_switch",
 				"bk_router",
 				"bk_load_balance",
 				"bk_firewall",
