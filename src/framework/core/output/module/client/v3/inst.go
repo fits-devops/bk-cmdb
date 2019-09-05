@@ -68,7 +68,7 @@ func (m *CommonInst) CreateCommonInst(data types.MapStr) (int, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
@@ -103,7 +103,7 @@ func (m *CommonInst) DeleteCommonInst(cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -141,7 +141,7 @@ func (m *CommonInst) UpdateCommonInst(data types.MapStr, cond common.Condition) 
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -181,7 +181,7 @@ func (m *CommonInst) SearchInst(cond common.Condition) ([]types.MapStr, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data.info").String()

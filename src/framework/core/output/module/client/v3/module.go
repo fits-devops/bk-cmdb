@@ -63,7 +63,7 @@ func (cli *Module) CreateModule(bizID, setID int64, data types.MapStr) (int, err
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
@@ -86,7 +86,7 @@ func (cli *Module) DeleteModule(bizID, setID, moduleID int64) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -106,7 +106,7 @@ func (cli *Module) UpdateModule(bizID, setID, moduleID int64, data types.MapStr)
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 	return nil
 }
@@ -147,7 +147,7 @@ func (cli *Module) SearchModules(cond common.Condition) ([]types.MapStr, error) 
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data.info").String()

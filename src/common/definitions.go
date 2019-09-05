@@ -765,10 +765,10 @@ const (
 
 const (
 	// HTTPBKAPIErrorMessage apiserver error message
-	HTTPBKAPIErrorMessage = "bk_error_msg"
+	HTTPBKAPIErrorMessage = "error_msg"
 
 	// HTTPBKAPIErrorCode apiserver error code
-	HTTPBKAPIErrorCode = "bk_error_code"
+	HTTPBKAPIErrorCode = "error_code"
 )
 
 // KvMap the map definition

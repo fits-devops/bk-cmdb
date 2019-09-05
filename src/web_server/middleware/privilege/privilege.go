@@ -49,7 +49,7 @@ func NewPrivilege(userName, ownerID, language string) *Privilege {
 func ValidPrivilege() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"bk_error_msg": "pong",
+			"error_msg": "pong",
 		})
 	}
 }

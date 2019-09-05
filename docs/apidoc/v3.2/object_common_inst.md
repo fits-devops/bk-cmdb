@@ -41,8 +41,8 @@
 ``` json
 {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": null,
+	"error_code": 0,
+	"error_msg": null,
 	"data": {
 		"bk_inst_id": 67
 	}
@@ -56,8 +56,8 @@
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |the data response|
 
 data 字段说明
@@ -141,8 +141,8 @@ fields 参数说明：
 ``` json
   {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": "success",
+	"error_code": 0,
+	"error_msg": "success",
 	"data": {
 		"count": 1,
 		"info": [{
@@ -170,8 +170,8 @@ fields 参数说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |the data response|
 
 data 字段说明
@@ -227,8 +227,8 @@ data 字段说明
 ``` json
 {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": null,
+	"error_code": 0,
+	"error_msg": null,
 	"data": "success"
 }
 ```
@@ -240,8 +240,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | string| 操作结果 |the result|
 
 
@@ -296,8 +296,8 @@ data 字段说明
 ``` json
 {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": null,
+	"error_code": 0,
+	"error_msg": null,
 	"data": "success"
 }
 ```
@@ -309,8 +309,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | string| 操作结果 |the result|
 
 
@@ -346,8 +346,8 @@ data 字段说明
 ``` json
 {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": null,
+	"error_code": 0,
+	"error_msg": null,
 	"data": "success"
 }
 ```
@@ -359,8 +359,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | string| 操作结果 |the result|
 
 ### 删除对象实例（包含云区域）
@@ -389,8 +389,8 @@ data 字段说明
 ``` json
 {
 	"result": true,
-	"bk_error_code": 0,
-	"bk_error_msg": null,
+	"error_code": 0,
+	"error_msg": null,
 	"data": "success"
 }
 ```
@@ -402,8 +402,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | string| 操作结果 |the result|
 
 
@@ -434,8 +434,8 @@ data 字段说明
 ``` json
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "success",
+    "error_code": 0,
+    "error_msg": "success",
     "data": [
         {
             "curr": {
@@ -498,8 +498,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object array | 查询结果 |the result|
 
 
@@ -598,8 +598,8 @@ data 字段说明
 ``` json
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "success",
+    "error_code": 0,
+    "error_msg": "success",
     "data": [
         {
             "bk_inst_id": 2,
@@ -636,8 +636,8 @@ data 字段说明
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object array | 查询结果 |the result|
 
 - data 字段说明
@@ -724,8 +724,8 @@ condition 参数为查询的目标实例对应的模型定义的所有字段。
 ``` json
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "success",
+    "error_code": 0,
+    "error_msg": "success",
     "data": {
         "count": 4,
         "info": [
@@ -747,8 +747,8 @@ condition 参数为查询的目标实例对应的模型定义的所有字段。
 | 字段|类型|说明|Description|
 |---|---|---|---|
 |result|bool|ture：成功，false：失败 |true:success, false: failure|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 |data|string|操作结果|the result|
 
 - data 字段说说明

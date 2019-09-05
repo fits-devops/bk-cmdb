@@ -99,7 +99,7 @@ func (h *Host) TransferHostToBusinessModule(bizID int64, hostIDS []int64, newMod
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -123,7 +123,7 @@ func (h *Host) TransferHostFromResourcePoolsToBusinessIdleModule(bizID int64, ho
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -145,7 +145,7 @@ func (h *Host) TransferHostToBusinessFaultModule(bizID int64, hostIDS []int64) e
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -168,7 +168,7 @@ func (h *Host) TransferHostToBusinessIdleModule(bizID int64, hostIDS []int64) er
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -190,7 +190,7 @@ func (h *Host) TransferHostToResourcePools(bizID int64, hostIDS []int64) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -214,7 +214,7 @@ func (h *Host) TransferHostToAnotherBusinessModules(bizID int64, moduleID int64,
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -238,7 +238,7 @@ func (h *Host) ResetBusinessHosts(bizID int64, moduleID int64, setID int64) erro
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -267,7 +267,7 @@ func (h *Host) CreateHostBatch(bizID int64, moduleIDS []int64, data ...types.Map
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	ids := []int{}
@@ -293,7 +293,7 @@ func (h *Host) UpdateHostBatch(data types.MapStr, hostID string) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -313,7 +313,7 @@ func (h *Host) DeleteHostBatch(hostID string) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -396,7 +396,7 @@ func (h *Host) SearchHost(cond common.Condition) ([]types.MapStr, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data.info").String()

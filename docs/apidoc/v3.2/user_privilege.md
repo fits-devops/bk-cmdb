@@ -32,8 +32,8 @@ GET /api/{version}/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":[
         "hostupdate",
         "hosttrans",
@@ -48,8 +48,8 @@ GET /api/{version}/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | string数组| 请求返回的数据 |return data|
 
 无权限时返回为空数组
@@ -100,8 +100,8 @@ data 字段说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":""
 }
 ```
@@ -111,8 +111,8 @@ data 字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 
@@ -143,8 +143,8 @@ data 字段说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":""
 }
 ```
@@ -154,8 +154,8 @@ data 字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 ###  更新用户分组
@@ -187,8 +187,8 @@ data 字段说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":""
 }
 ```
@@ -198,8 +198,8 @@ data 字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 
@@ -230,8 +230,8 @@ body 为空对象时返回所有的分组
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":[
         {
             "group_name":"管理员",
@@ -247,8 +247,8 @@ body 为空对象时返回所有的分组
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object array| 请求返回的数据 |return data|
 
 data object 说明：
@@ -281,8 +281,8 @@ data object 说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":""
 }
 ```
@@ -292,8 +292,8 @@ data object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 ###  查询分组权限
@@ -317,8 +317,8 @@ data object 说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":
         {
             "group_id":1,
@@ -351,8 +351,8 @@ data object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |return data|
 
 data 字段说明：
@@ -411,8 +411,8 @@ model_config字段说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":
         {
             "bk_group_id":1,
@@ -445,8 +445,8 @@ model_config字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |return data|
 
 data 字段说明：
@@ -547,8 +547,8 @@ model_config字段说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":""
 }
 
@@ -561,6 +561,6 @@ model_config字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|

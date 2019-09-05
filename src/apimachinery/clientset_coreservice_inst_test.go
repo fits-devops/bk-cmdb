@@ -212,8 +212,8 @@ func TestDeleteModelInstanceCascade(t *testing.T) {
 func getReadModelInstanceResult() string {
 	return `{
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": null,
+    "error_code": 0,
+    "error_msg": null,
     "data": {
         "count":1,
         "info":[{

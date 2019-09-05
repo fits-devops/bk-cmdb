@@ -214,13 +214,13 @@ func (s *Service) BuildDownLoadExcelTemplate(c *gin.Context) {
 // getReturnStr get return string
 func getReturnStr(code int, message string, data interface{}) string {
 	ret := make(map[string]interface{})
-	ret["bk_error_code"] = code
+	ret["error_code"] = code
 	if 0 == code {
 		ret["result"] = true
 	} else {
 		ret["result"] = false
 	}
-	ret["bk_error_msg"] = message
+	ret["error_msg"] = message
 	ret["data"] = data
 	msg, _ := json.Marshal(ret)
 

@@ -24,7 +24,7 @@ func TestService_CreateUserGroup(t *testing.T) {
 	if resp.StatusCode() != 400 {
 		t.Fail()
 	}
-	if respBody == `{"result":false,"bk_error_code":1199000,"bk_error_msg":"invalid character 'a' looking for beginning of value","data":null}
+	if respBody == `{"result":false,"error_code":1199000,"error_msg":"invalid character 'a' looking for beginning of value","data":null}
 ` {
 		t.Fail()
 	}
@@ -32,7 +32,7 @@ func TestService_CreateUserGroup(t *testing.T) {
 	// assert with case array
 	AssertCases(t, NewMockService().CreateUserGroup, []*TestCase{
 		// case with expect response
-		&TestCase{`{"k":"v"}`, `{"result":true,"bk_error_code":0,"bk_error_msg":"success","data":null}`, 200, nil},
+		&TestCase{`{"k":"v"}`, `{"result":true,"error_code":0,"error_msg":"success","data":null}`, 200, nil},
 
 		// case with callback
 		&TestCase{`[1,2]`, ``, 0, func(responseBody string, status int) error {
@@ -52,6 +52,6 @@ func TestService_CreateUserGroup(t *testing.T) {
 	})
 
 	// assert with expect
-	AssertEqual(t, NewMockService().CreateUserGroup, `{"k":"v"}`, `{"result":true,"bk_error_code":0,"bk_error_msg":"success","data":null}`, 200)
+	AssertEqual(t, NewMockService().CreateUserGroup, `{"k":"v"}`, `{"result":true,"error_code":0,"error_msg":"success","data":null}`, 200)
 
 }

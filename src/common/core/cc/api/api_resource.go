@@ -40,16 +40,16 @@ type APIRequest struct {
 type APIRsp struct {
 	HTTPCode int         `json:"-"`
 	Result   bool        `json:"result"`
-	Code     int         `json:"bk_error_code"`
-	Message  interface{} `json:"bk_error_msg"`
+	Code     int         `json:"error_code"`
+	Message  interface{} `json:"error_msg"`
 	Data     interface{} `json:"data"`
 }
 
 type BKAPIRsp struct {
 	HTTPCode int         `json:"-"`
 	Result   bool        `json:"result"`
-	Code     int         `json:"bk_error_code"`
-	Message  interface{} `json:"bk_error_msg"`
+	Code     int         `json:"error_code"`
+	Message  interface{} `json:"error_msg"`
 	Data     interface{} `json:"data"`
 }
 

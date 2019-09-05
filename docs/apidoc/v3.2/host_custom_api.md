@@ -48,8 +48,8 @@ info 参数说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":{
         "id":"b80nu3dmjrccd9i5r1eg"
     }
@@ -110,8 +110,8 @@ condition 参数说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":null
 }
 ```
@@ -120,8 +120,8 @@ condition 参数说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 ### 删除自定义API接口
@@ -148,8 +148,8 @@ condition 参数说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"",
+    "error_code":0,
+    "error_msg":"",
     "data":null
 }
 ```
@@ -159,8 +159,8 @@ condition 参数说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null| 请求返回的数据 |return data|
 
 
@@ -203,8 +203,8 @@ condition 参数说明： condition 字段为自定义api的属性字段, 可以
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":null,
+    "error_code":0,
+    "error_msg":null,
     "data":{
         "count":1,
         "info":[
@@ -228,8 +228,8 @@ condition 参数说明： condition 字段为自定义api的属性字段, 可以
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |return data|
 
 data字段说明：
@@ -292,8 +292,8 @@ condition 参数说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":null,
+    "error_code":0,
+    "error_msg":null,
     "data":{
                 "biz_id":12,
                 "creat_time":"2018-03-02T15:04:20.117+08:00",
@@ -311,8 +311,8 @@ condition 参数说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |return data|
 
 data字段说明：
@@ -369,8 +369,8 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":null,
+    "error_code":0,
+    "error_msg":null,
     "data":{
         "count":1,
         "info":[
@@ -417,8 +417,8 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | object| 请求返回的数据 |return data|
 
 data 字段说明：

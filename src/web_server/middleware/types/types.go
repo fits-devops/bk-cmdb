@@ -139,22 +139,22 @@ type LoginResult struct {
 
 type RolePriResult struct {
 	Result  bool        `json:"result"`
-	Code    int         `json:"bk_error_code"`
-	Message interface{} `json:"bk_error_msg"`
+	Code    int         `json:"error_code"`
+	Message interface{} `json:"error_msg"`
 	Data    []string    `json:"data"`
 }
 
 type RoleAppResult struct {
 	Result  bool                     `json:"result"`
-	Code    int                      `json:"bk_error_code"`
-	Message interface{}              `json:"bk_error_msg"`
+	Code    int                      `json:"error_code"`
+	Message interface{}              `json:"error_msg"`
 	Data    []map[string]interface{} `json:"data"`
 }
 
 type SearchAppResult struct {
 	Result  bool        `json:"result"`
-	Code    int         `json:"bk_error_code"`
-	Message interface{} `json:"bk_error_msg"`
+	Code    int         `json:"error_code"`
+	Message interface{} `json:"error_msg"`
 	Data    AppResult   `json:"data"`
 }
 

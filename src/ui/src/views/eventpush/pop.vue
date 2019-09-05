@@ -36,9 +36,9 @@
                         <li v-for="(value, key, index) in resultInfo.data" :key="index">{{key}}：{{value}}</li>
                     </ul>
                 </template>
-                <template v-else-if="!resultInfo.result && resultInfo['bk_error_msg']">
+                <template v-else-if="!resultInfo.result && resultInfo['error_msg']">
                     <ul class="result-data error">
-                        <li>{{resultInfo['bk_error_msg']}}</li>
+                        <li>{{resultInfo['error_msg']}}</li>
                     </ul>
                 </template>
                 <a href="javascript:void(0)" class="result-slide"
@@ -73,7 +73,7 @@
                 isResultShow: false,
                 resultInfo: {
                     result: false,
-                    bk_error_msg: '',
+                    error_msg: '',
                     data: ''
                 },
                 example

@@ -63,7 +63,7 @@ func (cli *Set) CreateSet(bizID int64, data types.MapStr) (int, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
@@ -97,7 +97,7 @@ func (cli *Set) DeleteSet(cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -121,7 +121,7 @@ func (cli *Set) UpdateSet(bizID int64, data types.MapStr, cond common.Condition)
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 	return nil
 }
@@ -155,7 +155,7 @@ func (cli *Set) SearchSets(cond common.Condition) ([]types.MapStr, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data.info").String()

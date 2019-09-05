@@ -268,10 +268,10 @@
                             this.$refs.field.initFieldList()
                         }
                     } else {
-                        this.$error(res['bk_error_msg'])
+                        this.$error(res['error_msg'])
                     }
                 } catch (e) {
-                    this.$error(e.data['bk_error_msg'])
+                    this.$error(e.data['error_msg'])
                 } finally {
                     this.$refs.fileInput.value = ''
                 }

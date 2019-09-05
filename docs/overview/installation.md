@@ -261,7 +261,7 @@ Not Running: cmdb_test
 
 ``` shell
 [root@SWEBVM000229 /data/cmdb]# bash ./init_db.sh
-{"result":true,"bk_error_code":0,"bk_error_msg":"success","data":"migrate success"}
+{"result":true,"error_code":0,"error_msg":"success","data":"migrate success"}
 ```
 **注：以上输出表示初始化数据库成功，此步骤必需要所有cmdb进程成功启动后执行。**
 

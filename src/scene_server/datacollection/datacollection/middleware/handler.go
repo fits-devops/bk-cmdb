@@ -83,7 +83,7 @@ type MapData M
 
 type ResultBase struct {
 	Result  bool   `json:"result"`
-	Code    int    `json:"bk_error_code"`
+	Code    int    `json:"error_code"`
 	Message string `json:"bk_err_message"`
 }
 

@@ -60,13 +60,13 @@ func (m *Model) CreateObject(data types.MapStr) (int64, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
 	id, err := strconv.ParseInt(gs.Get("data.id").String(), 10, 64)
 	if err != nil {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	return id, nil
@@ -92,7 +92,7 @@ func (m *Model) DeleteObject(cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -118,7 +118,7 @@ func (m *Model) UpdateObject(data types.MapStr, cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 	return nil
 }
@@ -139,7 +139,7 @@ func (m *Model) SearchObjects(cond common.Condition) ([]types.MapStr, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data").String()
@@ -168,7 +168,7 @@ func (m *Model) SearchObjectTopo(cond common.Condition) ([]types.MapStr, error) 
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data").String()

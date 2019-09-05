@@ -41,8 +41,8 @@ host_info object 说明：
 ```
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "",
+    "error_code": 0,
+    "error_msg": "",
     "data": null
 }
 ```
@@ -52,8 +52,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | json string | 请求返回的数据,示例如下（{"error":["6行字段正则校验失败","7行字段正则校验失败"],"success":["4","5"],"update_error":null}） |the data response|
 
 ###  主机转移到业务内模块
@@ -90,8 +90,8 @@ host_info object 说明：
 ```
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "",
+    "error_code": 0,
+    "error_msg": "",
     "data": null
 }
 ```
@@ -101,8 +101,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 ### 资源池主机分配至业务的空闲机模块
@@ -133,8 +133,8 @@ host_info object 说明：
 ```
 {
   "result": true, 
-  "bk_error_code": 0, 
-  "bk_error_msg": "", 
+  "error_code": 0, 
+  "error_msg": "", 
   "data": null
 }
 ```
@@ -144,8 +144,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---| 
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 ### 主机上交至业务的故障机模块
@@ -176,8 +176,8 @@ host_info object 说明：
 ```
 {
   "result": true, 
-  "bk_error_code": 0, 
-  "bk_error_msg": "", 
+  "error_code": 0, 
+  "error_msg": "", 
   "data": null
 }
 ```
@@ -187,8 +187,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 
@@ -220,8 +220,8 @@ host_info object 说明：
 ```
 {
   "result": true, 
-  "bk_error_code": 0, 
-  "bk_error_msg": "", 
+  "error_code": 0, 
+  "error_msg": "", 
   "data": null
 }
 ```
@@ -231,8 +231,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 ### 主机回收至资源池
@@ -261,8 +261,8 @@ host_info object 说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":null,
+    "error_code":0,
+    "error_msg":null,
     "data":""
 }
 ```
@@ -272,8 +272,8 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 ### 转移主机至模块
@@ -314,8 +314,8 @@ host_info说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"success",
+    "error_code":0,
+    "error_msg":"success",
     "data":"sucess"
 }
 ```
@@ -325,8 +325,8 @@ host_info说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 ### 清空集群/模块下主机
@@ -357,8 +357,8 @@ host_info说明：
 ```
 {
     "result":true,
-    "bk_error_code":0,
-    "bk_error_msg":"success",
+    "error_code":0,
+    "error_msg":"success",
     "data":"sucess"
 }
 ```
@@ -368,8 +368,8 @@ host_info说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 
 
@@ -418,8 +418,8 @@ host_info object 说明：
 ```
 {
     "result": true,
-    "bk_error_code": 0,
-    "bk_error_msg": "success",
+    "error_code": 0,
+    "error_msg": "success",
     "data": {
         "success": [
             "4"
@@ -433,7 +433,7 @@ host_info object 说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | result | bool | 请求成功与否。true:请求成功；false请求失败 |request result true or false|
-| bk_error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
-| bk_error_msg | string | 请求失败返回的错误信息 |error message from failed request|
+| error_code | int | 错误编码。 0表示success，>0表示失败错误 |error code. 0 represent success, >0 represent failure code |
+| error_msg | string | 请求失败返回的错误信息 |error message from failed request|
 | data | null | 请求返回的数据 |the data response|
 

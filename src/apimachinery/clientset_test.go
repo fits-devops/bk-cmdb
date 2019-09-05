@@ -68,9 +68,9 @@ func TestMapMockDo(t *testing.T) {
 
 	t.Log("test with map mock do output")
 	resp := map[string]interface{}{
-		"result":        true,
-		"bk_error_code": 0,
-		"bk_error_msg":  "success",
+		"result":     true,
+		"error_code": 0,
+		"error_msg":  "success",
 	}
 	rtn, err := mockAPI.MockDo(resp).TopoServer().Object().CreateObject(nil, nil, metadata.Object{})
 	if err != nil {
@@ -94,8 +94,8 @@ func TestStringMockDo(t *testing.T) {
 	t.Log("test with string mock do output")
 	resp := `{
         "result": true,
-        "bk_error_code": 0,
-        "bk_error_msg": "success"
+        "error_code": 0,
+        "error_msg": "success"
     }`
 
 	rtn, err := mockAPI.MockDo(resp).TopoServer().Object().CreateObject(nil, nil, metadata.Object{})

@@ -32,8 +32,8 @@
 ```json
 {
   "result": true,
-  "bk_error_code": 0,
-  "bk_error_msg": "success",
+  "error_code": 0,
+  "error_msg": "success",
   "data": {
     "Children": [
       {
@@ -66,8 +66,8 @@
 ```json
 {
   "result": true,
-  "bk_error_code": 0,
-  "bk_error_msg": "success",
+  "error_code": 0,
+  "error_msg": "success",
   "data": {
     "Children": [
       {

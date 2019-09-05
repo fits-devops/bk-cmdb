@@ -20,8 +20,8 @@ import (
 
 type BaseResp struct {
 	Result bool   `json:"result"`
-	Code   int    `json:"bk_error_code"`
-	ErrMsg string `json:"bk_error_msg"`
+	Code   int    `json:"error_code"`
+	ErrMsg string `json:"error_msg"`
 }
 
 type Response struct {

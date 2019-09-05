@@ -25,7 +25,7 @@ import (
 	"github.com/gin-gonic/gin/json"
 )
 
-const defaultError = "{\"result\": false, \"bk_error_code\": 1199000, \"bk_error_msg\": %s}"
+const defaultError = "{\"result\": false, \"error_code\": 1199000, \"error_msg\": %s}"
 
 // RespError
 type RespError struct {

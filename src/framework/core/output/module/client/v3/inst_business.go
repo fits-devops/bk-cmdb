@@ -88,7 +88,7 @@ func (h *Business) UpdateBusiness(data types.MapStr, bizID int) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -107,7 +107,7 @@ func (h *Business) DeleteBusiness(bizID int) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -140,7 +140,7 @@ func (h *Business) SearchBusiness(cond common.Condition) ([]types.MapStr, error)
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data.info").String()

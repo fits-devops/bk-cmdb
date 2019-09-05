@@ -1,15 +1,15 @@
 /*
  * Tencent is pleased to support the open source community by making 蓝鲸 available.
  * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except 
+ * Licensed under the MIT License (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
  * http://opensource.org/licenses/MIT
  * Unless required by applicable law or agreed to in writing, software distributed under
  * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and 
+ * either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package v3
 
 import (
@@ -55,7 +55,7 @@ func (m *Attribute) CreateObjectAttribute(data types.MapStr) (int, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
@@ -84,7 +84,7 @@ func (m *Attribute) DeleteObjectAttribute(cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -110,7 +110,7 @@ func (m *Attribute) UpdateObjectAttribute(data types.MapStr, cond common.Conditi
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 	return nil
 }
@@ -131,7 +131,7 @@ func (m *Attribute) SearchObjectAttributes(cond common.Condition) ([]types.MapSt
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data").String()

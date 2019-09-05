@@ -66,7 +66,7 @@ func (g *Group) CreateGroup(data types.MapStr) (int, error) {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return 0, errors.New(gs.Get("bk_error_msg").String())
+		return 0, errors.New(gs.Get("error_msg").String())
 	}
 
 	// parse id
@@ -95,7 +95,7 @@ func (g *Group) DeleteGroup(cond common.Condition) error {
 
 	// check result
 	if !gs.Get("result").Bool() {
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -123,7 +123,7 @@ func (g *Group) UpdateGroup(data types.MapStr, cond common.Condition) error {
 	// check result
 	if !gs.Get("result").Bool() {
 		log.Errorf("post error %s", rst)
-		return errors.New(gs.Get("bk_error_msg").String())
+		return errors.New(gs.Get("error_msg").String())
 	}
 
 	return nil
@@ -148,7 +148,7 @@ func (g *Group) SearchGroups(cond common.Condition) ([]types.MapStr, error) {
 	// check result
 	if !gs.Get("result").Bool() {
 		log.Errorf("falied to search group %s", rst)
-		return nil, errors.New(gs.Get("bk_error_msg").String())
+		return nil, errors.New(gs.Get("error_msg").String())
 	}
 
 	dataStr := gs.Get("data").String()

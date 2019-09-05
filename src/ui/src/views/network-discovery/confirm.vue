@@ -421,7 +421,7 @@
                     const res = await this.confirmNetcollectChange({ params, config: { globalError: false, requestId: 'confirmNetcollectChange', transformData: false } })
                     this.resultDialog.data = res.data
                 } catch (e) {
-                    this.$error(e.data['bk_error_msg'])
+                    this.$error(e.data['error_msg'])
                 }
                 this.resultDialog.isShow = true
                 this.getTableData()

@@ -110,7 +110,7 @@ func GetNetPropertyData(header http.Header, apiAddr, netPropertyIDStr string) ([
 		blog.Errorf("[Export Net Property] http reponse 'result'[%#+v] is bool", netPropertyDataResult["result"])
 	}
 	if !netPropertyResult {
-		return nil, errors.New(netPropertyDataResult["bk_error_msg"].(string))
+		return nil, errors.New(netPropertyDataResult["error_msg"].(string))
 	}
 
 	netPropertyData, ok := netPropertyDataResult["data"].(map[string]interface{})

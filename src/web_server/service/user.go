@@ -38,9 +38,9 @@ type userResult struct {
 }
 
 type userDataResult struct {
-	Message string      `json:"bk_error_msg"`
+	Message string      `json:"error_msg"`
 	Data    interface{} `json:"data"`
-	Code    string      `json:"bk_error_code"`
+	Code    string      `json:"error_code"`
 	Result  bool        `json:"result"`
 }
 

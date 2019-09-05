@@ -536,8 +536,8 @@ func TestReadModelAttr(t *testing.T) {
 func getReadModelAttrResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": null,
+		"error_code": 0,
+		"error_msg": null,
 		"data": {
 			"count":1,
 			"info":[{
@@ -567,8 +567,8 @@ func getReadModelAttrResult() string {
 func getReadModelResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": null,
+		"error_code": 0,
+		"error_msg": null,
 		"data": {
 			 "count":1,
 			 "info":[
@@ -621,8 +621,8 @@ func getReadModelResult() string {
 func getReadModelClassificationResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 			"count":1,
 			"info":[
@@ -641,8 +641,8 @@ func getReadModelClassificationResult() string {
 func getDeletedResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 				"deleted_count":0
 		}
@@ -652,8 +652,8 @@ func getDeletedResult() string {
 func getUpdatedResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 				"updated_count":0
 		}
@@ -663,8 +663,8 @@ func getUpdatedResult() string {
 func getSetResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 				"created_count":0,
 				"updated_count":0,
@@ -682,8 +682,8 @@ func getSetResult() string {
 func getCreatedResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 				"created":{"id":0}
 		}
@@ -693,8 +693,8 @@ func getCreatedResult() string {
 func getCreatedManyResult() string {
 	return `{
 		"result": true,
-		"bk_error_code": 0,
-		"bk_error_msg": "",
+		"error_code": 0,
+		"error_msg": "",
 		"data": {
 				"created":[{"id":0}],
 				"repeated":[{}],

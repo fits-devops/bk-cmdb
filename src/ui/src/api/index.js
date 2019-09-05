@@ -157,12 +157,12 @@ async function getPromise (method, url, data, userConfig = {}) {
 const PermissionCode = 9900403
 function handleResponse ({ config, response, resolve, reject }) {
     const transformedResponse = response.data
-    if (transformedResponse.bk_error_code === PermissionCode) {
+    if (transformedResponse.error_code === PermissionCode) {
         popupPermissionModal(transformedResponse.permission)
-        return reject({ message: transformedResponse['bk_error_msg'], code: PermissionCode })
+        return reject({ message: transformedResponse['error_msg'], code: PermissionCode })
     }
     if (!transformedResponse.result && config.globalError) {
-        reject({ message: transformedResponse['bk_error_msg'] })
+        reject({ message: transformedResponse['error_msg'] })
     } else {
         resolve(config.originalResponse ? response : config.transformData ? transformedResponse.data : transformedResponse)
     }
@@ -186,8 +186,8 @@ function handleReject (error, config) {
         const nextError = { message: error.message }
         if (status === 401) {
             window.location.href = window.Site.login
-        } else if (data && data['bk_error_msg']) {
-            nextError.message = data['bk_error_msg']
+        } else if (data && data['error_msg']) {
+            nextError.message = data['error_msg']
         } else if (status === 403) {
             nextError.message = language === 'en' ? 'You don\'t have permission.' : '无权限操作'
         } else if (status === 500) {
