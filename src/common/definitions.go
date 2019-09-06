@@ -817,13 +817,18 @@ const (
 
 const (
 	// BKHTTPHeaderUser current request http request header fields name for login user
-	BKHTTPHeaderUser = "BK_User"
+	//BKHTTPHeaderUser = "BK_User"
+	BKHTTPHeaderUser = "HTTP_USER"
+
 	// BKHTTPLanguage the language key word
-	BKHTTPLanguage = "HTTP_BLUEKING_LANGUAGE"
+	//BKHTTPLanguage = "HTTP_BLUEKING_LANGUAGE"
+	BKHTTPLanguage = "HTTP_LANGUAGE"
 	// BKHTTPOwnerID the owner
-	BKHTTPOwner = "HTTP_BK_SUPPLIER_ACCOUNT"
+	//BKHTTPOwner = "HTTP_BK_SUPPLIER_ACCOUNT"
+	BKHTTPOwner = "HTTP_ORG_ACCOUNT"
 	// BKHTTPOwnerID the owner id
-	BKHTTPOwnerID = "HTTP_BLUEKING_SUPPLIER_ID"
+	//BKHTTPOwnerID = "HTTP_BLUEKING_SUPPLIER_ID"
+	BKHTTPOwnerID = "HTTP_ORG_ID"
 	//BKHTTPOwnerID = "HTTP_BLUEKING_OWNERID"
 	BKHTTPCookieLanugageKey = "blueking_language"
 	BKSessionLanugageKey    = "language"
