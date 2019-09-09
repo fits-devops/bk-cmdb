@@ -22,7 +22,7 @@ import (
 
 type ObjectUnique struct {
 	ID        uint64      `json:"id" bson:"id"`
-	ObjID     string      `json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjID     string      `json:"obj_id" bson:"obj_id"`
 	MustCheck bool        `json:"must_check" bson:"must_check"`
 	Keys      []UniqueKey `json:"keys" bson:"keys"`
 	Ispre     bool        `json:"ispre" bson:"ispre"`
@@ -62,7 +62,7 @@ const (
 )
 
 type CreateUniqueRequest struct {
-	ObjID     string      `json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjID     string      `json:"obj_id" bson:"obj_id"`
 	MustCheck bool        `json:"must_check" bson:"must_check"`
 	Keys      []UniqueKey `json:"keys" bson:"keys"`
 	Metadata  `field:"metadata" json:"metadata" bson:"metadata"`
@@ -86,7 +86,7 @@ type UpdateUniqueResult struct {
 
 type DeleteUniqueRequest struct {
 	ID    uint64 `json:"id"`
-	ObjID string `json:"bk_obj_id"`
+	ObjID string `json:"obj_id"`
 }
 
 type DeleteUniqueResult struct {
@@ -94,7 +94,7 @@ type DeleteUniqueResult struct {
 }
 
 type SearchUniqueRequest struct {
-	ObjID string `json:"bk_obj_id"`
+	ObjID string `json:"obj_id"`
 }
 
 type SearchUniqueResult struct {

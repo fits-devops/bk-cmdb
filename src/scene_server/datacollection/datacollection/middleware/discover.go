@@ -73,8 +73,8 @@ var MockMessage = `{
     "meta": {
         "model": {
             "classification_id": "middelware",
-            "bk_obj_id": "bk_apache",
-            "bk_obj_name": "apache",
+            "obj_id": "bk_apache",
+            "obj_name": "apache",
             "org_id": "0"
         },
         "fields": {

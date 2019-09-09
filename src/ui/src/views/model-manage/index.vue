@@ -106,18 +106,18 @@
                 <ul class="model-list clearfix">
                     <li class="model-item"
                         :class="{
-                            'ispaused': model['bk_ispaused'],
+                            'ispaused': model['ispaused'],
                             'ispre': isInner(model)
                         }"
                         v-for="(model, modelIndex) in classification['bk_objects']"
                         :key="modelIndex"
                         @click="modelClick(model)">
                         <div class="icon-box">
-                            <i class="icon" :class="[model['bk_obj_icon']]"></i>
+                            <i class="icon" :class="[model['obj_icon']]"></i>
                         </div>
                         <div class="model-details">
-                            <p class="model-name" :title="model['bk_obj_name']">{{model['bk_obj_name']}}</p>
-                            <p class="model-id" :title="model['bk_obj_id']">{{model['bk_obj_id']}}</p>
+                            <p class="model-name" :title="model['obj_name']">{{model['obj_name']}}</p>
+                            <p class="model-id" :title="model['obj_id']">{{model['obj_id']}}</p>
                         </div>
                     </li>
                 </ul>
@@ -225,7 +225,7 @@
                     enableClassifications.push({
                         ...classification,
                         'bk_objects': classification['bk_objects'].filter(model => {
-                            return !model['bk_ispaused'] && !['process', 'plat'].includes(model['bk_obj_id'])
+                            return !model['ispaused'] && !['process', 'plat'].includes(model['obj_id'])
                         })
                     })
                 })
@@ -235,7 +235,7 @@
                 const disabledClassifications = []
                 this.classifications.forEach(classification => {
                     const disabledModels = classification['bk_objects'].filter(model => {
-                        return model['bk_ispaused'] && !['process', 'plat'].includes(model['bk_obj_id'])
+                        return model['ispaused'] && !['process', 'plat'].includes(model['obj_id'])
                     })
                     if (disabledModels.length) {
                         disabledClassifications.push({
@@ -367,10 +367,10 @@
             async saveModel (data) {
                 const params = this.$injectMetadata({
                     org_id: this.supplierAccount,
-                    bk_obj_name: data['bk_obj_name'],
-                    bk_obj_icon: data['bk_obj_icon'],
+                    obj_name: data['obj_name'],
+                    obj_icon: data['obj_icon'],
                     classification_id: data['classification_id'],
-                    bk_obj_id: data['bk_obj_id'],
+                    obj_id: data['obj_id'],
                     userName: this.userName
                 })
                 await this.createObject({ params, config: { requestId: 'createModel' } })
@@ -388,7 +388,7 @@
                 this.$router.push({
                     name: 'modelDetails',
                     params: {
-                        modelId: model['bk_obj_id']
+                        modelId: model['obj_id']
                     }
                 })
             }

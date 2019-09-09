@@ -31,7 +31,7 @@ const (
 	// ModuleID the module id
 	ModuleID = "bk_module_id"
 	// ObjectID the object identifier name
-	ObjectID = "bk_obj_id"
+	ObjectID = "obj_id"
 	// CommonInstID the common inst id
 	CommonInstID = "bk_inst_id"
 	// SupplierAccount the business id

@@ -96,7 +96,7 @@
             ]),
             async getBusinessRoles () {
                 const res = await this.searchObjectAttribute({
-                    params: this.$injectMetadata({ bk_obj_id: 'biz' }),
+                    params: this.$injectMetadata({ obj_id: 'biz' }),
                     config: {
                         requestId: 'post_searchObjectAttribute_biz',
                         fromCache: true

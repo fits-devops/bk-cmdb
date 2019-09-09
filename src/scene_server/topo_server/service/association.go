@@ -68,7 +68,7 @@ func (s *Service) DeleteMainLineObject(params types.ContextParams, pathParams, q
 		return nil, params.Err.Error(common.CCErrObjectDBOpErrno)
 	}
 	params.Header = tx.TxnInfo().IntoHeader(params.Header)
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 
 	// auth: deregister mainline object
 	var bizID int64
@@ -115,7 +115,7 @@ func (s *Service) SearchMainLineObjectTopo(params types.ContextParams, pathParam
 // SearchObjectByClassificationID search the object by classification ID
 func (s *Service) SearchObjectByClassificationID(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	bizObj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("bk_obj_id"))
+	bizObj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("obj_id"))
 	if nil != err {
 		blog.Errorf("[api-asst] failed to find the biz object, error info is %s", err.Error())
 		return nil, err

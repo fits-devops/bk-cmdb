@@ -81,7 +81,7 @@
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
                         'org_id': this.supplierAccount,
-                        'bk_obj_id': this.objId
+                        'obj_id': this.objId
                     }),
                     config: {
                         requestId: `post_searchObjectAttribute_${this.objId}`,

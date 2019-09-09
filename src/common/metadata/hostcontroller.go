@@ -219,7 +219,7 @@ type CloudTaskInfo struct {
 	PeriodType      string `json:"bk_period_type" bson:"bk_period_type"`
 	Period          string `json:"bk_period" bson:"bk_period"`
 	LastSyncTime    string `json:"bk_last_sync_time" bson:"bk_last_sync_time"`
-	ObjID           string `json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjID           string `json:"obj_id" bson:"obj_id"`
 	Status          bool   `json:"bk_status" bson:"bk_status"`
 	ResourceConfirm bool   `json:"bk_confirm" bson:"bk_confirm"`
 	AttrConfirm     bool   `json:"bk_attr_confirm" bson:"bk_attr_confirm"`

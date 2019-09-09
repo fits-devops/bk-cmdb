@@ -404,10 +404,10 @@
                         } else {
                             classify['bk_objects'].map(model => {
                                 event.children.push({
-                                    id: model['bk_obj_id'],
-                                    name: model['bk_obj_name']
+                                    id: model['obj_id'],
+                                    name: model['obj_name']
                                 })
-                                subscriptionForm[model['bk_obj_id']] = []
+                                subscriptionForm[model['obj_id']] = []
                             })
                         }
                         eventPushList.push(event)

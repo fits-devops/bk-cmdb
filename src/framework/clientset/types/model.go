@@ -30,11 +30,11 @@ type CreateModelInfo struct {
 	// should not be empty.
 	ClassID string `json:"classification_id"`
 	// object id
-	ID string `json:"bk_obj_id"`
+	ID string `json:"obj_id"`
 	// object name
-	Name    string `json:"bk_obj_name"`
+	Name    string `json:"obj_name"`
 	Tenancy string `json:"org_id"`
-	Icon    string `json:"bk_obj_icon"`
+	Icon    string `json:"obj_icon"`
 }
 
 type CreateModelResponse struct {
@@ -60,10 +60,10 @@ type UpdateModelInfo struct {
 	Modifier string `json:"modifier,omitempty"`
 	// required field, can not be empty.
 	ClassID string `json:"classification_id"`
-	Name    string `json:"bk_obj_name,omitempty"`
+	Name    string `json:"obj_name,omitempty"`
 	// required field, can not be empty.
 	Tenancy  string `json:"org_id"`
-	Icon     string `json:"bk_obj_icon,omitempty"`
+	Icon     string `json:"obj_icon,omitempty"`
 	Position string `json:"position,omitempty"`
 }
 
@@ -79,16 +79,16 @@ type GetModelsResult struct {
 
 type ModelInfo struct {
 	ID          int64     `json:"id,omitempty"`
-	Name        string    `json:"bk_obj_name"`
+	Name        string    `json:"obj_name"`
 	ClassID     string    `json:"classification_id"`
 	ObjectID    string    `json:"bk_object_id"`
 	Tenancy     string    `json:"org_id"`
 	Creator     string    `json:"creator"`
 	Modifier    string    `json:"modifier"`
 	Description string    `json:"description"`
-	IsPaused    bool      `json:"bk_ispaused"`
+	IsPaused    bool      `json:"ispaused"`
 	IsPre       bool      `json:"ispre"`
-	Icon        string    `json:"bk_obj_icon"`
+	Icon        string    `json:"obj_icon"`
 	Position    string    `json:"position"`
 	LastTime    time.Time `json:"last_time"`
 	CreateTime  time.Time `json:"create_time"`

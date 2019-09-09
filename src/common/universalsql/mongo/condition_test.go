@@ -107,7 +107,7 @@ func TestIssue1708(t *testing.T) {
 	testData := metadata.QueryCondition{
 		Condition: mapstr.MapStr{
 			"bk_group_id": "default",
-			"bk_obj_id":   "1",
+			"obj_id":      "1",
 			"id":          mapstr.MapStr{"$nin": []int{0}},
 			"metadata":    mapstr.MapStr{"label": nil},
 		},

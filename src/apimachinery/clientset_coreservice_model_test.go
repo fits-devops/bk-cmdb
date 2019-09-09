@@ -574,18 +574,18 @@ func getReadModelResult() string {
 			 "info":[
 				{
 					"spec":{
-						"bk_obj_id" : "",
+						"obj_id" : "",
 						"ispre" : true,
 						"description" : "",
 						"create_time" : "2018-11-19T08:10:20.538Z",
 						"modifier" : "",
 						"last_time" : "2018-11-19T08:10:20.538Z",
 						"id" : 1,
-						"bk_obj_icon" : "icon-cc-host",
-						"bk_ispaused" : false,
+						"obj_icon" : "icon-cc-host",
+						"ispaused" : false,
 						"position" : "{\"bk_host_manage\":{\"x\":-600,\"y\":-650}}",
 						"classification_id" : "bk_host_manage",
-						"bk_obj_name" : "主机",
+						"obj_name" : "主机",
 						"org_id" : "0",
 						"creator" : "cc_system"
 					},
@@ -604,7 +604,7 @@ func getReadModelResult() string {
 						"description" : "",
 						"bk_isapi" : false,
 						"creator" : "cc_system",
-						"bk_obj_id" : "biz",
+						"obj_id" : "biz",
 						"bk_property_index" : 0,
 						"isrequired" : true,
 						"isreadonly" : false,

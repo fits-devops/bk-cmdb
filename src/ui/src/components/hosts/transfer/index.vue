@@ -17,7 +17,7 @@
                     <div class="tree-node clearfix" slot-scope="{ node, state }"
                         :class="{
                             'tree-node-selected': state.selected,
-                            'tree-node-leaf-module': node['bk_obj_id'] === 'module',
+                            'tree-node-leaf-module': node['obj_id'] === 'module',
                             'tree-node-disabled': isNodeDisabled(node)
                         }"
                         v-cursor="{
@@ -25,7 +25,7 @@
                             auth: [transferResourceAuth]
                         }">
                         <cmdb-form-bool class="topo-node-checkbox"
-                            v-if="node['bk_obj_id'] === 'module'"
+                            v-if="node['obj_id'] === 'module'"
                             :checked="selectedModuleStates.includes(state)"
                             :disabled="isNodeDisabled(node)"
                             :true-value="true"
@@ -35,7 +35,7 @@
                             <i class="topo-node-icon topo-node-icon-internal icon-cc-host-free-pool" v-if="node.default === 1"></i>
                             <i class="topo-node-icon topo-node-icon-internal icon-cc-host-breakdown" v-else></i>
                         </template>
-                        <i class="topo-node-icon topo-node-icon-text" v-else>{{node['bk_obj_name'][0]}}</i>
+                        <i class="topo-node-icon topo-node-icon-text" v-else>{{node['obj_name'][0]}}</i>
                         <span class="topo-node-text">{{node['bk_inst_name']}}</span>
                     </div>
                 </cmdb-tree>
@@ -194,16 +194,16 @@
                     const internalModule = (internalTopo.module || []).map(module => {
                         return {
                             'default': ['空闲机', 'idle machine'].includes(module['bk_module_name']) ? 1 : 2,
-                            'bk_obj_id': 'module',
-                            'bk_obj_name': moduleModel['bk_obj_name'],
+                            'obj_id': 'module',
+                            'obj_name': moduleModel['obj_name'],
                             'bk_inst_id': module['bk_module_id'],
                             'bk_inst_name': module['bk_module_name']
                         }
                     })
                     const resourceNode = {
                         'default': 0,
-                        'bk_obj_id': 'module',
-                        'bk_obj_name': this.$t('HostResourcePool["资源池"]'),
+                        'obj_id': 'module',
+                        'obj_name': this.$t('HostResourcePool["资源池"]'),
                         'bk_inst_id': 'resource',
                         'bk_inst_name': this.$t('HostResourcePool["资源池"]'),
                         'child': []
@@ -228,7 +228,7 @@
                     const selectedStates = []
                     modules.forEach(module => {
                         const nodeId = this.getTopoNodeId({
-                            'bk_obj_id': 'module',
+                            'obj_id': 'module',
                             'bk_inst_id': module['bk_module_id']
                         })
                         const state = this.$refs.topoTree.getStateById(nodeId)
@@ -240,10 +240,10 @@
                 })
             },
             getModelByObjId (id) {
-                return this.topoModel.find(model => model['bk_obj_id'] === id)
+                return this.topoModel.find(model => model['obj_id'] === id)
             },
             getTopoNodeId (node) {
-                return `${node['bk_obj_id']}-${node['bk_inst_id']}`
+                return `${node['obj_id']}-${node['bk_inst_id']}`
             },
             beforeNodeSelect (node, state) {
                 /* eslint-disable */
@@ -254,7 +254,7 @@
                     confirmResolver = resolve
                     confirmRejecter = reject
                 })
-                if (node['bk_obj_id'] !== 'module') {
+                if (node['obj_id'] !== 'module') {
                     confirmResolver(true)
                 } else {
                     const isSpecialNode = !!node.default || node['bk_inst_id'] === 'resource'
@@ -291,7 +291,7 @@
                 return false
             },
             handleNodeClick (node, state) {
-                const isModule = node['bk_obj_id'] === 'module'
+                const isModule = node['obj_id'] === 'module'
                 const isExist = this.selectedModuleStates.some(selectedState => selectedState === state)
                 if (isModule) {
                     if (isExist) {

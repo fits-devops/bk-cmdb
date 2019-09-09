@@ -69,7 +69,7 @@ type UpdateGroupCondition struct {
 	Condition struct {
 		ID      int64  `field:"id" json:"id,omitempty"`
 		GroupID string `field:"bk_group_id" json:"bk_group_id,omitempty"`
-		ObjID   string `field:"bk_obj_id" json:"bk_obj_id,omitempty"`
+		ObjID   string `field:"obj_id" json:"obj_id,omitempty"`
 	} `json:"condition"`
 
 	Data struct {

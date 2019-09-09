@@ -212,7 +212,7 @@
             async reload () {
                 this.properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: 'process',
+                        obj_id: 'process',
                         org_id: this.supplierAccount
                     }),
                     config: {

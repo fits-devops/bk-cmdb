@@ -36,40 +36,40 @@ func (s *coreService) initModel() {
 	s.addAction(http.MethodPost, "/read/model", s.SearchModel, nil)
 
 	// init model attribute groups methods
-	s.addAction(http.MethodPost, "/create/model/{bk_obj_id}/group", s.CreateModelAttributeGroup, nil)
-	s.addAction(http.MethodPost, "/set/model/{bk_obj_id}/group", s.SetModelAttributeGroup, nil)
-	s.addAction(http.MethodPut, "/update/model/{bk_obj_id}/group", s.UpdateModelAttributeGroup, nil)
+	s.addAction(http.MethodPost, "/create/model/{obj_id}/group", s.CreateModelAttributeGroup, nil)
+	s.addAction(http.MethodPost, "/set/model/{obj_id}/group", s.SetModelAttributeGroup, nil)
+	s.addAction(http.MethodPut, "/update/model/{obj_id}/group", s.UpdateModelAttributeGroup, nil)
 	s.addAction(http.MethodPut, "/update/model/group", s.UpdateModelAttributeGroupByCondition, nil)
-	s.addAction(http.MethodDelete, "/delete/model/{bk_obj_id}/group", s.DeleteModelAttributeGroup, nil)
+	s.addAction(http.MethodDelete, "/delete/model/{obj_id}/group", s.DeleteModelAttributeGroup, nil)
 	s.addAction(http.MethodDelete, "/delete/model/group", s.DeleteModelAttributeGroupByCondition, nil)
-	s.addAction(http.MethodPost, "/read/model/{bk_obj_id}/group", s.SearchModelAttributeGroup, nil)
+	s.addAction(http.MethodPost, "/read/model/{obj_id}/group", s.SearchModelAttributeGroup, nil)
 	s.addAction(http.MethodPost, "/read/model/group", s.SearchModelAttributeGroupByCondition, nil)
 
 	// init attributes methods
-	s.addAction(http.MethodPost, "/create/model/{bk_obj_id}/attributes", s.CreateModelAttributes, nil)
-	s.addAction(http.MethodPost, "/set/model/{bk_obj_id}/attributes", s.SetModelAttributes, nil)
-	s.addAction(http.MethodPut, "/update/model/{bk_obj_id}/attributes", s.UpdateModelAttributes, nil)
+	s.addAction(http.MethodPost, "/create/model/{obj_id}/attributes", s.CreateModelAttributes, nil)
+	s.addAction(http.MethodPost, "/set/model/{obj_id}/attributes", s.SetModelAttributes, nil)
+	s.addAction(http.MethodPut, "/update/model/{obj_id}/attributes", s.UpdateModelAttributes, nil)
 	s.addAction(http.MethodPut, "/update/model/attributes", s.UpdateModelAttributesByCondition, nil)
-	s.addAction(http.MethodDelete, "/delete/model/{bk_obj_id}/attributes", s.DeleteModelAttribute, nil)
-	s.addAction(http.MethodPost, "/read/model/{bk_obj_id}/attributes", s.SearchModelAttributes, nil)
+	s.addAction(http.MethodDelete, "/delete/model/{obj_id}/attributes", s.DeleteModelAttribute, nil)
+	s.addAction(http.MethodPost, "/read/model/{obj_id}/attributes", s.SearchModelAttributes, nil)
 	s.addAction(http.MethodPost, "/read/model/attributes", s.SearchModelAttributesByCondition, nil)
 
 }
 
 func (s *coreService) initAttrUnique() {
 	s.addAction(http.MethodPost, "/read/model/attributes/unique", s.SearchModelAttrUnique, nil)
-	s.addAction(http.MethodPost, "/create/model/{bk_obj_id}/attributes/unique", s.CreateModelAttrUnique, nil)
-	s.addAction(http.MethodPut, "/update/model/{bk_obj_id}/attributes/unique/{id}", s.UpdateModelAttrUnique, nil)
-	s.addAction(http.MethodDelete, "/delete/model/{bk_obj_id}/attributes/unique/{id}", s.DeleteModelAttrUnique, nil)
+	s.addAction(http.MethodPost, "/create/model/{obj_id}/attributes/unique", s.CreateModelAttrUnique, nil)
+	s.addAction(http.MethodPut, "/update/model/{obj_id}/attributes/unique/{id}", s.UpdateModelAttrUnique, nil)
+	s.addAction(http.MethodDelete, "/delete/model/{obj_id}/attributes/unique/{id}", s.DeleteModelAttrUnique, nil)
 }
 
 func (s *coreService) initModelInstances() {
-	s.addAction(http.MethodPost, "/create/model/{bk_obj_id}/instance", s.CreateOneModelInstance, nil)
-	s.addAction(http.MethodPost, "/createmany/model/{bk_obj_id}/instance", s.CreateManyModelInstances, nil)
-	s.addAction(http.MethodPut, "/update/model/{bk_obj_id}/instance", s.UpdateModelInstances, nil)
-	s.addAction(http.MethodPost, "/read/model/{bk_obj_id}/instances", s.SearchModelInstances, nil)
-	s.addAction(http.MethodDelete, "/delete/model/{bk_obj_id}/instance", s.DeleteModelInstances, nil)
-	s.addAction(http.MethodDelete, "/delete/model/{bk_obj_id}/instance/cascade", s.CascadeDeleteModelInstances, nil)
+	s.addAction(http.MethodPost, "/create/model/{obj_id}/instance", s.CreateOneModelInstance, nil)
+	s.addAction(http.MethodPost, "/createmany/model/{obj_id}/instance", s.CreateManyModelInstances, nil)
+	s.addAction(http.MethodPut, "/update/model/{obj_id}/instance", s.UpdateModelInstances, nil)
+	s.addAction(http.MethodPost, "/read/model/{obj_id}/instances", s.SearchModelInstances, nil)
+	s.addAction(http.MethodDelete, "/delete/model/{obj_id}/instance", s.DeleteModelInstances, nil)
+	s.addAction(http.MethodDelete, "/delete/model/{obj_id}/instance/cascade", s.CascadeDeleteModelInstances, nil)
 }
 
 func (s *coreService) initAssociationKind() {

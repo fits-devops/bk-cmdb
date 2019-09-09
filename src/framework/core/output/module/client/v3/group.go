@@ -134,7 +134,7 @@ func (g *Group) SearchGroups(cond common.Condition) ([]types.MapStr, error) {
 	objid := cond.ToMapStr().String(ObjectID)
 
 	if len(objid) <= 0 {
-		return nil, errors.New("bk_obj_id must set")
+		return nil, errors.New("obj_id must set")
 	}
 
 	targetURL := fmt.Sprintf("%s/api/v3/objectatt/group/property/owner/%s/object/%s", g.cli.GetAddress(), g.cli.GetSupplierAccount(), objid)

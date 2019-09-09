@@ -53,7 +53,7 @@ type PageInfo struct {
 type SearchCondition struct {
 	Fields    []string      `json:"fields"`
 	Condition []interface{} `json:"condition"`
-	ObjectID  string        `json:"bk_obj_id"`
+	ObjectID  string        `json:"obj_id"`
 }
 
 func ParseHostParams(input []metadata.ConditionItem, output map[string]interface{}) error {

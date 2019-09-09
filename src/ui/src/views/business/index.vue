@@ -221,7 +221,7 @@
                 this.$store.dispatch('userCustom/setRencentlyData', { id: 'business' })
                 this.properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: 'biz',
+                        obj_id: 'biz',
                         org_id: this.supplierAccount
                     }),
                     config: {
@@ -366,7 +366,7 @@
                 this.attribute.type = 'create'
                 this.attribute.inst.edit = {}
                 this.slider.show = true
-                this.slider.title = `${this.$t("Common['创建']")} ${this.model['bk_obj_name']}`
+                this.slider.title = `${this.$t("Common['创建']")} ${this.model['obj_name']}`
             },
             handleDelete (inst) {
                 this.$bkInfo({

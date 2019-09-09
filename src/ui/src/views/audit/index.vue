@@ -173,7 +173,7 @@
                     } else if (classify['classification_id'] !== 'bk_host_manage') {
                         if (classify['bk_objects'].length) {
                             const children = []
-                            classify['bk_objects'].map(({ bk_obj_id: bkObjId, bk_obj_name: bkObjName }) => {
+                            classify['bk_objects'].map(({ obj_id: bkObjId, obj_name: bkObjName }) => {
                                 children.push({
                                     id: bkObjId,
                                     name: bkObjName

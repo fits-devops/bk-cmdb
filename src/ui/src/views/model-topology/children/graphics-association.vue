@@ -187,7 +187,7 @@
                     })
                 })
                 this.info = {
-                    source: data['bk_obj_id'],
+                    source: data['obj_id'],
                     target: data['bk_asst_obj_id'],
                     description: data['bk_obj_asst_name'],
                     constraint: data['mapping'],
@@ -209,7 +209,7 @@
                         const { source, target, description, constraint, association } = this.info
                         const data = await this.createObjectAssociation({
                             params: this.$injectMetadata({
-                                'bk_obj_id': source,
+                                'obj_id': source,
                                 'bk_asst_obj_id': target,
                                 'bk_asst_id': association['bk_asst_id'],
                                 'bk_obj_asst_id': `${source}_${association['bk_asst_id']}_${target}`,
@@ -222,7 +222,7 @@
                             bk_asst_name: association['bk_asst_name'],
                             bk_asst_type: '',
                             bk_inst_id: data.id,
-                            bk_obj_id: target,
+                            obj_id: target,
                             label: (data.metadata || {}).label || {},
                             node_type: 'obj'
                         }
@@ -287,8 +287,8 @@
                 return data['bk_asst_name']
             },
             getModelName (modelId) {
-                const model = this.models.find(model => model['bk_obj_id'] === modelId) || {}
-                return model['bk_obj_name']
+                const model = this.models.find(model => model['obj_id'] === modelId) || {}
+                return model['obj_name']
             },
             getAssociationItemName (association) {
                 return `${association['bk_asst_name']}(${association['bk_asst_id']})`

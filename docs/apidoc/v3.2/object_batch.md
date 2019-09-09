@@ -1,7 +1,7 @@
  
 ### 导出模型属性
 
-- API: POST /object/owner/{org_id}/object/{bk_obj_id}/export
+- API: POST /object/owner/{org_id}/object/{obj_id}/export
 - API 名称：export_object_attribute
 - 功能说明：
 	- 中文：导出模型属性
@@ -16,7 +16,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID|the object id|
+|obj_id|string|是|无|模型ID|the object id|
 
 - output
 
@@ -25,7 +25,7 @@
 
 ### 导入模型属性
 
-- API: POST /object/owner/{org_id}/object/{bk_obj_id}/import
+- API: POST /object/owner/{org_id}/object/{obj_id}/import
 - API 名称：import_object_attribute
 - 功能说明：
 	- 中文：导入模型属性
@@ -40,7 +40,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID|the object id|
+|obj_id|string|是|无|模型ID|the object id|
 
 - output
 
@@ -67,7 +67,7 @@
 }
 ```
 
-**注:以上 JSON 数据中各字段的取值仅为示例数据。obj_id 是模型的标识符，其值与输入的 bk_obj_id 保持一致。**
+**注:以上 JSON 数据中各字段的取值仅为示例数据。obj_id 是模型的标识符，其值与输入的 obj_id 保持一致。**
 
 - output字段说明
 

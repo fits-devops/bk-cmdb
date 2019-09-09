@@ -22,7 +22,7 @@ import (
 
 func dropIndex(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
 	if err = db.Table("cc_TopoGraphics").
-		DropIndex(ctx, "scope_id_1_node_type_1_bk_obj_id_1_bk_inst_id_1_scope_type_1"); err != nil &&
+		DropIndex(ctx, "scope_id_1_node_type_1_obj_id_1_bk_inst_id_1_scope_type_1"); err != nil &&
 		!strings.Contains(err.Error(), "not found") {
 		return err
 	}

@@ -28,7 +28,7 @@
                     <bk-selector
                         :list="typeList"
                         :allow-clear="true"
-                        :selected.sync="filterCopy['bk_obj_name']"
+                        :selected.sync="filterCopy['obj_name']"
                         :placeholder="$t('NetworkDiscovery[\'全部类型\']')"
                     ></bk-selector>
                     <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入IP\']')">
@@ -197,12 +197,12 @@
                     isShow: false,
                     isShowIgnore: true,
                     action: '',
-                    bk_obj_name: '',
+                    obj_name: '',
                     bk_host_innerip: ''
                 },
                 filterCopy: {
                     action: '',
-                    bk_obj_name: '',
+                    obj_name: '',
                     bk_host_innerip: ''
                 },
                 changeList: [{
@@ -227,7 +227,7 @@
                         id: 'action',
                         name: this.$t('NetworkDiscovery["变更方式"]')
                     }, {
-                        id: 'bk_obj_name',
+                        id: 'obj_name',
                         name: this.$t('ModelManagement["类型"]')
                     }, {
                         id: 'bk_inst_key',
@@ -277,7 +277,7 @@
                     if (!this.filter.isShowIgnore && item.ignore) {
                         return false
                     }
-                    if (this.filter['bk_obj_name'] !== '' && item['bk_obj_name'] !== this.filter['bk_obj_name']) {
+                    if (this.filter['obj_name'] !== '' && item['obj_name'] !== this.filter['obj_name']) {
                         return false
                     }
                     if (this.filter.action !== '' && item.action !== this.filter.action) {
@@ -339,7 +339,7 @@
                 }
             },
             search () {
-                this.filter['bk_obj_id'] = this.filterCopy['bk_obj_id']
+                this.filter['obj_id'] = this.filterCopy['obj_id']
                 this.filter.action = this.filterCopy.action
                 this.filter['bk_host_innerip'] = this.filterCopy['bk_host_innerip']
             },
@@ -383,7 +383,7 @@
                     if (!item.ignore) {
                         const detail = {
                             bk_cloud_id: item['bk_cloud_id'],
-                            bk_obj_id: item['bk_obj_id'],
+                            obj_id: item['obj_id'],
                             bk_inst_key: item['bk_inst_key'],
                             action: item['action'],
                             configuration: item['configuration'],

@@ -52,7 +52,7 @@
                         id: 'bk_resource_type',
                         name: this.$t('Cloud["资源类型"]')
                     }, {
-                        id: 'bk_obj_id',
+                        id: 'obj_id',
                         name: this.$t('Cloud["模型"]')
                     }, {
                         id: 'bk_task_name',
@@ -128,7 +128,7 @@
                 this.table.list = res.info.map(data => {
                     data['create_time'] = this.$tools.formatTime(data['create_time'], 'YYYY-MM-DD HH:mm:ss')
                     data['confirm_time'] = this.$tools.formatTime(data['confirm_time'], 'YYYY-MM-DD HH:mm:ss')
-                    data['bk_obj_id'] = this.$t('Hosts["主机"]')
+                    data['obj_id'] = this.$t('Hosts["主机"]')
                     return data
                 })
                 pagination.count = res.count

@@ -50,7 +50,7 @@ type InstanceSimplify struct {
 	InstanceID int64  `field:"bk_inst_id"`
 	Name       string `field:"bk_inst_name"`
 	BizID      int64  `field:"bk_biz_id"`
-	ObjectID   string `field:"bk_obj_id"`
+	ObjectID   string `field:"obj_id"`
 }
 
 // Parse load the data from mapstr attribute into ObjectUnique instance
@@ -209,7 +209,7 @@ func (is *AuditCategorySimplify) Parse(data mapstr.MapStr) (*AuditCategorySimpli
 
 type ModelUniqueSimplify struct {
 	ID         uint64 `field:"id" json:"id" bson:"id"`
-	ObjID      string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjID      string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	Ispre      bool   `field:"ispre" json:"ispre" bson:"ispre"`
 	BusinessID int64
 }

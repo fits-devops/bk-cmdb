@@ -200,7 +200,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 			instAssts := []metadata.InstAsst{}
 
 			instCond := condition.CreateCondition()
-			instCond.Field("bk_obj_id").Eq(asst.AsstObjID)
+			instCond.Field("obj_id").Eq(asst.AsstObjID)
 			instCond.Field("bk_asst_obj_id").Eq(asst.ObjectID)
 			instCond.Field(flag).NotEq(true)
 
@@ -213,7 +213,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 				updateInst.Set("bk_asst_id", asst.AsstKindID)
 
 				// 交换 源<->目标
-				updateInst.Set("bk_obj_id", instAsst.AsstObjectID)
+				updateInst.Set("obj_id", instAsst.AsstObjectID)
 				updateInst.Set("bk_asst_obj_id", instAsst.ObjectID)
 				updateInst.Set("bk_inst_id", instAsst.AsstInstID)
 				updateInst.Set("bk_asst_inst_id", instAsst.InstID)
@@ -246,7 +246,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 		return err
 	}
 	deleteHostCloudAssociation := condition.CreateCondition()
-	deleteHostCloudAssociation.Field("bk_obj_id").Eq(common.BKInnerObjIDHost)
+	deleteHostCloudAssociation.Field("obj_id").Eq(common.BKInnerObjIDHost)
 	deleteHostCloudAssociation.Field("bk_asst_obj_id").Eq(common.BKInnerObjIDPlat)
 	err = db.Table(common.BKTableNameObjAsst).Delete(ctx, deleteHostCloudAssociation.ToMapStr())
 	if err != nil {

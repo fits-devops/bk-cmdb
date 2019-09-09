@@ -111,7 +111,7 @@
                     bk_biz_id: this.business,
                     condition: ['biz', 'set', 'module', 'host'].map(model => {
                         return {
-                            bk_obj_id: model,
+                            obj_id: model,
                             condition: model === 'host' ? [hostCondition] : [],
                             fields: []
                         }
@@ -123,7 +123,7 @@
                 try {
                     const properties = await this.$store.dispatch('objectModelProperty/searchObjectAttribute', {
                         params: this.$injectMetadata({
-                            bk_obj_id: 'host'
+                            obj_id: 'host'
                         })
                     })
                     this.$store.commit('hostDetails/setHostProperties', properties)

@@ -16,11 +16,11 @@ const getters = {
         const collectedModelIds = usercustom.collected_models || []
         collectedModelIds.forEach((id, index) => {
             const model = rootGetters['objectModelClassify/models'].find(model => model.id === id)
-            if (model && !model.bk_ispaused) {
+            if (model && !model.ispaused) {
                 collectMenus.push({
                     id: model.id,
-                    name: model.bk_obj_name,
-                    path: GET_MODEL_PATH(model.bk_obj_id),
+                    name: model.obj_name,
+                    path: GET_MODEL_PATH(model.obj_id),
                     order: index
                 })
             }

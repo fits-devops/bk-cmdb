@@ -24,11 +24,11 @@ var _ Model = (*model)(nil)
 // model the metadata structure definition of the model
 type model struct {
 	ObjCls      string `field:"classification_id"`
-	ObjIcon     string `field:"bk_obj_icon"`
-	ObjectID    string `field:"bk_obj_id"`
-	ObjectName  string `field:"bk_obj_name"`
+	ObjIcon     string `field:"obj_icon"`
+	ObjectID    string `field:"obj_id"`
+	ObjectName  string `field:"obj_name"`
 	IsPre       bool   `field:"ispre"`
-	IsPaused    bool   `field:"bk_ispaused"`
+	IsPaused    bool   `field:"ispaused"`
 	Position    string `field:"position"`
 	OwnerID     string `field:"org_id"`
 	Description string `field:"description"`

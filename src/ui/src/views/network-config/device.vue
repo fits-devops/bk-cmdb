@@ -32,8 +32,8 @@
             @handleSizeChange="handleSizeChange"
             @handlePageChange="handlePageChange"
             @handleRowClick="handleRowClick">
-            <template slot="bk_obj_id" slot-scope="{ item }">
-                <template>{{getObjName(item['bk_obj_id'])}}</template>
+            <template slot="obj_id" slot-scope="{ item }">
+                <template>{{getObjName(item['obj_id'])}}</template>
             </template>
         </cmdb-table>
         <bk-dialog
@@ -68,12 +68,12 @@
                     </label>
                     <bk-selector
                         :list="netList"
-                        setting-key="bk_obj_id"
-                        display-key="bk_obj_name"
-                        :selected.sync="deviceDialog.data['bk_obj_id']"
+                        setting-key="obj_id"
+                        display-key="obj_name"
+                        :selected.sync="deviceDialog.data['obj_id']"
                     ></bk-selector>
-                    <input type="text" hidden name="bk_obj_id" v-model.trim="deviceDialog.data['bk_obj_id']" v-validate="'required'">
-                    <div v-show="errors.has('bk_obj_id')" class="color-danger">{{ errors.first('bk_obj_id') }}</div>
+                    <input type="text" hidden name="obj_id" v-model.trim="deviceDialog.data['obj_id']" v-validate="'required'">
+                    <div v-show="errors.has('obj_id')" class="color-danger">{{ errors.first('obj_id') }}</div>
                 </div>
                 <div>
                     <label class="label">
@@ -121,7 +121,7 @@
                     data: {
                         device_model: '',
                         device_name: '',
-                        bk_obj_id: '',
+                        obj_id: '',
                         bk_vendor: '',
                         device_id: ''
                     }
@@ -144,7 +144,7 @@
                         id: 'device_name',
                         name: this.$t('NetworkDiscovery["设备名称"]')
                     }, {
-                        id: 'bk_obj_id',
+                        id: 'obj_id',
                         name: this.$t('NetworkDiscovery["对应模型"]')
                     }, {
                         id: 'bk_vendor',
@@ -213,7 +213,7 @@
                     this.deviceDialog.isEdit = false
                     this.deviceDialog.data.device_model = ''
                     this.deviceDialog.data.device_name = ''
-                    this.deviceDialog.data.bk_obj_id = ''
+                    this.deviceDialog.data.obj_id = ''
                     this.deviceDialog.data.bk_vendor = ''
                     this.deviceDialog.title = this.$t('NetworkDiscovery["新增设备"]')
                 } else {
@@ -226,9 +226,9 @@
                 this.deviceDialog.isShow = false
             },
             getObjName (bkObjId) {
-                const obj = this.netList.find(({ bk_obj_id: objId }) => objId === bkObjId)
+                const obj = this.netList.find(({ obj_id: objId }) => objId === bkObjId)
                 if (obj) {
-                    return obj['bk_obj_name']
+                    return obj['obj_name']
                 }
                 return ''
             },
@@ -239,7 +239,7 @@
                 const params = {
                     device_model: this.deviceDialog.data['device_model'],
                     device_name: this.deviceDialog.data['device_name'],
-                    bk_obj_id: this.deviceDialog.data['bk_obj_id'],
+                    obj_id: this.deviceDialog.data['obj_id'],
                     bk_vendor: this.deviceDialog.data['bk_vendor']
                 }
                 if (this.deviceDialog.isEdit) {
@@ -270,7 +270,7 @@
             handleRowClick (item) {
                 this.deviceDialog.data['device_model'] = item['device_model']
                 this.deviceDialog.data['device_name'] = item['device_name']
-                this.deviceDialog.data['bk_obj_id'] = item['bk_obj_id']
+                this.deviceDialog.data['obj_id'] = item['obj_id']
                 this.deviceDialog.data['bk_vendor'] = item['bk_vendor']
                 this.deviceDialog.data['device_id'] = item['device_id']
                 this.showDeviceDialog('update')

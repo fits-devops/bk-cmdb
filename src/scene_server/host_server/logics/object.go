@@ -202,7 +202,7 @@ func (lgc *Logics) getObjectByParentID(ctx context.Context, valArr []int64) ([]i
 	query := &meta.QueryCondition{
 		Condition: sCond,
 	}
-	// TODO common.BKInnerObjIDObject is not a valid value to search mainline topo instance, it will act as bk_obj_id=object condition
+	// TODO common.BKInnerObjIDObject is not a valid value to search mainline topo instance, it will act as obj_id=object condition
 	result, err := lgc.CoreAPI.CoreService().Instance().ReadInstance(ctx, lgc.header, common.BKInnerObjIDObject, query)
 	if err != nil {
 		blog.Errorf("getObjectByParentID http do error, err:%s,objID:%s,input:%+v,rid:%s", err.Error(), common.BKInnerObjIDObject, query, lgc.rid)

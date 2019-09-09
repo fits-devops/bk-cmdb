@@ -135,7 +135,7 @@
                 if (this.isEdit) {
                     await this.updateObjectUniqueConstraints({
                         id: this.verification.id,
-                        objId: this.activeModel['bk_obj_id'],
+                        objId: this.activeModel['obj_id'],
                         params: this.$injectMetadata(this.params, {
                             clone: true,
                             inject: this.isInjectable
@@ -147,7 +147,7 @@
                     this.$emit('save')
                 } else {
                     await this.createObjectUniqueConstraints({
-                        objId: this.activeModel['bk_obj_id'],
+                        objId: this.activeModel['obj_id'],
                         params: this.$injectMetadata(this.params, {
                             clone: true,
                             inject: this.isInjectable

@@ -159,15 +159,15 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 // Association for purpose of this structure not change by other, copy here
 type Association struct {
 	ID               int64  `field:"id" json:"id" bson:"id"`
-	ObjectID         string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjectID         string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	OwnerID          string `field:"org_id" json:"org_id" bson:"org_id"`
 	AsstForward      string `field:"bk_asst_forward" json:"bk_asst_forward" bson:"bk_asst_forward"`
 	AsstObjID        string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
 	AsstName         string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
 	ObjectAttID      string `field:"bk_object_att_id" json:"bk_object_att_id" bson:"bk_object_att_id"`
 	ClassificationID string `field:"classification_id" bson:"-"`
-	ObjectIcon       string `field:"bk_obj_icon" bson:"-"`
-	ObjectName       string `field:"bk_obj_name" bson:"-"`
+	ObjectIcon       string `field:"obj_icon" bson:"-"`
+	ObjectName       string `field:"obj_name" bson:"-"`
 }
 
 func getAddAsstData(ownerID string) []Association {

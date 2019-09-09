@@ -324,7 +324,7 @@ func (lgc *Logics) findInstAssociation(header http.Header, objectID string, inst
 	or := cond.NewOR()
 	or.Item(mapstr.MapStr{
 		"bk_inst_id": instID,
-		"bk_obj_id":  objectID,
+		"obj_id":     objectID,
 	})
 	or.Item(mapstr.MapStr{
 		"bk_asst_inst_id": instID,

@@ -301,7 +301,7 @@ func (cli *Service) CreateInstObject(req *restful.Request, resp *restful.Respons
 		var ok bool
 		realObjType, ok = input[common.BKObjIDField].(string)
 		if !ok {
-			blog.Errorf("create event error: there is no bk_obj_id exist, input %#v", input)
+			blog.Errorf("create event error: there is no obj_id exist, input %#v", input)
 			resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.Error(common.CCErrEventPushEventFailed)})
 			return
 		}

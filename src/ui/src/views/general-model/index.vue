@@ -271,7 +271,7 @@
                 }
             },
             isPublicModel () {
-                const model = this.models.find(model => model['bk_obj_id'] === this.objId) || {}
+                const model = this.models.find(model => model['obj_id'] === this.objId) || {}
                 return !this.$tools.getMetadataBiz(model)
             }
         },
@@ -289,12 +289,12 @@
                 this.setTableHeader()
             },
             objId () {
-                this.$store.commit('setHeaderTitle', this.model['bk_obj_name'])
+                this.$store.commit('setHeaderTitle', this.model['obj_name'])
                 this.reload()
             }
         },
         created () {
-            this.$store.commit('setHeaderTitle', this.model['bk_obj_name'])
+            this.$store.commit('setHeaderTitle', this.model['obj_name'])
             this.reload()
         },
         methods: {
@@ -315,7 +315,7 @@
                     this.resetData()
                     this.properties = await this.searchObjectAttribute({
                         params: this.$injectMetadata({
-                            bk_obj_id: this.objId,
+                            obj_id: this.objId,
                             org_id: this.supplierAccount
                         }, { inject: !this.isPublicModel }),
                         config: {
@@ -525,7 +525,7 @@
                 this.attribute.type = 'create'
                 this.attribute.inst.edit = {}
                 this.slider.show = true
-                this.slider.title = `${this.$t("Common['创建']")} ${this.model['bk_obj_name']}`
+                this.slider.title = `${this.$t("Common['创建']")} ${this.model['obj_name']}`
             },
             handleDelete (inst) {
                 this.$bkInfo({

@@ -139,7 +139,7 @@
             },
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel['ispaused']
                 }
                 return false
             },
@@ -204,7 +204,7 @@
                                 requestId: 'deleteObjectAttribute'
                             }
                         }).then(() => {
-                            this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                            this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['obj_id']}`)
                         })
                         this.initFieldList()
                     }
@@ -212,7 +212,7 @@
             },
             async initFieldList () {
                 const res = await this.searchObjectAttribute({
-                    params: this.$injectMetadata({ bk_obj_id: this.objId }, { inject: this.isInjectable }),
+                    params: this.$injectMetadata({ obj_id: this.objId }, { inject: this.isInjectable }),
                     config: { requestId: `post_searchObjectAttribute_${this.objId}` }
                 })
                 this.table.list = res

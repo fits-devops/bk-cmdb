@@ -235,13 +235,13 @@
                             requestId: 'updateObjectAttribute'
                         }
                     }).then(() => {
-                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['obj_id']}`)
                     })
                 } else {
                     const otherParams = {
                         creator: this.userName,
                         bk_property_group: (this.isPublicModel && !this.isAdminView) ? 'bizdefault' : 'default',
-                        bk_obj_id: this.activeModel['bk_obj_id'],
+                        obj_id: this.activeModel['obj_id'],
                         org_id: this.supplierAccount
                     }
                     await this.createObjectAttribute({
@@ -255,7 +255,7 @@
                             requestId: 'createObjectAttribute'
                         }
                     }).then(() => {
-                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['obj_id']}`)
                     })
                 }
                 this.$emit('save')

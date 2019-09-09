@@ -76,7 +76,7 @@ func (o *object) SetProxy(modelFactory model.Factory, instFactory inst.Factory, 
 	o.unique = unique
 }
 
-// IsValidObject check whether objID is a real model's bk_obj_id field in backend
+// IsValidObject check whether objID is a real model's obj_id field in backend
 func (o *object) IsValidObject(params types.ContextParams, objID string) error {
 
 	checkObjCond := condition.CreateCondition()

@@ -6,7 +6,7 @@
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item">
-                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['bk_obj_id'])">
+                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['obj_id'])">
             </div>
         </label>
         <label class="form-label">
@@ -94,7 +94,7 @@
                     id: 0,
                     bk_obj_asst_id: '',
                     bk_obj_asst_name: '',
-                    bk_obj_id: '',
+                    obj_id: '',
                     bk_asst_obj_id: '',
                     bk_asst_id: '',
                     mapping: '',
@@ -127,9 +127,9 @@
                 }
             },
             getModelName (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
+                const model = this.models.find(model => model['obj_id'] === objId)
                 if (model) {
-                    return model['bk_obj_name']
+                    return model['obj_name']
                 }
                 return ''
             },

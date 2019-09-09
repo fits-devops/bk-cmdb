@@ -161,7 +161,7 @@
                         id: 'device_name',
                         name: this.$t('NetworkDiscovery["所属设备"]')
                     }, {
-                        id: 'bk_obj_name',
+                        id: 'obj_name',
                         name: this.$t('OperationAudit["模型"]')
                     }, {
                         id: 'bk_property_name',
@@ -187,7 +187,7 @@
                         id: 'oid',
                         name: 'oid'
                     }, {
-                        id: 'bk_obj_name',
+                        id: 'obj_name',
                         name: this.$t('OperationAudit["模型"]')
                     }, {
                         id: 'bk_property_name',
@@ -271,9 +271,9 @@
             },
             async getObjAttr (device) {
                 this.propertyDialog.attrList = await this.searchObjectAttribute({
-                    params: this.$injectMetadata({ bk_obj_id: device['bk_obj_id'] }),
+                    params: this.$injectMetadata({ obj_id: device['obj_id'] }),
                     config: {
-                        requestId: `post_searchObjectAttribute_${device['bk_obj_id']}`,
+                        requestId: `post_searchObjectAttribute_${device['obj_id']}`,
                         fromCache: true
                     }
                 })

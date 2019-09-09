@@ -879,7 +879,7 @@ func (c *commonInst) FindInstByAssociationInst(params types.ContextParams, obj m
 				common.BKDBIN: asstInstIDS,
 			},
 			"bk_asst_obj_id": keyObjID,
-			"bk_obj_id":      object.ObjectID,
+			"obj_id":         object.ObjectID,
 		}
 
 		asstInst, err := c.asst.SearchInstAssociation(params, query)

@@ -11,7 +11,7 @@
 
 ### 获取角色绑定权限
 * API:
-GET /api/{version}/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}
+GET /api/{version}/topo/privilege/{org_id}/{obj_id}/{bk_property_id}
 * API名称： get_role_privilege
 * 功能说明：
 	* 中文：获取角色绑定权限
@@ -23,7 +23,7 @@ GET /api/{version}/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
 | org_id| string| 是|无|开发商账号 |supplier account code |
-| bk_obj_id| string| 是|无| 模型ID |  object ID |
+| obj_id| string| 是|无| 模型ID |  object ID |
 | bk_property_id| string| 是| 无|模型对应用户角色属性ID| object property id|
 
 
@@ -68,7 +68,7 @@ data 字段说明：
 
 
 ###  绑定角色权限
-* API: POST /api/{version}/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}
+* API: POST /api/{version}/topo/privilege/{org_id}/{obj_id}/{bk_property_id}
 * API名称： bind_role_privilege
 * 功能说明：
 	* 中文：绑定角色绑定权限

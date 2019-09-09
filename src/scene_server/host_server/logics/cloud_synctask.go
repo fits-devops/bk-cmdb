@@ -626,7 +626,7 @@ func (lgc *Logics) ExecSync(ctx context.Context, taskInfo meta.CloudTaskInfo) er
 
 		for _, host := range cloudHostAttr {
 			resourceConfirm := mapstr.MapStr{}
-			resourceConfirm["bk_obj_id"] = taskInfo.ObjID
+			resourceConfirm["obj_id"] = taskInfo.ObjID
 			innerIp, err := host.String(common.BKHostInnerIPField)
 			if err != nil {
 				blog.Debug("mapstr.Map convert to string failed, rid: %s", lgc.rid)
@@ -790,7 +790,7 @@ func (lgc *Logics) NewAddConfirm(ctx context.Context, taskInfo meta.CloudTaskInf
 				return 0, err
 			}
 			resourceConfirm := mapstr.MapStr{}
-			resourceConfirm["bk_obj_id"] = taskInfo.ObjID
+			resourceConfirm["obj_id"] = taskInfo.ObjID
 			resourceConfirm[common.BKHostInnerIPField] = innerIp
 			resourceConfirm[common.BKCloudTaskID] = taskInfo.TaskID
 			resourceConfirm[common.BKOSNameField] = osName

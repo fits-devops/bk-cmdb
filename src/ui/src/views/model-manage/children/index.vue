@@ -6,7 +6,7 @@
                     <span class="model-type">{{getModelType()}}</span>
                     <template v-if="isEditable">
                         <div class="icon-box" @click="isIconListShow = true">
-                            <i class="icon" :class="[activeModel ? activeModel['bk_obj_icon'] : 'icon-cc-default', { ispre: isPublicModel }]"></i>
+                            <i class="icon" :class="[activeModel ? activeModel['obj_icon'] : 'icon-cc-default', { ispre: isPublicModel }]"></i>
                             <p class="hover-text">{{$t('ModelManagement["点击切换"]')}}</p>
                         </div>
                         <div class="choose-icon-box" v-if="isIconListShow" v-click-outside="hideChooseBox">
@@ -19,18 +19,18 @@
                     </template>
                     <template v-else>
                         <div class="icon-box" style="cursor: default;">
-                            <i class="icon" :class="[activeModel ? activeModel['bk_obj_icon'] : 'icon-cc-default', { ispre: isPublicModel }]"></i>
+                            <i class="icon" :class="[activeModel ? activeModel['obj_icon'] : 'icon-cc-default', { ispre: isPublicModel }]"></i>
                         </div>
                     </template>
                 </div>
                 <div class="model-text">
                     <span>{{$t('ModelManagement["唯一标识"]')}}：</span>
-                    <span class="text-content id">{{activeModel ? activeModel['bk_obj_id'] : ''}}</span>
+                    <span class="text-content id">{{activeModel ? activeModel['obj_id'] : ''}}</span>
                 </div>
                 <div class="model-text">
                     <span>{{$t('Hosts["名称"]')}}：</span>
                     <template v-if="!isEditName">
-                        <span class="text-content">{{activeModel ? activeModel['bk_obj_name'] : ''}}
+                        <span class="text-content">{{activeModel ? activeModel['obj_name'] : ''}}
                         </span>
                         <i class="icon icon-cc-edit text-primary"
                             v-if="isEditable && !activeModel.ispre"
@@ -75,7 +75,7 @@
                             v-if="!isMainLine"
                             v-tooltip="$t('ModelManagement[\'保留模型和相应实例，隐藏关联关系\']')">
                             <i class="bk-icon icon-minus-circle-shape"></i>
-                            <span v-if="activeModel['bk_ispaused']" @click="dialogConfirm('restart')">
+                            <span v-if="activeModel['ispaused']" @click="dialogConfirm('restart')">
                                 {{$t('ModelManagement["启用"]')}}
                             </span>
                             <span v-else @click="dialogConfirm('stop')">
@@ -100,7 +100,7 @@
             <bk-tabpanel name="field" :title="$t('ModelManagement[\'模型字段\']')">
                 <the-field ref="field" v-if="tab.active === 'field'"></the-field>
             </bk-tabpanel>
-            <bk-tabpanel name="relation" :title="$t('ModelManagement[\'模型关联\']')" :show="activeModel && !specialModel.includes(activeModel['bk_obj_id'])">
+            <bk-tabpanel name="relation" :title="$t('ModelManagement[\'模型关联\']')" :show="activeModel && !specialModel.includes(activeModel['obj_id'])">
                 <the-relation v-if="tab.active === 'relation'"></the-relation>
             </bk-tabpanel>
             <bk-tabpanel name="verification" :title="$t('ModelManagement[\'唯一校验\']')">
@@ -163,7 +163,7 @@
             },
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel['ispaused']
                 }
                 return false
             },
@@ -186,15 +186,15 @@
                     modifier: this.userName
                 }
                 if (objIcon) {
-                    Object.assign(params, { bk_obj_icon: objIcon })
+                    Object.assign(params, { obj_icon: objIcon })
                 }
-                if (objName.length && objName !== this.activeModel['bk_obj_name']) {
-                    Object.assign(params, { bk_obj_name: objName })
+                if (objName.length && objName !== this.activeModel['obj_name']) {
+                    Object.assign(params, { obj_name: objName })
                 }
                 return params
             },
             exportUrl () {
-                return `${window.API_HOST}object/owner/${this.supplierAccount}/object/${this.activeModel['bk_obj_id']}/export`
+                return `${window.API_HOST}object/owner/${this.supplierAccount}/object/${this.activeModel['obj_id']}/export`
             },
             canBeImport () {
                 const cantImport = ['host', 'biz', 'process', 'plat']
@@ -247,18 +247,18 @@
                 try {
                     const res = await this.importObjectAttribute({
                         params: formData,
-                        objId: this.activeModel['bk_obj_id'],
+                        objId: this.activeModel['obj_id'],
                         config: {
                             requestId: 'importObjectAttribute',
                             globalError: false,
                             transformData: false
                         }
                     }).then(res => {
-                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`)
+                        this.$http.cancel(`post_searchObjectAttribute_${this.activeModel['obj_id']}`)
                         return res
                     })
                     if (res.result) {
-                        const data = res.data[this.activeModel['bk_obj_id']]
+                        const data = res.data[this.activeModel['obj_id']]
                         if (data.hasOwnProperty('insert_failed')) {
                             this.$error(data['insert_failed'][0])
                         } else if (data.hasOwnProperty('update_failed')) {
@@ -277,7 +277,7 @@
                 }
             },
             checkModel () {
-                return this.models.find(model => model['bk_obj_id'] === this.$route.params.modelId)
+                return this.models.find(model => model['obj_id'] === this.$route.params.modelId)
             },
             hideChooseBox () {
                 this.isIconListShow = false
@@ -287,7 +287,7 @@
                 this.saveModel()
             },
             editModelName () {
-                this.modelInfo.objName = this.activeModel['bk_obj_name']
+                this.modelInfo.objName = this.activeModel['obj_name']
                 this.isEditName = true
             },
             async saveModel () {
@@ -307,7 +307,7 @@
                 const model = this.$store.getters['objectModelClassify/getModelById'](this.$route.params.modelId)
                 if (model) {
                     this.$store.commit('objectModel/setActiveModel', model)
-                    this.$store.commit('setHeaderTitle', model['bk_obj_name'])
+                    this.$store.commit('setHeaderTitle', model['obj_name'])
                     this.initModelInfo()
                 } else {
                     this.$router.replace({ name: 'status404' })
@@ -315,8 +315,8 @@
             },
             initModelInfo () {
                 this.modelInfo = {
-                    objIcon: this.activeModel['bk_obj_icon'],
-                    objName: this.activeModel['bk_obj_name']
+                    objIcon: this.activeModel['obj_icon'],
+                    objName: this.activeModel['obj_name']
                 }
             },
             exportExcel (response) {
@@ -333,7 +333,7 @@
             },
             async exportField () {
                 const res = await this.exportObjectAttribute({
-                    objId: this.activeModel['bk_obj_id'],
+                    objId: this.activeModel['obj_id'],
                     params: this.$injectMetadata({}, { inject: !this.isPublicModel }),
                     config: {
                         globalError: false,
@@ -383,22 +383,22 @@
                 await this.updateObject({
                     id: this.activeModel['id'],
                     params: this.$injectMetadata({
-                        bk_ispaused: ispaused
+                        ispaused: ispaused
                     }),
                     config: {
                         requestId: 'updateModel'
                     }
                 })
                 this.$store.commit('objectModelClassify/updateModel', {
-                    bk_ispaused: ispaused,
-                    bk_obj_id: this.activeModel.bk_obj_id
+                    ispaused: ispaused,
+                    obj_id: this.activeModel.obj_id
                 })
-                this.setActiveModel({ ...this.activeModel, ...{ bk_ispaused: ispaused } })
+                this.setActiveModel({ ...this.activeModel, ...{ ispaused: ispaused } })
             },
             async deleteModel () {
                 if (this.isMainLine) {
                     await this.deleteMainlineObject({
-                        bkObjId: this.activeModel['bk_obj_id'],
+                        bkObjId: this.activeModel['obj_id'],
                         config: {
                             requestId: 'deleteModel'
                         }

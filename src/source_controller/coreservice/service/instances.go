@@ -26,7 +26,7 @@ func (s *coreService) CreateOneModelInstance(params core.ContextParams, pathPara
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
-	return s.core.InstanceOperation().CreateModelInstance(params, pathParams("bk_obj_id"), inputData)
+	return s.core.InstanceOperation().CreateModelInstance(params, pathParams("obj_id"), inputData)
 }
 
 func (s *coreService) CreateManyModelInstances(params core.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
@@ -34,7 +34,7 @@ func (s *coreService) CreateManyModelInstances(params core.ContextParams, pathPa
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
-	return s.core.InstanceOperation().CreateManyModelInstance(params, pathParams("bk_obj_id"), inputData)
+	return s.core.InstanceOperation().CreateManyModelInstance(params, pathParams("obj_id"), inputData)
 }
 
 func (s *coreService) UpdateModelInstances(params core.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
@@ -42,7 +42,7 @@ func (s *coreService) UpdateModelInstances(params core.ContextParams, pathParams
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
-	return s.core.InstanceOperation().UpdateModelInstance(params, pathParams("bk_obj_id"), inputData)
+	return s.core.InstanceOperation().UpdateModelInstance(params, pathParams("obj_id"), inputData)
 }
 
 func (s *coreService) SearchModelInstances(params core.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
@@ -51,13 +51,13 @@ func (s *coreService) SearchModelInstances(params core.ContextParams, pathParams
 		return nil, err
 	}
 
-	dataResult, err := s.core.InstanceOperation().SearchModelInstance(params, pathParams("bk_obj_id"), inputData)
+	dataResult, err := s.core.InstanceOperation().SearchModelInstance(params, pathParams("obj_id"), inputData)
 	if nil != err {
 		return dataResult, err
 	}
 
 	// translate language for default name
-	if m, ok := defaultNameLanguagePkg[pathParams("bk_obj_id")]; ok {
+	if m, ok := defaultNameLanguagePkg[pathParams("obj_id")]; ok {
 		for idx := range dataResult.Info {
 			subResult := m[fmt.Sprint(dataResult.Info[idx]["default"])]
 			if len(subResult) >= 3 {
@@ -74,7 +74,7 @@ func (s *coreService) DeleteModelInstances(params core.ContextParams, pathParams
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
-	return s.core.InstanceOperation().DeleteModelInstance(params, pathParams("bk_obj_id"), inputData)
+	return s.core.InstanceOperation().DeleteModelInstance(params, pathParams("obj_id"), inputData)
 }
 
 func (s *coreService) CascadeDeleteModelInstances(params core.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
@@ -82,5 +82,5 @@ func (s *coreService) CascadeDeleteModelInstances(params core.ContextParams, pat
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
-	return s.core.InstanceOperation().CascadeDeleteModelInstance(params, pathParams("bk_obj_id"), inputData)
+	return s.core.InstanceOperation().CascadeDeleteModelInstance(params, pathParams("obj_id"), inputData)
 }

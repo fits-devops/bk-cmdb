@@ -27,14 +27,14 @@ const getters = {
         return models
     },
     getModelById: (state, getters) => id => {
-        return getters.models.find(model => model['bk_obj_id'] === id)
+        return getters.models.find(model => model['obj_id'] === id)
     },
     activeClassifications: state => {
         const classifications = state.classifications
         // 1.去掉停用模型
         let activeClassifications = classifications.map(classification => {
             const activeClassification = { ...classification }
-            activeClassification['bk_objects'] = activeClassification['bk_objects'].filter(model => !model['bk_ispaused'])
+            activeClassification['bk_objects'] = activeClassification['bk_objects'].filter(model => !model['ispaused'])
             return activeClassification
         })
         // 2.去掉无启用模型的分类和不显示的分类
@@ -151,7 +151,7 @@ const mutations = {
                 models.push(model)
             })
         })
-        const model = models.find(model => model.bk_obj_id === data.bk_obj_id)
+        const model = models.find(model => model.obj_id === data.obj_id)
         if (model) {
             Object.assign(model, data)
         }

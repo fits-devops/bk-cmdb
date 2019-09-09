@@ -229,7 +229,7 @@
             getProperties () {
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: { '$in': Object.keys(this.properties) },
+                        obj_id: { '$in': Object.keys(this.properties) },
                         org_id: this.supplierAccount
                     }, { inject: false }),
                     config: {
@@ -257,7 +257,7 @@
             getScopedParams () {
                 const params = this.$tools.clone(this.filter.params)
                 if (!this.filter.assigned) {
-                    const businessParams = params.condition.find(condition => condition['bk_obj_id'] === 'biz')
+                    const businessParams = params.condition.find(condition => condition['obj_id'] === 'biz')
                     businessParams.condition.push({
                         field: 'default',
                         operator: '$eq',

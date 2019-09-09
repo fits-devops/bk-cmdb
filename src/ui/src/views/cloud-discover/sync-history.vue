@@ -54,7 +54,7 @@
                 operator: '',
                 table: {
                     header: [{
-                        id: 'bk_obj_id',
+                        id: 'obj_id',
                         sortable: false,
                         width: 80,
                         name: this.$t('Nav["模型"]')
@@ -129,7 +129,7 @@
                 const res = await this.searchCloudHistory({ params, config: { requestID: 'getSyncHistory' } })
                 this.table.list = res.info.map(data => {
                     data['start_time'] = this.$tools.formatTime(data['start_time'], 'YYYY-MM-DD HH:mm:ss')
-                    data['bk_obj_id'] = this.$t('Hosts["主机"]')
+                    data['obj_id'] = this.$t('Hosts["主机"]')
                     return data
                 })
                 pagination.count = res.count

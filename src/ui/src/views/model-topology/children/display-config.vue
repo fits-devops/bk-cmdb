@@ -15,16 +15,16 @@
                 <li class="group-item" v-for="(group, groupIndex) in topoList" :key="groupIndex">
                     <p class="group-name">{{group['classification_name']}}</p>
                     <ul class="clearfix">
-                        <li class="model-item" :class="{ 'active': model['bk_obj_id'] === activePop }" v-for="(model, modelIndex) in group['bk_objects']" :key="modelIndex">
+                        <li class="model-item" :class="{ 'active': model['obj_id'] === activePop }" v-for="(model, modelIndex) in group['bk_objects']" :key="modelIndex">
                             <label class="cmdb-form-checkbox checkbox cmdb-checkbox-small">
                                 <input type="checkbox" :checked="isChecked(model)" @click="checkAll(model)">
                             </label>
-                            <div class="cmdb-form-checkbox text-box" @click.stop="toggleActivePop(model['bk_obj_id'])">
-                                <span class="cmdb-checkbox-text">{{model['bk_obj_name']}}</span>
+                            <div class="cmdb-form-checkbox text-box" @click.stop="toggleActivePop(model['obj_id'])">
+                                <span class="cmdb-checkbox-text">{{model['obj_name']}}</span>
                                 <span class="count">({{model.asstInfo.assts.length}})</span>
                                 <i class="bk-icon icon-angle-down"></i>
                                 <cmdb-collapse-transition>
-                                    <div class="relation-detail" v-click-outside="hidePop" @click.stop v-if="activePop === model['bk_obj_id']">
+                                    <div class="relation-detail" v-click-outside="hidePop" @click.stop v-if="activePop === model['obj_id']">
                                         <div class="detail-title clearfix">
                                             <div class="fl">
                                                 <span class="title">{{$t('ModelManagement["模型关联"]')}}</span>
@@ -109,7 +109,7 @@
                 this.localTopoModelList = this.$tools.clone(this.topoModelList)
             },
             findCurrentModelAsst (model) {
-                return this.localTopoModelList.find(obj => obj['bk_obj_id'] === model['bk_obj_id'] && obj.hasOwnProperty('assts') && obj.assts.length).assts
+                return this.localTopoModelList.find(obj => obj['obj_id'] === model['obj_id'] && obj.hasOwnProperty('assts') && obj.assts.length).assts
             },
             isChecked (model) {
                 const modelAsst = this.findCurrentModelAsst(model)
@@ -128,7 +128,7 @@
                     const objects = []
                     // const asstObjects = {}
                     group['bk_objects'].forEach(model => {
-                        const asstInfo = this.localTopoModelList.find(obj => obj['bk_obj_id'] === model['bk_obj_id'] && obj.hasOwnProperty('assts') && obj.assts.length)
+                        const asstInfo = this.localTopoModelList.find(obj => obj['obj_id'] === model['obj_id'] && obj.hasOwnProperty('assts') && obj.assts.length)
                         if (asstInfo) {
                             objects.push({
                                 ...model,
@@ -149,15 +149,15 @@
             },
             asstLabel (model, asst) {
                 const asstModel = this.models.find(model => {
-                    return model['bk_obj_id'] === asst['bk_obj_id']
+                    return model['obj_id'] === asst['obj_id']
                 })
                 if (asstModel) {
                     const association = this.associationList.find(({ id }) => id === asst['bk_asst_inst_id'])
                     if (association) {
                         if (association['bk_asst_name'].length) {
-                            return `${association['bk_asst_name']}->${asstModel['bk_obj_name']}`
+                            return `${association['bk_asst_name']}->${asstModel['obj_name']}`
                         }
-                        return `${association['bk_asst_id']}->${asstModel['bk_obj_name']}`
+                        return `${association['bk_asst_id']}->${asstModel['obj_name']}`
                     }
                 }
             },

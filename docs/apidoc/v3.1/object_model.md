@@ -12,10 +12,10 @@
 {
     "creator": "admin",
     "classification_id": "cc_test",
-    "bk_obj_name": "cc_test_inst",
+    "obj_name": "cc_test_inst",
     "org_id": "0",
-    "bk_obj_icon": "icon-cc-business",
-    "bk_obj_id": "cc_test_inst"
+    "obj_icon": "icon-cc-business",
+    "obj_id": "cc_test_inst"
 }
 ```
 
@@ -27,10 +27,10 @@
 |---|---|---|---|---|---|
 |creator|string|否|无|本条数据创建者|creator|
 |classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
-|bk_obj_id|string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
-|bk_obj_name|string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name ,it will be used to shown|
+|obj_id|string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
+|obj_name|string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name ,it will be used to shown|
 |org_id| string| 是| 无|开发商账号|supplier account code|
-|bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
+|obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
 
 
 - output
@@ -121,9 +121,9 @@ data字段说明
 {
     "modifier": "admin",
     "classification_id": "cc_test",
-    "bk_obj_name": "cc2_test_inst",
+    "obj_name": "cc2_test_inst",
     "org_id": "0",
-    "bk_obj_icon": "icon-cc-business",
+    "obj_icon": "icon-cc-business",
     "position":"{\"ff\":{\"x\":-863,\"y\":1}}"
 }
 ```
@@ -138,9 +138,9 @@ data字段说明
 |id|int|否|无|目标数据的记录ID，作为更新操作的条件|the record id，as the update condition|
 |modifier|string|否|无|本条数据的最后修改人员|the modifier|
 |classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
-|bk_obj_name|string|否|无|对象模型的名字|the name of the object|
+|obj_name|string|否|无|对象模型的名字|the name of the object|
 |org_id| string| 是| 无|开发商账号|supplier account code|
-|bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
+|obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
 |position|json object string|否|无|用于前端展示的坐标|the position to display|
 
 
@@ -180,7 +180,7 @@ data字段说明
 
 ``` json
 {
-    "bk_obj_id": "biz",
+    "obj_id": "biz",
     "org_id":"0"
 }
 ```
@@ -195,8 +195,8 @@ data字段说明
 |creator|string|否|无|本条数据创建者|creator|
 |modifier|string|否|无|本条数据的最后修改人员|modifier|
 |classification_id|string|否|无|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
-|bk_obj_id|string|否|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
-|bk_obj_name|string|否|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the name of the object, it will be used to shown|
+|obj_id|string|否|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
+|obj_name|string|否|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the name of the object, it will be used to shown|
 |org_id| string| 否| 无|开发商账号|supplier account code|
 
 
@@ -214,13 +214,13 @@ data字段说明
             "creator": "cc_system",
             "description": "",
             "id": 4,
-            "bk_ispaused": false,
+            "ispaused": false,
             "ispre": true,
             "last_time": null,
             "modifier": "",
-            "bk_obj_icon": "icon-XXX",
-            "bk_obj_id": "XX",
-            "bk_obj_name": "XXX",
+            "obj_icon": "icon-XXX",
+            "obj_id": "XX",
+            "obj_name": "XXX",
             "position": "{\"test_obj\":{\"x\":-253,\"y\":137}}",
             "org_id": "0"
         }
@@ -247,12 +247,12 @@ data 字段说明
 |creator|string|本条数据创建者|creator|
 |modifier|string|本条数据的最后修改人员|modifier|
 |classification_id|string|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
-|bk_obj_id|string|对象模型的ID，只能用英文字母序列命名|the object identifier|
-|bk_obj_name|string|对象模型的名字，用于展示|the name of the object, it will be used to shown|
+|obj_id|string|对象模型的ID，只能用英文字母序列命名|the object identifier|
+|obj_name|string|对象模型的名字，用于展示|the name of the object, it will be used to shown|
 |org_id| string|开发商账号|supplier account code|
-|bk_ispaused| bool|是否停用, true or false|is not in use status|
+|ispaused| bool|是否停用, true or false|is not in use status|
 |ispre| bool|是否预定义, true or false|is pre definition|
-|bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
+|obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
 |position|json object string|否|无|用于前端展示的坐标|the position to display|
 
 #  查询普通对象模型的拓扑结构
@@ -292,8 +292,8 @@ data 字段说明
             "arrows": "to",
             "from": {
                 "classification_id": "bk_host_manage",
-                "bk_obj_id": "host",
-                "bk_obj_name": "主机",
+                "obj_id": "host",
+                "obj_name": "主机",
                 "position": "{\"bk_host_manage\":{\"x\":-357,\"y\":-344},\"lhmtest\":{\"x\":163,\"y\":75}}",
                 "org_id": "0"
             },
@@ -302,8 +302,8 @@ data 字段说明
             "label_type": "",
             "to": {
                 "classification_id": "bk_host_manage",
-                "bk_obj_id": "plat",
-                "bk_obj_name": "云区域",
+                "obj_id": "plat",
+                "obj_name": "云区域",
                 "position": "{\"bk_host_manage\":{\"x\":-172,\"y\":-160}}",
                 "org_id": "0"
             }
@@ -370,7 +370,7 @@ none
     "data": [
         {
             "node_type": "obj",
-            "bk_obj_id": "switch",
+            "obj_id": "switch",
             "bk_inst_id": 0,
             "node_name": "switch",
             "position": {
@@ -378,7 +378,7 @@ none
                 "y": 100
             },
             "ext": {},
-            "bk_obj_icon": "icon-cc-switch2",
+            "obj_icon": "icon-cc-switch2",
             "scope_type": "global",
             "scope_id": "",
             "bk_biz_id": 1,
@@ -387,7 +387,7 @@ none
                 {
                     "bk_asst_type": "singleasst",
                     "node_type": "obj",
-                    "bk_obj_id": "host",
+                    "obj_id": "host",
                     "bk_inst_id": 0,
                     "bk_object_att_id": "host_id",
                     "lable": {}
@@ -414,12 +414,12 @@ data 字段说明
 | 字段|类型|说明|Description|
 |---|---|---|---|
 |node_type|string|节点类型,可选obj,inst|node type, could be obj,inst|
-|bk_obj_id|string|对象模型的ID|the object identifier|
+|obj_id|string|对象模型的ID|the object identifier|
 |bk_inst_id|int|实例ID|the inst identifier|
 |node_name|string|节点名,当node_type为obj时是模型名称,当node_type为inst时是实例名称|the node name|
 |position|string|节点在图中的位置|the node position in the graphics|
 |ext|object|前端扩展字段|the extention field for frondend|
-|bk_obj_icon|string|对象模型的图标|the object icon|
+|obj_icon|string|对象模型的图标|the object icon|
 |scope_type|string|图形范围类型,可选global,biz,cls(当前只有global)|the graphical scope type, could be global,biz,cls|
 |scope_id|string|图形范围类型下的ID,如果为global,则填0|the id under the graphical scope, should be 0 when socope type is global |
 |bk_biz_id|int|业务id|business id|
@@ -432,7 +432,7 @@ assts 字段说明
 |---|---|---|---|
 |bk_asst_type|string|关联类型|association type|
 |node_type|string|节点类型,可选obj,inst|node type, could be obj,inst|
-|bk_obj_id|string|对象模型的ID|the object identifier|
+|obj_id|string|对象模型的ID|the object identifier|
 |bk_inst_id|int|实例ID|the inst identifier|
 |bk_object_att_id|string|关联的属性|the associated attribute|
 |lable|object|标签,扩展字段,未启用|the association lable|
@@ -451,14 +451,14 @@ assts 字段说明
 [
     {
         "node_type": "obj",
-        "bk_obj_id": "switch",
+        "obj_id": "switch",
         "bk_inst_id": 0,
         "position": {
             "x": 100,
             "y": 100
         },
         "ext": {},
-        "bk_obj_icon": "icon-cc-switch2",
+        "obj_icon": "icon-cc-switch2",
     }
 ]
 ```
@@ -473,14 +473,14 @@ assts 字段说明
 |scope_type|string|是|无|图形范围类型,可选global,biz,cls(当前只有global)|the graphical scope type, could be global,biz,cls|
 |scope_id|string|是|无|图形范围类型下的ID,如果为global,则填0|the id under the graphical scope, should be 0 when socope type is global |
 |node_type|string|是|无|节点类型,可选obj,inst|node type, could be obj,inst|
-|bk_obj_id|string|是|无|对象模型的ID|the object identifier|
+|obj_id|string|是|无|对象模型的ID|the object identifier|
 |bk_inst_id|int|是|无|实例ID|the inst identifier|
 |position|string|否|无|节点在图中的位置|the node position in the graphics|
 |ext|object|否|无|前端扩展字段|the extention field for frondend|
-|bk_obj_icon|string|否|无|对象模型的图标|the object icon|
+|obj_icon|string|否|无|对象模型的图标|the object icon|
 
 > scope_type,scope_id 唯一确定一张图
-> node_type,bk_obj_id,bk_inst_id三者唯一确定每张图的一个节点,故必填
+> node_type,obj_id,bk_inst_id三者唯一确定每张图的一个节点,故必填
 
 **注:以上 JSON 数据中各字段的取值仅为示例数据。**
 

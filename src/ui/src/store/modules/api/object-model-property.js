@@ -79,11 +79,11 @@ const actions = {
     batchSearchObjectAttribute ({ commit, state, dispatch }, { params, config }) {
         return $http.post(`find/objectattr`, params, config).then(properties => {
             const result = {}
-            params['bk_obj_id']['$in'].forEach(objId => {
+            params['obj_id']['$in'].forEach(objId => {
                 result[objId] = []
             })
             properties.forEach(property => {
-                result[property['bk_obj_id']].push(property)
+                result[property['obj_id']].push(property)
             })
             return result
         })

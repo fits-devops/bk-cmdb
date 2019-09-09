@@ -58,12 +58,12 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
 	},
 	"cc_ObjAsst": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_asst_obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_ObjAttDes": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"id": 1}, Background: true},
 	},
@@ -72,13 +72,13 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"classification_name": 1}, Background: true},
 	},
 	"cc_ObjDes": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"classification_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_name": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_ObjectBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_inst_id": 1}, Background: true},
 	},
@@ -101,7 +101,7 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_PropertyGroup": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_group_id": 1}, Background: true},
 	},
@@ -116,10 +116,10 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"subscription_id": 1}, Background: true},
 	},
 	"cc_TopoGraphics": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"scope_type": 1, "scope_id": 1, "node_type": 1, "bk_obj_id": 1, "bk_inst_id": 1}, Background: true, Unique: true},
+		dal.Index{Name: "", Keys: map[string]int32{"scope_type": 1, "scope_id": 1, "node_type": 1, "obj_id": 1, "bk_inst_id": 1}, Background: true, Unique: true},
 	},
 	"cc_InstAsst": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1, "bk_inst_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1, "bk_inst_id": 1}, Background: true},
 	},
 
 	"cc_Privilege":          []dal.Index{},

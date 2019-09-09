@@ -26,9 +26,9 @@ func (s *Service) initAssociation() {
 
 	// mainline topo methods
 	s.addAction(http.MethodPost, "/topo/model/mainline", s.CreateMainLineObject, nil)
-	s.addAction(http.MethodDelete, "/topo/model/mainline/owners/{owner_id}/objectids/{bk_obj_id}", s.DeleteMainLineObject, nil)
+	s.addAction(http.MethodDelete, "/topo/model/mainline/owners/{owner_id}/objectids/{obj_id}", s.DeleteMainLineObject, nil)
 	s.addAction(http.MethodGet, "/topo/model/{owner_id}", s.SearchMainLineObjectTopo, nil)
-	s.addAction(http.MethodGet, "/topo/model/{owner_id}/{cls_id}/{bk_obj_id}", s.SearchObjectByClassificationID, nil)
+	s.addAction(http.MethodGet, "/topo/model/{owner_id}/{cls_id}/{obj_id}", s.SearchObjectByClassificationID, nil)
 	s.addAction(http.MethodGet, "/topo/inst/{owner_id}/{bk_biz_id}", s.SearchBusinessTopo, nil)
 	// TODO: delete this api, it's not used by front.
 	s.addAction(http.MethodGet, "/topo/inst/child/{owner_id}/{obj_id}/{app_id}/{inst_id}", s.SearchMainLineChildInstTopo, nil)
@@ -52,19 +52,19 @@ func (s *Service) initAssociation() {
 	s.addAction(http.MethodDelete, "/inst/association/{association_id}/action/delete", s.DeleteAssociationInst, nil)
 
 	// topo search methods
-	s.addAction(http.MethodPost, "/inst/association/search/owner/{owner_id}/object/{bk_obj_id}", s.SearchInstByAssociation, nil)
-	s.addAction(http.MethodPost, "/inst/association/topo/search/owner/{owner_id}/object/{bk_obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
+	s.addAction(http.MethodPost, "/inst/association/search/owner/{owner_id}/object/{obj_id}", s.SearchInstByAssociation, nil)
+	s.addAction(http.MethodPost, "/inst/association/topo/search/owner/{owner_id}/object/{obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
 
 	// ATTENTION: the following methods is not recommended
 	s.addAction(http.MethodPost, "/inst/search/topo/owner/{owner_id}/object/{bk_object_id}/inst/{inst_id}", s.SearchInstChildTopo, nil)
-	s.addAction(http.MethodPost, "/inst/association/action/{bk_obj_id}/import", s.ImportInstanceAssociation, nil)
+	s.addAction(http.MethodPost, "/inst/association/action/{obj_id}/import", s.ImportInstanceAssociation, nil)
 
 }
 
 func (s *Service) initAuditLog() {
 
 	s.addAction(http.MethodPost, "/audit/search", s.AuditQuery, nil)
-	s.addAction(http.MethodPost, "/object/{bk_obj_id}/audit/search", s.InstanceAuditQuery, nil)
+	s.addAction(http.MethodPost, "/object/{obj_id}/audit/search", s.InstanceAuditQuery, nil)
 }
 
 func (s *Service) initCompatiblev2() {
@@ -114,15 +114,15 @@ func (s *Service) initSet() {
 }
 
 func (s *Service) initInst() {
-	s.addAction(http.MethodPost, "/inst/{owner_id}/{bk_obj_id}", s.CreateInst, nil)
-	s.addAction(http.MethodDelete, "/inst/{owner_id}/{bk_obj_id}/{inst_id}", s.DeleteInst, nil)
-	s.addAction(http.MethodDelete, "/inst/{owner_id}/{bk_obj_id}/batch", s.DeleteInsts, nil)
-	s.addAction(http.MethodPut, "/inst/{owner_id}/{bk_obj_id}/{inst_id}", s.UpdateInst, nil)
-	s.addAction(http.MethodPut, "/inst/{owner_id}/{bk_obj_id}/batch/update", s.UpdateInsts, nil)
-	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{bk_obj_id}", s.SearchInsts, nil)
-	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{bk_obj_id}/detail", s.SearchInstAndAssociationDetail, nil)
-	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{bk_obj_id}", s.SearchInstByObject, nil)
-	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{bk_obj_id}/{inst_id}", s.SearchInstByInstID, nil)
+	s.addAction(http.MethodPost, "/inst/{owner_id}/{obj_id}", s.CreateInst, nil)
+	s.addAction(http.MethodDelete, "/inst/{owner_id}/{obj_id}/{inst_id}", s.DeleteInst, nil)
+	s.addAction(http.MethodDelete, "/inst/{owner_id}/{obj_id}/batch", s.DeleteInsts, nil)
+	s.addAction(http.MethodPut, "/inst/{owner_id}/{obj_id}/{inst_id}", s.UpdateInst, nil)
+	s.addAction(http.MethodPut, "/inst/{owner_id}/{obj_id}/batch/update", s.UpdateInsts, nil)
+	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{obj_id}", s.SearchInsts, nil)
+	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}/detail", s.SearchInstAndAssociationDetail, nil)
+	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}", s.SearchInstByObject, nil)
+	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{obj_id}/{inst_id}", s.SearchInstByInstID, nil)
 
 }
 
@@ -142,10 +142,10 @@ func (s *Service) initObjectClassification() {
 }
 
 func (s *Service) initObjectObjectUnique() {
-	s.addAction(http.MethodPost, "/object/{bk_obj_id}/unique/action/create", s.CreateObjectUnique, nil)
-	s.addAction(http.MethodPut, "/object/{bk_obj_id}/unique/{id}/action/update", s.UpdateObjectUnique, nil)
-	s.addAction(http.MethodDelete, "/object/{bk_obj_id}/unique/{id}/action/delete", s.DeleteObjectUnique, nil)
-	s.addAction(http.MethodGet, "/object/{bk_obj_id}/unique/action/search", s.SearchObjectUnique, nil)
+	s.addAction(http.MethodPost, "/object/{obj_id}/unique/action/create", s.CreateObjectUnique, nil)
+	s.addAction(http.MethodPut, "/object/{obj_id}/unique/{id}/action/update", s.UpdateObjectUnique, nil)
+	s.addAction(http.MethodDelete, "/object/{obj_id}/unique/{id}/action/delete", s.DeleteObjectUnique, nil)
+	s.addAction(http.MethodGet, "/object/{obj_id}/unique/action/search", s.SearchObjectUnique, nil)
 }
 
 func (s *Service) initObjectGroup() {
@@ -154,7 +154,7 @@ func (s *Service) initObjectGroup() {
 	s.addAction(http.MethodDelete, "/objectatt/group/groupid/{id}", s.DeleteObjectGroup, nil)
 	s.addAction(http.MethodPut, "/objectatt/group/property", s.UpdateObjectAttributeGroupProperty, s.ParseUpdateObjectAttributeGroupPropertyInput)
 	s.addAction(http.MethodDelete, "/objectatt/group/owner/{owner_id}/object/{bk_object_id}/propertyids/{property_id}/groupids/{group_id}", s.DeleteObjectAttributeGroup, nil)
-	s.addAction(http.MethodPost, "/objectatt/group/property/owner/{owner_id}/object/{bk_obj_id}", s.SearchGroupByObject, nil)
+	s.addAction(http.MethodPost, "/objectatt/group/property/owner/{owner_id}/object/{obj_id}", s.SearchGroupByObject, nil)
 }
 
 func (s *Service) initObject() {
@@ -175,8 +175,8 @@ func (s *Service) initPrivilegeGroup() {
 }
 
 func (s *Service) initPrivilegeRole() {
-	s.addAction(http.MethodPost, "/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
-	s.addAction(http.MethodGet, "/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}", s.GetPrivilege, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/{org_id}/{obj_id}/{bk_property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
+	s.addAction(http.MethodGet, "/topo/privilege/{org_id}/{obj_id}/{bk_property_id}", s.GetPrivilege, nil)
 }
 
 func (s *Service) initPrivilege() {

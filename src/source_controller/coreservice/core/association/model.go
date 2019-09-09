@@ -102,7 +102,7 @@ func (m *associationModel) SetModelAssociation(ctx core.ContextParams, inputPara
 
 func (m *associationModel) UpdateModelAssociation(ctx core.ContextParams, inputParam metadata.UpdateOption) (*metadata.UpdatedCount, error) {
 
-	// ATTENTION: only to update the fields except bk_obj_asst_id, bk_obj_id, bk_asst_obj_id
+	// ATTENTION: only to update the fields except bk_obj_asst_id, obj_id, bk_asst_obj_id
 	inputParam.Data.Remove(metadata.AssociationFieldObjectID)
 	inputParam.Data.Remove(metadata.AssociationFieldAssociationObjectID)
 	inputParam.Data.Remove(metadata.AssociationFieldSupplierAccount)

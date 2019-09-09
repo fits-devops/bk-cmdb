@@ -358,22 +358,22 @@ func (h *Host) SearchHost(cond common.Condition) ([]types.MapStr, error) {
 
 	params["condition"] = []map[string]interface{}{
 		map[string]interface{}{
-			"bk_obj_id": "host",
+			"obj_id":    "host",
 			"fields":    []string{},
 			"condition": conditions,
 		},
 		map[string]interface{}{
-			"bk_obj_id": "set",
+			"obj_id":    "set",
 			"fields":    []string{},
 			"condition": make([]map[string]interface{}, 0),
 		},
 		map[string]interface{}{
-			"bk_obj_id": "module",
+			"obj_id":    "module",
 			"fields":    []string{},
 			"condition": make([]map[string]interface{}, 0),
 		},
 		map[string]interface{}{
-			"bk_obj_id": "biz",
+			"obj_id":    "biz",
 			"fields":    []string{},
 			"condition": make([]map[string]interface{}, 0),
 		},

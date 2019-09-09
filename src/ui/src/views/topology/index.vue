@@ -14,13 +14,13 @@
                 <div class="tree-node clearfix" slot-scope="{ node, state }"
                     :class="{
                         'tree-node-selected': state.selected,
-                        'tree-node-module': node['bk_obj_id'] === 'module'
+                        'tree-node-module': node['obj_id'] === 'module'
                     }">
                     <template v-if="[1, 2].includes(node.default)">
                         <i class="topo-node-icon topo-node-icon-internal icon-cc-host-free-pool" v-if="node.default === 1"></i>
                         <i class="topo-node-icon topo-node-icon-internal icon-cc-host-breakdown" v-else></i>
                     </template>
-                    <i class="topo-node-icon topo-node-icon-text" v-else>{{node['bk_obj_name'][0]}}</i>
+                    <i class="topo-node-icon topo-node-icon-text" v-else>{{node['obj_name'][0]}}</i>
                     <span class="topo-node-text" :title="node['bk_inst_name']">{{node['bk_inst_name']}}</span>
                     <bk-button type="primary" class="topo-node-btn-create fr"
                         v-if="showCreate(node, state)"
@@ -169,7 +169,7 @@
             showAttributePanel () {
                 const selectedNode = this.tree.selectedNode
                 if (selectedNode) {
-                    const isBusinessNode = selectedNode['bk_obj_id'] === 'biz'
+                    const isBusinessNode = selectedNode['obj_id'] === 'biz'
                     const isDefault = !!selectedNode.default
                     const isCreate = this.tab.type === 'create'
                     const isTreeLoaded = !!this.tree.data.length
@@ -181,7 +181,7 @@
                 const selectedNode = this.tree.selectedNode
                 if (selectedNode) {
                     const isDefault = !!selectedNode.default
-                    const isModule = selectedNode['bk_obj_id'] === 'module'
+                    const isModule = selectedNode['obj_id'] === 'module'
                     return !isDefault && isModule
                 }
                 return false
@@ -264,7 +264,7 @@
             getProperties () {
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: { '$in': Object.keys(this.properties) },
+                        obj_id: { '$in': Object.keys(this.properties) },
                         org_id: this.supplierAccount
                     }),
                     config: {
@@ -283,7 +283,7 @@
                 }
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_obj_id': objId,
+                        'obj_id': objId,
                         'org_id': this.supplierAccount
                     }),
                     config: {
@@ -315,7 +315,7 @@
             },
             getNodeInst () {
                 const selectedNode = this.tree.selectedNode
-                const objId = selectedNode['bk_obj_id']
+                const objId = selectedNode['obj_id']
                 const instId = selectedNode['bk_inst_id']
                 const requestParams = {
                     page: { start: 0, limit: 1 },
@@ -391,8 +391,8 @@
                     const internalModule = (internalTopo.module || []).map(module => {
                         return {
                             'default': ['空闲机', 'idle machine'].includes(module['bk_module_name']) ? 1 : 2,
-                            'bk_obj_id': 'module',
-                            'bk_obj_name': moduleModel['bk_obj_name'],
+                            'obj_id': 'module',
+                            'obj_name': moduleModel['obj_name'],
                             'bk_inst_id': module['bk_module_id'],
                             'bk_inst_name': module['bk_module_name']
                         }
@@ -407,10 +407,10 @@
                 })
             },
             getModelByObjId (id) {
-                return this.topoModel.find(model => model['bk_obj_id'] === id)
+                return this.topoModel.find(model => model['obj_id'] === id)
             },
             getTopoNodeId (node) {
-                return `${node['bk_obj_id']}-${node['bk_inst_id']}`
+                return `${node['obj_id']}-${node['bk_inst_id']}`
             },
             handleNodeSelected (node, state) {
                 this.tree.selectedNode = node
@@ -439,7 +439,7 @@
                 const necessaryObj = ['host', 'module', 'set', 'biz']
                 const condition = necessaryObj.map(objId => {
                     return {
-                        'bk_obj_id': objId,
+                        'obj_id': objId,
                         condition: [],
                         fields: []
                     }
@@ -455,7 +455,7 @@
                 const quickSearch = this.table.quickSearch
                 if (quickSearch.property && quickSearch.value !== null && String(quickSearch.value).length) {
                     const quickSearchType = quickSearch.property['bk_property_type']
-                    const hostCondition = condition.find(condition => condition['bk_obj_id'] === 'host')
+                    const hostCondition = condition.find(condition => condition['obj_id'] === 'host')
                     if (['date', 'time'].includes(quickSearchType)) {
                         hostCondition.condition.push({
                             field: quickSearch.property['bk_property_id'],
@@ -475,9 +475,9 @@
                         })
                     }
                 }
-                const selectedNodeObjId = this.tree.selectedNode['bk_obj_id']
+                const selectedNodeObjId = this.tree.selectedNode['obj_id']
                 if (['module', 'set'].includes(selectedNodeObjId)) {
-                    const objCondition = condition.find(meta => meta['bk_obj_id'] === selectedNodeObjId)
+                    const objCondition = condition.find(meta => meta['obj_id'] === selectedNodeObjId)
                     objCondition.condition.push({
                         field: `bk_${selectedNodeObjId}_id`,
                         operator: '$eq',
@@ -485,7 +485,7 @@
                     })
                 } else if (!necessaryObj.includes(selectedNodeObjId)) {
                     condition.push({
-                        'bk_obj_id': 'object',
+                        'obj_id': 'object',
                         condition: [{
                             field: 'bk_inst_id',
                             operator: '$eq',
@@ -500,11 +500,11 @@
                 const selectedNode = this.tree.selectedNode
                 if (this.showAttributePanel && active === 'attribute') {
                     if (this.tab.type === 'details') {
-                        const [, properties] = await this.getNodeObjPropertyInfo(selectedNode['bk_obj_id'])
+                        const [, properties] = await this.getNodeObjPropertyInfo(selectedNode['obj_id'])
                         this.tab.properties = properties
                         await this.getNodeInst()
                     } else {
-                        const model = this.topoModel.find(model => model['bk_obj_id'] === selectedNode['bk_obj_id'])
+                        const model = this.topoModel.find(model => model['obj_id'] === selectedNode['obj_id'])
                         await this.getNodeObjPropertyInfo(model['bk_next_obj'])
                         this.tree.selectedNodeInst = {}
                         this.tree.flatternedSelectedNodeInst = {}
@@ -525,7 +525,7 @@
                 this.tree.create.showDialog = true
                 this.tree.create.active = true
                 const targetNode = this.tree.selectedNode
-                const model = this.topoModel.find(model => model['bk_obj_id'] === targetNode['bk_obj_id'])
+                const model = this.topoModel.find(model => model['obj_id'] === targetNode['obj_id'])
                 const properties = await this.getCommonProperties(model['bk_next_obj'])
                 this.tree.create.properties = properties
             },
@@ -549,7 +549,7 @@
             },
             createNode (value) {
                 const selectedNode = this.tree.selectedNode
-                const selectedNodeModel = this.topoModel.find(model => model['bk_obj_id'] === selectedNode['bk_obj_id'])
+                const selectedNodeModel = this.topoModel.find(model => model['obj_id'] === selectedNode['obj_id'])
                 const nextObjId = selectedNodeModel['bk_next_obj']
                 const formData = this.$injectMetadata({
                     ...value,
@@ -591,10 +591,10 @@
                         child: [],
                         'bk_inst_id': inst[instIdKey],
                         'bk_inst_name': inst[instNameKey],
-                        'bk_obj_id': nextObjId,
-                        'bk_obj_name': selectedNodeModel['bk_next_name']
+                        'obj_id': nextObjId,
+                        'obj_name': selectedNodeModel['bk_next_name']
                     }
-                    if (selectedNode['bk_obj_id'] === 'biz') {
+                    if (selectedNode['obj_id'] === 'biz') {
                         children.splice(2, 0, newNode)
                     } else {
                         children.unshift(newNode)
@@ -610,7 +610,7 @@
             updateNode (value) {
                 const formData = this.$injectMetadata({ ...value })
                 const selectedNode = this.tree.selectedNode
-                const objId = selectedNode['bk_obj_id']
+                const objId = selectedNode['obj_id']
                 let promise
                 if (objId === 'set') {
                     formData['org_id'] = this.supplierAccount
@@ -661,7 +661,7 @@
             handleDelete () {
                 const selectedNode = this.tree.selectedNode
                 const parentNode = this.tree.selectedNodeState.parent.node
-                const objId = selectedNode['bk_obj_id']
+                const objId = selectedNode['obj_id']
                 const config = { requestId: 'deleteNode', data: this.$injectMetadata({}) }
                 this.$bkInfo({
                     title: `${this.$t('Common["确定删除"]')} ${selectedNode['bk_inst_name']}?`,
@@ -702,7 +702,7 @@
             showCreate (node, state) {
                 const selected = state.selected
                 const isBlueKing = this.tree.data[0]['bk_inst_name'] === '蓝鲸'
-                const isModule = node['bk_obj_id'] === 'module'
+                const isModule = node['obj_id'] === 'module'
                 return !this.isAdminView && selected && !isBlueKing && !isModule
             }
         }

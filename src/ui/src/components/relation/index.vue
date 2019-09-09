@@ -94,7 +94,7 @@
             async getRelation () {
                 try {
                     let [dataAsSource, dataAsTarget, mainLineModels] = await Promise.all([
-                        this.getObjectAssociation({ 'bk_obj_id': this.objId }, { requestId: 'getSourceAssocaition' }),
+                        this.getObjectAssociation({ 'obj_id': this.objId }, { requestId: 'getSourceAssocaition' }),
                         this.getObjectAssociation({ 'bk_asst_obj_id': this.objId }, { requestId: 'getTargetAssocaition' }),
                         this.$store.dispatch('objectMainLineModule/searchMainlineObject', {
                             config: {
@@ -102,7 +102,7 @@
                             }
                         })
                     ])
-                    mainLineModels = mainLineModels.filter(model => !['biz', 'host'].includes(model['bk_obj_id']))
+                    mainLineModels = mainLineModels.filter(model => !['biz', 'host'].includes(model['obj_id']))
                     dataAsSource = this.getAvailableRelation(dataAsSource, mainLineModels)
                     dataAsTarget = this.getAvailableRelation(dataAsTarget, mainLineModels)
                     if (dataAsSource.length || dataAsTarget.length) {
@@ -114,7 +114,7 @@
             },
             getAvailableRelation (data, mainLine) {
                 return data.filter(relation => {
-                    return !mainLine.some(model => [relation['bk_obj_id'], relation['bk_asst_obj_id']].includes(model['bk_obj_id']))
+                    return !mainLine.some(model => [relation['obj_id'], relation['bk_asst_obj_id']].includes(model['obj_id']))
                 })
             },
             getObjectAssociation (condition, config) {

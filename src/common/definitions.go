@@ -320,13 +320,13 @@ const (
 	BKCloudNameField = "bk_cloud_name"
 
 	// BKObjIDField the obj id field
-	BKObjIDField = "bk_obj_id"
+	BKObjIDField = "obj_id"
 
 	// BKObjNameField the obj name field
-	BKObjNameField = "bk_obj_name"
+	BKObjNameField = "obj_name"
 
 	// BKObjIconField the obj icon field
-	BKObjIconField = "bk_obj_icon"
+	BKObjIconField = "obj_icon"
 
 	// BKInstIDField the inst id field
 	BKInstIDField = "bk_inst_id"

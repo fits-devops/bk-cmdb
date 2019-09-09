@@ -61,7 +61,7 @@
             try {
                 this.properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: 'biz',
+                        obj_id: 'biz',
                         org_id: this.supplierAccount
                     }),
                     config: {

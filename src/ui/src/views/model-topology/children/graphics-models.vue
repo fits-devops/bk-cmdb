@@ -23,15 +23,15 @@
                                 v-for="(model, index) in group.hiddenModels"
                                 :key="index"
                                 @dragstart="handleDragStart($event, model)">
-                                <i class="model-icon icon fl" :class="model['bk_obj_icon']"></i>
+                                <i class="model-icon icon fl" :class="model['obj_icon']"></i>
                                 <div class="model-info">
                                     <span class="model-name"
-                                        :title="model['bk_obj_name']">
-                                        {{model['bk_obj_name']}}
+                                        :title="model['obj_name']">
+                                        {{model['obj_name']}}
                                     </span>
                                     <span class="model-id"
-                                        :title="model['bk_obj_id']">
-                                        {{model['bk_obj_id']}}
+                                        :title="model['obj_id']">
+                                        {{model['obj_id']}}
                                     </span>
                                 </div>
                             </li>
@@ -60,11 +60,11 @@
             hiddenModels () {
                 const hiddenModels = []
                 this.topologyData.forEach(data => {
-                    const modelId = data['bk_obj_id']
+                    const modelId = data['obj_id']
                     if (!this.unrenderedModels.includes(modelId)) {
                         const position = data.position || {}
                         if (typeof position.x !== 'number') {
-                            const model = this.models.find(model => model['bk_obj_id'] === modelId)
+                            const model = this.models.find(model => model['obj_id'] === modelId)
                             hiddenModels.push(model)
                         }
                     }
@@ -76,7 +76,7 @@
                 this.classifications.forEach(classify => {
                     const classifyModels = classify['bk_objects'] || []
                     const classifyHiddenModels = this.hiddenModels.filter(hiddenModel => {
-                        return classifyModels.some(model => model['bk_obj_id'] === hiddenModel['bk_obj_id'])
+                        return classifyModels.some(model => model['obj_id'] === hiddenModel['obj_id'])
                     })
                     groups.push({
                         ...classify,
@@ -92,7 +92,7 @@
                 this.openGroup = groupId === this.openGroup ? null : groupId
             },
             handleDragStart (event, model) {
-                event.dataTransfer.setData('modelId', model['bk_obj_id'])
+                event.dataTransfer.setData('modelId', model['obj_id'])
             }
         }
     }

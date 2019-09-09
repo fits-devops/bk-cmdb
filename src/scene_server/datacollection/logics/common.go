@@ -28,13 +28,13 @@ import (
 // INVALIDID invalid id used as return value
 const INVALIDID uint64 = 0
 
-// by checking if bk_obj_id and bk_obj_name function parameter are valid net device object or not
-// one of bk_obj_id and bk_obj_name can be empty and will return both bk_obj_id if no error
+// by checking if obj_id and obj_name function parameter are valid net device object or not
+// one of obj_id and obj_name can be empty and will return both obj_id if no error
 func (lgc *Logics) checkNetObject(pheader http.Header, objID string, objName string) (string, string, error) {
 	defErr := lgc.Engine.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(pheader))
 
 	if "" == objName && "" == objID {
-		blog.Errorf("[NetCollect] check net device object, empty bk_obj_id and bk_obj_name")
+		blog.Errorf("[NetCollect] check net device object, empty obj_id and obj_name")
 		return "", "", defErr.Errorf(common.CCErrCommParamsNeedSet, common.BKObjIDField)
 	}
 
@@ -74,7 +74,7 @@ func (lgc *Logics) checkNetObjectProperty(pheader http.Header, netDeviceObjID, p
 	defErr := lgc.Engine.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(pheader))
 
 	if "" == netDeviceObjID {
-		blog.Errorf("[NetCollect] check net device object, empty bk_obj_id")
+		blog.Errorf("[NetCollect] check net device object, empty obj_id")
 		return "", defErr.Errorf(common.CCErrCommParamsNeedSet, common.BKObjIDField)
 	}
 
@@ -113,8 +113,8 @@ func (lgc *Logics) checkNetObjectProperty(pheader http.Header, netDeviceObjID, p
 }
 
 // by checking if bk_device_id and bk_device_name function parameter are valid net device or not
-// one of bk_device_id and bk_device_name can be empty and will return bk_device_id and bk_obj_id value if no error
-// bk_obj_id is used to check property
+// one of bk_device_id and bk_device_name can be empty and will return bk_device_id and obj_id value if no error
+// obj_id is used to check property
 func (lgc *Logics) checkNetDeviceExist(pheader http.Header, deviceID uint64, deviceName string) (uint64, string, error) {
 	defErr := lgc.Engine.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(pheader))
 

@@ -53,7 +53,7 @@ type IPCtx struct {
 
 type SearchCondition struct {
 	// can be "host", "module", "set", "biz", "object"
-	ObjectName string   `json:"bk_obj_id"`
+	ObjectName string   `json:"obj_id"`
 	Fields     []string `json:"fields"`
 	Condition  []Filter `json:"condition"`
 }

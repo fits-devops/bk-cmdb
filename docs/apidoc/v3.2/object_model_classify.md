@@ -256,13 +256,13 @@ data 字段说明：
                         "creator": "cc_system",
                         "description": "",
                         "id": 6,
-                        "bk_ispaused": false,
+                        "ispaused": false,
                         "ispre": true,
                         "last_time": null,
                         "modifier": "",
-                        "bk_obj_icon": "icon-cc-subnet",
-                        "bk_obj_id": "plat",
-                        "bk_obj_name": "plat-XXX",
+                        "obj_icon": "icon-cc-subnet",
+                        "obj_id": "plat",
+                        "obj_name": "plat-XXX",
                         "position": "{\"bk_host_manage\":{\"x\":-172,\"y\":-160}}",
                         "org_id": "0"
                     }
@@ -275,13 +275,13 @@ data 字段说明：
                     "creator": "cc_system",
                     "description": "",
                     "id": 6,
-                    "bk_ispaused": false,
+                    "ispaused": false,
                     "ispre": true,
                     "last_time": null,
                     "modifier": "",
-                    "bk_obj_icon": "icon-cc-subnet",
-                    "bk_obj_id": "plat",
-                    "bk_obj_name": "plat-XXX",
+                    "obj_icon": "icon-cc-subnet",
+                    "obj_id": "plat",
+                    "obj_name": "plat-XXX",
                     "position": "{\"bk_host_manage\":{\"x\":-172,\"y\":-160}}",
                     "org_id": "0"
                 }
@@ -322,13 +322,13 @@ bk_objects 字段说明
 |creator|string|创建者|the creator|
 |description|string|模型描述|the object describtion|
 |id|int|模型数据记录的ID|the object data record id|
-|bk_ispaused|bool|是否停用|if it is paused|
+|ispaused|bool|是否停用|if it is paused|
 |ispre|bool|是否内置|if it is the system inner|
 |last_time|string|更新时间|the last updated time|
 |modifier|string|最后修改人员|the last modifier|
-|bk_obj_icon|string|图标|the object icon|
-|bk_obj_id|string|模型标识符|the object indentify id|
-|bk_obj_name|string|模型的名字，用于展示|the object name ,it will be used to shown|
+|obj_icon|string|图标|the object icon|
+|obj_id|string|模型标识符|the object indentify id|
+|obj_name|string|模型的名字，用于展示|the object name ,it will be used to shown|
 |bk_position|string|模型在图上的位置|the position ,it will be show in the page|
 | org_id| string| 开发商账号|supplier account code|
 
@@ -342,12 +342,12 @@ bk_asst_objects 字段说明
 |creator|string|创建者|the creator|
 |description|string|模型描述|the object describtion|
 |id|int|模型数据记录的ID|the object data record id|
-|bk_ispaused|bool|是否停用|if it is paused|
+|ispaused|bool|是否停用|if it is paused|
 |ispre|bool|是否内置|if it is the system inner|
 |last_time|string|更新时间|the last updated time|
 |modifier|string|最后修改人员|the last modifier|
-|bk_obj_icon|string|图标|the object icon|
-|bk_obj_id|string|模型标识符|the object indentify id|
-|bk_obj_name|string|模型的名字，用于展示|the object name ,it will be used to shown|
+|obj_icon|string|图标|the object icon|
+|obj_id|string|模型标识符|the object indentify id|
+|obj_name|string|模型的名字，用于展示|the object name ,it will be used to shown|
 |bk_position|string|模型在图上的位置|the position ,it will be show in the page|
 | org_id| string| 开发商账号|supplier account code|

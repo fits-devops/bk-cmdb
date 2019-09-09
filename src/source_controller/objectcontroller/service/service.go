@@ -85,10 +85,10 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/meta/object/classification").To(s.CreateClassification))
 	api.Route(api.PUT("/meta/object/classification/{id}").To(s.UpdateClassification))
 
-	api.Route(api.POST("/object/{bk_obj_id}/unique/action/create").To(s.CreateObjectUnique))
-	api.Route(api.PUT("/object/{bk_obj_id}/unique/{id}/action/update").To(s.UpdateObjectUnique))
-	api.Route(api.DELETE("/object/{bk_obj_id}/unique/{id}/action/delete").To(s.DeleteObjectUnique))
-	api.Route(api.GET("/object/{bk_obj_id}/unique/action/search").To(s.SearchObjectUnique))
+	api.Route(api.POST("/object/{obj_id}/unique/action/create").To(s.CreateObjectUnique))
+	api.Route(api.PUT("/object/{obj_id}/unique/{id}/action/update").To(s.UpdateObjectUnique))
+	api.Route(api.DELETE("/object/{obj_id}/unique/{id}/action/delete").To(s.DeleteObjectUnique))
+	api.Route(api.GET("/object/{obj_id}/unique/action/search").To(s.SearchObjectUnique))
 
 	// association api
 	api.Route(api.POST("/association/action/search").To(s.SearchAssociationType))
@@ -121,9 +121,9 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.PUT("/privilege/group/detail/{org_id}/{group_id}").To(s.UpdateUserGroupPrivi))
 	api.Route(api.GET("/privilege/group/detail/{org_id}/{group_id}").To(s.GetUserGroupPrivi))
 
-	api.Route(api.POST("/role/{org_id}/{bk_obj_id}/{bk_property_id}").To(s.CreateRolePri))
-	api.Route(api.GET("/role/{org_id}/{bk_obj_id}/{bk_property_id}").To(s.GetRolePri))
-	api.Route(api.PUT("/role/{org_id}/{bk_obj_id}/{bk_property_id}").To(s.UpdateRolePri))
+	api.Route(api.POST("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.CreateRolePri))
+	api.Route(api.GET("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.GetRolePri))
+	api.Route(api.PUT("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.UpdateRolePri))
 
 	api.Route(api.GET("/system/{flag}/{org_id}").To(s.GetSystemFlag))
 

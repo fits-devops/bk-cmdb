@@ -109,7 +109,7 @@
                     <label class="resource-lable">{{ $t('Cloud["同步资源"]')}}</label>
                     <div>
                         <label class="cmdb-form-checkbox">
-                            <input type="checkbox" value="host" v-model="taskMap.bk_obj_id" disabled>
+                            <input type="checkbox" value="host" v-model="taskMap.obj_id" disabled>
                             <span class="cmdb-checkbox-text">{{ $t('Hosts["主机"]')}}</span>
                         </label>
                     </div>
@@ -171,7 +171,7 @@
                     bk_period_type: 'day',
                     bk_secret_id: '',
                     bk_secret_key: '',
-                    bk_obj_id: 'host',
+                    obj_id: 'host',
                     bk_account_admin: '',
                     bk_confirm: false,
                     bk_attr_confirm: false,
@@ -183,7 +183,7 @@
                     bk_period_type: 'day',
                     bk_secret_id: '',
                     bk_secret_key: '',
-                    bk_obj_id: 'host',
+                    obj_id: 'host',
                     bk_account_admin: '',
                     bk_confirm: false,
                     bk_attr_confirm: false,

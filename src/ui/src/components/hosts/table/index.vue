@@ -314,7 +314,7 @@
             getProperties () {
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: { '$in': Object.keys(this.properties) },
+                        obj_id: { '$in': Object.keys(this.properties) },
                         org_id: this.supplierAccount
                     }, { inject: this.$route.name !== 'resource' }),
                     config: {
@@ -351,8 +351,8 @@
                     return {
                         id: property['bk_property_id'],
                         name: property['bk_property_name'],
-                        objId: property['bk_obj_id'],
-                        sortable: property['bk_obj_id'] === 'host' && !['foreignkey'].includes(property['bk_property_type'])
+                        objId: property['obj_id'],
+                        sortable: property['obj_id'] === 'host' && !['foreignkey'].includes(property['bk_property_type'])
                     }
                 }))
                 this.columnsConfig.selected = properties.map(property => property['bk_property_id'])

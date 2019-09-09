@@ -11,7 +11,7 @@
 ```
 {
     "bk_biz_id":12,
-    "info":"{\"condition\":[{\"bk_obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"bk_obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
     "name":"api1"
 }
 ``` 
@@ -29,7 +29,7 @@ info 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
+| obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
 | fields| string数组| 否| 无|查询输出字段|fields output|
 | condition| object array| 否| 无|查询条件|search condition|
 
@@ -74,7 +74,7 @@ info 参数说明：
 *  input body:
 ```
 {
-    "info":"{\"condition\":[{\"bk_obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"bk_obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
     "name":"api1"
 }
 ```
@@ -93,7 +93,7 @@ info 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
+| obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
 | fields| string数组| 否| 无|查询输出字段|fields output|
 | condition| object array| 否| 无|查询条件|search condition|
 
@@ -213,7 +213,7 @@ condition 参数说明： condition 字段为自定义api的属性字段, 可以
                 "create_time":"2018-03-02T15:04:20.117+08:00",
                 "create_user":"admin_default",
                 "id":"bacfet4kd42325venmcg",
-                "info":"{\"condition\":[{\"bk_obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"bk_obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
                 "last_time":"",
                 "modify_user":"",
                 "name":"api1"
@@ -256,7 +256,7 @@ info 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
+| obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
 | fields| string数组| 否| 无|查询输出字段|fields output|
 | condition| object array| 否| 无|查询条件|search condition|
 
@@ -299,7 +299,7 @@ condition 参数说明：
                 "creat_time":"2018-03-02T15:04:20.117+08:00",
                 "create_user":"admin_default",
                 "id":"bacfet4kd42325venmcg",
-                "info":"{\"condition\":[{\"bk_obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"bk_obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"bk_obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
                 "last_time":"",
                 "modify_user":"",
                 "name":"api1"
@@ -332,7 +332,7 @@ info 参数说明：
 
 | 名称  | 类型  | 说明 | Description|
 | ---  | ---  | --- |---  | 
-| bk_obj_id| string|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
+| obj_id| string|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
 | fields| string数组|查询输出字段|fields output|
 | condition| object array|查询条件|search condition|
 

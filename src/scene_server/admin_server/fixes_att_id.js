@@ -14,7 +14,7 @@ db.cc_ObjAttDes.find().forEach(function (myDoc) {
     print("nid: " + nid);
     db.cc_ObjAttDes.update(
         {
-            "bk_obj_id": myDoc.bk_obj_id,
+            "obj_id": myDoc.obj_id,
             "bk_property_id": myDoc.bk_property_id,
             "org_id": myDoc.org_id,
         },

@@ -56,7 +56,7 @@ func (s *Service) InitAuthCenter(req *restful.Request, resp *restful.Response) {
 	}
 
 	models := []metadata.Object{}
-	modelCondition := condition.CreateCondition().Field("bk_obj_id").NotIn([]string{"process", "plat"}).ToMapStr()
+	modelCondition := condition.CreateCondition().Field("obj_id").NotIn([]string{"process", "plat"}).ToMapStr()
 	if err := s.db.Table(common.BKTableNameObjDes).Find(modelCondition).All(s.ctx, &models); err != nil {
 		blog.Errorf("init auth center error: %v", err)
 		resp.WriteError(http.StatusInternalServerError, &metadata.RespError{Msg: defErr.Errorf(common.CCErrCommInitAuthcenterFailed, err.Error())})

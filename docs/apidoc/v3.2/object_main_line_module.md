@@ -11,11 +11,11 @@
 ``` json
 {
 	"classification_id": "XXX",
-	"bk_obj_id": "cc_test",
-	"bk_obj_name": "cc_test",
+	"obj_id": "cc_test",
+	"obj_name": "cc_test",
 	"org_id": "0",
 	"bk_asst_obj_id": "id-XXX",
-	"bk_obj_icon": "icon-XXX"
+	"obj_icon": "icon-XXX"
 }
 ```
 
@@ -28,11 +28,11 @@
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
-| bk_obj_id |string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
-| bk_obj_name |string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name|
+| obj_id |string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
+| obj_name |string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name|
 |org_id|string|是|无|开发商账号|supplier account code|
-| bk_asst_obj_id |string|是|无|主线模型关联的父对象模型的ID（bk_obj_id）|the association object identifier|
-| bk_obj_icon|string|是|无|模型的图标|the icon of the object|
+| bk_asst_obj_id |string|是|无|主线模型关联的父对象模型的ID（obj_id）|the association object identifier|
+| obj_icon|string|是|无|模型的图标|the icon of the object|
 
 - output
 
@@ -58,7 +58,7 @@
 
 ### 删除模型主关联
 
-- API: DELETE  /api/{version}/topo/model/mainline/owners/{org_id}/objectids/{bk_obj_id}
+- API: DELETE  /api/{version}/topo/model/mainline/owners/{org_id}/objectids/{obj_id}
 - API 名称：delete_mainline_object
 - 功能说明：
 	- 中文：删除主线模型
@@ -74,7 +74,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|对象模型的ID|the object identifier|
+|obj_id|string|是|无|对象模型的ID|the object identifier|
 
 
 - output
@@ -128,8 +128,8 @@
 	"data": [{
 		"bk_next_name": "",
 		"bk_next_obj": "",
-		"bk_obj_id": "biz",
-		"bk_obj_name": "业务",
+		"obj_id": "biz",
+		"obj_name": "业务",
 		"bk_pre_obj_id": "",
 		"bk_pre_obj_name": "",
 		"org_id": "0"
@@ -154,8 +154,8 @@ data 字段说明：
 |---|---|---|---|
 |bk_next_name|string|下一个模型的名字|the next object name|
 |bk_next_obj|string|下一个模型的ID|the next object identifier|
-|bk_obj_id|string|当前的模型ID|the current object identifier|
-|bk_obj_name|string|当前模型的名字|the current object name|
+|obj_id|string|当前的模型ID|the current object identifier|
+|obj_name|string|当前模型的名字|the current object name|
 |bk_pre_obj_id|string|上一个模型的ID|the pre object identifier|
 |bk_pre_obj_name|string|上一个模型的名字|the pre object name|
 |org_id|string|开发商账号|supplier account code|
@@ -194,20 +194,20 @@ data 字段说明：
 		"default": 0,
 		"bk_inst_id": 96,
 		"bk_inst_name": "cc_biz_test",
-		"bk_obj_id": "biz",
-		"bk_obj_name": "业务",
+		"obj_id": "biz",
+		"obj_name": "业务",
 		"child": [{
 			"default": 0,
 			"bk_inst_id": 58,
 			"bk_inst_name": "obj_id_name",
-			"bk_obj_id": "obj_id",
-			"bk_obj_name": "obj_id_name",
+			"obj_id": "obj_id",
+			"obj_name": "obj_id_name",
 			"child": [{
 				"default": 0,
 				"bk_inst_id": 59,
 				"bk_inst_name": "obj_inst_name",
-				"bk_obj_id": "obj_inst",
-				"bk_obj_name": "obj_inst",
+				"obj_id": "obj_inst",
+				"obj_name": "obj_inst",
 				"child": []
 			}]
 		}]
@@ -232,15 +232,15 @@ data 字段说明：
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst identifier|
 |bk_inst_name|string|实例名字|the inst name|
-|bk_obj_id|string|模型的标识|the object identifier|
-|bk_obj_name|string|模型名|the object name|
+|obj_id|string|模型的标识|the object identifier|
+|obj_name|string|模型名|the object name|
 |child|array|实例集合|the inst array|
 
 **注:child节点下包含的字段于data节点包含的字段一致。**
 
 ###  获取子节点实例
 
-- API: GET /api/{version}/topo/inst/child/{org_id}/{bk_obj_id}/{bk_biz_id}/{bk_inst_id}
+- API: GET /api/{version}/topo/inst/child/{org_id}/{obj_id}/{bk_biz_id}/{bk_inst_id}
 - API名称：search_inst_topo
 - 功能说明：
 	- 中文：获取子节点实例拓扑
@@ -256,7 +256,7 @@ data 字段说明：
 |---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|对象模型的ID|the object identifier|
+|obj_id|string|是|无|对象模型的ID|the object identifier|
 |bk_inst_id|string|是|无|实例ID|the inst id|
 
 - output
@@ -270,20 +270,20 @@ data 字段说明：
 		"default": 0,
 		"bk_inst_id": 96,
 		"bk_inst_name": "cc_biz_test",
-		"bk_obj_id": "biz",
-		"bk_obj_name": "业务",
+		"obj_id": "biz",
+		"obj_name": "业务",
 		"child": [{
 			"default": 0,
 			"bk_inst_id": 58,
 			"bk_inst_name": "obj_id_name",
-			"bk_obj_id": "obj_id",
-			"bk_obj_name": "obj_id_name",
+			"obj_id": "obj_id",
+			"obj_name": "obj_id_name",
 			"child": [{
 				"default": 0,
 				"bk_inst_id": 59,
 				"bk_inst_name": "obj_inst_name",
-				"bk_obj_id": "obj_inst",
-				"bk_obj_name": "obj_inst",
+				"obj_id": "obj_inst",
+				"obj_name": "obj_inst",
 				"child": []
 			}]
 		}]
@@ -309,8 +309,8 @@ data 字段说明：
 |default|int|1-资源模块（空闲机），2-故障模块（故障机）|1-Resource Module(Idle Machine),2-Fault Module(Fault Machine)|
 |bk_inst_id|int|实例ID|the inst identifier|
 |bk_inst_name|string|实例名字|the inst name|
-|bk_obj_id|string|模型的标识|the object identifier|
-|bk_obj_name|string|模型名|the object name|
+|obj_id|string|模型的标识|the object identifier|
+|obj_name|string|模型名|the object name|
 |child|array|实例集合|the inst array|
 
 **注:child节点下包含的字段于data节点包含的字段一致。**

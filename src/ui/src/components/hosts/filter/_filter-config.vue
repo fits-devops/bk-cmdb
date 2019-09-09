@@ -72,10 +72,10 @@
             ...mapGetters('objectModelClassify', ['models']),
             modelOptions () {
                 return Object.keys(this.properties).map(objId => {
-                    const model = this.models.find(model => model['bk_obj_id'] === objId) || {}
+                    const model = this.models.find(model => model['obj_id'] === objId) || {}
                     return {
                         id: objId,
-                        name: model['bk_obj_name']
+                        name: model['obj_name']
                     }
                 })
             },
@@ -93,14 +93,14 @@
             selectedProperties: {
                 get () {
                     return this.localSelcted.map(meta => {
-                        return this.properties[meta['bk_obj_id']].find(property => property['bk_property_id'] === meta['bk_property_id'])
+                        return this.properties[meta['obj_id']].find(property => property['bk_property_id'] === meta['bk_property_id'])
                     })
                 },
                 set (properties) {
                     this.localSelcted = properties.map(property => {
                         return {
                             'bk_property_id': property['bk_property_id'],
-                            'bk_obj_id': property['bk_obj_id']
+                            'obj_id': property['obj_id']
                         }
                     })
                 }
@@ -126,7 +126,7 @@
         methods: {
             initLocalSelected () {
                 this.localSelcted = this.selected.filter(selected => {
-                    const properties = this.properties[selected['bk_obj_id']] || []
+                    const properties = this.properties[selected['obj_id']] || []
                     return properties.some(property => property['bk_property_id'] === selected['bk_property_id'] && this.checkAvaliable(property))
                 })
             },
@@ -137,7 +137,7 @@
                 if (this.localSelcted.length < this.max) {
                     this.localSelcted.push({
                         'bk_property_id': property['bk_property_id'],
-                        'bk_obj_id': property['bk_obj_id']
+                        'obj_id': property['obj_id']
                     })
                 } else {
                     this.$info(this.$t('Common["最多选择N项"]', { n: this.max }))

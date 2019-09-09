@@ -303,17 +303,17 @@
                         return false
                     }
                     return !this.userProperties.some(property => {
-                        return item['bk_obj_id'] === property.objId && item['bk_property_id'] === property.propertyId
+                        return item['obj_id'] === property.objId && item['bk_property_id'] === property.propertyId
                     })
                 })
             },
             /* 生成保存自定义API的参数 */
             apiParams () {
                 const paramsMap = [
-                    { 'bk_obj_id': 'set', condition: [], fields: [] },
-                    { 'bk_obj_id': 'module', condition: [], fields: [] },
+                    { 'obj_id': 'set', condition: [], fields: [] },
+                    { 'obj_id': 'module', condition: [], fields: [] },
                     {
-                        'bk_obj_id': 'biz',
+                        'obj_id': 'biz',
                         condition: [{
                             field: 'default', // 该参数表明查询非资源池下的主机
                             operator: '$ne',
@@ -321,7 +321,7 @@
                         }],
                         fields: []
                     }, {
-                        'bk_obj_id': 'host',
+                        'obj_id': 'host',
                         condition: [],
                         fields: this.attribute.selected ? this.attribute.selected : []
                     }
@@ -334,12 +334,12 @@
                     'set': 'bk_set_name'
                 }
                 this.userProperties.forEach((property, index) => {
-                    const param = paramsMap.find(({ bk_obj_id: objId }) => {
+                    const param = paramsMap.find(({ obj_id: objId }) => {
                         return objId === property.objId
                     })
                     if (property.propertyType === 'singleasst' || property.propertyType === 'multiasst') {
                         paramsMap.push({
-                            'bk_obj_id': property.asstObjId,
+                            'obj_id': property.asstObjId,
                             fields: [],
                             condition: [{
                                 field: specialObj.hasOwnProperty(property.asstObjId) ? specialObj[property.asstObjId] : 'bk_inst_name',
@@ -469,15 +469,15 @@
                 const info = JSON.parse(detail['info'])
                 info.condition.forEach(condition => {
                     condition['condition'].forEach(property => {
-                        const originalProperty = this.getOriginalProperty(property.field, condition['bk_obj_id'])
+                        const originalProperty = this.getOriginalProperty(property.field, condition['obj_id'])
                         if (originalProperty) {
                             if (['time', 'date'].includes(originalProperty['bk_property_type']) && properties.some(({ propertyId }) => propertyId === originalProperty['bk_property_id'])) {
                                 const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty['bk_property_id'])
                                 repeatProperty.value = [repeatProperty.value, property.value].join(' - ')
                             } else {
                                 properties.push({
-                                    'objId': originalProperty['bk_obj_id'],
-                                    'objName': this.object[originalProperty['bk_obj_id']].name,
+                                    'objId': originalProperty['obj_id'],
+                                    'objName': this.object[originalProperty['obj_id']].name,
                                     'propertyType': originalProperty['bk_property_type'],
                                     'propertyName': originalProperty['bk_property_name'],
                                     'propertyId': originalProperty['bk_property_id'],
@@ -488,7 +488,7 @@
                             }
                         }
                     })
-                    if (condition['bk_obj_id'] === 'host') {
+                    if (condition['obj_id'] === 'host') {
                         this.attribute.selected = condition['fields']
                     }
                 })
@@ -597,7 +597,7 @@
                 const res = await Promise.all([
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
-                            bk_obj_id: 'host',
+                            obj_id: 'host',
                             org_id: this.supplierAccount
                         }),
                         config: {
@@ -607,7 +607,7 @@
                     }),
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
-                            bk_obj_id: 'set',
+                            obj_id: 'set',
                             org_id: this.supplierAccount
                         }),
                         config: {
@@ -617,7 +617,7 @@
                     }),
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
-                            bk_obj_id: 'module',
+                            obj_id: 'module',
                             org_id: this.supplierAccount
                         }),
                         config: {
@@ -627,7 +627,7 @@
                     }),
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
-                            bk_obj_id: 'biz',
+                            obj_id: 'biz',
                             org_id: this.supplierAccount
                         }),
                         config: {
@@ -643,7 +643,7 @@
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
+                            filter_id: `${property['obj_id']}-${property['bk_property_id']}`,
                             filter_name: `${this.$t("Hosts['主机']")}-${property['bk_property_name']}`
                         }
                     }
@@ -652,7 +652,7 @@
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
+                            filter_id: `${property['obj_id']}-${property['bk_property_id']}`,
                             filter_name: `${this.$t("Hosts['集群']")}-${property['bk_property_name']}`
                         }
                     }
@@ -661,7 +661,7 @@
                     return {
                         ...property,
                         ...{
-                            filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
+                            filter_id: `${property['obj_id']}-${property['bk_property_id']}`,
                             filter_name: `${this.$t("Hosts['模块']")}-${property['bk_property_name']}`
                         }
                     }
@@ -678,7 +678,7 @@
                 for (const objId in this.object) {
                     for (let i = 0; i < this.object[objId]['properties'].length; i++) {
                         const loopProperty = this.object[objId]['properties'][i]
-                        if (loopProperty['bk_property_id'] === bkPropertyId && loopProperty['bk_obj_id'] === bkObjId) {
+                        if (loopProperty['bk_property_id'] === bkPropertyId && loopProperty['obj_id'] === bkObjId) {
                             property = loopProperty
                             break
                         }
@@ -695,7 +695,7 @@
                     'bk_property_name': propertyName,
                     'bk_property_type': propertyType,
                     'bk_asst_obj_id': asstObjId,
-                    'bk_obj_id': objId
+                    'obj_id': objId
                 } = property
                 this.userProperties.push({
                     objId,

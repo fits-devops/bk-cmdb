@@ -45,10 +45,10 @@ func (s *Service) initBusinessObjectAttribute() {
 }
 
 func (s *Service) initBusinessObjectUnique() {
-	s.addAction(http.MethodPost, "/create/objectunique/object/{bk_obj_id}", s.CreateObjectUnique, nil)
-	s.addAction(http.MethodPut, "/update/objectunique/object/{bk_obj_id}/unique/{id}", s.UpdateObjectUnique, nil)
-	s.addAction(http.MethodPost, "/delete/objectunique/object/{bk_obj_id}/unique/{id}", s.DeleteObjectUnique, nil)
-	s.addAction(http.MethodPost, "/find/objectunique/object/{bk_obj_id}", s.SearchObjectUnique, nil)
+	s.addAction(http.MethodPost, "/create/objectunique/object/{obj_id}", s.CreateObjectUnique, nil)
+	s.addAction(http.MethodPut, "/update/objectunique/object/{obj_id}/unique/{id}", s.UpdateObjectUnique, nil)
+	s.addAction(http.MethodPost, "/delete/objectunique/object/{obj_id}/unique/{id}", s.DeleteObjectUnique, nil)
+	s.addAction(http.MethodPost, "/find/objectunique/object/{obj_id}", s.SearchObjectUnique, nil)
 }
 
 func (s *Service) initBusinessObjectAttrGroup() {
@@ -56,7 +56,7 @@ func (s *Service) initBusinessObjectAttrGroup() {
 	s.addAction(http.MethodPut, "/update/objectattgroup", s.UpdateObjectGroup, nil)
 	s.addAction(http.MethodDelete, "/delete/objectattgroup/{id}", s.DeleteObjectGroup, nil)
 	s.addAction(http.MethodPut, "/update/objectattgroupproperty", s.UpdateObjectAttributeGroupProperty, s.ParseUpdateObjectAttributeGroupPropertyInput)
-	s.addAction(http.MethodPost, "/find/objectattgroup/object/{bk_obj_id}", s.SearchGroupByObject, nil)
+	s.addAction(http.MethodPost, "/find/objectattgroup/object/{obj_id}", s.SearchGroupByObject, nil)
 }
 
 func (s *Service) initBusinessGraphics() {
@@ -68,7 +68,7 @@ func (s *Service) initBusinessAssociation() {
 
 	// mainline topo methods
 	s.addAction(http.MethodPost, "/create/topomodelmainline", s.CreateMainLineObject, nil)
-	s.addAction(http.MethodDelete, "/delete/topomodelmainline/object/{bk_obj_id}", s.DeleteMainLineObject, nil)
+	s.addAction(http.MethodDelete, "/delete/topomodelmainline/object/{obj_id}", s.DeleteMainLineObject, nil)
 	s.addAction(http.MethodPost, "/find/topomodelmainline", s.SearchMainLineObjectTopo, nil)
 	s.addAction(http.MethodPost, "/find/topoinst/biz/{bk_biz_id}", s.SearchBusinessTopo, nil)
 
@@ -91,22 +91,22 @@ func (s *Service) initBusinessAssociation() {
 	s.addAction(http.MethodDelete, "/delete/instassociation/{association_id}", s.DeleteAssociationInst, nil)
 
 	// topo search methods
-	s.addAction(http.MethodPost, "/find/instassociation/object/{bk_obj_id}", s.SearchInstByAssociation, nil)
-	s.addAction(http.MethodPost, "/find/instassttopo/object/{bk_obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
+	s.addAction(http.MethodPost, "/find/instassociation/object/{obj_id}", s.SearchInstByAssociation, nil)
+	s.addAction(http.MethodPost, "/find/instassttopo/object/{obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
 
 	// ATTENTION: the following methods is not recommended
-	s.addAction(http.MethodPost, "/find/insttopo/object/{bk_obj_id}/inst/{inst_id}", s.SearchInstChildTopo, nil)
-	s.addAction(http.MethodPost, "/import/instassociation/{bk_obj_id}", s.ImportInstanceAssociation, nil)
+	s.addAction(http.MethodPost, "/find/insttopo/object/{obj_id}/inst/{inst_id}", s.SearchInstChildTopo, nil)
+	s.addAction(http.MethodPost, "/import/instassociation/{obj_id}", s.ImportInstanceAssociation, nil)
 
 }
 
 func (s *Service) initBusinessInst() {
-	s.addAction(http.MethodPost, "/create/instance/object/{bk_obj_id}", s.CreateInst, nil)
-	s.addAction(http.MethodDelete, "/delete/instance/object/{bk_obj_id}/inst/{inst_id}", s.DeleteInst, nil)
-	s.addAction(http.MethodDelete, "/deletemany/instance/object/{bk_obj_id}", s.DeleteInsts, nil)
-	s.addAction(http.MethodPut, "/update/instance/object/{bk_obj_id}/inst/{inst_id}", s.UpdateInst, nil)
-	s.addAction(http.MethodPut, "/updatemany/instance/object/{bk_obj_id}", s.UpdateInsts, nil)
-	s.addAction(http.MethodPost, "/find/instance/object/{bk_obj_id}", s.SearchInstAndAssociationDetail, nil)
-	s.addAction(http.MethodPost, "/find/instdetail/object/{bk_obj_id}/inst/{inst_id}", s.SearchInstByInstID, nil)
+	s.addAction(http.MethodPost, "/create/instance/object/{obj_id}", s.CreateInst, nil)
+	s.addAction(http.MethodDelete, "/delete/instance/object/{obj_id}/inst/{inst_id}", s.DeleteInst, nil)
+	s.addAction(http.MethodDelete, "/deletemany/instance/object/{obj_id}", s.DeleteInsts, nil)
+	s.addAction(http.MethodPut, "/update/instance/object/{obj_id}/inst/{inst_id}", s.UpdateInst, nil)
+	s.addAction(http.MethodPut, "/updatemany/instance/object/{obj_id}", s.UpdateInsts, nil)
+	s.addAction(http.MethodPost, "/find/instance/object/{obj_id}", s.SearchInstAndAssociationDetail, nil)
+	s.addAction(http.MethodPost, "/find/instdetail/object/{obj_id}/inst/{inst_id}", s.SearchInstByInstID, nil)
 
 }

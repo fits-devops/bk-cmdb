@@ -31,7 +31,7 @@ type option struct {
 
 // Node topo node define
 type Node struct {
-	ObjID    string                 `json:"bk_obj_id,omitempty"`
+	ObjID    string                 `json:"obj_id,omitempty"`
 	Data     map[string]interface{} `json:"data,omitempty"`
 	Children []*Node                `json:"childs,omitempty"`
 	nodeKey  string

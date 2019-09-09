@@ -8,17 +8,17 @@
                         v-if="relation.children.length"
                         :class="{ expanded: relation.show }">
                     </i>
-                    <i :class="['tree-row-icon', relation['bk_obj_icon']]"></i>
-                    <span>{{relation['bk_obj_name']}}</span>
+                    <i :class="['tree-row-icon', relation['obj_icon']]"></i>
+                    <span>{{relation['obj_name']}}</span>
                     <span class="tree-row-count" v-if="relation.children.length">({{relation.children.length}})</span>
                 </div>
                 <div v-show="relation.show">
                     <div class="tree-row tree-row-child"
                         v-for="(inst, _index) in relation.children"
                         :key="_index"
-                        :class="{ active: details.instId === inst['bk_inst_id'] && details.objId === relation['bk_obj_id'] }"
+                        :class="{ active: details.instId === inst['bk_inst_id'] && details.objId === relation['obj_id'] }"
                         @click="handleShowDetails(relation, inst)">
-                        <i :class="['tree-row-icon', relation['bk_obj_icon']]"></i>
+                        <i :class="['tree-row-icon', relation['obj_icon']]"></i>
                         <span>{{inst['bk_inst_name']}}</span>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         requestId: `get_getInstRelation_${this.objId}_${this.instId}`
                     }
                 }).then(data => {
-                    const next = data[0].prev.filter(obj => !this.ignore.includes(obj['bk_obj_id']))
+                    const next = data[0].prev.filter(obj => !this.ignore.includes(obj['obj_id']))
                     next.forEach(obj => {
                         obj.show = false
                     })
@@ -99,9 +99,9 @@
                 relation.show = !relation.show
             },
             handleShowDetails (obj, inst) {
-                this.details.objId = obj['bk_obj_id']
+                this.details.objId = obj['obj_id']
                 this.details.instId = inst['bk_inst_id']
-                this.details.title = `${obj['bk_obj_name']}-${inst['bk_inst_name']}`
+                this.details.title = `${obj['obj_name']}-${inst['bk_inst_name']}`
                 this.details.show = true
             }
         }

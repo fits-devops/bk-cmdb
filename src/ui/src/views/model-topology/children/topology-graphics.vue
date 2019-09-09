@@ -92,7 +92,7 @@
             async createNodes () {
                 const images = await this.createNodeImages()
                 return this.topologyData.map(model => {
-                    const id = model['bk_obj_id']
+                    const id = model['obj_id']
                     const position = model.position || {}
                     const fixed = typeof position.x === 'number'
                     const data = {
@@ -119,8 +119,8 @@
                         model.assts.forEach(asst => {
                             edges.push({
                                 id: asst['bk_inst_id'],
-                                from: model['bk_obj_id'],
-                                to: asst['bk_obj_id'],
+                                from: model['obj_id'],
+                                to: asst['obj_id'],
                                 label: this.getEdgeLable(asst),
                                 arrows: this.getEdgeArrows(asst),
                                 data: asst
@@ -148,7 +148,7 @@
                 data.forEach(model => {
                     const image = new Image()
                     image.onload = () => {
-                        images[model['bk_obj_id']] = {
+                        images[model['obj_id']] = {
                             unselected: svgToImageUrl(image, {
                                 name: model['node_name'],
                                 iconColor: this.$tools.getMetadataBiz(model) ? '#3c96ff' : '#868b97',
@@ -164,11 +164,11 @@
                         checkCounter()
                     }
                     image.onerror = () => {
-                        images[model['bk_obj_id']] = false
+                        images[model['obj_id']] = false
                         counter++
                         checkCounter()
                     }
-                    image.src = `${window.location.origin}/static/svg/${model['bk_obj_icon'].substr(5)}.svg`
+                    image.src = `${window.location.origin}/static/svg/${model['obj_icon'].substr(5)}.svg`
                 })
                 return new Promise((resolve, reject) => {
                     loadedResolver = resolve
@@ -199,7 +199,7 @@
                             const data = this.topologyMap[nodeId]
                             this.updateSavedPosition([{
                                 'bk_inst_id': data['bk_inst_id'],
-                                'bk_obj_id': data['bk_obj_id'],
+                                'obj_id': data['obj_id'],
                                 'node_type': data['node_type'],
                                 'position': { x: null, y: null }
                             }])
@@ -216,7 +216,7 @@
                 const data = this.topologyMap[nodeId]
                 this.updateSavedPosition([{
                     'bk_inst_id': data['bk_inst_id'],
-                    'bk_obj_id': data['bk_obj_id'],
+                    'obj_id': data['obj_id'],
                     'node_type': data['node_type'],
                     'position': position
                 }])
@@ -268,7 +268,7 @@
                     if (newPosition.x !== oldPosition.x || newPosition.y !== oldPosition.y) {
                         updateQueue.push({
                             'bk_inst_id': data['bk_inst_id'],
-                            'bk_obj_id': data['bk_obj_id'],
+                            'obj_id': data['obj_id'],
                             'node_type': data['node_type'],
                             'position': newPosition
                         })
@@ -284,7 +284,7 @@
                     this.instance.showNode(modelId, position)
                     this.updateSavedPosition([{
                         'bk_inst_id': data['bk_inst_id'],
-                        'bk_obj_id': data['bk_obj_id'],
+                        'obj_id': data['obj_id'],
                         'node_type': data['node_type'],
                         'position': position
                     }])

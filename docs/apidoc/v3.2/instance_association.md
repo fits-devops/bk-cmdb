@@ -41,7 +41,7 @@
     "error_msg": null,
     "data": [{
         "bk_obj_asst_id": "",
-        "bk_obj_id":"",
+        "obj_id":"",
         "bk_asst_obj_id":"",
         "bk_inst_id":0,
         "bk_asst_inst_id":0,
@@ -65,7 +65,7 @@
 |字段|类型|说明|描述|
 | ---  | ---  | --- |---  |
 |bk_obj_asst_id|串|模型关联唯一标识|对象关联唯一标识|
-|bk_obj_id|串|源模型ID，冗余字段|源对象ID|
+|obj_id|串|源模型ID，冗余字段|源对象ID|
 |bk_asst_obj_id|串|目标模型ID|目标对象ID|
 |bk_inst_id|INT|源实例ID|source inst id|
 |bk_asst_inst_id|INT|目标实例ID|target inst id|

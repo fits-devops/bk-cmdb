@@ -40,7 +40,7 @@ func updateSystemProperty(ctx context.Context, db dal.RDB, conf *upgrader.Config
 	tablename := common.BKTableNameObjAttDes
 	condition = map[string]interface{}{
 		"bk_property_id": map[string]interface{}{"$in": []string{common.BKChildStr, common.BKInstParentStr}},
-		"bk_obj_id":      map[string]interface{}{"$in": objIDs},
+		"obj_id":         map[string]interface{}{"$in": objIDs},
 	}
 	data := map[string]interface{}{
 		"bk_issystem": true,
@@ -51,20 +51,20 @@ func updateSystemProperty(ctx context.Context, db dal.RDB, conf *upgrader.Config
 
 func updateIcon(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
 	condition := map[string]interface{}{
-		"bk_obj_id": common.BKInnerObjIDTomcat,
+		"obj_id": common.BKInnerObjIDTomcat,
 	}
 	data := map[string]interface{}{
-		"bk_obj_icon": "icon-cc-tomcat",
+		"obj_icon": "icon-cc-tomcat",
 	}
 	err = db.Table(common.BKTableNameObjDes).Update(ctx, condition, data)
 	if err != nil {
 		return err
 	}
 	condition = map[string]interface{}{
-		"bk_obj_id": common.BKInnerObjIDApache,
+		"obj_id": common.BKInnerObjIDApache,
 	}
 	data = map[string]interface{}{
-		"bk_obj_icon": "icon-cc-apache",
+		"obj_icon": "icon-cc-apache",
 	}
 
 	return db.Table(common.BKTableNameObjDes).Update(ctx, condition, data)

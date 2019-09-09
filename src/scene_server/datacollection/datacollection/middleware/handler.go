@@ -40,15 +40,15 @@ const (
 
 type Model struct {
 	BkClassificationID string `json:"classification_id"`
-	BkObjID            string `json:"bk_obj_id"`
-	BkObjName          string `json:"bk_obj_name"`
+	BkObjID            string `json:"obj_id"`
+	BkObjName          string `json:"obj_name"`
 	Keys               string `json:"bk_obj_keys"`
 }
 
 type Attr struct {
 	ID            int    `json:"id"`
 	OwnerID       string `json:"org_id"`
-	ObjID         string `json:"bk_obj_id"`
+	ObjID         string `json:"obj_id"`
 	PropertyGroup string `json:"bk_property_group"`
 
 	PropertyID    string `json:"bk_property_id"`
@@ -69,9 +69,9 @@ type Attr struct {
 type Related struct {
 	BkInstId   int    `json:"bk_inst_id"`
 	BkInstName string `json:"bk_inst_name"`
-	BkObjIcon  string `json:"bk_obj_icon"`
-	BkObjId    string `json:"bk_obj_id"`
-	BkObjName  string `json:"bk_obj_name"`
+	BkObjIcon  string `json:"obj_icon"`
+	BkObjId    string `json:"obj_id"`
+	BkObjName  string `json:"obj_name"`
 	Id         string `json:"id"`
 }
 
@@ -213,7 +213,7 @@ func (d *Discover) parseAttrs(msg string) (fields map[string]metadata.ObjAttDes,
 }
 
 func (d *Discover) parseObjID(msg string) string {
-	return gjson.Get(msg, "data.meta.model.bk_obj_id").String()
+	return gjson.Get(msg, "data.meta.model.obj_id").String()
 }
 
 func (d *Discover) parseOwnerId(msg string) string {

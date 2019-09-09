@@ -48,8 +48,8 @@ const actions = {
     searchModelAction ({ commit, state, dispatch, rootGetters }, params) {
         return $http.post(`find/objecttopo/scope_type/global/scope_id/0`, params).then(data => {
             return data.filter(node => {
-                const model = rootGetters['objectModelClassify/getModelById'](node.bk_obj_id)
-                return model && !model.bk_ispaused && !['plat', 'process'].includes(node.bk_obj_id)
+                const model = rootGetters['objectModelClassify/getModelById'](node.obj_id)
+                return model && !model.ispaused && !['plat', 'process'].includes(node.obj_id)
             })
         })
     },
@@ -71,7 +71,7 @@ const mutations = {
     setTopologyData (state, topologyData) {
         const topologyMap = {}
         topologyData.forEach(data => {
-            topologyMap[data['bk_obj_id']] = data
+            topologyMap[data['obj_id']] = data
         })
         state.topologyData = topologyData
         state.topologyMap = topologyMap
@@ -80,7 +80,7 @@ const mutations = {
         const updateQueue = Array.isArray(queue) ? queue : [queue]
         const topologyMap = state.topologyMap
         updateQueue.forEach(data => {
-            const modelId = data['bk_obj_id']
+            const modelId = data['obj_id']
             Object.assign(topologyMap[modelId], data)
         })
     },

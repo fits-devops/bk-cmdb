@@ -187,5 +187,5 @@ func (s *Service) SearchGroupByObject(params types.ContextParams, pathParams, qu
 
 	cond := condition.CreateCondition()
 
-	return s.Core.GroupOperation().FindGroupByObject(params, pathParams("bk_obj_id"), cond)
+	return s.Core.GroupOperation().FindGroupByObject(params, pathParams("obj_id"), cond)
 }

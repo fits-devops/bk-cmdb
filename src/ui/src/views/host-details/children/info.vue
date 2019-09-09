@@ -1,7 +1,7 @@
 <template>
     <div class="info">
         <div class="info-basic">
-            <i :class="['info-icon', model.bk_obj_icon]"></i>
+            <i :class="['info-icon', model.obj_icon]"></i>
             <span class="info-ip">{{host.bk_host_innerip}}</span>
         </div>
         <div class="info-topology clearfix">

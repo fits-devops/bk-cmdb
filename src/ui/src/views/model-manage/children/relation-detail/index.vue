@@ -38,7 +38,7 @@
                     :list="asstList"
                     v-validate="'required'"
                     name="objId"
-                    v-model="relationInfo['bk_obj_id']"
+                    v-model="relationInfo['obj_id']"
                 ></cmdb-selector>
                 <p class="form-error">{{errors.first('objId')}}</p>
             </div>
@@ -144,7 +144,7 @@
                     id: 0,
                     bk_obj_asst_id: '',
                     bk_obj_asst_name: '',
-                    bk_obj_id: '',
+                    obj_id: '',
                     bk_asst_obj_id: '',
                     bk_asst_id: '',
                     mapping: ''
@@ -168,8 +168,8 @@
                     return this.relation.bk_obj_asst_id
                 }
                 const relationInfo = this.relationInfo
-                if (relationInfo['bk_obj_id'].length && relationInfo['bk_asst_id'].length && relationInfo['bk_asst_obj_id'].length) {
-                    return `${relationInfo['bk_obj_id']}_${relationInfo['bk_asst_id']}_${relationInfo['bk_asst_obj_id']}`
+                if (relationInfo['obj_id'].length && relationInfo['bk_asst_id'].length && relationInfo['bk_asst_obj_id'].length) {
+                    return `${relationInfo['obj_id']}_${relationInfo['bk_asst_id']}_${relationInfo['bk_asst_obj_id']}`
                 }
                 return ''
             },
@@ -177,7 +177,7 @@
                 return {
                     bk_obj_asst_id: this.objAsstId,
                     bk_obj_asst_name: this.relationInfo['bk_obj_asst_name'],
-                    bk_obj_id: this.relationInfo['bk_obj_id'],
+                    obj_id: this.relationInfo['obj_id'],
                     bk_asst_obj_id: this.relationInfo['bk_asst_obj_id'],
                     bk_asst_id: this.relationInfo['bk_asst_id'],
                     mapping: this.relationInfo.mapping
@@ -194,7 +194,7 @@
                 this.classifications.forEach(classify => {
                     if (classify['bk_objects'].length) {
                         const objects = []
-                        classify['bk_objects'].forEach(({ bk_obj_id: objId, bk_obj_name: objName }) => {
+                        classify['bk_objects'].forEach(({ obj_id: objId, obj_name: objName }) => {
                             if (!this.specialModel.includes(objId)) {
                                 objects.push({
                                     id: objId,
@@ -214,14 +214,14 @@
             }
         },
         watch: {
-            'relationInfo.bk_obj_id' (val) {
-                if (val !== this.activeModel['bk_obj_id']) {
-                    this.relationInfo['bk_asst_obj_id'] = this.activeModel['bk_obj_id']
+            'relationInfo.obj_id' (val) {
+                if (val !== this.activeModel['obj_id']) {
+                    this.relationInfo['bk_asst_obj_id'] = this.activeModel['obj_id']
                 }
             },
             'relationInfo.bk_asst_obj_id' (val) {
-                if (val !== this.activeModel['bk_obj_id']) {
-                    this.relationInfo['bk_obj_id'] = this.activeModel['bk_obj_id']
+                if (val !== this.activeModel['obj_id']) {
+                    this.relationInfo['obj_id'] = this.activeModel['obj_id']
                 }
             }
         },
@@ -243,7 +243,7 @@
                         this.relationInfo[key] = this.$tools.clone(this.relation[key])
                     }
                 } else {
-                    this.relationInfo['bk_obj_id'] = this.activeModel['bk_obj_id']
+                    this.relationInfo['obj_id'] = this.activeModel['obj_id']
                 }
             },
             async saveRelation () {

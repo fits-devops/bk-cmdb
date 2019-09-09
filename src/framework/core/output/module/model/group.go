@@ -25,7 +25,7 @@ type group struct {
 	GroupID    string `field:"bk_group_id"`
 	GroupName  string `field:"bk_group_name"`
 	GroupIndex int    `field:"bk_group_index"`
-	ObjectID   string `field:"bk_obj_id"`
+	ObjectID   string `field:"obj_id"`
 	OwnerID    string `field:"org_id"`
 	IsDefault  bool   `field:"bk_isdefault"`
 	IsPre      bool   `field:"ispre"`

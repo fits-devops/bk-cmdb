@@ -118,7 +118,7 @@
             },
             title () {
                 const desc = this.type === 'source' ? this.associationType.src_des : this.associationType.dest_des
-                return `${desc}-${this.model.bk_obj_name}`
+                return `${desc}-${this.model.obj_name}`
             },
             propertyRequest () {
                 return `get_${this.id}_association_list_table_properties`
@@ -137,7 +137,7 @@
             },
             instances () {
                 const topology = this.type === 'source' ? this.targetInstances : this.sourceInstances
-                const data = topology.find(data => data.bk_obj_id === this.id) || {}
+                const data = topology.find(data => data.obj_id === this.id) || {}
                 return data.children || []
             },
             instanceIds () {
@@ -186,7 +186,7 @@
                 try {
                     this.properties = await this.$store.dispatch('objectModelProperty/searchObjectAttribute', {
                         params: this.$injectMetadata({
-                            bk_obj_id: this.id
+                            obj_id: this.id
                         }, {
                             inject: this.isBusinessModel
                         }),
@@ -236,7 +236,7 @@
                 }
                 const condition = models.map(model => {
                     return {
-                        bk_obj_id: model,
+                        obj_id: model,
                         fields: [],
                         condition: model === 'host' ? [hostCondition] : []
                     }

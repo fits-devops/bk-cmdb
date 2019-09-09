@@ -60,7 +60,7 @@
             },
             previewParams () {
                 const condition = this.$tools.clone(this.apiParams['info']['condition'])
-                const hostCondition = condition.find(({ bk_obj_id: objId }) => {
+                const hostCondition = condition.find(({ obj_id: objId }) => {
                     return objId === 'host'
                 })
                 hostCondition['fields'] = this.previewFields
@@ -85,7 +85,7 @@
                 'searchHost'
             ]),
             getHostCellText (property, item) {
-                const objId = property['bk_obj_id']
+                const objId = property['obj_id']
                 const originalValues = item[objId] instanceof Array ? item[objId] : [item[objId]]
                 const text = []
                 originalValues.forEach(value => {
@@ -96,7 +96,7 @@
             },
             getColumnProperty (propertyId, objId) {
                 return this.allProperties.find(property => {
-                    return property['bk_property_id'] === propertyId && property['bk_obj_id'] === objId
+                    return property['bk_property_id'] === propertyId && property['obj_id'] === objId
                 })
             },
             setTableHeader () {

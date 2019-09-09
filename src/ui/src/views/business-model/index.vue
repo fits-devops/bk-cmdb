@@ -15,16 +15,16 @@
                     marginLeft: `${index * margin}px`
                 }"
                 :key="index">
-                <router-link :to="`/model/details/${model['bk_obj_id']}`" class="node-circle"
+                <router-link :to="`/model/details/${model['obj_id']}`" class="node-circle"
                     :class="{
                         'is-first': index === 0,
                         'is-last': index === (topo.length - 1),
-                        'is-inner': innerModel.includes(model['bk_obj_id'])
+                        'is-inner': innerModel.includes(model['obj_id'])
                     }"
                     @click.native="handleLinkClick">
-                    <i :class="['icon', model['bk_obj_icon']]"></i>
+                    <i :class="['icon', model['obj_icon']]"></i>
                 </router-link>
-                <div class="node-name" :title="model['bk_obj_name']">{{model['bk_obj_name']}}</div>
+                <div class="node-name" :title="model['obj_name']">{{model['obj_name']}}</div>
                 <a href="javascript:void(0)" class="node-add"
                     :class="{
                         disabled: !createAuth
@@ -96,7 +96,7 @@
                     this.topo = topo.map(model => {
                         return {
                             ...model,
-                            'bk_obj_icon': this.getModelIcon(model['bk_obj_id'])
+                            'obj_icon': this.getModelIcon(model['obj_id'])
                         }
                     })
                 } catch (e) {
@@ -105,11 +105,11 @@
                 }
             },
             getModelIcon (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
-                return (model || {})['bk_obj_icon']
+                const model = this.models.find(model => model['obj_id'] === objId)
+                return (model || {})['obj_icon']
             },
             canAddLevel (model) {
-                return this.isAdminView && !['set', 'module', 'host'].includes(model['bk_obj_id'])
+                return this.isAdminView && !['set', 'module', 'host'].includes(model['obj_id'])
             },
             handleAddLevel (model) {
                 if (this.createAuth) {
@@ -121,11 +121,11 @@
                 try {
                     await this.createMainlineObject({
                         params: this.$injectMetadata({
-                            'bk_asst_obj_id': this.addLevel.parent['bk_obj_id'],
+                            'bk_asst_obj_id': this.addLevel.parent['obj_id'],
                             'classification_id': 'bk_biz_topo',
-                            'bk_obj_icon': data['bk_obj_icon'],
-                            'bk_obj_id': data['bk_obj_id'],
-                            'bk_obj_name': data['bk_obj_name'],
+                            'obj_icon': data['obj_icon'],
+                            'obj_id': data['obj_id'],
+                            'obj_name': data['obj_name'],
                             'org_id': this.supplierAccount,
                             'creator': this.userName
                         })

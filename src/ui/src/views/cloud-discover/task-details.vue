@@ -39,7 +39,7 @@
                 <li class="detail-form-item">
                     <label for="" class="label-name">{{ $t('Cloud["同步资源"]')}} ：</label>
                     <div class="detail-item-content">
-                        <span>{{curPush.bk_obj_id}}</span>
+                        <span>{{curPush.obj_id}}</span>
                     </div>
                 </li>
                 <li class="detail-form-item">

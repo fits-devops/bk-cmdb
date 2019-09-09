@@ -95,7 +95,7 @@
                 await this.setTimeResolver()
                 this.properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: this.objId,
+                        obj_id: this.objId,
                         org_id: this.supplierAccount
                     }),
                     config: {

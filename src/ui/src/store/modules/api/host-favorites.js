@@ -28,9 +28,9 @@ const getters = {
             const ignore = ['biz']
             const params = JSON.parse(state.applying['query_params'])
             params.forEach(param => {
-                if (!ignore.includes(param['bk_obj_id'])) {
+                if (!ignore.includes(param['obj_id'])) {
                     properties.push({
-                        'bk_obj_id': param['bk_obj_id'],
+                        'obj_id': param['obj_id'],
                         'bk_property_id': param.field
                     })
                 }
@@ -44,7 +44,7 @@ const getters = {
             const ignore = ['biz']
             const params = JSON.parse(state.applying['query_params'])
             params.forEach(param => {
-                const objId = param['bk_obj_id']
+                const objId = param['obj_id']
                 if (!ignore.includes(objId)) {
                     conditions[objId] = conditions[objId] || []
                     conditions[objId].push({

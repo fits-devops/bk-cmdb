@@ -29,7 +29,7 @@ import (
 // CreateInst create a new inst
 func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
 		blog.Errorf("failed to search the inst, %s", err.Error())
@@ -104,9 +104,9 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 
 func (s *Service) DeleteInsts(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	obj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("bk_obj_id"))
+	obj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("obj_id"))
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -137,9 +137,9 @@ func (s *Service) DeleteInst(params types.ContextParams, pathParams, queryParams
 		return nil, params.Err.Errorf(common.CCErrCommParamsNeedInt, "inst id")
 	}
 
-	obj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("bk_obj_id"))
+	obj, err := s.Core.ObjectOperation().FindSingleObject(params, pathParams("obj_id"))
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -154,7 +154,7 @@ func (s *Service) DeleteInst(params types.ContextParams, pathParams, queryParams
 }
 
 func (s *Service) UpdateInsts(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 
 	updateCondition := &operation.OpCondition{}
 	if err := data.MarshalJSONInto(updateCondition); nil != err {
@@ -178,7 +178,7 @@ func (s *Service) UpdateInsts(params types.ContextParams, pathParams, queryParam
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -210,7 +210,7 @@ func (s *Service) UpdateInst(params types.ContextParams, pathParams, queryParams
 		return s.UpdateInsts(params, pathParams, queryParams, data)
 	}
 
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	instID, err := strconv.ParseInt(pathParams("inst_id"), 10, 64)
 	if nil != err {
 		blog.Errorf("[api-inst]failed to parse the inst id, error info is %s", err.Error())
@@ -219,7 +219,7 @@ func (s *Service) UpdateInst(params types.ContextParams, pathParams, queryParams
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -254,11 +254,11 @@ func (s *Service) UpdateInst(params types.ContextParams, pathParams, queryParams
 
 // SearchInst search the inst
 func (s *Service) SearchInsts(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -295,10 +295,10 @@ func (s *Service) SearchInsts(params types.ContextParams, pathParams, queryParam
 
 // SearchInstAndAssociationDetail search the inst with association details
 func (s *Service) SearchInstAndAssociationDetail(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -320,7 +320,7 @@ func (s *Service) SearchInstAndAssociationDetail(params types.ContextParams, pat
 
 	cnt, instItems, err := s.Core.InstOperation().FindInst(params, obj, query, true)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -333,10 +333,10 @@ func (s *Service) SearchInstAndAssociationDetail(params types.ContextParams, pat
 // SearchInstByObject search the inst of the object
 func (s *Service) SearchInstByObject(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -356,7 +356,7 @@ func (s *Service) SearchInstByObject(params types.ContextParams, pathParams, que
 	query.Start = page.Start
 	cnt, instItems, err := s.Core.InstOperation().FindInst(params, obj, query, false)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -369,17 +369,17 @@ func (s *Service) SearchInstByObject(params types.ContextParams, pathParams, que
 // SearchInstByAssociation search inst by the association inst
 func (s *Service) SearchInstByAssociation(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
 	cnt, instItems, err := s.Core.InstOperation().FindInstByAssociationInst(params, obj, data)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -400,7 +400,7 @@ func (s *Service) SearchInstByInstID(params types.ContextParams, pathParams, que
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -411,7 +411,7 @@ func (s *Service) SearchInstByInstID(params types.ContextParams, pathParams, que
 
 	cnt, instItems, err := s.Core.InstOperation().FindInst(params, obj, queryCond, false)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 
@@ -452,7 +452,7 @@ func (s *Service) SearchInstChildTopo(params types.ContextParams, pathParams, qu
 // SearchInstTopo search the inst topo
 func (s *Service) SearchInstTopo(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	instID, err := strconv.ParseInt(pathParams("inst_id"), 10, 64)
 	if nil != err {
 		blog.Errorf("search inst topo failed, path parameter inst_id invalid, inst_id: %s, err: %+v", pathParams("inst_id"), err)
@@ -461,7 +461,7 @@ func (s *Service) SearchInstTopo(params types.ContextParams, pathParams, queryPa
 
 	obj, err := s.Core.ObjectOperation().FindSingleObject(params, objID)
 	if nil != err {
-		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("bk_obj_id"), err.Error())
+		blog.Errorf("[api-inst] failed to find the objects(%s), error info is %s", pathParams("obj_id"), err.Error())
 		return nil, err
 	}
 

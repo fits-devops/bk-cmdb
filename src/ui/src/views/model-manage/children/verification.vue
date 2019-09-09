@@ -102,7 +102,7 @@
             },
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel['ispaused']
                 }
                 return false
             },
@@ -154,12 +154,12 @@
             async initAttrList () {
                 this.attributeList = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: this.activeModel['bk_obj_id']
+                        obj_id: this.activeModel['obj_id']
                     }, {
                         inject: this.isInjectable
                     }),
                     config: {
-                        requestId: `post_searchObjectAttribute_${this.activeModel['bk_obj_id']}`
+                        requestId: `post_searchObjectAttribute_${this.activeModel['obj_id']}`
                     }
                 })
             },
@@ -183,7 +183,7 @@
                     title: this.$tc('ModelManagement["确定删除唯一校验？"]', this.getRuleName(verification.keys), { name: this.getRuleName(verification.keys) }),
                     confirmFn: async () => {
                         await this.deleteObjectUniqueConstraints({
-                            objId: verification['bk_obj_id'],
+                            objId: verification['obj_id'],
                             id: verification.id,
                             params: this.$injectMetadata({}, {
                                 inject: !!this.$tools.getMetadataBiz(verification)
@@ -198,7 +198,7 @@
             },
             async searchVerification () {
                 const res = await this.searchObjectUniqueConstraints({
-                    objId: this.activeModel['bk_obj_id'],
+                    objId: this.activeModel['obj_id'],
                     params: this.$injectMetadata({}, { inject: this.isInjectable }),
                     config: {
                         requestId: 'searchObjectUniqueConstraints'

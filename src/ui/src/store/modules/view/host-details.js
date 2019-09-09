@@ -81,7 +81,7 @@ const mutations = {
         const model = data.model
         const target = data.association
         const instances = state.instances[type === 'source' ? 'target' : 'source']
-        const associations = instances.find(data => data.bk_obj_id === model)
+        const associations = instances.find(data => data.obj_id === model)
         const index = associations.children.findIndex(association => association.asso_id === target.asso_id)
         if (index > -1) {
             associations.children.splice(index, 1)

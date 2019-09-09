@@ -97,7 +97,7 @@
                     <label>{{ $t('Cloud["同步资源"]')}}</label>
                     <div>
                         <label class="cmdb-form-checkbox">
-                            <input type="checkbox" value="host" v-model="curPush.bk_obj_id" disabled>
+                            <input type="checkbox" value="host" v-model="curPush.obj_id" disabled>
                             <span class="cmdb-checkbox-text">{{ $t('Hosts["主机"]')}}</span>
                         </label>
                     </div>

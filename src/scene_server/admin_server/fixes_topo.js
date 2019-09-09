@@ -1,13 +1,13 @@
-db.cc_ObjAsst.find({ "bk_asst_id": "bk_mainline", "bk_obj_id": {"$nin": ["set","module","host"]} }).forEach(function (myDoc) {
-    var ret = db.cc_ObjAsst.remove({"bk_asst_id": "bk_mainline", "bk_obj_id": myDoc.bk_obj_id})
-    print("delete cc_ObjAsst for ", myDoc.bk_obj_id, " result: ", ret)
-    ret = db.cc_ObjAttDes.remove({"bk_obj_id": myDoc.bk_obj_id})
-    print("delete cc_ObjAttDes for ", myDoc.bk_obj_id, " result: ", ret)
-    ret = db.cc_ObjectBase.remove({"bk_obj_id": myDoc.bk_obj_id})
-    print("delete cc_ObjectBase for ", myDoc.bk_obj_id, " result: ", ret)
+db.cc_ObjAsst.find({ "bk_asst_id": "bk_mainline", "obj_id": {"$nin": ["set","module","host"]} }).forEach(function (myDoc) {
+    var ret = db.cc_ObjAsst.remove({"bk_asst_id": "bk_mainline", "obj_id": myDoc.obj_id})
+    print("delete cc_ObjAsst for ", myDoc.obj_id, " result: ", ret)
+    ret = db.cc_ObjAttDes.remove({"obj_id": myDoc.obj_id})
+    print("delete cc_ObjAttDes for ", myDoc.obj_id, " result: ", ret)
+    ret = db.cc_ObjectBase.remove({"obj_id": myDoc.obj_id})
+    print("delete cc_ObjectBase for ", myDoc.obj_id, " result: ", ret)
 });
 
-var ret = db.cc_ObjAsst.update({"bk_asst_id": "bk_mainline", "bk_obj_id": "set"}, {"$set": {"bk_asst_obj_id": "biz"}});
+var ret = db.cc_ObjAsst.update({"bk_asst_id": "bk_mainline", "obj_id": "set"}, {"$set": {"bk_asst_obj_id": "biz"}});
 print("update cc_ObjAsst for ", "set", " result: ", ret)
 
 db.cc_SetBase.find().forEach(function (myDoc) {

@@ -159,7 +159,7 @@
                 return this.$route.params.modelId
             },
             isReadOnly () {
-                return this.activeModel && this.activeModel['bk_ispaused']
+                return this.activeModel && this.activeModel['ispaused']
             },
             sortedProperties () {
                 const propertiesSorted = this.isAdminView ? this.groupedProperties : this.metadataGroupedProperties
@@ -256,7 +256,7 @@
             getProperties () {
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_obj_id': this.objId,
+                        'obj_id': this.objId,
                         'org_id': this.supplierAccount
                     }, {
                         inject: this.isInjectable
@@ -506,7 +506,7 @@
                         data: properties.map(property => {
                             return {
                                 condition: {
-                                    'bk_obj_id': this.objId,
+                                    'obj_id': this.objId,
                                     'bk_property_id': property['bk_property_id'],
                                     'org_id': property['org_id']
                                 },
@@ -542,7 +542,7 @@
                         'bk_group_id': groupId,
                         'bk_group_index': groupedProperties.length - 1,
                         'bk_group_name': this.newGroupName,
-                        'bk_obj_id': this.objId,
+                        'obj_id': this.objId,
                         'org_id': this.supplierAccount
                     }, {
                         inject: this.isInjectable

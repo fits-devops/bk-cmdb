@@ -51,19 +51,19 @@
                         'data': []
                     },
                     'condition': [{
-                        'bk_obj_id': 'host',
+                        'obj_id': 'host',
                         'fields': [],
                         'condition': []
                     }, {
-                        'bk_obj_id': 'module',
+                        'obj_id': 'module',
                         'fields': [],
                         'condition': []
                     }, {
-                        'bk_obj_id': 'set',
+                        'obj_id': 'set',
                         'fields': [],
                         'condition': []
                     }, {
-                        'bk_obj_id': 'biz',
+                        'obj_id': 'biz',
                         'fields': [],
                         'condition': []
                     }]
@@ -139,8 +139,8 @@
                 }
             },
             getPanelTitle (panel) {
-                const panelModel = this.allModels.find(model => model['bk_obj_id'] === panel)
-                return panelModel ? `${panelModel['bk_obj_name']}(${this.resultTab.count[panel]})` : null
+                const panelModel = this.allModels.find(model => model['obj_id'] === panel)
+                return panelModel ? `${panelModel['obj_name']}(${this.resultTab.count[panel]})` : null
             },
             initSearchList (data) {
                 const list = []

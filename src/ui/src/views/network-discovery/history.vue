@@ -14,7 +14,7 @@
                 :placeholder="$t('NetworkDiscovery[\'全部类型\']')"
                 :allow-clear="true"
                 :list="typeList"
-                :selected.sync="filter['bk_obj_id']"
+                :selected.sync="filter['obj_id']"
             ></bk-selector>
             <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入云区域名称\']')" v-model.trim="filter['bk_cloud_name']">
             <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入IP\']')" v-model.trim="filter['bk_host_innerip']">
@@ -53,7 +53,7 @@
                 filter: {
                     last_time: [],
                     action: '',
-                    bk_obj_id: '',
+                    obj_id: '',
                     bk_cloud_name: '',
                     bk_host_innerip: ''
                 },
@@ -82,7 +82,7 @@
                         id: 'bk_cloud_name',
                         name: this.$t('Hosts["云区域"]')
                     }, {
-                        id: 'bk_obj_name',
+                        id: 'obj_name',
                         name: this.$t('ModelManagement["类型"]')
                     }, {
                         id: 'bk_inst_key',
@@ -121,7 +121,7 @@
                 const params = {
                     bk_cloud_name: this.filter['bk_cloud_name'],
                     bk_host_innerip: this.filter['bk_host_innerip'],
-                    bk_obj_id: this.filter['bk_obj_id'],
+                    obj_id: this.filter['obj_id'],
                     action: this.filter['action'],
                     last_time: this.filter['last_time']
                 }

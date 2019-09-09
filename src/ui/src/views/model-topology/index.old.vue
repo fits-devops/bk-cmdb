@@ -70,15 +70,15 @@
                                 @dragstart="handleDragstart(model, $event)">
                                 <div>
                                     <i :class="[
-                                        model['bk_obj_icon'],
+                                        model['obj_icon'],
                                         {
                                             'is-public': !$tools.getMetadataBiz(model)
                                         }
                                     ]">
                                     </i>
                                     <div class="info">
-                                        <p class="name">{{model['bk_obj_name']}}</p>
-                                        <p class="id">{{model['bk_obj_id']}}</p>
+                                        <p class="name">{{model['obj_name']}}</p>
+                                        <p class="id">{{model['obj_id']}}</p>
                                     </div>
                                 </div>
                             </li>
@@ -295,8 +295,8 @@
                 return this.$tools.clone(this.classifications).map(classify => {
                     classify['bk_objects'] = classify['bk_objects'].filter(model => {
                         return !this.isModelInTopo(model)
-                            && !this.specialModel.includes(model['bk_obj_id'])
-                            && !model.bk_ispaused
+                            && !this.specialModel.includes(model['obj_id'])
+                            && !model.ispaused
                     })
                     return classify
                 })
@@ -334,7 +334,7 @@
                 }
             },
             isModelInTopo (model) {
-                return this.network.nodes.findIndex(node => node.id === model['bk_obj_id']) > -1
+                return this.network.nodes.findIndex(node => node.id === model['obj_id']) > -1
             },
             clearEditData () {
                 this.topoEdit.isEdit = false
@@ -357,13 +357,13 @@
                 this.networkInstance.setOptions({ nodes: { fixed: !this.topoEdit.isEdit } })
             },
             handleRelationSave (params) {
-                const fromNode = this.localTopoModelList.find(model => model['bk_obj_id'] === params['bk_obj_id'])
+                const fromNode = this.localTopoModelList.find(model => model['obj_id'] === params['obj_id'])
                 if (!fromNode.hasOwnProperty('assts')) {
                     Object.assign(fromNode, { assts: [] })
                 }
                 fromNode.assts.push({
                     bk_asst_inst_id: this.associationList.find(asst => asst['bk_asst_id'] === params['bk_asst_id']).id,
-                    bk_obj_id: params['bk_asst_obj_id'],
+                    obj_id: params['bk_asst_obj_id'],
                     bk_inst_id: params.id,
                     checked: true,
                     asstInfo: params
@@ -378,7 +378,7 @@
                                 if (asst['bk_inst_id'] !== '') {
                                     return asst['bk_inst_id'] === data.params.id
                                 } else {
-                                    return asst.asstInfo['bk_obj_id'] === data.params['bk_obj_id'] && asst.asstInfo['bk_asst_id'] === data.params['bk_asst_id'] && asst.asstInfo['bk_asst_obj_id'] === data.params['bk_asst_obj_id']
+                                    return asst.asstInfo['obj_id'] === data.params['obj_id'] && asst.asstInfo['bk_asst_id'] === data.params['bk_asst_id'] && asst.asstInfo['bk_asst_obj_id'] === data.params['bk_asst_obj_id']
                                 }
                             })
                             if (index > -1) {
@@ -402,11 +402,11 @@
                 let asstNum = 0
                 this.localTopoModelList.forEach(model => {
                     if (model.hasOwnProperty('assts') && model.assts.length) {
-                        if (model['bk_obj_id'] === node.id) {
+                        if (model['obj_id'] === node.id) {
                             asstNum += model.assts.length
                         } else {
                             model.assts.forEach(asst => {
-                                if (asst['bk_obj_id'] === node.id) {
+                                if (asst['obj_id'] === node.id) {
                                     asstNum++
                                 }
                             })
@@ -432,11 +432,11 @@
                     title: this.$t('ModelManagement["确定移除模型?"]'),
                     content: this.$t('ModelManagement["移除模型提示"]'),
                     confirmFn: () => {
-                        const node = this.localTopoModelList.find(model => model['bk_obj_id'] === hoverNode.id)
+                        const node = this.localTopoModelList.find(model => model['obj_id'] === hoverNode.id)
                         node.position = { x: null, y: null }
 
                         this.updateSingleNodePosition({
-                            bk_obj_id: node['bk_obj_id'],
+                            obj_id: node['obj_id'],
                             bk_inst_id: node['bk_inst_id'],
                             node_type: node['node_type'],
                             position: {
@@ -456,11 +456,11 @@
                 })
             },
             handleDragstart (model, event) {
-                event.dataTransfer.setData('objId', model['bk_obj_id'])
+                event.dataTransfer.setData('objId', model['obj_id'])
             },
             handleDrop (event) {
                 const objId = event.dataTransfer.getData('objId')
-                const node = this.localTopoModelList.find(model => model['bk_obj_id'] === objId)
+                const node = this.localTopoModelList.find(model => model['obj_id'] === objId)
                 const originPosition = this.networkInstance.getViewPosition()
                 const container = this.$refs.topo.getBoundingClientRect()
                 const scale = this.networkInstance.getScale()
@@ -468,7 +468,7 @@
                 node.position.y = Math.floor(originPosition.y - ((container.top + container.bottom) / 2 - event.clientY) / scale)
                 this.updateNetwork()
                 this.updateSingleNodePosition({
-                    bk_obj_id: node['bk_obj_id'],
+                    obj_id: node['obj_id'],
                     bk_inst_id: node['bk_inst_id'],
                     node_type: node['node_type'],
                     position: {
@@ -797,9 +797,9 @@
                     }
                 })
                 data.forEach(nodeData => {
-                    if (((nodeData.hasOwnProperty('assts') && nodeData.assts.length) || asstList.findIndex(({ bk_obj_id: objId }) => objId === nodeData['bk_obj_id']) > -1) || (nodeData.position.x !== null && nodeData.position.y !== null)) {
+                    if (((nodeData.hasOwnProperty('assts') && nodeData.assts.length) || asstList.findIndex(({ obj_id: objId }) => objId === nodeData['obj_id']) > -1) || (nodeData.position.x !== null && nodeData.position.y !== null)) {
                         const node = {
-                            id: nodeData['bk_obj_id'],
+                            id: nodeData['obj_id'],
                             image: `data:image/svg+xml;charset=utf-8,${encodeURIComponent(GET_OBJ_ICON({
                                 name: nodeData['node_name'],
                                 backgroundColor: '#fff'
@@ -829,12 +829,12 @@
                             if (asst.checked) {
                                 const twoWayAsst = this.getTwoWayAsst(node, asst, edges)
                                 // 存在则不重复添加
-                                const edge = edges.find(edge => edge.to === asst['bk_obj_id'] && edge.from === node['bk_obj_id'])
+                                const edge = edges.find(edge => edge.to === asst['obj_id'] && edge.from === node['obj_id'])
                                 if (edge) { // 已存在主动关联
                                     this.updateEdgeArrows(edge, this.getEdgeArrows(asst))
                                     edge.labelList.push({
                                         text: this.getAssociationName(asst['bk_asst_inst_id']),
-                                        objId: node['bk_obj_id'],
+                                        objId: node['obj_id'],
                                         asst
                                     })
                                     if (this.displayConfig.isShowModelAsst) {
@@ -844,7 +844,7 @@
                                     this.updateEdgeArrows(twoWayAsst, this.getEdgeArrows(asst))
                                     twoWayAsst.labelList.push({
                                         text: this.getAssociationName(asst['bk_asst_inst_id']),
-                                        objId: node['bk_obj_id'],
+                                        objId: node['obj_id'],
                                         asst
                                     })
                                     if (this.displayConfig.isShowModelAsst) {
@@ -852,12 +852,12 @@
                                     }
                                 } else { // 无关联关系
                                     const edge = {
-                                        from: node['bk_obj_id'],
-                                        to: asst['bk_obj_id'],
+                                        from: node['obj_id'],
+                                        to: asst['obj_id'],
                                         arrows: this.getEdgeArrows(asst),
                                         labelList: [{
                                             text: this.getAssociationName(asst['bk_asst_inst_id']),
-                                            objId: node['bk_obj_id'],
+                                            objId: node['obj_id'],
                                             asst
                                         }]
                                     }
@@ -898,14 +898,14 @@
             },
             // 判断是否是双向关联A.to = B.from && A.from = B.to
             getTwoWayAsst (node, asst, edges) {
-                return edges.find(edge => edge.from === asst['bk_obj_id'] && edge.to === node['bk_obj_id'])
+                return edges.find(edge => edge.from === asst['obj_id'] && edge.to === node['obj_id'])
             },
             // 加载节点icon并更新
             loadNodeImage () {
                 this.network.nodes.forEach(node => {
                     const image = new Image()
                     image.onload = () => {
-                        const model = this.getModelById(node.data.bk_obj_id)
+                        const model = this.getModelById(node.data.obj_id)
                         this.networkDataSet.nodes.update({
                             id: node.id,
                             image: {
@@ -922,22 +922,22 @@
                             }
                         })
                     }
-                    image.src = `${window.location.origin}/static/svg/${node['data']['bk_obj_icon'].substr(5)}.svg`
+                    image.src = `${window.location.origin}/static/svg/${node['data']['obj_icon'].substr(5)}.svg`
                 })
             },
             initPosition () {
                 let nodesId = []
                 this.topoModelList.forEach(model => {
                     if (model.hasOwnProperty('assts') && model.assts.length) {
-                        nodesId.push(model['bk_obj_id'])
+                        nodesId.push(model['obj_id'])
                         model.assts.forEach(asst => {
-                            nodesId.push(asst['bk_obj_id'])
+                            nodesId.push(asst['obj_id'])
                         })
                     }
                 })
                 nodesId = [...new Set(nodesId)]
                 nodesId = nodesId.filter(id => {
-                    return this.topoModelList.some(({ bk_obj_id: objId, position }) => objId === id && position.x === null && position.y === null)
+                    return this.topoModelList.some(({ obj_id: objId, position }) => objId === id && position.x === null && position.y === null)
                 })
                 if (nodesId.length) {
                     this.updateNodePosition(this.networkDataSet.nodes.get(nodesId))
@@ -960,7 +960,7 @@
                     params = updateNodes.map(node => {
                         const nodeData = node.data
                         return {
-                            'bk_obj_id': node.id,
+                            'obj_id': node.id,
                             'bk_inst_id': nodeData['bk_inst_id'],
                             'node_type': nodeData['node_type'],
                             'position': {
@@ -973,7 +973,7 @@
                 if (removeNodes.length) {
                     removeNodes.forEach(node => {
                         params.push({
-                            'bk_obj_id': node['bk_obj_id'],
+                            'obj_id': node['obj_id'],
                             'bk_inst_id': node['bk_inst_id'],
                             'node_type': node['node_type'],
                             'position': {
@@ -990,7 +990,7 @@
                     }
                 })
                 updateNodes.forEach(node => {
-                    const model = this.localTopoModelList.find(({ bk_obj_id: objId }) => objId === node.id)
+                    const model = this.localTopoModelList.find(({ obj_id: objId }) => objId === node.id)
                     model.position.x = nodePositions[node.id]['x']
                     model.position.y = nodePositions[node.id]['y']
                 })
@@ -1010,11 +1010,11 @@
                     if (this.topoEdit.isEdit && data.nodes.length === 1) {
                         const nodeId = data.nodes[0]
                         const position = this.networkInstance.getPositions([nodeId])
-                        const model = this.localTopoModelList.find(({ bk_obj_id: objId }) => objId === nodeId)
+                        const model = this.localTopoModelList.find(({ obj_id: objId }) => objId === nodeId)
                         model.position.x = position[nodeId].x
                         model.position.y = position[nodeId].y
                         this.updateSingleNodePosition({
-                            bk_obj_id: model['bk_obj_id'],
+                            obj_id: model['obj_id'],
                             bk_inst_id: model['bk_inst_id'],
                             node_type: model['node_type'],
                             position: {

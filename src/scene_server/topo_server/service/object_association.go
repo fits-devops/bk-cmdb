@@ -126,7 +126,7 @@ func (s *Service) UpdateObjectAssociation(params types.ContextParams, pathParams
 
 // ImportInstanceAssociation import instance  association
 func (s *Service) ImportInstanceAssociation(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	objID := pathParams("bk_obj_id")
+	objID := pathParams("obj_id")
 	request := new(metadata.RequestImportAssociation)
 	if err := data.MarshalJSONInto(request); err != nil {
 		blog.Errorf("ImportInstanceAssociation, json unmarshal error, objID:%S, err: %v, rid:%s", objID, err, params.ReqID)

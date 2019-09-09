@@ -1,6 +1,6 @@
 ### 添加对象实例
 
-- API POST /api/{version}/inst/{org_id}/{bk_obj_id}
+- API POST /api/{version}/inst/{org_id}/{obj_id}
 - API 名称：create_inst
 - 功能说明：
 	- 中文：创建实例
@@ -29,7 +29,7 @@
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_obj_id|string|是|无|模型ID，新建云区域时为plat|the object id，when to create a new bk cloud it should be plat |
+|obj_id|string|是|无|模型ID，新建云区域时为plat|the object id，when to create a new bk cloud it should be plat |
 |org_id|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
 |bk_inst_name/bk_cloud_name|string|是|无|实例名,当创建对象为云区域时为bk_cloud_name|the inst name, when the object is plat, it should be bk_cloud_name|
 | bk_biz_id|int|否|无| 业务ID |business ID|
@@ -69,7 +69,7 @@ data 字段说明
 
 ### 查询实例
 
-- API POST /api/{version}/inst/association/search/owner/{org_id}/object/{bk_obj_id}
+- API POST /api/{version}/inst/association/search/owner/{org_id}/object/{obj_id}
 - API 名称：search_inst
 - 功能说明：
 	- 中文：查询实例
@@ -104,7 +104,7 @@ data 字段说明
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_obj_id|string|是|无|模型ID|the object id|
+|obj_id|string|是|无|模型ID|the object id|
 |org_id|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
 |page| object| 是|无|分页参数 |page parameter|
 |condition| object | 否|无|查询条件|the search condition|
@@ -148,14 +148,14 @@ fields 参数说明：
 		"info": [{
 			"bk_inst_id": 1,
 			"bk_inst_name": "test",
-			"bk_obj_id": "test",
+			"obj_id": "test",
 			"org_id": "0",
 			"create_time": "2018-04-17T14:50:15.993+08:00",
 			"last_time": "2018-04-17T15:00:49.274+08:00",
 			"test_asst": [{
 				"bk_inst_id": 2,
 				"bk_inst_name": "test2",
-				"bk_obj_id": "test_obj",
+				"obj_id": "test_obj",
 				"id": "2"
 			}]
 		}]
@@ -181,7 +181,7 @@ data 字段说明
 |id|string|已存储的关联实例的id|The id of the associated instance that has been stored.|
 |bk_inst_id|int|新增数据记录的ID|the id of the new inst |
 |org_id|string|开发商账号|supplier account code|
-|bk_obj_id|string|模型ID|the object id|
+|obj_id|string|模型ID|the object id|
 |create_time|string|数据创建的时间|the creation date time|
 |last_time|string|最后修改时间|the last modify date time|
 |test_asst|string|test_asst为此实例的关联字段，返回关联模型对应的实例。|Test's associated field, user-defined name.|
@@ -189,7 +189,7 @@ data 字段说明
 
 ### 更新对象实例（包含云区域）
 
-- API: PUT  /api/{version}/inst/{org_id}/{bk_obj_id}/{bk_inst_id}
+- API: PUT  /api/{version}/inst/{org_id}/{obj_id}/{bk_inst_id}
 - API 名称：update_inst
 - 功能说明：
 	- 中文： 更新对象实例
@@ -216,7 +216,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID，更新云区域时为plat|the object id, when update bk cloud it should be plat|
+|obj_id|string|是|无|模型ID，更新云区域时为plat|the object id, when update bk cloud it should be plat|
 |bk_inst_id|int|是|无|实例ID,更新云区域是为bk_cloud_id|the inst id, when update bk cloud it should be cloud area ID|
 |bk_inst_name|string|否|无|实例名，也可以为其它自定义字段|the inst name, can be other field|
 |bk_cloud_name|string|否|无|云区域名，更新云区域名时需要|the cloud area name, it is in need where update plat|
@@ -248,7 +248,7 @@ data 字段说明
 
 ### 批量更新通用对象实例
 
-- API: PUT  /api/{version}/inst/{org_id}/{bk_obj_id}/batch
+- API: PUT  /api/{version}/inst/{org_id}/{obj_id}/batch
 - API 名称：batch_update_inst
 - 功能说明：
 	- 中文： 更新对象实例
@@ -275,7 +275,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID|the object id|
+|obj_id|string|是|无|模型ID|the object id|
 |update|object array|是|无|实例被更新的字段及值|the inst value|
 
 - update 字段说明
@@ -316,7 +316,7 @@ data 字段说明
 
 ### 批量删除对象实例
 
-- API: DELETE  /api/{version}/inst/{org_id}/{bk_obj_id}/batch
+- API: DELETE  /api/{version}/inst/{org_id}/{obj_id}/batch
 - API 名称：batch_delete_inst
 - 功能说明：
 	- 中文： 批量删除实例
@@ -337,7 +337,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
+|obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
 |inst_ids|int array|是|无|实例ID集合|the inst id collection|
 
 
@@ -365,7 +365,7 @@ data 字段说明
 
 ### 删除对象实例（包含云区域）
 
-- API: DELETE  /api/{version}/inst/{org_id}/{bk_obj_id}/{bk_inst_id}
+- API: DELETE  /api/{version}/inst/{org_id}/{obj_id}/{bk_inst_id}
 - API 名称：delete_inst
 - 功能说明：
 	- 中文： 删除实例
@@ -380,7 +380,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
+|obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
 |bk_inst_id|int|是|无|实例ID，删除云区域时为云区域ID|the inst id, when delete bk cloud it should be cloud area ID|
 
 
@@ -410,7 +410,7 @@ data 字段说明
 
 ### 查询实例关联拓扑
 
-- API: POST  /api/{version}/inst/search/topo/owner/{org_id}/object/{bk_obj_id}/inst/{bk_inst_id}
+- API: POST  /api/{version}/inst/search/topo/owner/{org_id}/object/{obj_id}/inst/{bk_inst_id}
 - API 名称：search_inst_association_topo
 - 功能说明：
 	- 中文： 查询实例关联拓扑
@@ -425,7 +425,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|模型ID|the object id|
+|obj_id|string|是|无|模型ID|the object id|
 |bk_inst_id|int|是|无|实例ID|the inst id|
 
 
@@ -441,9 +441,9 @@ data 字段说明
             "curr": {
                 "bk_inst_id": 17,
                 "bk_inst_name": "192.168.1.1",
-                "bk_obj_icon": "icon-cc-host",
-                "bk_obj_id": "host",
-                "bk_obj_name": "主机",
+                "obj_icon": "icon-cc-host",
+                "obj_id": "host",
+                "obj_name": "主机",
                 "children": [],
                 "count": 0
             },
@@ -451,16 +451,16 @@ data 字段说明
                 {
                     "bk_inst_id": 0,
                     "bk_inst_name": "",
-                    "bk_obj_icon": "icon-cc-subnet",
-                    "bk_obj_id": "plat",
-                    "bk_obj_name": "云区域",
+                    "obj_icon": "icon-cc-subnet",
+                    "obj_id": "plat",
+                    "obj_name": "云区域",
                     "children": [
                         {
                             "bk_inst_id": 0,
                             "bk_inst_name": "default area",
-                            "bk_obj_icon": "",
-                            "bk_obj_id": "plat",
-                            "bk_obj_name": "",
+                            "obj_icon": "",
+                            "obj_id": "plat",
+                            "obj_name": "",
                             "id": "0"
                         }
                     ],
@@ -471,16 +471,16 @@ data 字段说明
                 {
                     "bk_inst_id": 0,
                     "bk_inst_name": "",
-                    "bk_obj_icon": "icon-cc-business",
-                    "bk_obj_id": "rel",
-                    "bk_obj_name": "关联",
+                    "obj_icon": "icon-cc-business",
+                    "obj_id": "rel",
+                    "obj_name": "关联",
                     "children": [
                         {
                             "bk_inst_id": 162,
                             "bk_inst_name": "test1",
-                            "bk_obj_icon": "",
-                            "bk_obj_id": "rel",
-                            "bk_obj_name": ""
+                            "obj_icon": "",
+                            "obj_id": "rel",
+                            "obj_name": ""
                         }
                     ],
                     "count": 1
@@ -518,9 +518,9 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_icon|string|模型图标的名字|the object's icon|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_icon|string|模型图标的名字|the object's icon|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 |children|object array|本模型下所有被关联的实例的集合|a collection of all associated instances in this model|
 |count|children 包含节点的数量|children contains the number of nodes|
 
@@ -531,9 +531,9 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_icon|string|模型图标的名字|the object's icon|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_icon|string|模型图标的名字|the object's icon|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 |children|object array|本模型下所有被关联的实例的集合|a collection of all associated instances in this model|
 |count|children 包含节点的数量|children contains the number of nodes|
 
@@ -543,9 +543,9 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_icon|string|模型图标的名字|the object's icon|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_icon|string|模型图标的名字|the object's icon|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 
 
 
@@ -555,9 +555,9 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_icon|string|模型图标的名字|the object's icon|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_icon|string|模型图标的名字|the object's icon|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 |children|object array|本模型下所有被关联的实例的集合|a collection of all associated instances in this model|
 |count|children 包含节点的数量|children contains the number of nodes|
 
@@ -567,9 +567,9 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_icon|string|模型图标的名字|the object's icon|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_icon|string|模型图标的名字|the object's icon|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 
 
 ### 查询业务实例拓扑
@@ -604,20 +604,20 @@ data 字段说明
         {
             "bk_inst_id": 2,
             "bk_inst_name": "蓝鲸",
-            "bk_obj_id": "biz",
-            "bk_obj_name": "业务",
+            "obj_id": "biz",
+            "obj_name": "业务",
             "child": [
                 {
                     "bk_inst_id": 3,
                     "bk_inst_name": "作业平台",
-                    "bk_obj_id": "set",
-                    "bk_obj_name": "集群",
+                    "obj_id": "set",
+                    "obj_name": "集群",
                     "child": [
                         {
                             "bk_inst_id": 5,
                             "bk_inst_name": "job",
-                            "bk_obj_id": "module",
-                            "bk_obj_name": "模块",
+                            "obj_id": "module",
+                            "obj_name": "模块",
                             "child": []
                         }
                     ]
@@ -646,8 +646,8 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 |child|object array|当前节点下的所有实例的集合|Collection of all instances under the current node|
 
 - child 字段说明
@@ -656,8 +656,8 @@ data 字段说明
 |---|---|---|---|
 |bk_inst_id|int|实例ID|the inst ID|
 |bk_inst_name|string|实例用于展示的名字|the name of the instance is used to display|
-|bk_obj_id|string|模型ID|the object's id|
-|bk_obj_name|string|模型用于展示的名字|the name of the object is used to display|
+|obj_id|string|模型ID|the object's id|
+|obj_name|string|模型用于展示的名字|the name of the object is used to display|
 |child|object array|当前节点下的所有实例的集合|Collection of all instances under the current node|
 
 
@@ -666,7 +666,7 @@ data 字段说明
 
 ### 查询实例列表
 
-- API: POST /api/{version}/inst/search/owner/{org_id}/object/{bk_obj_id}
+- API: POST /api/{version}/inst/search/owner/{org_id}/object/{obj_id}
 - API 名称：search_inst_by_object
 - 功能说明：
 	- 中文： 查询给定模型的实例列表
@@ -696,7 +696,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_obj_id|string|是|无|自定义模型ID，查询区域时为plat|the object id， when search bk cloud it should be plat|
+|obj_id|string|是|无|自定义模型ID，查询区域时为plat|the object id， when search bk cloud it should be plat|
 |fields|array|否|无|指定查询的字段|need to show|
 |condition|object|否|无|查询条件|search condition|
 |page|object|否|无|分页条件|page condition|

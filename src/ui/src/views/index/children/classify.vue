@@ -12,17 +12,17 @@
                         v-for="(model, modelIndex) in classify.bk_objects"
                         :key="modelIndex">
                         <div class="model-info"
-                            :title="model.bk_obj_name"
+                            :title="model.obj_name"
                             @click="handleClick(model)">
                             <i :class="[
                                 'model-icon',
-                                model.bk_obj_icon,
+                                model.obj_icon,
                                 {
                                     'is-custom': isCustomModel(model)
                                 }
                             ]">
                             </i>
-                            <span class="model-name">{{model.bk_obj_name}}</span>
+                            <span class="model-name">{{model.obj_name}}</span>
                             <i
                                 :class="[
                                     'model-collect',
@@ -85,7 +85,7 @@
                 this.$router.push({
                     name: 'generalModel',
                     params: {
-                        objId: model.bk_obj_id
+                        objId: model.obj_id
                     }
                 })
             },

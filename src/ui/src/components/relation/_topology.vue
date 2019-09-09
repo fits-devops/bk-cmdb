@@ -113,7 +113,7 @@
         async mounted () {
             try {
                 const [rootData] = await this.getRelation(this.$parent.objId, this.$parent.formatedInst['bk_inst_id'])
-                const validRelation = rootData.next.filter(next => !this.ignore.includes(next['bk_obj_id']))
+                const validRelation = rootData.next.filter(next => !this.ignore.includes(next['obj_id']))
                 if (validRelation.length) {
                     this.$emit('on-relation-loaded', validRelation)
                 }
@@ -191,7 +191,7 @@
             },
             async createRootNode (root) {
                 const node = {
-                    id: `${root['bk_obj_id']}_${root['bk_inst_id']}_${NODE_ID++}`,
+                    id: `${root['obj_id']}_${root['bk_inst_id']}_${NODE_ID++}`,
                     label: root['bk_inst_name'],
                     data: root,
                     loaded: true,
@@ -216,14 +216,14 @@
                 const relationLegends = []
                 for (let i = 0; i < relation.length; i++) {
                     const obj = relation[i]
-                    if (this.ignore.includes(obj['bk_obj_id']) || !obj.count) continue
+                    if (this.ignore.includes(obj['obj_id']) || !obj.count) continue
                     const children = obj.children
                     for (let j = 0; j < children.length; j++) {
                         const inst = children[j]
-                        inst['bk_obj_id'] = obj['bk_obj_id']
+                        inst['obj_id'] = obj['obj_id']
                         if (!this.exist(currentNode, inst, type)) {
                             const node = {
-                                id: `${inst['bk_obj_id']}_${inst['bk_inst_id']}_${NODE_ID++}`,
+                                id: `${inst['obj_id']}_${inst['bk_inst_id']}_${NODE_ID++}`,
                                 label: inst['bk_inst_name'],
                                 data: inst,
                                 loaded: false,
@@ -241,14 +241,14 @@
                                 from: type === 'next' ? node.id : currentNode.id,
                                 label: node.data['bk_asst_name']
                             }
-                            const legend = relationLegends.find(legend => legend.id === obj['bk_obj_id'])
+                            const legend = relationLegends.find(legend => legend.id === obj['obj_id'])
                             if (legend) {
                                 legend.count++
                             } else {
                                 relationLegends.push({
-                                    id: obj['bk_obj_id'],
-                                    name: obj['bk_obj_name'],
-                                    icon: obj['bk_obj_icon'],
+                                    id: obj['obj_id'],
+                                    name: obj['obj_name'],
+                                    icon: obj['obj_icon'],
                                     node: currentNode,
                                     active: true,
                                     count: 1
@@ -271,7 +271,7 @@
             },
             exist (currentNode, newInst, type) {
                 return currentNode[type].some(node => {
-                    return node.data['bk_obj_id'] === newInst['bk_obj_id'] && node.data['bk_inst_id'] === newInst['bk_inst_id']
+                    return node.data['obj_id'] === newInst['obj_id'] && node.data['bk_inst_id'] === newInst['bk_inst_id']
                 })
             },
             getRelationNodeLevel (currentNode, type) {
@@ -303,10 +303,10 @@
                             useDefaultWhenError = false
                             image.src = `./static/svg/cc-default.svg`
                         } else {
-                            reject(new Error(`Can not load object icon, object id: ${data['bk_obj_id']}, object icon: ${data['bk_obj_icon']}`))
+                            reject(new Error(`Can not load object icon, object id: ${data['obj_id']}, object icon: ${data['obj_icon']}`))
                         }
                     }
-                    image.src = `./static/svg/${data['bk_obj_icon'].substr(5)}.svg`
+                    image.src = `./static/svg/${data['obj_icon'].substr(5)}.svg`
                 })
             },
             createBase64Image (image, rgb) {
@@ -335,7 +335,7 @@
                 if (!node.loaded) {
                     this.hoverNode = null
                     const data = node.data
-                    await this.getRelation(data['bk_obj_id'], data['bk_inst_id'], node)
+                    await this.getRelation(data['obj_id'], data['bk_inst_id'], node)
                     node.loaded = true
                 } else {
                     this.legends = node.legends
@@ -384,7 +384,7 @@
                     legend.node[type].forEach(node => {
                         const nodeLevel = legend.node.level
                         const level = nodeLevel === 0 ? [-1, 1] : [nodeLevel > 0 ? (nodeLevel + 1) : (nodeLevel - 1)]
-                        if (level.includes(node.level) && node.data['bk_obj_id'] === legend.id) {
+                        if (level.includes(node.level) && node.data['obj_id'] === legend.id) {
                             node.hidden = legend.active
                         }
                     })
@@ -394,9 +394,9 @@
             },
             handleShowDetails () {
                 const nodeData = this.hoverNode.data
-                this.details.objId = nodeData['bk_obj_id']
+                this.details.objId = nodeData['obj_id']
                 this.details.instId = nodeData['bk_inst_id']
-                this.details.title = `${nodeData['bk_obj_name']}-${nodeData['bk_inst_name']}`
+                this.details.title = `${nodeData['obj_name']}-${nodeData['bk_inst_name']}`
                 this.details.show = true
             },
             toggleFullScreen (fullScreen) {

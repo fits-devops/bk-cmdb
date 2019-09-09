@@ -4,17 +4,17 @@
             <li class="model-item"
                 v-for="(model, index) in displayModels"
                 :key="index"
-                :title="model.bk_obj_name"
+                :title="model.obj_name"
                 @click="handleClick(model)">
                 <i :class="[
                     'model-icon',
-                    model.bk_obj_icon,
+                    model.obj_icon,
                     {
                         'is-custom': isCustomModel(model)
                     }
                 ]">
                 </i>
-                {{model.bk_obj_name}}
+                {{model.obj_name}}
             </li>
             <li class="model-item more"
                 @click="toggleClassify">
@@ -39,15 +39,15 @@
             basic () {
                 return [{
                     id: 'business',
-                    bk_obj_icon: 'icon-cc-business',
-                    bk_obj_name: this.$t('Common["业务"]'),
+                    obj_icon: 'icon-cc-business',
+                    obj_name: this.$t('Common["业务"]'),
                     router: {
                         name: 'business'
                     }
                 }, {
                     id: 'resource',
-                    bk_obj_icon: 'icon-cc-host-free-pool',
-                    bk_obj_name: this.$t('Nav["主机"]'),
+                    obj_icon: 'icon-cc-host-free-pool',
+                    obj_name: this.$t('Nav["主机"]'),
                     router: {
                         name: 'resource'
                     }
@@ -62,7 +62,7 @@
                         recentlyModels.push(this.basic.find(model => model.id === id))
                     } else {
                         const model = this.models.find(model => model.id === id)
-                        if (model && !model.bk_ispaused) {
+                        if (model && !model.ispaused) {
                             recentlyModels.push(model)
                         }
                     }
@@ -71,7 +71,7 @@
             },
             avaliableModels () {
                 return this.models.filter(model => {
-                    return !model.bk_ispaused
+                    return !model.ispaused
                         && !['bk_host_manage', 'bk_biz_topo', 'bk_organization'].includes(model.classification_id)
                 })
             },
@@ -97,7 +97,7 @@
                 const router = model.router || {
                     name: 'generalModel',
                     params: {
-                        objId: model.bk_obj_id
+                        objId: model.obj_id
                     }
                 }
                 this.$store.commit('setHeaderStatus', {

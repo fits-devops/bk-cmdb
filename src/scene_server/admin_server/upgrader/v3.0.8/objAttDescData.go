@@ -607,7 +607,7 @@ var ispNameEnum = []validator.EnumVal{
 type Attribute struct {
 	ID                int64       `field:"id" json:"id" bson:"id"`
 	OwnerID           string      `field:"org_id" json:"org_id" bson:"org_id"`
-	ObjectID          string      `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
+	ObjectID          string      `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	PropertyID        string      `field:"bk_property_id" json:"bk_property_id" bson:"bk_property_id"`
 	PropertyName      string      `field:"bk_property_name" json:"bk_property_name" bson:"bk_property_name"`
 	PropertyGroup     string      `field:"bk_property_group" json:"bk_property_group" bson:"bk_property_group"`

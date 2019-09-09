@@ -101,7 +101,7 @@ func (cli *Service) UpdateTopoGraphics(req *restful.Request, resp *restful.Respo
 			"scope_type": datas[index].ScopeType,
 			"scope_id":   datas[index].ScopeID,
 			"node_type":  datas[index].NodeType,
-			"bk_obj_id":  datas[index].ObjID,
+			"obj_id":     datas[index].ObjID,
 			"bk_inst_id": datas[index].InstID,
 			"org_id":     ownerID,
 		}

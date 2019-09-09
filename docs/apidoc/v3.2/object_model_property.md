@@ -15,7 +15,7 @@
 	"editable": true,
 	"option": "",
 	"bk_property_group": "default",
-	"bk_obj_id": "cc_test_inst",
+	"obj_id": "cc_test_inst",
 	"org_id": "0",
 	"bk_property_id": "cc_test",
 	"bk_property_name": "cc_test",
@@ -40,7 +40,7 @@
 |unit|string|否|无|单位|the unit|
 |placeholder|string|否|无|占位符|the placeholder|
 |bk_property_group|string|否|无|字段分栏的名字|group recognition|
-|bk_obj_id|string|是|无|模型ID|the object identifier|
+|obj_id|string|是|无|模型ID|the object identifier|
 |org_id| string|是|无|开发商账号|supplier account code|
 |bk_property_id|string|是|无|模型的属性ID|attribute identifier|
 |bk_property_name|string|是|无|模型属性名，用于展示|the attribute name|
@@ -235,7 +235,7 @@ data 字段说明
 
 ``` json
 {
-    "bk_obj_id": "process",
+    "obj_id": "process",
     "org_id": "0"
 }
 ```
@@ -246,7 +246,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_obj_id|string|否|无|模型ID|the object identifier|
+|obj_id|string|否|无|模型ID|the object identifier|
 |org_id| string| 否| 无|开发商账号|supplier account code|
 
 
@@ -289,7 +289,7 @@ data 字段说明
             "isreadonly": false,
             "isrequired": true,
             "last_time": "2018-03-08T11:30:27.898+08:00",
-            "bk_obj_id": "process",
+            "obj_id": "process",
             "option": "",
             "placeholder": "",
             "bk_property_group": "default",
@@ -332,7 +332,7 @@ data字段说明
 |unit|string|单位|the unit|
 |placeholder|string|占位符|the placeholder|
 |bk_property_group|string|字段分栏的名字|group recognition|
-|bk_obj_id|string|模型ID|the object identifier|
+|obj_id|string|模型ID|the object identifier|
 | org_id| string|开发商账号|supplier account code|
 |bk_property_id|string|模型的属性ID|attribute identifier|
 |bk_property_name|string|模型属性名，用于展示|the attribute name|

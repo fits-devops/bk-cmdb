@@ -23,7 +23,7 @@
     },
     "condition":[
         {
-            "bk_obj_id":"host",
+            "obj_id":"host",
             "fields":[
 
             ],
@@ -32,7 +32,7 @@
             ]
         },
         {
-            "bk_obj_id":"module",
+            "obj_id":"module",
             "fields":[
 
             ],
@@ -41,7 +41,7 @@
             ]
         },
         {
-            "bk_obj_id":"set",
+            "obj_id":"set",
             "fields":[
 
             ],
@@ -50,7 +50,7 @@
             ]
         },
         {
-            "bk_obj_id":"biz",
+            "obj_id":"biz",
             "fields":[
 
             ],
@@ -88,7 +88,7 @@ condition 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
+| obj_id| string| 否| 无|对象名,可以为biz,set,module,host,object|object name, it can be biz,set,module,host,object|
 | fields| string数组| 否| 无|查询输出字段|fields output|
 | condition| object array| 否| 无|查询条件|search condition|
 
@@ -136,10 +136,10 @@ page 参数说明：
                     "bk_cloud_id":[
                         {
                             "id":"0",
-                            "bk_obj_id":"plat",
-                            "bk_obj_icon":"",
+                            "obj_id":"plat",
+                            "obj_icon":"",
                             "bk_inst_id":0,
-                            "bk_obj_name":"",
+                            "obj_name":"",
                             "bk_inst_name":"default area"
                         }
                     ],

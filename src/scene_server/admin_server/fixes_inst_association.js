@@ -1,7 +1,7 @@
 db.cc_ObjAsst.find().forEach(function (objasst) {
     var ret = db.cc_InstAsst.update(
         {
-            "bk_obj_id": objasst.bk_obj_id,
+            "obj_id": objasst.obj_id,
             "bk_asst_obj_id": objasst.bk_asst_obj_id,
             "org_id": objasst.org_id
         },

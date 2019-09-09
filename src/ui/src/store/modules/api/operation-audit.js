@@ -40,7 +40,7 @@ const actions = {
      * @param {Function} commit store commit mutation hander
      * @param {Object} state store state
      * @param {String} dispatch store dispatch action hander
-     * @param {String} objId bk_obj_id
+     * @param {String} objId obj_id
      * @param {Object} params 参数
      * @return {promises} promises 对象
      */

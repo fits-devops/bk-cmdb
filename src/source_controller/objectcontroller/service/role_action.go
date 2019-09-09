@@ -37,7 +37,7 @@ func (cli *Service) GetRolePri(req *restful.Request, resp *restful.Response) {
 
 	defer req.Request.Body.Close()
 	pathParams := req.PathParameters()
-	objID := pathParams["bk_obj_id"]
+	objID := pathParams["obj_id"]
 	propertyID := pathParams["bk_property_id"]
 	cond := make(map[string]interface{})
 	cond[common.BKObjIDField] = objID
@@ -86,7 +86,7 @@ func (cli *Service) CreateRolePri(req *restful.Request, resp *restful.Response) 
 	db := cli.Instance.Clone()
 
 	pathParams := req.PathParameters()
-	objID := pathParams["bk_obj_id"]
+	objID := pathParams["obj_id"]
 	propertyID := pathParams["bk_property_id"]
 	value, err := ioutil.ReadAll(req.Request.Body)
 	if err != nil {
@@ -128,7 +128,7 @@ func (cli *Service) UpdateRolePri(req *restful.Request, resp *restful.Response) 
 	db := cli.Instance.Clone()
 
 	pathParams := req.PathParameters()
-	objID := pathParams["bk_obj_id"]
+	objID := pathParams["obj_id"]
 	propertyID := pathParams["bk_property_id"]
 	value, err := ioutil.ReadAll(req.Request.Body)
 	if err != nil {

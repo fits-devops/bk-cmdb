@@ -58,7 +58,7 @@
             <template slot="bk_account_type">
                 <span>{{$t('Cloud["腾讯云"]')}}</span>
             </template>
-            <template slot="bk_obj_id">
+            <template slot="obj_id">
                 <span>{{ $t('Hosts["主机"]')}}</span>
             </template>
             <template slot="bk_last_sync_time" slot-scope="{ item }">

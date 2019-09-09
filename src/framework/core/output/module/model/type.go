@@ -56,15 +56,15 @@ const (
 	IsDefault = "bk_isdefault"
 
 	// ObjectIcon the icon name for the object
-	ObjectIcon = "bk_obj_icon"
+	ObjectIcon = "obj_icon"
 	// ObjectID the id for the object
-	ObjectID = "bk_obj_id"
+	ObjectID = "obj_id"
 	// ObjectName the name for the object
-	ObjectName = "bk_obj_name"
+	ObjectName = "obj_name"
 	// IsPre mark the inner object
 	IsPre = "ispre"
 	// IsPaused mark the object status
-	IsPaused = "bk_ispaused"
+	IsPaused = "ispaused"
 	// Position the position to draw the object in the page
 	Position = "position"
 	// SupplierAccount the business id

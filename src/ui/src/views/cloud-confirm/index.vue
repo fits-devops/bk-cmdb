@@ -56,7 +56,7 @@
             <template slot="bk_account_type">
                 <span>{{$t('Cloud["腾讯云"]')}}</span>
             </template>
-            <template slot="bk_obj_id">
+            <template slot="obj_id">
                 {{ $t('Hosts["主机"]')}}
             </template>
             <template slot="operation" slot-scope="{ item }">
@@ -117,7 +117,7 @@
                         id: 'bk_resource_type',
                         name: this.$t('Cloud["资源类型"]')
                     }, {
-                        id: 'bk_obj_id',
+                        id: 'obj_id',
                         name: this.$t('Cloud["模型"]')
                     }, {
                         id: 'bk_task_name',
@@ -183,7 +183,7 @@
                     attr['$regex'] = this.filter.text
                     attr['$options'] = '$i'
                     if (this.selector.defaultDemo.selected === 0) {
-                        params['bk_obj_id'] = 'host'
+                        params['obj_id'] = 'host'
                     }
                     if (this.selector.defaultDemo.selected === 1) {
                         params['bk_account_type'] = 'tencent_cloud'

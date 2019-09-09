@@ -40,12 +40,12 @@
                         <transition name="slide">
                             <ul class="model-list" v-show="classify.open" :style="calcModelListStyle(classify.models.length)">
                                 <li class="model-item clearfix" v-for="(model,modelIndex) in classify.models" :key="modelIndex">
-                                    <h4 class="model-authority fl" :title="model['bk_obj_name']">{{model['bk_obj_name']}}：</h4>
+                                    <h4 class="model-authority fl" :title="model['obj_name']">{{model['obj_name']}}：</h4>
                                     <span class="model-authority-checkbox fl first">
                                         <label class="cmdb-form-checkbox cmdb-checkbox-small"
-                                            :for="'model-all-' + model['bk_obj_id']">
+                                            :for="'model-all-' + model['obj_id']">
                                             <input type="checkbox"
-                                                :id="'model-all-' + model['bk_obj_id']"
+                                                :id="'model-all-' + model['obj_id']"
                                                 :checked="model.selectedAuthorities.length === 3"
                                                 @change="checkAllModelAuthorities(classifyIndex,modelIndex,$event)">
                                             <span class="cmdb-checkbox-text">{{$t('Common["全选"]')}}</span>
@@ -53,9 +53,9 @@
                                     </span>
                                     <span class="model-authority-checkbox fl">
                                         <label class="cmdb-form-checkbox cmdb-checkbox-small"
-                                            :for="'model-search-' + model['bk_obj_id']">
+                                            :for="'model-search-' + model['obj_id']">
                                             <input type="checkbox" value="search"
-                                                :id="'model-search-' + model['bk_obj_id']"
+                                                :id="'model-search-' + model['obj_id']"
                                                 v-model="model.selectedAuthorities"
                                                 @change="checkOtherAuthorities(classifyIndex,modelIndex,$event)">
                                             <span class="cmdb-checkbox-text">{{$t('Common["查询"]')}}</span>
@@ -63,10 +63,10 @@
                                     </span>
                                     <span class="model-authority-checkbox fl">
                                         <label class="cmdb-form-checkbox cmdb-checkbox-small"
-                                            :for="'model-update-' + model['bk_obj_id']"
+                                            :for="'model-update-' + model['obj_id']"
                                             :class="{ 'disabled': model.selectedAuthorities.indexOf('search') === -1 }">
                                             <input type="checkbox" value="update"
-                                                :id="'model-update-' + model['bk_obj_id']"
+                                                :id="'model-update-' + model['obj_id']"
                                                 :disabled="model.selectedAuthorities.indexOf('search') === -1"
                                                 v-model="model.selectedAuthorities">
                                             <span class="cmdb-checkbox-text">{{$t('Common["编辑"]')}}</span>
@@ -74,10 +74,10 @@
                                     </span>
                                     <span class="model-authority-checkbox fl">
                                         <label class="cmdb-form-checkbox cmdb-checkbox-small"
-                                            :for="'model-delete-' + model['bk_obj_id']"
+                                            :for="'model-delete-' + model['obj_id']"
                                             :class="{ 'disabled': model.selectedAuthorities.indexOf('search') === -1 }">
                                             <input type="checkbox" value="delete"
-                                                :id="'model-delete-' + model['bk_obj_id']"
+                                                :id="'model-delete-' + model['obj_id']"
                                                 :disabled="model.selectedAuthorities.indexOf('search') === -1"
                                                 v-model="model.selectedAuthorities">
                                             <span class="cmdb-checkbox-text">{{$t('Common["删除"]')}}</span>
@@ -159,7 +159,7 @@
                         if (model.selectedAuthorities.length) {
                             updateParams['model_config'] = updateParams['model_config'] || {}
                             updateParams['model_config'][classify.id] = updateParams['model_config'][classify.id] || {}
-                            updateParams['model_config'][classify.id][model['bk_obj_id']] = model.selectedAuthorities
+                            updateParams['model_config'][classify.id][model['obj_id']] = model.selectedAuthorities
                         }
                     })
                 })
@@ -239,7 +239,7 @@
                 // 1.去掉停用模型
                 let activeClassifications = this.classifications.map(classification => {
                     const activeClassification = { ...classification }
-                    activeClassification['bk_objects'] = activeClassification['bk_objects'].filter(model => !model['bk_ispaused'])
+                    activeClassification['bk_objects'] = activeClassification['bk_objects'].filter(model => !model['ispaused'])
                     return activeClassification
                 })
                 // 2.去掉无启用模型的分类和不显示的分类
@@ -260,9 +260,9 @@
                             if (
                                 authorities.hasOwnProperty('model_config')
                                 && authorities['model_config'].hasOwnProperty(classifyId)
-                                && authorities['model_config'][classifyId].hasOwnProperty(model['bk_obj_id'])
+                                && authorities['model_config'][classifyId].hasOwnProperty(model['obj_id'])
                             ) {
-                                selectedAuthorities = authorities['model_config'][classifyId][model['bk_obj_id']]
+                                selectedAuthorities = authorities['model_config'][classifyId][model['obj_id']]
                             }
                             models.push(Object.assign({}, model, { selectedAuthorities }))
                         })

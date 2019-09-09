@@ -115,10 +115,10 @@ func (ps *ProcServer) getProcDetail(req *restful.Request, ownerID string, appID,
 
 type instNameAsst struct {
 	ID         string `json:"id"`
-	ObjID      string `json:"bk_obj_id"`
-	ObjIcon    string `json:"bk_obj_icon"`
+	ObjID      string `json:"obj_id"`
+	ObjIcon    string `json:"obj_icon"`
 	InstID     int    `json:"bk_inst_id"`
-	ObjectName string `json:"bk_obj_name"`
+	ObjectName string `json:"obj_name"`
 	InstName   string `json:"bk_inst_name"`
 }
 

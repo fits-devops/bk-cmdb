@@ -1,15 +1,3 @@
-/*
- * Tencent is pleased to support the open source community by making 蓝鲸 available.
- * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package metadata
 
 import (
@@ -20,11 +8,11 @@ import (
 const (
 	ModelFieldID          = "id"
 	ModelFieldObjCls      = "classification_id"
-	ModelFieldObjIcon     = "bk_obj_icon"
-	ModelFieldObjectID    = "bk_obj_id"
-	ModelFieldObjectName  = "bk_obj_name"
+	ModelFieldObjIcon     = "obj_icon"
+	ModelFieldObjectID    = "obj_id"
+	ModelFieldObjectName  = "obj_name"
 	ModelFieldIsPre       = "ispre"
-	ModelFieldIsPaused    = "bk_ispaused"
+	ModelFieldIsPaused    = "ispaused"
 	ModelFieldPosition    = "position"
 	ModelFieldOwnerID     = "org_id"
 	ModelFieldDescription = "description"
@@ -39,11 +27,11 @@ type Object struct {
 	Metadata    `field:"metadata" json:"metadata" bson:"metadata"`
 	ID          int64  `field:"id" json:"id" bson:"id"`
 	ObjCls      string `field:"classification_id" json:"classification_id" bson:"classification_id"`
-	ObjIcon     string `field:"bk_obj_icon" json:"bk_obj_icon" bson:"bk_obj_icon"`
-	ObjectID    string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
-	ObjectName  string `field:"bk_obj_name" json:"bk_obj_name" bson:"bk_obj_name"`
+	ObjIcon     string `field:"obj_icon" json:"obj_icon" bson:"obj_icon"`
+	ObjectID    string `field:"obj_id" json:"obj_id" bson:"obj_id"`
+	ObjectName  string `field:"obj_name" json:"obj_name" bson:"obj_name"`
 	IsPre       bool   `field:"ispre" json:"ispre" bson:"ispre"`
-	IsPaused    bool   `field:"bk_ispaused" json:"bk_ispaused" bson:"bk_ispaused"`
+	IsPaused    bool   `field:"ispaused" json:"ispaused" bson:"ispaused"`
 	Position    string `field:"position" json:"position" bson:"position"`
 	OwnerID     string `field:"org_id" json:"org_id" bson:"org_id"`
 	Description string `field:"description" json:"description" bson:"description"`
@@ -195,9 +183,9 @@ type InnterAppTopo struct {
 type TopoItem struct {
 	ClassificationID string `json:"classification_id"`
 	Position         string `json:"position"`
-	ObjID            string `json:"bk_obj_id"`
+	ObjID            string `json:"obj_id"`
 	OwnerID          string `json:"org_id"`
-	ObjName          string `json:"bk_obj_name"`
+	ObjName          string `json:"obj_name"`
 }
 
 // ObjectTopo define the common object topo

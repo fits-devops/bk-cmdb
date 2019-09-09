@@ -62,7 +62,7 @@ func addCloudResourceConfirmTable(ctx context.Context, db dal.RDB, conf *upgrade
 
 	indexs := []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_resource_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 	}
 
 	for _, index := range indexs {

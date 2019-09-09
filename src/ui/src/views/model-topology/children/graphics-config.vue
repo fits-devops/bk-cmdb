@@ -107,8 +107,8 @@
             ...mapGetters('objectModelClassify', ['classifications', 'models']),
             associationGroups () {
                 const groups = []
-                const modelIdKey = 'bk_obj_id'
-                const modelNameKey = 'bk_obj_name'
+                const modelIdKey = 'obj_id'
+                const modelNameKey = 'obj_name'
                 const classificationIdKey = 'classification_id'
                 const classificationNameKey = 'classification_name'
                 this.topologyData.forEach(data => {
@@ -137,7 +137,7 @@
             associations () {
                 const associations = {}
                 this.topologyData.forEach(data => {
-                    associations[data['bk_obj_id']] = data.assts || []
+                    associations[data['obj_id']] = data.assts || []
                 })
                 return associations
             },
@@ -201,11 +201,11 @@
             },
             getAssociationDesc (association) {
                 const associationData = this.associationList.find(data => data.id === association['bk_asst_inst_id'])
-                const associationModel = this.models.find(data => data['bk_obj_id'] === association['bk_obj_id'])
+                const associationModel = this.models.find(data => data['obj_id'] === association['obj_id'])
                 if (associationData['bk_asst_name']) {
-                    return `${associationData['bk_asst_name']} -> ${associationModel['bk_obj_name']}`
+                    return `${associationData['bk_asst_name']} -> ${associationModel['obj_name']}`
                 }
-                return `${associationData['bk_asst_id']} -> ${associationModel['bk_obj_name']}`
+                return `${associationData['bk_asst_id']} -> ${associationModel['obj_name']}`
             },
             hideAssociation () {
                 Object.keys(this.collapseStatus).forEach(modelId => {

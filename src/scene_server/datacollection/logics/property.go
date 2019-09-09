@@ -549,7 +549,7 @@ type propertyShowField struct {
 	propertyName string
 }
 
-// get obj ID list and get field to show by map (bk_obj_id --> bk_obj_name)
+// get obj ID list and get field to show by map (obj_id --> obj_name)
 func (lgc *Logics) getObjIDsAndShowFields(pheader http.Header, objectCond map[string]interface{}) ([]string, map[string]objShowField, error) {
 	defErr := lgc.Engine.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(pheader))
 	objectCond[common.BKClassificationIDField] = common.BKNetwork

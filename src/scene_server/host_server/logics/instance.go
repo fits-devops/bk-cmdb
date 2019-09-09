@@ -28,10 +28,10 @@ import (
 
 type InstNameAsst struct {
 	ID         string                 `json:"id"`
-	ObjID      string                 `json:"bk_obj_id"`
-	ObjIcon    string                 `json:"bk_obj_icon"`
+	ObjID      string                 `json:"obj_id"`
+	ObjIcon    string                 `json:"obj_icon"`
 	ObjectID   int64                  `json:"bk_inst_id"`
-	ObjectName string                 `json:"bk_obj_name"`
+	ObjectName string                 `json:"obj_name"`
 	Name       string                 `json:"bk_inst_name"`
 	InstInfo   map[string]interface{} `json:"inst_info,omitempty"`
 }

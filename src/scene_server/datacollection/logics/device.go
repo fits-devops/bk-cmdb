@@ -124,8 +124,8 @@ func (lgc *Logics) SearchDevice(pheader http.Header, params *meta.NetCollSearchP
 		}
 	}
 
-	// if condition only has bk_obj_name but not bk_obj_id
-	// get net device bk_obj_id from bk_obj_name
+	// if condition only has obj_name but not obj_id
+	// get net device obj_id from obj_name
 	if _, ok := deviceCond[common.BKObjIDField]; !ok && 0 < len(objCond) {
 		objIDs, err := lgc.getNetDeviceObjIDsByCond(pheader, objCond)
 		if nil != err {
@@ -150,8 +150,8 @@ func (lgc *Logics) SearchDevice(pheader http.Header, params *meta.NetCollSearchP
 		return searchResult, nil
 	}
 
-	// field bk_obj_id must be in params.Fields
-	// to help add value of fields(bk_obj_name) from other tables into search result
+	// field obj_id must be in params.Fields
+	// to help add value of fields(obj_name) from other tables into search result
 	if 0 != len(params.Fields) {
 		params.Fields = append(params.Fields, common.BKObjIDField)
 	}
@@ -427,7 +427,7 @@ func (lgc *Logics) addShowFieldValueIntoNetDevice(
 }
 
 // check the deviceInfo if is a net object
-// by checking if bk_obj_id and bk_obj_name function parameter are valid net device object or not
+// by checking if obj_id and obj_name function parameter are valid net device object or not
 func (lgc *Logics) checkIfNetDeviceObject(pheader http.Header, deviceInfo *meta.NetcollectDevice) error {
 	objectID, objectName, err := lgc.checkNetObject(pheader, deviceInfo.ObjectID, deviceInfo.ObjectName)
 	if nil != err {

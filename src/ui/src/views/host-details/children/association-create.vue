@@ -181,7 +181,7 @@
                 return this.currentOption.mapping !== '1:1'
             },
             isSource () {
-                return this.currentOption['bk_obj_id'] === this.objId
+                return this.currentOption['obj_id'] === this.objId
             }
         },
         watch: {
@@ -217,7 +217,7 @@
             getAsstObjProperties () {
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_obj_id': this.currentAsstObj,
+                        'obj_id': this.currentAsstObj,
                         'org_id': this.supplierAccount
                     }),
                     config: {
@@ -273,7 +273,7 @@
                     this.searchObjectAssociation({
                         params: this.$injectMetadata({
                             condition: {
-                                'bk_obj_id': this.objId
+                                'obj_id': this.objId
                             }
                         }),
                         config: {
@@ -301,7 +301,7 @@
                 ]).then(([dataAsSource, dataAsTarget, mainLineModels]) => {
                     dataAsSource = dataAsSource || []
                     dataAsTarget = dataAsTarget || []
-                    mainLineModels = mainLineModels.filter(model => !['biz', 'host'].includes(model['bk_obj_id']))
+                    mainLineModels = mainLineModels.filter(model => !['biz', 'host'].includes(model['obj_id']))
                     dataAsSource = this.getAvailableAssociation(dataAsSource, mainLineModels)
                     dataAsTarget = this.getAvailableAssociation(dataAsTarget, mainLineModels)
                     this.associationObject = [...dataAsSource, ...dataAsTarget]
@@ -309,23 +309,23 @@
             },
             getAvailableAssociation (data, mainLine) {
                 return data.filter(relation => {
-                    return !mainLine.some(model => [relation['bk_obj_id'], relation['bk_asst_obj_id']].includes(model['bk_obj_id']))
+                    return !mainLine.some(model => [relation['obj_id'], relation['bk_asst_obj_id']].includes(model['obj_id']))
                 })
             },
             setAssociationOptions () {
                 const options = this.associationObject.map(option => {
-                    const isSource = option['bk_obj_id'] === this.objId
+                    const isSource = option['obj_id'] === this.objId
                     const type = this.associationType.find(type => type['bk_asst_id'] === option['bk_asst_id'])
                     const model = this.models.find(model => {
                         if (isSource) {
-                            return model['bk_obj_id'] === option['bk_asst_obj_id']
+                            return model['obj_id'] === option['bk_asst_obj_id']
                         } else {
-                            return model['bk_obj_id'] === option['bk_obj_id']
+                            return model['obj_id'] === option['obj_id']
                         }
                     })
                     return {
                         ...option,
-                        '_label': `${isSource ? type['src_des'] : type['dest_des']}-${model['bk_obj_name']}`
+                        '_label': `${isSource ? type['src_des'] : type['dest_des']}-${model['obj_name']}`
                     }
                 })
                 const allLabel = options.map(option => option._label)
@@ -335,7 +335,7 @@
             async handleSelectObj (asstId, option) {
                 this.tempData = []
                 this.currentOption = option
-                this.currentAsstObj = option['bk_obj_id'] === this.objId ? option['bk_asst_obj_id'] : option['bk_obj_id']
+                this.currentAsstObj = option['obj_id'] === this.objId ? option['bk_asst_obj_id'] : option['obj_id']
                 this.table.pagination.current = 1
                 this.table.pagination.count = 0
                 this.table.list = []
@@ -354,7 +354,7 @@
                         condition: {
                             'bk_asst_id': option['bk_asst_id'],
                             'bk_obj_asst_id': option['bk_obj_asst_id'],
-                            'bk_obj_id': isSource ? this.objId : option['bk_obj_id'],
+                            'obj_id': isSource ? this.objId : option['obj_id'],
                             'bk_asst_obj_id': isSource ? option['bk_asst_obj_id'] : this.objId,
                             [`${isSource ? 'bk_inst_id' : 'bk_asst_inst_id'}`]: this.instId
                         }
@@ -484,7 +484,7 @@
                 })
             },
             getHostCondition () {
-                const condition = [{ 'bk_obj_id': 'host', 'condition': [], fields: [] }]
+                const condition = [{ 'obj_id': 'host', 'condition': [], fields: [] }]
                 const property = this.getProperty(this.filter.id)
                 if (this.filter.value !== '' && property) {
                     condition[0]['condition'].push({

@@ -31,26 +31,26 @@
                     <filter-field-operator class="filter-field-operator fl"
                         v-show="!['date', 'time'].includes(property['bk_property_type'])"
                         :type="getOperatorType(property)"
-                        v-model="condition[property['bk_obj_id']][property['bk_property_id']]['operator']">
+                        v-model="condition[property['obj_id']][property['bk_property_id']]['operator']">
                     </filter-field-operator>
                     <cmdb-form-enum class="filter-field-value fr"
                         v-if="property['bk_property_type'] === 'enum'"
                         :allow-clear="true"
                         :options="property.option || []"
-                        v-model="condition[property['bk_obj_id']][property['bk_property_id']]['value']">
+                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
                     </cmdb-form-enum>
                     <cmdb-form-bool-input class="filter-field-value filter-field-bool-input fr"
                         v-else-if="property['bk_property_type'] === 'bool'"
-                        v-model="condition[property['bk_obj_id']][property['bk_property_id']]['value']">
+                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
                     </cmdb-form-bool-input>
                     <cmdb-form-associate-input class="filter-field-value filter-field-associate fr"
                         v-else-if="['singleasst', 'multiasst'].includes(property['bk_property_type'])"
-                        v-model="condition[property['bk_obj_id']][property['bk_property_id']]['value']">
+                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
                     </cmdb-form-associate-input>
                     <component class="filter-field-value fr" :class="`filter-field-${property['bk_property_type']}`"
                         v-else
                         :is="`cmdb-form-${property['bk_property_type']}`"
-                        v-model="condition[property['bk_obj_id']][property['bk_property_id']]['value']">
+                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
                     </component>
                 </div>
             </div>
@@ -186,7 +186,7 @@
             customFieldProperties () {
                 const customFieldProperties = []
                 this.customFields.forEach(field => {
-                    const objId = field['bk_obj_id']
+                    const objId = field['obj_id']
                     const propertyId = field['bk_property_id']
                     const property = this.$tools.getProperty(this.properties[objId], propertyId)
                     if (property) {
@@ -222,9 +222,9 @@
             applyingProperties (properties) {
                 let hasUnloadObj = false
                 properties.forEach(property => {
-                    if (!this.properties.hasOwnProperty(property['bk_obj_id'])) {
+                    if (!this.properties.hasOwnProperty(property['obj_id'])) {
                         hasUnloadObj = true
-                        this.$set(this.properties, property['bk_obj_id'], [])
+                        this.$set(this.properties, property['obj_id'], [])
                     }
                 })
                 if (hasUnloadObj) {
@@ -273,7 +273,7 @@
             getProperties () {
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: { '$in': Object.keys(this.properties) },
+                        obj_id: { '$in': Object.keys(this.properties) },
                         org_id: this.supplierAccount
                     }, { inject: this.$route.name !== 'resource' }),
                     config: {
@@ -288,9 +288,9 @@
                 })
             },
             getFilterLabel (property) {
-                const objId = property['bk_obj_id']
-                const propertyModel = this.models.find(model => model['bk_obj_id'] === objId)
-                return `${propertyModel['bk_obj_name']} - ${property['bk_property_name']}`
+                const objId = property['obj_id']
+                const propertyModel = this.models.find(model => model['obj_id'] === objId)
+                return `${propertyModel['obj_name']} - ${property['bk_property_name']}`
             },
             getOperatorType (property) {
                 const propertyType = property['bk_property_type']
@@ -303,7 +303,7 @@
                 return 'common'
             },
             getConditionOperator (property) {
-                const fields = this.condition[property['bk_obj_id']]
+                const fields = this.condition[property['obj_id']]
                 const target = fields.find(field => field.field === property['bk_property_id'])
                 return target.operator
             },
@@ -321,11 +321,11 @@
                 const normalProperties = this.customFieldProperties.filter(property => !['singleasst', 'multiasst'].includes(property['bk_property_type']))
                 requiredObj.forEach(objId => {
                     const objParams = {
-                        'bk_obj_id': objId,
+                        'obj_id': objId,
                         condition: [],
                         fields: []
                     }
-                    const objProperties = normalProperties.filter(property => property['bk_obj_id'] === objId)
+                    const objProperties = normalProperties.filter(property => property['obj_id'] === objId)
                     objProperties.forEach(property => {
                         const propertyCondition = this.condition[objId][property['bk_property_id']]
                         // 必要模型参数合法时，填充对应模型的condition
@@ -347,13 +347,13 @@
                 const associateProperties = this.customFieldProperties.filter(property => ['singleasst', 'multiasst'].includes(property['bk_property_type']))
                 associateProperties.forEach(property => {
                     const associateObjId = property['bk_asst_obj_id']
-                    const propertyCondition = this.condition[property['bk_obj_id']][property['bk_property_id']]
+                    const propertyCondition = this.condition[property['obj_id']][property['bk_property_id']]
                     // 关联模型存在且查询参数合法时，填充对应关联模型的condition
                     if (associateObjId && !['', null].includes(propertyCondition.value)) {
-                        let objParams = params.condition.find(condition => condition['bk_obj_id'] === associateObjId)
+                        let objParams = params.condition.find(condition => condition['obj_id'] === associateObjId)
                         if (!objParams) {
                             objParams = {
-                                'bk_obj_id': associateObjId,
+                                'obj_id': associateObjId,
                                 condition: [],
                                 fields: []
                             }
@@ -375,12 +375,12 @@
                     module: {}
                 }
                 this.customFieldProperties.forEach(property => {
-                    condition[property['bk_obj_id']][property['bk_property_id']] = this.getPropertyCondition(property)
+                    condition[property['obj_id']][property['bk_property_id']] = this.getPropertyCondition(property)
                 })
                 this.condition = condition
             },
             getPropertyCondition (property) {
-                const objId = property['bk_obj_id']
+                const objId = property['obj_id']
                 const propertyId = property['bk_property_id']
                 const condition = {
                     field: propertyId,
@@ -426,7 +426,7 @@
                     '$regex': '~',
                     '$in': '~'
                 }
-                params.condition.forEach(({ condition, bk_obj_id: objId }) => {
+                params.condition.forEach(({ condition, obj_id: objId }) => {
                     if (!['biz'].includes(objId) && condition.length) {
                         const objContent = []
                         condition.forEach(({ field, operator, value }) => {
@@ -462,10 +462,10 @@
                     'ip_list': params.ip.data
                 }
                 const queryParams = []
-                params.condition.forEach(({ condition, bk_obj_id: objId }) => {
+                params.condition.forEach(({ condition, obj_id: objId }) => {
                     condition.forEach(({ field, operator, value }) => {
                         queryParams.push({
-                            'bk_obj_id': objId,
+                            'obj_id': objId,
                             field,
                             operator,
                             value: Array.isArray(value) ? value.join(',') : value
@@ -506,7 +506,7 @@
                     [this.filterConfigKey]: properties.map(property => {
                         return {
                             'bk_property_id': property['bk_property_id'],
-                            'bk_obj_id': property['bk_obj_id']
+                            'obj_id': property['obj_id']
                         }
                     })
                 }).then(() => {

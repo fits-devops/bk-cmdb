@@ -20,8 +20,8 @@ type NetcollectDevice struct {
 	DeviceID    uint64     `json:"device_id,omitempty" bson:"device_id,omitempty"`
 	DeviceName  string     `json:"device_name,omitempty" bson:"device_name,omitempty"`
 	DeviceModel string     `json:"device_model,omitempty" bson:"device_model,omitempty"`
-	ObjectID    string     `json:"bk_obj_id" bson:"bk_obj_id,omitempty"`
-	ObjectName  string     `json:"bk_obj_name,omitempty" bson:"-"`
+	ObjectID    string     `json:"obj_id" bson:"obj_id,omitempty"`
+	ObjectName  string     `json:"obj_name,omitempty" bson:"-"`
 	BkVendor    string     `json:"bk_vendor,omitempty" bson:"bk_vendor,omitempty"`
 	OwnerID     string     `json:"-" bson:"org_id,omitempty"`
 	CreateTime  *time.Time `field:"create_time,omitempty" json:"create_time,omitempty" bson:"create_time,omitempty"`
@@ -34,8 +34,8 @@ type NetcollectProperty struct {
 	PropertyName         string     `json:"bk_property_name" bson:"-"`
 	DeviceID             uint64     `json:"device_id" bson:"device_id,omitempty"`
 	DeviceName           string     `json:"device_name" bson:"-"`
-	ObjectID             string     `json:"bk_obj_id,omitempty" bson:"-"`
-	ObjectName           string     `json:"bk_obj_name,omitempty" bson:"-"`
+	ObjectID             string     `json:"obj_id,omitempty" bson:"-"`
+	ObjectName           string     `json:"obj_name,omitempty" bson:"-"`
 	OID                  string     `json:"oid,omitempty" bson:"oid,omitempty"`
 	Period               string     `json:"period,omitempty" bson:"period,omitempty"`
 	Action               string     `json:"action,omitempty" bson:"action,omitempty"`
@@ -133,8 +133,8 @@ type NetcollectReport struct {
 	Action        string `json:"action" bson:"action"`
 	CloudID       int64  `json:"bk_cloud_id" bson:"bk_cloud_id"`
 	CloudName     string `json:"bk_cloud_name" bson:"-"`
-	ObjectID      string `json:"bk_obj_id" bson:"bk_obj_id"`
-	ObjectName    string `json:"bk_obj_name" bson:"-"`
+	ObjectID      string `json:"obj_id" bson:"obj_id"`
+	ObjectName    string `json:"obj_name" bson:"-"`
 	InnerIP       string `json:"bk_host_innerip" bson:"bk_host_innerip"`
 	Configuration string `json:"configuration" bson:"configuration"`
 	OwnerID       string `json:"org_id" bson:"org_id"`

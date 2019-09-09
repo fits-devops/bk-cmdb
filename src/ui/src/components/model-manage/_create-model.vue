@@ -12,7 +12,7 @@
             <div class="content clearfix">
                 <div class="content-left">
                     <div class="icon-wrapper" @click="modelDialog.isIconListShow = true">
-                        <i :class="modelDialog.data['bk_obj_icon']"></i>
+                        <i :class="modelDialog.data['obj_icon']"></i>
                     </div>
                     <div class="text">{{$t('ModelManagement["选择图标"]')}}</div>
                 </div>
@@ -43,7 +43,7 @@
                             <input type="text" class="cmdb-form-input"
                                 name="modelId"
                                 :placeholder="$t('ModelManagement[\'请输入唯一标识\']')"
-                                v-model.trim="modelDialog.data['bk_obj_id']"
+                                v-model.trim="modelDialog.data['obj_id']"
                                 v-validate="'required|modelId'">
                             <p class="form-error">{{errors.first('modelId')}}</p>
                         </div>
@@ -57,7 +57,7 @@
                                 name="modelName"
                                 :placeholder="$t('ModelManagement[\'请输入名称\']')"
                                 v-validate="'required|singlechar'"
-                                v-model.trim="modelDialog.data['bk_obj_name']">
+                                v-model.trim="modelDialog.data['obj_name']">
                             <p class="form-error">{{errors.first('modelName')}}</p>
                         </div>
                         <i class="bk-icon icon-info-circle" v-tooltip="$t('ModelManagement[\'请填写模型名\']')"></i>
@@ -69,7 +69,7 @@
                     <i class="bk-icon icon-back2"></i>
                 </span>
                 <the-choose-icon
-                    v-model="modelDialog.data['bk_obj_icon']"
+                    v-model="modelDialog.data['obj_icon']"
                     @chooseIcon="modelDialog.isIconListShow = false"
                 ></the-choose-icon>
             </div>
@@ -109,9 +109,9 @@
                     isIconListShow: false,
                     data: {
                         classification_id: '',
-                        bk_obj_icon: 'icon-cc-default',
-                        bk_obj_id: '',
-                        bk_obj_name: ''
+                        obj_icon: 'icon-cc-default',
+                        obj_id: '',
+                        obj_name: ''
                     }
                 }
             }
@@ -143,9 +143,9 @@
             isShow (isShow) {
                 if (isShow) {
                     this.modelDialog.data['classification_id'] = ''
-                    this.modelDialog.data['bk_obj_icon'] = 'icon-cc-default'
-                    this.modelDialog.data['bk_obj_id'] = ''
-                    this.modelDialog.data['bk_obj_name'] = ''
+                    this.modelDialog.data['obj_icon'] = 'icon-cc-default'
+                    this.modelDialog.data['obj_id'] = ''
+                    this.modelDialog.data['obj_name'] = ''
                     this.$validator.reset()
                 }
             }

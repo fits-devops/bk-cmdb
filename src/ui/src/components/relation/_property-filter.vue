@@ -121,7 +121,7 @@
             async objId (objId) {
                 const properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_obj_id': objId,
+                        'obj_id': objId,
                         'org_id': this.supplierAccount
                     }),
                     config: {

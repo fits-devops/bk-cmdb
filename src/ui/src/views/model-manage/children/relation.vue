@@ -33,8 +33,8 @@
             <template slot="mapping" slot-scope="{ item }">
                 {{mappingMap[item.mapping]}}
             </template>
-            <template slot="bk_obj_name" slot-scope="{ item }">
-                {{getModelName(item['bk_obj_id'])}}
+            <template slot="obj_name" slot-scope="{ item }">
+                {{getModelName(item['obj_id'])}}
             </template>
             <template slot="bk_asst_obj_name" slot-scope="{ item }">
                 {{getModelName(item['bk_asst_obj_id'])}}
@@ -97,7 +97,7 @@
                         id: 'mapping',
                         name: this.$t('ModelManagement["源-目标约束"]')
                     }, {
-                        id: 'bk_obj_name',
+                        id: 'obj_name',
                         name: this.$t('ModelManagement["源模型"]')
                     }, {
                         id: 'bk_asst_obj_name',
@@ -126,7 +126,7 @@
             ...mapGetters('objectModelClassify', ['models']),
             isReadOnly () {
                 if (this.activeModel) {
-                    return this.activeModel['bk_ispaused']
+                    return this.activeModel['ispaused']
                 }
                 return false
             },
@@ -189,9 +189,9 @@
                 })
             },
             getModelName (objId) {
-                const model = this.models.find(model => model['bk_obj_id'] === objId)
+                const model = this.models.find(model => model['obj_id'] === objId)
                 if (model) {
-                    return model['bk_obj_name']
+                    return model['obj_name']
                 }
                 return ''
             },
@@ -220,7 +220,7 @@
                                 requestId: 'deleteObjectAssociation'
                             }
                         }).then(() => {
-                            this.$http.cancel(`post_searchObjectAssociation_${this.activeModel['bk_obj_id']}`)
+                            this.$http.cancel(`post_searchObjectAssociation_${this.activeModel['obj_id']}`)
                         })
                         this.searchRelationList()
                     }
@@ -234,7 +234,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_obj_id': this.activeModel['bk_obj_id']
+                            'obj_id': this.activeModel['obj_id']
                         }
                     }, {
                         inject: this.isInjectable
@@ -245,7 +245,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_asst_obj_id': this.activeModel['bk_obj_id']
+                            'bk_asst_obj_id': this.activeModel['obj_id']
                         }
                     }, {
                         inject: this.isInjectable

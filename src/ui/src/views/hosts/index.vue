@@ -112,7 +112,7 @@
             getProperties () {
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
-                        bk_obj_id: { '$in': Object.keys(this.properties) },
+                        obj_id: { '$in': Object.keys(this.properties) },
                         org_id: this.supplierAccount
                     }),
                     config: {

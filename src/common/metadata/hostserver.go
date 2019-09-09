@@ -117,7 +117,7 @@ type IPInfo struct {
 type SearchCondition struct {
 	Fields    []string        `json:"fields"`
 	Condition []ConditionItem `json:"condition"`
-	ObjectID  string          `json:"bk_obj_id"`
+	ObjectID  string          `json:"obj_id"`
 }
 
 type SearchHost struct {
@@ -181,7 +181,7 @@ type CloudTaskList struct {
 	PeriodType      string `json:"bk_period_type"`
 	Period          string `json:"bk_period"`
 	LastSyncTime    string `json:"bk_last_sync_time"`
-	ObjID           string `json:"bk_obj_id"`
+	ObjID           string `json:"obj_id"`
 	Status          bool   `json:"bk_status"`
 	ResourceConfirm bool   `json:"bk_confirm"`
 	AttrConfirm     bool   `json:"bk_attr_confirm"`
@@ -190,7 +190,7 @@ type CloudTaskList struct {
 }
 
 type ResourceConfirm struct {
-	ObjID        string          `json:"bk_obj_id"`
+	ObjID        string          `json:"obj_id"`
 	ResourceName []mapstr.MapStr `json:"bk_resource_name"`
 	SourceType   string          `json:"bk_source_type"`
 	SourceName   string          `json:"bk_source_name"`
@@ -202,7 +202,7 @@ type ResourceConfirm struct {
 }
 
 type CloudHistory struct {
-	ObjID       string `json:"bk_obj_id"`
+	ObjID       string `json:"obj_id"`
 	Status      string `json:"bk_status"`
 	TimeConsume string `json:"bk_time_consume"`
 	NewAdd      int    `json:"new_add"`

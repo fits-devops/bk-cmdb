@@ -36,7 +36,7 @@ const actions = {
             'bk_biz_id': bizId,
             condition: ['biz', 'set', 'module', 'host'].map(model => {
                 return {
-                    'bk_obj_id': model,
+                    'obj_id': model,
                     condition: []
                 }
             }),
