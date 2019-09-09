@@ -27,7 +27,7 @@
     "module_property_operator": "主要维护人",
     "module_property_bk_bak_operator": "备份维护人",
     "plat_property_bk_cloud_name": "云区域",
-    "plat_property_bk_supplier_account": "供应商",
+    "plat_property_org_id": "供应商",
     "host_property_bk_host_id": "主机ID",
     "host_property_bk_host_innerip": "内网IP",
     "host_property_bk_host_outerip": "外网IP",

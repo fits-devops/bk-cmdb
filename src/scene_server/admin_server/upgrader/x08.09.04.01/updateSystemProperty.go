@@ -25,7 +25,7 @@ import (
 func updateSystemProperty(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
 	objs := []metadata.Object{}
 	condition := map[string]interface{}{
-		"bk_classification_id": "bk_biz_topo",
+		"classification_id": "bk_biz_topo",
 	}
 	err = db.Table(common.BKTableNameObjDes).Find(condition).All(ctx, &objs)
 	if err != nil {

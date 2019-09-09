@@ -46,7 +46,7 @@ type GetIPAndProxyByCompanyParams struct {
 }
 
 type GetHostAppByCompanyIDParams struct {
-	CompaynID  string `json:"bk_supplier_account"`
+	CompaynID  string `json:"org_id"`
 	IPs        string `json:"ip"`
 	CloudIDStr string `json:"bk_cloud_id"`
 }

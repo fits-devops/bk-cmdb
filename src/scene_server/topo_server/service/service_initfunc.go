@@ -168,21 +168,21 @@ func (s *Service) initObject() {
 
 }
 func (s *Service) initPrivilegeGroup() {
-	s.addAction(http.MethodPost, "/topo/privilege/group/{bk_supplier_account}", s.CreateUserGroup, nil)
-	s.addAction(http.MethodDelete, "/topo/privilege/group/{bk_supplier_account}/{group_id}", s.DeleteUserGroup, nil)
-	s.addAction(http.MethodPut, "/topo/privilege/group/{bk_supplier_account}/{group_id}", s.UpdateUserGroup, nil)
-	s.addAction(http.MethodPost, "/topo/privilege/group/{bk_supplier_account}/search", s.SearchUserGroup, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/group/{org_id}", s.CreateUserGroup, nil)
+	s.addAction(http.MethodDelete, "/topo/privilege/group/{org_id}/{group_id}", s.DeleteUserGroup, nil)
+	s.addAction(http.MethodPut, "/topo/privilege/group/{org_id}/{group_id}", s.UpdateUserGroup, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/group/{org_id}/search", s.SearchUserGroup, nil)
 }
 
 func (s *Service) initPrivilegeRole() {
-	s.addAction(http.MethodPost, "/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
-	s.addAction(http.MethodGet, "/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property_id}", s.GetPrivilege, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
+	s.addAction(http.MethodGet, "/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}", s.GetPrivilege, nil)
 }
 
 func (s *Service) initPrivilege() {
-	s.addAction(http.MethodPost, "/topo/privilege/group/detail/{bk_supplier_account}/{group_id}", s.UpdateUserGroupPrivi, nil)
-	s.addAction(http.MethodGet, "/topo/privilege/group/detail/{bk_supplier_account}/{group_id}", s.GetUserGroupPrivi, nil)
-	s.addAction(http.MethodGet, "/topo/privilege/user/detail/{bk_supplier_account}/{user_name}", s.GetUserPrivi, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/group/detail/{org_id}/{group_id}", s.UpdateUserGroupPrivi, nil)
+	s.addAction(http.MethodGet, "/topo/privilege/group/detail/{org_id}/{group_id}", s.GetUserGroupPrivi, nil)
+	s.addAction(http.MethodGet, "/topo/privilege/user/detail/{org_id}/{user_name}", s.GetUserPrivi, nil)
 }
 
 func (s *Service) initGraphics() {

@@ -109,8 +109,8 @@
                 const groups = []
                 const modelIdKey = 'bk_obj_id'
                 const modelNameKey = 'bk_obj_name'
-                const classificationIdKey = 'bk_classification_id'
-                const classificationNameKey = 'bk_classification_name'
+                const classificationIdKey = 'classification_id'
+                const classificationNameKey = 'classification_name'
                 this.topologyData.forEach(data => {
                     if ((data.assts || []).length) {
                         const model = this.models.find(model => model[modelIdKey] === data[modelIdKey])

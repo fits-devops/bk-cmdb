@@ -19,14 +19,14 @@ import (
 
 const (
 	ModelFieldID          = "id"
-	ModelFieldObjCls      = "bk_classification_id"
+	ModelFieldObjCls      = "classification_id"
 	ModelFieldObjIcon     = "bk_obj_icon"
 	ModelFieldObjectID    = "bk_obj_id"
 	ModelFieldObjectName  = "bk_obj_name"
 	ModelFieldIsPre       = "ispre"
 	ModelFieldIsPaused    = "bk_ispaused"
 	ModelFieldPosition    = "position"
-	ModelFieldOwnerID     = "bk_supplier_account"
+	ModelFieldOwnerID     = "org_id"
 	ModelFieldDescription = "description"
 	ModelFieldCreator     = "creator"
 	ModelFieldModifier    = "modifier"
@@ -38,14 +38,14 @@ const (
 type Object struct {
 	Metadata    `field:"metadata" json:"metadata" bson:"metadata"`
 	ID          int64  `field:"id" json:"id" bson:"id"`
-	ObjCls      string `field:"bk_classification_id" json:"bk_classification_id" bson:"bk_classification_id"`
+	ObjCls      string `field:"classification_id" json:"classification_id" bson:"classification_id"`
 	ObjIcon     string `field:"bk_obj_icon" json:"bk_obj_icon" bson:"bk_obj_icon"`
 	ObjectID    string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
 	ObjectName  string `field:"bk_obj_name" json:"bk_obj_name" bson:"bk_obj_name"`
 	IsPre       bool   `field:"ispre" json:"ispre" bson:"ispre"`
 	IsPaused    bool   `field:"bk_ispaused" json:"bk_ispaused" bson:"bk_ispaused"`
 	Position    string `field:"position" json:"position" bson:"position"`
-	OwnerID     string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID     string `field:"org_id" json:"org_id" bson:"org_id"`
 	Description string `field:"description" json:"description" bson:"description"`
 	Creator     string `field:"creator" json:"creator" bson:"creator"`
 	Modifier    string `field:"modifier" json:"modifier" bson:"modifier"`
@@ -175,10 +175,10 @@ type MainLineObject struct {
 
 type ObjectClsDes struct {
 	ID      int    `json:"id" bson:"id"`
-	ClsID   string `json:"bk_classification_id" bson:"bk_classification_id"`
-	ClsName string `json:"bk_classification_name" bson:"bk_classification_name"`
-	ClsType string `json:"bk_classification_type" bson:"bk_classification_type" `
-	ClsIcon string `json:"bk_classification_icon" bson:"bk_classification_icon"`
+	ClsID   string `json:"classification_id" bson:"classification_id"`
+	ClsName string `json:"classification_name" bson:"classification_name"`
+	ClsType string `json:"classification_type" bson:"classification_type" `
+	ClsIcon string `json:"classification_icon" bson:"classification_icon"`
 }
 
 type InnerModule struct {
@@ -193,10 +193,10 @@ type InnterAppTopo struct {
 
 // TopoItem define topo item
 type TopoItem struct {
-	ClassificationID string `json:"bk_classification_id"`
+	ClassificationID string `json:"classification_id"`
 	Position         string `json:"position"`
 	ObjID            string `json:"bk_obj_id"`
-	OwnerID          string `json:"bk_supplier_account"`
+	OwnerID          string `json:"org_id"`
 	ObjName          string `json:"bk_obj_name"`
 }
 

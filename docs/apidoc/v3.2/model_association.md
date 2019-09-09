@@ -265,7 +265,7 @@
       "assts": [
         {
           "id": 8,
-          "bk_supplier_account": "0",
+          "org_id": "0",
           "bk_obj_asst_id": "set_default_nation",
           "bk_obj_asst_name": "test",
           "bk_obj_id": "set",
@@ -282,7 +282,7 @@
       "assts": [
         {
           "id": 20,
-          "bk_supplier_account": "0",
+          "org_id": "0",
           "bk_obj_asst_id": "moduel_default_nation",
           "bk_obj_asst_name": "test",
           "bk_obj_id": "moduel",

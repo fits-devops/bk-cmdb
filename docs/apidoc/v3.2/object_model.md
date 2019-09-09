@@ -11,9 +11,9 @@
 ``` json
 {
     "creator": "admin",
-    "bk_classification_id": "cc_test",
+    "classification_id": "cc_test",
     "bk_obj_name": "cc_test_inst",
-    "bk_supplier_account": "0",
+    "org_id": "0",
     "bk_obj_icon": "icon-cc-business",
     "bk_obj_id": "cc_test_inst"
 }
@@ -26,10 +26,10 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |creator|string|否|无|本条数据创建者|creator|
-|bk_classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
+|classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
 |bk_obj_id|string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
 |bk_obj_name|string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name ,it will be used to shown|
-|bk_supplier_account| string| 是| 无|开发商账号|supplier account code|
+|org_id| string| 是| 无|开发商账号|supplier account code|
 |bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
 
 
@@ -120,9 +120,9 @@ data字段说明
 ``` json
 {
     "modifier": "admin",
-    "bk_classification_id": "cc_test",
+    "classification_id": "cc_test",
     "bk_obj_name": "cc2_test_inst",
-    "bk_supplier_account": "0",
+    "org_id": "0",
     "bk_obj_icon": "icon-cc-business",
     "position":"{\"ff\":{\"x\":-863,\"y\":1}}"
 }
@@ -137,9 +137,9 @@ data字段说明
 |---|---|---|---|---|---|
 |id|int|否|无|目标数据的记录ID，作为更新操作的条件|the record id，as the update condition|
 |modifier|string|否|无|本条数据的最后修改人员|the modifier|
-|bk_classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
+|classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
 |bk_obj_name|string|否|无|对象模型的名字|the name of the object|
-|bk_supplier_account| string| 是| 无|开发商账号|supplier account code|
+|org_id| string| 是| 无|开发商账号|supplier account code|
 |bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
 |position|json object string|否|无|用于前端展示的坐标|the position to display|
 
@@ -181,7 +181,7 @@ data字段说明
 ``` json
 {
     "bk_obj_id": "biz",
-    "bk_supplier_account":"0"
+    "org_id":"0"
 }
 ```
 
@@ -194,10 +194,10 @@ data字段说明
 |---|---|---|---|---|---|
 |creator|string|否|无|本条数据创建者|creator|
 |modifier|string|否|无|本条数据的最后修改人员|modifier|
-|bk_classification_id|string|否|无|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
+|classification_id|string|否|无|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
 |bk_obj_id|string|否|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
 |bk_obj_name|string|否|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the name of the object, it will be used to shown|
-|bk_supplier_account| string| 否| 无|开发商账号|supplier account code|
+|org_id| string| 否| 无|开发商账号|supplier account code|
 
 
 - output
@@ -209,7 +209,7 @@ data字段说明
     "error_msg": null,
     "data": [
         {
-            "bk_classification_id": "bk_organization",
+            "classification_id": "bk_organization",
             "create_time": "2018-03-08T11:30:28.005+08:00",
             "creator": "cc_system",
             "description": "",
@@ -222,7 +222,7 @@ data字段说明
             "bk_obj_id": "XX",
             "bk_obj_name": "XXX",
             "position": "{\"test_obj\":{\"x\":-253,\"y\":137}}",
-            "bk_supplier_account": "0"
+            "org_id": "0"
         }
     ]
 }
@@ -246,10 +246,10 @@ data 字段说明
 |id|int|数据记录的ID|the record identifier|
 |creator|string|本条数据创建者|creator|
 |modifier|string|本条数据的最后修改人员|modifier|
-|bk_classification_id|string|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
+|classification_id|string|对象模型的分类ID，只能用英文字母序列命名|the classifition identifier|
 |bk_obj_id|string|对象模型的ID，只能用英文字母序列命名|the object identifier|
 |bk_obj_name|string|对象模型的名字，用于展示|the name of the object, it will be used to shown|
-|bk_supplier_account| string|开发商账号|supplier account code|
+|org_id| string|开发商账号|supplier account code|
 |bk_ispaused| bool|是否停用, true or false|is not in use status|
 |ispre| bool|是否预定义, true or false|is pre definition|
 |bk_obj_icon|string|否|无|对象模型的ICON信息，用于前端显示，取值可参考[(modleIcon.json)](resource_define/modleIcon.json)|the icon of the object|
@@ -267,7 +267,7 @@ data 字段说明
 
 ``` json
 {
-    "bk_classification_id": "bk_host_manage"
+    "classification_id": "bk_host_manage"
 }
 ```
 
@@ -277,7 +277,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
+|classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
 
 
 - output
@@ -291,21 +291,21 @@ data 字段说明
         {
             "arrows": "to",
             "from": {
-                "bk_classification_id": "bk_host_manage",
+                "classification_id": "bk_host_manage",
                 "bk_obj_id": "host",
                 "bk_obj_name": "主机",
                 "position": "{\"bk_host_manage\":{\"x\":-357,\"y\":-344},\"lhmtest\":{\"x\":163,\"y\":75}}",
-                "bk_supplier_account": "0"
+                "org_id": "0"
             },
             "label": "bk_cloud_id",
             "label_name": "",
             "label_type": "",
             "to": {
-                "bk_classification_id": "bk_host_manage",
+                "classification_id": "bk_host_manage",
                 "bk_obj_id": "plat",
                 "bk_obj_name": "云区域",
                 "position": "{\"bk_host_manage\":{\"x\":-172,\"y\":-160}}",
-                "bk_supplier_account": "0"
+                "org_id": "0"
             }
         }
     ]
@@ -382,7 +382,7 @@ none
             "scope_type": "global",
             "scope_id": "",
             "bk_biz_id": 1,
-            "bk_supplier_account": "0",
+            "org_id": "0",
             "assts": [
                 {
                     "bk_asst_type": "singleasst",
@@ -423,7 +423,7 @@ data 字段说明
 |scope_type|string|图形范围类型,可选global,biz,cls(当前只有global)|the graphical scope type, could be global,biz,cls|
 |scope_id|string|图形范围类型下的ID,如果为global,则填0|the id under the graphical scope, should be 0 when socope type is global |
 |bk_biz_id|int|业务id|business id|
-|bk_supplier_account|string|开发商账号|supplier account code|
+|org_id|string|开发商账号|supplier account code|
 |assts|array|关联节点|the associated end point|
 
 assts 字段说明

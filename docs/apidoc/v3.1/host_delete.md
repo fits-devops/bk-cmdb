@@ -10,7 +10,7 @@
 ```
 {
     "bk_host_id":"235,236",
-    "bk_supplier_account":"0"
+    "org_id":"0"
 }
 ```
 * input字段说明
@@ -18,7 +18,7 @@
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
 | bk_host_id| string| 是|无|主机id | host id join by","|
-| bk_supplier_account| string| 是| 无|开发商账号|supplier account code|
+| org_id| string| 是| 无|开发商账号|supplier account code|
 
 
 * output:

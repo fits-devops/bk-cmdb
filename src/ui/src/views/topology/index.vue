@@ -265,7 +265,7 @@
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
                         bk_obj_id: { '$in': Object.keys(this.properties) },
-                        bk_supplier_account: this.supplierAccount
+                        org_id: this.supplierAccount
                     }),
                     config: {
                         requestId: `post_batchSearchObjectAttribute_${Object.keys(this.properties).join('_')}`
@@ -284,7 +284,7 @@
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
                         'bk_obj_id': objId,
-                        'bk_supplier_account': this.supplierAccount
+                        'org_id': this.supplierAccount
                     }),
                     config: {
                         requestId: `post_searchObjectAttribute_${objId}`
@@ -335,7 +335,7 @@
                     })
                 } else if (objId === 'module') {
                     requestParams.condition['bk_module_id'] = instId
-                    requestParams.condition['bk_supplier_account'] = this.supplierAccount
+                    requestParams.condition['org_id'] = this.supplierAccount
                     promise = this.searchModule({
                         bizId: this.bizId,
                         setId: this.tree.selectedNodeState.parent.node['bk_inst_id'],
@@ -560,7 +560,7 @@
                 let instIdKey
                 let instNameKey
                 if (nextObjId === 'set') {
-                    formData['bk_supplier_account'] = this.supplierAccount
+                    formData['org_id'] = this.supplierAccount
                     instIdKey = 'bk_set_id'
                     instNameKey = 'bk_set_name'
                     promise = this.createSet({
@@ -568,7 +568,7 @@
                         params: formData
                     })
                 } else if (nextObjId === 'module') {
-                    formData['bk_supplier_account'] = this.supplierAccount
+                    formData['org_id'] = this.supplierAccount
                     instIdKey = 'bk_module_id'
                     instNameKey = 'bk_module_name'
                     promise = this.createModule({
@@ -613,14 +613,14 @@
                 const objId = selectedNode['bk_obj_id']
                 let promise
                 if (objId === 'set') {
-                    formData['bk_supplier_account'] = this.supplierAccount
+                    formData['org_id'] = this.supplierAccount
                     promise = this.updateSet({
                         bizId: this.bizId,
                         setId: selectedNode['bk_inst_id'],
                         params: formData
                     })
                 } else if (objId === 'module') {
-                    formData['bk_supplier_account'] = this.supplierAccount
+                    formData['org_id'] = this.supplierAccount
                     promise = this.updateModule({
                         bizId: this.bizId,
                         setId: this.tree.selectedNodeInst['bk_set_id'],

@@ -25,7 +25,7 @@ func (m *modelClassification) isValid(ctx core.ContextParams, classificationID s
 
 	cond := mongo.NewCondition()
 	cond.Element(&mongo.Eq{Key: metadata.ClassFieldClassificationID, Val: classificationID})
-	cond.Element(&mongo.Eq{Key: metadata.ClassFieldClassificationSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.ClassFieldOwnerID, Val: ctx.SupplierAccount})
 
 	cnt, err := m.count(ctx, cond)
 	return 0 != cnt, err

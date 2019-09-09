@@ -146,7 +146,7 @@ func (m *modelClassification) SetManyModelClassification(ctx core.ContextParams,
 		if exists {
 
 			cond := mongo.NewCondition()
-			cond.Element(&mongo.Eq{Key: metadata.ClassificationFieldID, Val: origin.ID})
+			cond.Element(&mongo.Eq{Key: metadata.ClassFieldID, Val: origin.ID})
 			if _, err := m.update(ctx, mapstr.NewFromStruct(item, "field"), cond); nil != err {
 				blog.Errorf("request(%s): it is failed to update some fields(%#v) of the classification by the condition(%#v), error info is %s", ctx.ReqID, item, cond.ToMapStr(), err.Error())
 				addExceptionFunc(int64(itemIdx), err.(errors.CCErrorCoder), &item)
@@ -210,7 +210,7 @@ func (m *modelClassification) SetOneModelClassification(ctx core.ContextParams, 
 	if exists {
 
 		cond := mongo.NewCondition()
-		cond.Element(&mongo.Eq{Key: metadata.ClassificationFieldID, Val: origin.ID})
+		cond.Element(&mongo.Eq{Key: metadata.ClassFieldID, Val: origin.ID})
 		if _, err := m.update(ctx, mapstr.NewFromStruct(inputParam.Data, "field"), cond); nil != err {
 			blog.Errorf("request(%s): it is failed to update some fields(%#v) for a classification by the condition(%#v), error info is %s", ctx.ReqID, inputParam.Data, cond.ToMapStr(), err.Error())
 			addExceptionFunc(0, err.(errors.CCErrorCoder), &inputParam.Data)
@@ -257,7 +257,7 @@ func (m *modelClassification) DeleteModelClassification(ctx core.ContextParams, 
 		return &metadata.DeletedCount{}, ctx.Error.New(common.CCErrCommHTTPInputInvalid, err.Error())
 	}
 
-	deleteCond.Element(&mongo.Eq{Key: metadata.ClassFieldClassificationSupplierAccount, Val: ctx.SupplierAccount})
+	deleteCond.Element(&mongo.Eq{Key: metadata.ClassFieldOwnerID, Val: ctx.SupplierAccount})
 	cnt, exists, err := m.hasModel(ctx, deleteCond)
 	if nil != err {
 		blog.Errorf("request(%s): it is failed to check whether the classifications which are marked by the condition (%#v) have some models, error info is %s", ctx.ReqID, deleteCond.ToMapStr(), err.Error())

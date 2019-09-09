@@ -137,7 +137,7 @@ func (cli *classification) Create() error {
 func (cli *classification) Update(data mapstr.MapStr) error {
 
 	data.Remove(metadata.ClassFieldClassificationID)
-	data.Remove(metadata.ClassificationFieldID)
+	data.Remove(metadata.ClassFieldID)
 
 	if err := cli.IsValid(true, data); nil != err {
 		return err
@@ -154,7 +154,7 @@ func (cli *classification) Update(data mapstr.MapStr) error {
 
 	cond := condition.CreateCondition()
 	if 0 == len(cli.cls.ClassificationID) {
-		cond.Field(metadata.ClassificationFieldID).Eq(cli.cls.ID)
+		cond.Field(metadata.ClassFieldID).Eq(cli.cls.ID)
 	} else {
 		cond.Field(metadata.ClassFieldClassificationID).Eq(cli.cls.ClassificationID)
 	}
@@ -211,7 +211,7 @@ func (cli *classification) IsExists() (bool, error) {
 	// check id
 	cond := condition.CreateCondition()
 	cond.Field(metadata.ClassFieldClassificationID).Eq(cli.cls.ClassificationID)
-	cond.Field(metadata.ClassificationFieldID).NotIn([]int64{cli.cls.ID})
+	cond.Field(metadata.ClassFieldID).NotIn([]int64{cli.cls.ID})
 	items, err := cli.search(cond)
 	if nil != err {
 		return false, err
@@ -223,7 +223,7 @@ func (cli *classification) IsExists() (bool, error) {
 	// check name
 	cond = condition.CreateCondition()
 	cond.Field(metadata.ClassFieldClassificationName).Eq(cli.cls.ClassificationName)
-	cond.Field(metadata.ClassificationFieldID).NotIn([]int64{cli.cls.ID})
+	cond.Field(metadata.ClassFieldID).NotIn([]int64{cli.cls.ID})
 	items, err = cli.search(cond)
 	if nil != err {
 		return false, err

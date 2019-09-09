@@ -28,7 +28,7 @@ func addBkStartParamRegex(ctx context.Context, db dal.RDB, conf *upgrader.Config
 
 	type Attribute struct {
 		ID                int64       `field:"id" json:"id" bson:"id"`
-		OwnerID           string      `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+		OwnerID           string      `field:"org_id" json:"org_id" bson:"org_id"`
 		ObjectID          string      `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
 		PropertyID        string      `field:"bk_property_id" json:"bk_property_id" bson:"bk_property_id"`
 		PropertyName      string      `field:"bk_property_name" json:"bk_property_name" bson:"bk_property_name"`

@@ -10,7 +10,7 @@
 {
 
     "bk_module_name":"cc_module",
-    "bk_supplier_account":"0",
+    "org_id":"0",
     "bk_parent_id":0
 }
 ``` 
@@ -24,7 +24,7 @@
 |bk_set_id|int|是|无|集群id|the set id|
 |bk_parent_id|int|是|无|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的bk_set_id|the parent inst id|
 |bk_module_name|string|是|无|模块名|the module name|
-|bk_supplier_account|string|否|无|开发商账号|supplier account code|
+|org_id|string|否|无|开发商账号|supplier account code|
 |bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
 |bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
@@ -125,7 +125,7 @@ data 字段说明
 |bk_parent_id|int|是|无|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的bk_set_id|the parent inst id|
 |bk_module_id|string|是|无|模块标识|the module indentifier|
 |bk_module_name|string|否|无|模块名|the module name|
-|bk_supplier_account|string|否|无|开发商账号|supplier account code|
+|org_id|string|否|无|开发商账号|supplier account code|
 |bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
 |bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
@@ -155,7 +155,7 @@ data 字段说明
 
 
 ### 查询模块
-- API： POST /api/{version}/module/search/{bk_supplier_account}/{bk_biz_id}/{bk_set_id}           
+- API： POST /api/{version}/module/search/{org_id}/{bk_biz_id}/{bk_set_id}           
 - API 名称：search_module
 - 功能说明：
 	- 中文：查询模块	
@@ -186,7 +186,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the application id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_set_id|int|是|无|集群ID|the set identifier|
 |bk_module_name|string|否|无|模块名字|the module name|
 | page| object| 是|无|分页参数 |page parameter|
@@ -209,7 +209,7 @@ fields参数说明：
 |bk_parent_id|int|否|无|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的bk_set_id|the parent inst id|
 |bk_module_id|string|否|无|模块标识|the module indentifier|
 |bk_module_name|string|否|无|模块名|the module name|
-|bk_supplier_account|string|否|无|开发商账号|supplier account code|
+|org_id|string|否|无|开发商账号|supplier account code|
 |bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
 |bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
@@ -223,7 +223,7 @@ condition 说明
 |bk_parent_id|int|否|无|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的bk_set_id|the parent inst id|
 |bk_module_id|string|否|无|模块标识|the module indentifier|
 |bk_module_name|string|否|无|模块名|the module name|
-|bk_supplier_account|string|否|无|开发商账号|supplier account code|
+|org_id|string|否|无|开发商账号|supplier account code|
 |bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
 |bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
@@ -276,7 +276,7 @@ info 字段说明
 |bk_parent_id|int|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的bk_set_id|the parent inst id|
 |bk_module_id|string|模块标识|the module indentifier|
 |bk_module_name|string|模块名|the module name|
-|bk_supplier_account|string|开发商账号|supplier account code|
+|org_id|string|开发商账号|supplier account code|
 |bk_module_type|enum|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|主要维护人|the main maintainer|
 |bk_bak_operator|string|备份维护人|the backup maintainer|

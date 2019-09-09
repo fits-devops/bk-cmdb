@@ -16,7 +16,7 @@ db.cc_ObjAttDes.find().forEach(function (myDoc) {
         {
             "bk_obj_id": myDoc.bk_obj_id,
             "bk_property_id": myDoc.bk_property_id,
-            "bk_supplier_account": myDoc.bk_supplier_account,
+            "org_id": myDoc.org_id,
         },
         {
             "$set": {

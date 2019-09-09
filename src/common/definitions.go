@@ -207,7 +207,7 @@ const (
 	BKDefaultField = "default"
 
 	// BKOwnerIDField the owner field
-	BKOwnerIDField = "bk_supplier_account"
+	BKOwnerIDField = "org_id"
 
 	// BKSupplierIDField the supplier id field
 	BKSupplierIDField = "bk_supplier_id"
@@ -376,13 +376,13 @@ const (
 	BKObjAttIDField = "bk_object_att_id"
 
 	// BKClassificationIDField the classification id field
-	BKClassificationIDField = "bk_classification_id"
+	BKClassificationIDField = "classification_id"
 
 	// BKClassificationNameField the classification name field
-	BKClassificationNameField = "bk_classification_name"
+	BKClassificationNameField = "classification_name"
 
 	// BKClassificationIconField the classification icon field
-	BKClassificationIconField = "bk_classification_icon"
+	BKClassificationIconField = "classification_icon"
 
 	// BKPropertyGroupIDField the property group id field
 	BKPropertyGroupIDField = "bk_group_id"
@@ -636,7 +636,7 @@ const BKAppName string = "蓝鲸"
 
 const BKMainLine = "mainline"
 
-// bk_classification_id value
+// classification_id value
 const BKNetwork = "bk_network"
 
 const (
@@ -824,7 +824,7 @@ const (
 	//BKHTTPLanguage = "HTTP_BLUEKING_LANGUAGE"
 	BKHTTPLanguage = "HTTP_LANGUAGE"
 	// BKHTTPOwnerID the owner
-	//BKHTTPOwner = "HTTP_BK_SUPPLIER_ACCOUNT"
+	//BKHTTPOwner = "HTTP_org_id"
 	BKHTTPOwner = "HTTP_ORG_ACCOUNT"
 	// BKHTTPOwnerID the owner id
 	//BKHTTPOwnerID = "HTTP_BLUEKING_SUPPLIER_ID"

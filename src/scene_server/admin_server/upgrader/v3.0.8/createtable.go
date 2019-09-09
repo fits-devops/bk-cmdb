@@ -1,15 +1,3 @@
-/*
- * Tencent is pleased to support the open source community by making 蓝鲸 available.
- * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package v3v0v8
 
 import (
@@ -59,7 +47,7 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_module_name": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"default": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_parent_id": 1}, Background: true},
 	},
@@ -72,36 +60,36 @@ var tables = map[string][]dal.Index{
 	"cc_ObjAsst": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_asst_obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_ObjAttDes": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"id": 1}, Background: true},
 	},
 	"cc_ObjClassification": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_classification_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_classification_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"classification_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"classification_name": 1}, Background: true},
 	},
 	"cc_ObjDes": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_classification_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"classification_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_name": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_ObjectBase": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_inst_id": 1}, Background: true},
 	},
 	"cc_OperationLog": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"op_target": 1, "inst_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1, "bk_supplier_account": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"ext_key": 1, "bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1, "org_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"ext_key": 1, "org_id": 1}, Background: true},
 	},
 	"cc_PlatBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_Proc2Module": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
@@ -110,18 +98,18 @@ var tables = map[string][]dal.Index{
 	"cc_Process": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_process_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_PropertyGroup": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_group_id": 1}, Background: true},
 	},
 	"cc_SetBase": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_parent_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_supplier_account": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_set_name": 1}, Background: true},
 	},
 	"cc_Subscription": []dal.Index{

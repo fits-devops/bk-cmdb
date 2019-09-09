@@ -29,7 +29,7 @@
     "module_property_bk_bak_operator": "backup operator",
 
     "plat_property_bk_cloud_name": "cloud area",
-    "plat_property_bk_supplier_account": "supplier",
+    "plat_property_org_id": "supplier",
 
     "host_property_bk_host_id": "host ID",
     "host_property_bk_host_innerip": "inner ip",

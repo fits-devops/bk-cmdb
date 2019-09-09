@@ -16,7 +16,7 @@
 	"option": "",
 	"bk_property_group": "default",
 	"bk_obj_id": "cc_test_inst",
-	"bk_supplier_account": "0",
+	"org_id": "0",
 	"bk_property_id": "cc_test",
 	"bk_property_name": "cc_test",
 	"bk_property_type": "singlechar",
@@ -41,7 +41,7 @@
 |placeholder|string|否|无|占位符|the placeholder|
 |bk_property_group|string|否|无|字段分栏的名字|group recognition|
 |bk_obj_id|string|是|无|模型ID|the object identifier|
-|bk_supplier_account| string|是|无|开发商账号|supplier account code|
+|org_id| string|是|无|开发商账号|supplier account code|
 |bk_property_id|string|是|无|模型的属性ID|attribute identifier|
 |bk_property_name|string|是|无|模型属性名，用于展示|the attribute name|
 |bk_property_type|string|是|无|定义的属性字段用于存储数据的数据类型,可取值范围（singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool）|the data type（singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|
@@ -236,7 +236,7 @@ data 字段说明
 ``` json
 {
     "bk_obj_id": "process",
-    "bk_supplier_account": "0"
+    "org_id": "0"
 }
 ```
 
@@ -247,7 +247,7 @@ data 字段说明
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_obj_id|string|否|无|模型ID|the object identifier|
-|bk_supplier_account| string| 否| 无|开发商账号|supplier account code|
+|org_id| string| 否| 无|开发商账号|supplier account code|
 
 
 **bk_property_type 取值**
@@ -298,7 +298,7 @@ data 字段说明
             "bk_property_index": 0,
             "bk_property_name": "进程名称",
             "bk_property_type": "singlechar",
-            "bk_supplier_account": "0",
+            "org_id": "0",
             "unit": ""
         }
        ]
@@ -333,7 +333,7 @@ data字段说明
 |placeholder|string|占位符|the placeholder|
 |bk_property_group|string|字段分栏的名字|group recognition|
 |bk_obj_id|string|模型ID|the object identifier|
-| bk_supplier_account| string|开发商账号|supplier account code|
+| org_id| string|开发商账号|supplier account code|
 |bk_property_id|string|模型的属性ID|attribute identifier|
 |bk_property_name|string|模型属性名，用于展示|the attribute name|
 |bk_property_type|string|定义的属性字段用于存储数据的数据类型 （singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|the data type （singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|

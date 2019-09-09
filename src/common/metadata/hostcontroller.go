@@ -61,7 +61,7 @@ type HistoryMeta struct {
 	User       string    `json:"user,omitempty" bson:"user,omitempty"`
 	Content    string    `json:"content,omitempty" bson:"content,omitempty"`
 	CreateTime time.Time `json:"create_time,omitempty" bson:"create_time,omitempty"`
-	OwnerID    string    `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID    string    `json:"org_id" bson:"org_id"`
 }
 
 type HistoryResult struct {
@@ -118,7 +118,7 @@ type ModuleHost struct {
 	HostID   int64  `json:"bk_host_id" bson:"bk_host_id"`
 	ModuleID int64  `json:"bk_module_id" bson:"bk_module_id"`
 	SetID    int64  `json:"bk_set_id" bson:"bk_set_id"`
-	OwnerID  string `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID  string `json:"org_id" bson:"org_id"`
 }
 
 type HostConfig struct {
@@ -130,7 +130,7 @@ type ModuleHostConfigParams struct {
 	ApplicationID int64   `json:"bk_biz_id"`
 	HostID        int64   `json:"bk_host_id"`
 	ModuleID      []int64 `json:"bk_module_id"`
-	OwnerID       string  `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID       string  `json:"org_id" bson:"org_id"`
 }
 
 type UserConfig struct {
@@ -175,7 +175,7 @@ type FavouriteMeta struct {
 	Count       int       `json:"count,omitempty" bson:"count,omitempty"`
 	User        string    `json:"user,omitempty" bson:"user,omitempty"`
 	IsDefault   int       `json:"is_default,omitempty" bson:"is_default,omitempty"`
-	OwnerID     string    `json:"bk_supplier_account,omitempty" bson:"bk_supplier_account,omitempty"`
+	OwnerID     string    `json:"org_id,omitempty" bson:"org_id,omitempty"`
 	QueryParams string    `json:"query_params,omitempty" bson:"query_params,omitempty"`
 	CreateTime  time.Time `json:"create_time,omitempty" bson:"create_time,omitempty"`
 	UpdateTime  time.Time `json:"last_time,omitempty" bson:"last_time,omitempty"`
@@ -195,7 +195,7 @@ type UserConfigMeta struct {
 	CreateUser string    `json:"create_user" bson:"create_user,omitempty"`
 	ModifyUser string    `json:"modify_user" bson:"modify_user,omitempty"`
 	UpdateTime time.Time `json:"last_time" bson:"last_time,omitempty"`
-	OwnerID    string    `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID    string    `json:"org_id" bson:"org_id"`
 }
 
 type AddConfigQuery struct {
@@ -228,7 +228,7 @@ type CloudTaskInfo struct {
 	SyncStatus      string `json:"bk_sync_status" bson:"bk_sync_status"`
 	NewAdd          int64  `json:"new_add" bson:"new_add"`
 	AttrChanged     int64  `json:"attr_changed" bson:"attr_changed"`
-	OwnerID         string `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID         string `json:"org_id" bson:"org_id"`
 }
 
 // TransferHostToInnerModule transfer host to inner module eg:idle module ,fault module

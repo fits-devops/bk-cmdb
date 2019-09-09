@@ -315,17 +315,17 @@ func TestEmbedMap(t *testing.T) {
 	type classification struct {
 		Metadata           Metadata `field:"metadata" json:"metadata" bson:"metadata"`
 		ID                 int64    `field:"id" json:"id" bson:"id"`
-		ClassificationID   string   `field:"bk_classification_id"  json:"bk_classification_id" bson:"bk_classification_id"`
-		ClassificationName string   `field:"bk_classification_name" json:"bk_classification_name" bson:"bk_classification_name"`
-		ClassificationType string   `field:"bk_classification_type" json:"bk_classification_type" bson:"bk_classification_type"`
-		ClassificationIcon string   `field:"bk_classification_icon" json:"bk_classification_icon" bson:"bk_classification_icon"`
-		OwnerID            string   `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"  `
+		ClassificationID   string   `field:"classification_id"  json:"classification_id" bson:"classification_id"`
+		ClassificationName string   `field:"classification_name" json:"classification_name" bson:"classification_name"`
+		ClassificationType string   `field:"classification_type" json:"classification_type" bson:"classification_type"`
+		ClassificationIcon string   `field:"classification_icon" json:"classification_icon" bson:"classification_icon"`
+		OwnerID            string   `field:"org_id" json:"org_id" bson:"org_id"  `
 	}
 
 	testData := `{
-		"bk_supplier_account": "0",
-		"bk_classification_id": "test",
-		"bk_classification_name": "test",
+		"org_id": "0",
+		"classification_id": "test",
+		"classification_name": "test",
 		"metadata": {
 			"label": {
 				"bk_biz_id": "1"

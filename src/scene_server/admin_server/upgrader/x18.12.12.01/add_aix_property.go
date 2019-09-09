@@ -25,7 +25,7 @@ import (
 
 type Attribute struct {
 	ID                int64       `json:"id" bson:"id"`
-	OwnerID           string      `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID           string      `json:"org_id" bson:"org_id"`
 	ObjectID          string      `json:"bk_obj_id" bson:"bk_obj_id"`
 	PropertyID        string      `json:"bk_property_id" bson:"bk_property_id"`
 	PropertyName      string      `json:"bk_property_name" bson:"bk_property_name"`

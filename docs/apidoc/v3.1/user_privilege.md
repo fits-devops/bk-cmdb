@@ -11,7 +11,7 @@
 
 ### 获取角色绑定权限
 * API:
-GET /api/{version}/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property_id}
+GET /api/{version}/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}
 * API名称： get_role_privilege
 * 功能说明：
 	* 中文：获取角色绑定权限
@@ -22,7 +22,7 @@ GET /api/{version}/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 |supplier account code |
+| org_id| string| 是|无|开发商账号 |supplier account code |
 | bk_obj_id| string| 是|无| 模型ID |  object ID |
 | bk_property_id| string| 是| 无|模型对应用户角色属性ID| object property id|
 
@@ -68,7 +68,7 @@ data 字段说明：
 
 
 ###  绑定角色权限
-* API: POST /api/{version}/topo/privilege/{bk_supplier_account}/{bk_obj_id}/{bk_property_id}
+* API: POST /api/{version}/topo/privilege/{org_id}/{bk_obj_id}/{bk_property_id}
 * API名称： bind_role_privilege
 * 功能说明：
 	* 中文：绑定角色绑定权限
@@ -117,7 +117,7 @@ data 字段说明：
 
 
 ###  新建用户分组
-* API: POST /api/{version}/topo/privilege/group/{bk_supplier_account}
+* API: POST /api/{version}/topo/privilege/group/{org_id}
 * API名称： create_user_group
 * 功能说明：
 	* 中文：创建用户分组
@@ -134,7 +134,7 @@ data 字段说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | group_name| string| 是|无|分组名 | group name|
 | user_list|string | 是| 无|分组用户列表，多个用;分割| user list|
 
@@ -159,7 +159,7 @@ data 字段说明：
 | data | null| 请求返回的数据 |return data|
 
 ###  更新用户分组
-* API: PUT  /api/{version}/topo/privilege/group/{bk_supplier_account}/{group_id}
+* API: PUT  /api/{version}/topo/privilege/group/{org_id}/{group_id}
 * API名称： update_user_group
 * 功能说明：
 	* 中文：更新用户分组
@@ -176,7 +176,7 @@ data 字段说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | group_id| string| 是|无|分组ID  | group ID|
 | group_name| string| 否|无|分组名 | group name|
 | user_list|string | 否| 无|分组用户列表，多个用;分割| user list|
@@ -204,7 +204,7 @@ data 字段说明：
 
 
 ###  查询用户分组
-* API: POST /api/{version}/topo/privilege/group/{bk_supplier_account}/search
+* API: POST /api/{version}/topo/privilege/group/{org_id}/search
 * API名称： search_user_group
 * 功能说明：
 	* 中文：查询用户分组
@@ -221,7 +221,7 @@ data 字段说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | group_name| string| 否|无|分组名 | group name|
 | user_list|string | 否| 无|分组用户列表，多个用;分割| user list|
 
@@ -262,7 +262,7 @@ data object 说明：
 
 
 ###  删除用户分组
-* API: DELETE  /api/{version}/topo/privilege/group/{bk_supplier_account}/{bk_group_id}
+* API: DELETE  /api/{version}/topo/privilege/group/{org_id}/{bk_group_id}
 * API名称： delete_user_group
 * 功能说明：
 	* 中文：删除用户分组
@@ -273,7 +273,7 @@ data object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | group_id| string| 是|无|分组ID  | group ID|
 
 
@@ -297,7 +297,7 @@ data object 说明：
 | data | null| 请求返回的数据 |return data|
 
 ###  查询分组权限
-* API :  GET  /api/{version}/topo/privilege/group/detail/{bk_supplier_account}/{group_id}
+* API :  GET  /api/{version}/topo/privilege/group/detail/{org_id}/{group_id}
 * API名称： search_group_privilege
 * 功能说明：
 	* 中文： 查询分组权限
@@ -309,7 +309,7 @@ data object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---|---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | group_id| string| 是|无|分组ID  | group ID|
 
 * output:
@@ -391,7 +391,7 @@ model_config字段说明：
 
 
 ###  查询用户权限
-* API:  GET  /api/{version}/topo/privilege/user/detail/{bk_supplier_account}/{user_name}
+* API:  GET  /api/{version}/topo/privilege/user/detail/{org_id}/{user_name}
 * API名称： get_user_privilege
 * 功能说明：
 	* 中文： 获取用户权限
@@ -402,7 +402,7 @@ model_config字段说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---|---| ---|
-| bk_supplier_account| string| 是|无|开发商账号 | supplier account code|
+| org_id| string| 是|无|开发商账号 | supplier account code|
 | user_name| string| 是|无|用户名  | user name|
 
 
@@ -484,7 +484,7 @@ model config字段说明：
 
 
 ###  更新分组权限
-* API: POST  /api/{version}/topo/privilege/group/detail/{bk_supplier_account}/{group_id}
+* API: POST  /api/{version}/topo/privilege/group/detail/{org_id}/{group_id}
 * API名称： update_group_privilege
 * 功能说明：
 	* 中文： 更新分组权限

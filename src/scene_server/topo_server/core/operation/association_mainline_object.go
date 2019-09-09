@@ -150,7 +150,7 @@ func (a *association) CreateMainlineAssociation(params types.ContextParams, data
 	}
 
 	if data.ClassificationID == "" {
-		blog.Errorf("[operation-asst] bk_classification_id empty,rid:%s", util.GetHTTPCCRequestID(params.Header))
+		blog.Errorf("[operation-asst] classification_id empty,rid:%s", util.GetHTTPCCRequestID(params.Header))
 		return nil, params.Err.Errorf(common.CCErrCommParamsNeedSet, common.BKClassificationIDField)
 	}
 

@@ -245,7 +245,7 @@
                 // 2.去掉无启用模型的分类和不显示的分类
                 activeClassifications = activeClassifications.filter(classification => {
                     const {
-                        'bk_classification_id': bkClassificationId,
+                        'classification_id': bkClassificationId,
                         'bk_objects': bkObjects
                     } = classification
                     return !this.hideClassify.includes(bkClassificationId) && Array.isArray(bkObjects) && bkObjects.length
@@ -253,7 +253,7 @@
                 const authorities = this.groupAuthorities
                 activeClassifications.map(classify => {
                     const models = []
-                    const classifyId = classify['bk_classification_id']
+                    const classifyId = classify['classification_id']
                     if (this.hideClassify.indexOf(classifyId) === -1) {
                         classify['bk_objects'].forEach((model) => {
                             let selectedAuthorities = []
@@ -267,8 +267,8 @@
                             models.push(Object.assign({}, model, { selectedAuthorities }))
                         })
                         localClassifications.push({
-                            id: classify['bk_classification_id'],
-                            name: classify['bk_classification_name'],
+                            id: classify['classification_id'],
+                            name: classify['classification_name'],
                             open: true,
                             models: models
                         })

@@ -56,7 +56,7 @@ ext_key 字段说明： 为根据ip的匹配搜索
         "count":1,
         "info":[
             {
-                "bk_supplier_account":"0",
+                "org_id":"0",
                 "bk_biz_id":1,
                 "op_desc":"修改主机",
                 "op_type":2,
@@ -130,7 +130,7 @@ info 字段说明：
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
-| bk_supplier_account| string| 开发商ID |supplier account code|
+| org_id| string| 开发商ID |supplier account code|
 | bk_biz_id| int | 业务ID | business ID  |
 | op_type| string | 操作类型 | the type of record  |
 | op_desc| string | 操作描述 | operation description  |

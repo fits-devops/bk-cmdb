@@ -1,15 +1,3 @@
-/*
- * Tencent is pleased to support the open source community by making 蓝鲸 available.
- * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package v3v0v8
 
 import (
@@ -172,12 +160,12 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 type Association struct {
 	ID               int64  `field:"id" json:"id" bson:"id"`
 	ObjectID         string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
-	OwnerID          string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID          string `field:"org_id" json:"org_id" bson:"org_id"`
 	AsstForward      string `field:"bk_asst_forward" json:"bk_asst_forward" bson:"bk_asst_forward"`
 	AsstObjID        string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
 	AsstName         string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
 	ObjectAttID      string `field:"bk_object_att_id" json:"bk_object_att_id" bson:"bk_object_att_id"`
-	ClassificationID string `field:"bk_classification_id" bson:"-"`
+	ClassificationID string `field:"classification_id" bson:"-"`
 	ObjectIcon       string `field:"bk_obj_icon" bson:"-"`
 	ObjectName       string `field:"bk_obj_name" bson:"-"`
 }

@@ -13,7 +13,7 @@
             </div>
             <ul class="display-list">
                 <li class="group-item" v-for="(group, groupIndex) in topoList" :key="groupIndex">
-                    <p class="group-name">{{group['bk_classification_name']}}</p>
+                    <p class="group-name">{{group['classification_name']}}</p>
                     <ul class="clearfix">
                         <li class="model-item" :class="{ 'active': model['bk_obj_id'] === activePop }" v-for="(model, modelIndex) in group['bk_objects']" :key="modelIndex">
                             <label class="cmdb-form-checkbox checkbox cmdb-checkbox-small">

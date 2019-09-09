@@ -122,7 +122,7 @@
                 const properties = await this.searchObjectAttribute({
                     params: this.$injectMetadata({
                         'bk_obj_id': objId,
-                        'bk_supplier_account': this.supplierAccount
+                        'org_id': this.supplierAccount
                     }),
                     config: {
                         requestId: `post_searchObjectAttribute_${objId}`,

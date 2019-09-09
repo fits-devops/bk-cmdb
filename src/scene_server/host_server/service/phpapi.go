@@ -1004,7 +1004,7 @@ func (s *Service) GetPlat(req *restful.Request, resp *restful.Response) {
 }
 
 // CreatePlat create a plat instance
-// available fields for body are last_time, bk_cloud_name, bk_supplier_account, bk_cloud_id, create_time
+// available fields for body are last_time, bk_cloud_name, org_id, bk_cloud_id, create_time
 func (s *Service) CreatePlat(req *restful.Request, resp *restful.Response) {
 	srvData := s.newSrvComm(req.Request.Header)
 	input := make(map[string]interface{})

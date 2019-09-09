@@ -1,5 +1,5 @@
 ### 新增进程
-* API： POST /api/{version}/proc/{bk_supplier_account}/{bk_biz_id}
+* API： POST /api/{version}/proc/{org_id}/{bk_biz_id}
 * API名称： create_process
 * 功能说明：
 	* 中文：创建进程
@@ -50,7 +50,7 @@
 
 ### 查询进程
 
-* API:  POST /api/{version}/proc/search/{bk_supplier_account}/{bk_biz_id}
+* API:  POST /api/{version}/proc/search/{org_id}/{bk_biz_id}
 * API名称： search_process
 * 功能说明：
 	* 中文：查询进程
@@ -158,7 +158,7 @@ data 数据信息：
 info字段说明：
 ### 获取进程详情
 
-* API: GET    /api/{version}/proc/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}
+* API: GET    /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
 * API名称： get_process_detail
 * 功能说明：
 	* 中文：获取进程详情
@@ -169,7 +169,7 @@ info字段说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 id|business id |
 | bk_process_id|  int| 是| 无|进程 id |process id|
 
@@ -208,7 +208,7 @@ data 数据说明： 进程属性的具体数据
 
 ### 删除进程
 
-* API: DELETE    /api/{version}/proc/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}
+* API: DELETE    /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
 * API名称： delete_process
 * 功能说明：
 	* 中文：删除进程
@@ -236,7 +236,7 @@ data 数据说明： 进程属性的具体数据
 | data | string | 请求返回的数据 |the data response|
 
 ### 更新进程
-* API:  PUT  /api/{version}/proc/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}
+* API:  PUT  /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
 * API名称： update_process
 * 功能说明：
 	* 中文：更新进程
@@ -252,7 +252,7 @@ data 数据说明： 进程属性的具体数据
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 id|business id |
 | bk_process_id|  int| 是| 无|进程 id |process id|
 body 字段为进程属性
@@ -280,7 +280,7 @@ body 字段为进程属性
 
 
 ### 批量更新进程
-* API:  PUT  /api/{version}/proc/{bk_supplier_account}/{bk_biz_id}
+* API:  PUT  /api/{version}/proc/{org_id}/{bk_biz_id}
 * API名称： batch_update_process
 * 功能说明：
 	* 中文：批量更新进程
@@ -298,7 +298,7 @@ body 字段为进程属性
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 id|business id |
 | bk_process_id|  string| 是| 无|进程id,int类型的bk_process_id,分割|process ids joined by ','|
 body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外的属性
@@ -326,7 +326,7 @@ body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外�
 
 
 ### 获取进程绑定模块
-* API: GET    /api/{version}/proc/module/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}
+* API: GET    /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}
 * API名称： get_process_bind_module
 * 功能说明：
 	* 中文：获取进程绑定的模块
@@ -338,7 +338,7 @@ body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外�
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 id|business id |
 | bk_process_id|  int| 是| 无|进程 id |process id|
 
@@ -382,7 +382,7 @@ data 数据结构
 | is_bind| int| 是否绑定模块 |is bind to module|
 
 ### 绑定进程到模块
-* API: PUT   /api/{version}/proc/module/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
+* API: PUT   /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
 * API名称： bind_process_module
 * 功能说明：
 	* 中文：绑定进程到模块
@@ -395,7 +395,7 @@ data 数据结构
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 id|business id |
 | bk_process_id|  int| 是| 无|进程 id |process id|
 | bk_module_name|  string| 是| 无|模块名称 |module name|
@@ -422,7 +422,7 @@ data 数据结构
 
 
 ### 解绑进程模块
-* API: DELETE   /api/{version}/proc/module/{bk_supplier_account}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
+* API: DELETE   /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
 * API名称： delete_process_module_binding
 * 功能说明：
 	* 中文： 删除进程模块绑定关系
@@ -433,7 +433,7 @@ data 数据结构
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商 code |supplier account code|
+| org_id| string| 是|无|开发商 code |supplier account code|
 | bk_biz_id| int | 是| 无|业务 ID|business id |
 | bk_process_id|  int| 是| 无|进程 ID |process id|
 | bk_module_name|  string| 是| 无|模块名称 |module name|

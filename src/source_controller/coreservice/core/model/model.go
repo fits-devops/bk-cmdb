@@ -66,7 +66,7 @@ func (m *modelManager) CreateModel(ctx core.ContextParams, inputParam metadata.C
 
 	if !isValid {
 		blog.Warnf("request(%s): it is failed to create a new model, because of the classificationID (%s) is invalid", ctx.ReqID, inputParam.Spec.ObjCls)
-		return dataResult, ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, metadata.ClassificationFieldID)
+		return dataResult, ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, metadata.ClassFieldID)
 	}
 
 	// check the model if it is exists
@@ -131,7 +131,7 @@ func (m *modelManager) SetModel(ctx core.ContextParams, inputParam metadata.SetM
 
 	if !isValid {
 		blog.Warnf("request(%s): it is failed to create a new model, because of the classificationID (%s) is invalid", ctx.ReqID, inputParam.Spec.ObjCls)
-		return dataResult, ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, metadata.ClassificationFieldID)
+		return dataResult, ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, metadata.ClassFieldID)
 	}
 
 	condCheckModel := mongo.NewCondition()

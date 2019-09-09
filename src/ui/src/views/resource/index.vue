@@ -230,7 +230,7 @@
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
                         bk_obj_id: { '$in': Object.keys(this.properties) },
-                        bk_supplier_account: this.supplierAccount
+                        org_id: this.supplierAccount
                     }, { inject: false }),
                     config: {
                         requestId: `post_batchSearchObjectAttribute_${Object.keys(this.properties).join('_')}`,
@@ -373,7 +373,7 @@
                             params: {
                                 data: {
                                     'bk_host_id': this.table.checked.join(','),
-                                    'bk_supplier_account': this.supplierAccount
+                                    'org_id': this.supplierAccount
                                 }
                             }
                         }).then(() => {

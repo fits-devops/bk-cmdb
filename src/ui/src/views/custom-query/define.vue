@@ -598,7 +598,7 @@
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
                             bk_obj_id: 'host',
-                            bk_supplier_account: this.supplierAccount
+                            org_id: this.supplierAccount
                         }),
                         config: {
                             requestId: 'post_searchObjectAttribute_host',
@@ -608,7 +608,7 @@
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
                             bk_obj_id: 'set',
-                            bk_supplier_account: this.supplierAccount
+                            org_id: this.supplierAccount
                         }),
                         config: {
                             requestId: 'post_searchObjectAttribute_set',
@@ -618,7 +618,7 @@
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
                             bk_obj_id: 'module',
-                            bk_supplier_account: this.supplierAccount
+                            org_id: this.supplierAccount
                         }),
                         config: {
                             requestId: 'post_searchObjectAttribute_module',
@@ -628,7 +628,7 @@
                     this.searchObjectAttribute({
                         params: this.$injectMetadata({
                             bk_obj_id: 'biz',
-                            bk_supplier_account: this.supplierAccount
+                            org_id: this.supplierAccount
                         }),
                         config: {
                             requestId: 'post_searchObjectAttribute_biz',

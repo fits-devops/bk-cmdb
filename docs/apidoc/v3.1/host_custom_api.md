@@ -382,7 +382,7 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
                     "default":0,
                     "last_time":"2017-12-20T14:45:22.04+08:00",
                     "bk_biz_maintainer":"tt",
-                    "bk_supplier_account":"0",
+                    "org_id":"0",
                     "bk_biz_productor":"tt",
                     "dg":""
                 },

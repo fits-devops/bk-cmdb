@@ -254,7 +254,7 @@ func (c *commonInst) CreateInst(params types.ContextParams, obj model.Object, da
 
 	iData := item.ToMapStr()
 	if obj.Object().ObjectID == "plat" {
-		iData["bk_supplier_account"] = params.SupplierAccount
+		iData["org_id"] = params.SupplierAccount
 	}
 	// if err := NewSupplementary().Validator(c).ValidatorCreate(params, obj, iData); nil != err {
 	// 	blog.Errorf("[operation-inst] valid is bad, the data is (%#v)  err: %s", iData, err.Error())

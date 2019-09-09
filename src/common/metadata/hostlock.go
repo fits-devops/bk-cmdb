@@ -38,7 +38,7 @@ type HostLockData struct {
 	IP         string    `json:"bk_host_innerip" bson:"bk_host_innerip"`
 	CloudID    int64     `json:"bk_cloud_id" bson:"bk_cloud_id"`
 	CreateTime time.Time `json:"create_time" bson:"create_time"`
-	OwnerID    string    `json:"-" bson:"bk_supplier_account"`
+	OwnerID    string    `json:"-" bson:"org_id"`
 }
 
 type HostLockQueryResponse struct {

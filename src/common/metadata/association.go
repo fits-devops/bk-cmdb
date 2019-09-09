@@ -24,7 +24,7 @@ const (
 	// AssociationFieldObjectAttributeID the association data field definition
 	//AssociationFieldObjectAttributeID = "bk_object_att_id"
 	// AssociationFieldSupplierAccount the association data field definition
-	AssociationFieldSupplierAccount = "bk_supplier_account"
+	AssociationFieldSupplierAccount = "org_id"
 	// AssociationFieldAssociationForward the association data field definition
 	// AssociationFieldAssociationForward = "bk_asst_forward"
 	// AssociationFieldAssociationObjectID the association data field definition
@@ -175,7 +175,7 @@ type AssociationKind struct {
 	// a memorable name for this association kind, could be a chinese name, a english name etc.
 	AssociationKindName string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
 	// the owner that this association type belongs to.
-	OwnerID string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID string `field:"org_id" json:"org_id" bson:"org_id"`
 	// the describe for the relationship from source object to the target(destination) object, which will be displayed
 	// when the topology is constructed between objects.
 	SourceToDestinationNote string `field:"src_des" json:"src_des" bson:"src_des"`
@@ -222,7 +222,7 @@ const (
 // Association defines the association between two objects.
 type Association struct {
 	ID      int64  `field:"id" json:"id" bson:"id"`
-	OwnerID string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID string `field:"org_id" json:"org_id" bson:"org_id"`
 
 	// the unique id belongs to  this association, should be generated with rules as follows:
 	// "$ObjectID"_"$AsstID"_"$AsstObjID"
@@ -245,7 +245,7 @@ type Association struct {
 	// if true, it means this association is used by cmdb itself.
 	IsPre *bool `field:"ispre" json:"ispre" bson:"ispre"`
 
-	ClassificationID string `field:"bk_classification_id" json:"-" bson:"-"`
+	ClassificationID string `field:"classification_id" json:"-" bson:"-"`
 	ObjectIcon       string `field:"bk_obj_icon" json:"-" bson:"-"`
 	ObjectName       string `field:"bk_obj_name" json:"-" bson:"-"`
 
@@ -260,7 +260,7 @@ func (a *Association) CanUpdate() (field string, can bool) {
 	}
 
 	if len(a.OwnerID) != 0 {
-		return "bk_supplier_account", false
+		return "org_id", false
 	}
 
 	if len(a.AssociationName) != 0 {
@@ -315,8 +315,8 @@ type InstAsst struct {
 	AsstInstID int64 `field:"bk_asst_inst_id" json:"bk_asst_inst_id"  bson:"bk_asst_inst_id"`
 	// association target ObjectID
 	AsstObjectID string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
-	// bk_supplier_account
-	OwnerID string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	// org_id
+	OwnerID string `field:"org_id" json:"org_id" bson:"org_id"`
 	// association id between two object
 	ObjectAsstID string `field:"bk_obj_asst_id" json:"bk_obj_asst_id" bson:"bk_obj_asst_id"`
 	// association kind id
@@ -370,7 +370,7 @@ func (cli *InstAsst) ToMapStr() mapstr.MapStr {
 type MainlineObjectTopo struct {
 	ObjID      string `field:"bk_obj_id" json:"bk_obj_id"`
 	ObjName    string `field:"bk_obj_name" json:"bk_obj_name"`
-	OwnerID    string `field:"bk_supplier_account" json:"bk_supplier_account"`
+	OwnerID    string `field:"org_id" json:"org_id"`
 	NextObj    string `field:"bk_next_obj" json:"bk_next_obj"`
 	NextName   string `field:"bk_next_name" json:"bk_next_name"`
 	PreObjID   string `field:"bk_pre_obj_id" json:"bk_pre_obj_id"`

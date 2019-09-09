@@ -262,7 +262,7 @@ const (
 )
 
 // GetHostIDByCond query hostIDs by condition base on cc_ModuleHostConfig
-// available condition fields are bk_supplier_account, bk_biz_id, bk_host_id, bk_module_id, bk_set_id
+// available condition fields are org_id, bk_biz_id, bk_host_id, bk_module_id, bk_set_id
 func (lgc *Logics) GetHostIDByCond(ctx context.Context, cond metadata.HostModuleRelationRequest) ([]int64, errors.CCError) {
 
 	result, err := lgc.CoreAPI.CoreService().Host().GetHostModuleRelation(ctx, lgc.header, &cond)

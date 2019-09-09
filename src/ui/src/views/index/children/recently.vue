@@ -72,7 +72,7 @@
             avaliableModels () {
                 return this.models.filter(model => {
                     return !model.bk_ispaused
-                        && !['bk_host_manage', 'bk_biz_topo', 'bk_organization'].includes(model.bk_classification_id)
+                        && !['bk_host_manage', 'bk_biz_topo', 'bk_organization'].includes(model.classification_id)
                 })
             },
             displayModels () {

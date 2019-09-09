@@ -384,14 +384,14 @@
                 const eventPushList = []
                 const subscriptionForm = {}
                 this.classifications.map(classify => {
-                    if (classify['bk_objects'].length && classify['bk_classification_id'] !== 'bk_host_manage') {
+                    if (classify['bk_objects'].length && classify['classification_id'] !== 'bk_host_manage') {
                         const event = {
-                            name: classify['bk_classification_name'],
+                            name: classify['classification_name'],
                             isHidden: false,
-                            classificationId: classify['bk_classification_id'],
+                            classificationId: classify['classification_id'],
                             children: []
                         }
-                        if (classify['bk_classification_id'] === 'bk_biz_topo') {
+                        if (classify['classification_id'] === 'bk_biz_topo') {
                             event.children.push({
                                 id: 'set',
                                 name: this.$t("Hosts['集群']")

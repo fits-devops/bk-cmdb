@@ -24,14 +24,14 @@
                             <cmdb-selector
                                 class="selector-box"
                                 name="modelGroup"
-                                setting-key="bk_classification_id"
-                                display-key="bk_classification_name"
+                                setting-key="classification_id"
+                                display-key="classification_name"
                                 :content-max-height="200"
-                                :selected.sync="modelDialog.data['bk_classification_id']"
+                                :selected.sync="modelDialog.data['classification_id']"
                                 :list="localClassifications"
                                 :empty-text="isAdminView ? '' : $t('ModelManagement[\'无自定义分组\']')"
                                 v-validate="'required'"
-                                v-model="modelDialog.data['bk_classification_id']"
+                                v-model="modelDialog.data['classification_id']"
                             ></cmdb-selector>
                             <p class="form-error">{{errors.first('modelGroup')}}</p>
                         </div>
@@ -108,7 +108,7 @@
                     isShow: false,
                     isIconListShow: false,
                     data: {
-                        bk_classification_id: '',
+                        classification_id: '',
                         bk_obj_icon: 'icon-cc-default',
                         bk_obj_id: '',
                         bk_obj_name: ''
@@ -124,7 +124,7 @@
             localClassifications () {
                 const localClassifications = []
                 this.classifications.forEach(classification => {
-                    if (!['bk_biz_topo', 'bk_host_manage'].includes(classification['bk_classification_id'])) {
+                    if (!['bk_biz_topo', 'bk_host_manage'].includes(classification['classification_id'])) {
                         const localClassification = {
                             ...classification,
                             isModelShow: false
@@ -142,7 +142,7 @@
         watch: {
             isShow (isShow) {
                 if (isShow) {
-                    this.modelDialog.data['bk_classification_id'] = ''
+                    this.modelDialog.data['classification_id'] = ''
                     this.modelDialog.data['bk_obj_icon'] = 'icon-cc-default'
                     this.modelDialog.data['bk_obj_id'] = ''
                     this.modelDialog.data['bk_obj_name'] = ''

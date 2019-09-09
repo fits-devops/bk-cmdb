@@ -23,7 +23,7 @@ var _ Attribute = (*attribute)(nil)
 
 // attribute the metadata structure definition of the model attribute
 type attribute struct {
-	OwnerID       string      `field:"bk_supplier_account"`
+	OwnerID       string      `field:"org_id"`
 	ObjectID      string      `field:"bk_obj_id"`
 	PropertyID    string      `field:"bk_property_id"`
 	PropertyName  string      `field:"bk_property_name"`

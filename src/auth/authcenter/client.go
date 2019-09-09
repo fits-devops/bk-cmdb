@@ -27,7 +27,7 @@ import (
 // interact with blueking auth center.
 
 const (
-	AuthSupplierAccountHeaderKey = "HTTP_BK_SUPPLIER_ACCOUNT"
+	AuthSupplierAccountHeaderKey = "HTTP_org_id"
 )
 
 const (

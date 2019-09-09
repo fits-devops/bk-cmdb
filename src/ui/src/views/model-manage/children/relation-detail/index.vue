@@ -204,7 +204,7 @@
                         })
                         if (objects.length) {
                             asstList.push({
-                                name: classify['bk_classification_name'],
+                                name: classify['classification_name'],
                                 children: objects
                             })
                         }

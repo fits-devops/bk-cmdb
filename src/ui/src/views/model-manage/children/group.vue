@@ -257,7 +257,7 @@
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
                         'bk_obj_id': this.objId,
-                        'bk_supplier_account': this.supplierAccount
+                        'org_id': this.supplierAccount
                     }, {
                         inject: this.isInjectable
                     }),
@@ -508,7 +508,7 @@
                                 condition: {
                                     'bk_obj_id': this.objId,
                                     'bk_property_id': property['bk_property_id'],
-                                    'bk_supplier_account': property['bk_supplier_account']
+                                    'org_id': property['org_id']
                                 },
                                 data: {
                                     'bk_property_group': property['bk_property_group'],
@@ -543,7 +543,7 @@
                         'bk_group_index': groupedProperties.length - 1,
                         'bk_group_name': this.newGroupName,
                         'bk_obj_id': this.objId,
-                        'bk_supplier_account': this.supplierAccount
+                        'org_id': this.supplierAccount
                     }, {
                         inject: this.isInjectable
                     }),

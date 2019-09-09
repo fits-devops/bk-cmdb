@@ -18,7 +18,7 @@ import (
 
 const (
 	AttributeFieldID              = "id"
-	AttributeFieldSupplierAccount = "bk_supplier_account"
+	AttributeFieldSupplierAccount = "org_id"
 	AttributeFieldObjectID        = "bk_obj_id"
 	AttributeFieldPropertyID      = "bk_property_id"
 	AttributeFieldPropertyName    = "bk_property_name"
@@ -45,7 +45,7 @@ const (
 type Attribute struct {
 	Metadata          `field:"metadata" json:"metadata" bson:"metadata"`
 	ID                int64       `field:"id" json:"id" bson:"id"`
-	OwnerID           string      `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID           string      `field:"org_id" json:"org_id" bson:"org_id"`
 	ObjectID          string      `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
 	PropertyID        string      `field:"bk_property_id" json:"bk_property_id" bson:"bk_property_id"`
 	PropertyName      string      `field:"bk_property_name" json:"bk_property_name" bson:"bk_property_name"`
@@ -73,7 +73,7 @@ type Attribute struct {
 // AttributeGroup attribute metadata definition
 type AttributeGroup struct {
 	ID         int64  `field:"id" json:"id" bson:"id"`
-	OwnerID    string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID    string `field:"org_id" json:"org_id" bson:"org_id"`
 	ObjectID   string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
 	IsDefault  bool   `field:"bk_isdefault" json:"bk_isdefault" bson:"bk_isdefault"`
 	IsPre      bool   `field:"ispre" json:"ispre" bson:"ispre"`

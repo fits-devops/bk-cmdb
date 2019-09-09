@@ -23,7 +23,7 @@ type NetcollectDevice struct {
 	ObjectID    string     `json:"bk_obj_id" bson:"bk_obj_id,omitempty"`
 	ObjectName  string     `json:"bk_obj_name,omitempty" bson:"-"`
 	BkVendor    string     `json:"bk_vendor,omitempty" bson:"bk_vendor,omitempty"`
-	OwnerID     string     `json:"-" bson:"bk_supplier_account,omitempty"`
+	OwnerID     string     `json:"-" bson:"org_id,omitempty"`
 	CreateTime  *time.Time `field:"create_time,omitempty" json:"create_time,omitempty" bson:"create_time,omitempty"`
 	LastTime    *time.Time `field:"last_time" json:"last_time,omitempty" bson:"last_time,omitempty"`
 }
@@ -39,7 +39,7 @@ type NetcollectProperty struct {
 	OID                  string     `json:"oid,omitempty" bson:"oid,omitempty"`
 	Period               string     `json:"period,omitempty" bson:"period,omitempty"`
 	Action               string     `json:"action,omitempty" bson:"action,omitempty"`
-	OwnerID              string     `json:"-" bson:"bk_supplier_account,omitempty"`
+	OwnerID              string     `json:"-" bson:"org_id,omitempty"`
 	CreateTime           *time.Time `field:"create_time,omitempty" json:"create_time,omitempty" bson:"create_time,omitempty"`
 	LastTime             *time.Time `field:"last_time,omitempty" json:"last_time,omitempty" bson:"last_time,omitempty"`
 	Unit                 string     `json:"unit,omitempty" bson:"-"`
@@ -137,7 +137,7 @@ type NetcollectReport struct {
 	ObjectName    string `json:"bk_obj_name" bson:"-"`
 	InnerIP       string `json:"bk_host_innerip" bson:"bk_host_innerip"`
 	Configuration string `json:"configuration" bson:"configuration"`
-	OwnerID       string `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID       string `json:"org_id" bson:"org_id"`
 
 	InstID       int64                         `json:"bk_inst_id" bson:"bk_inst_id"`
 	InstKey      string                        `json:"bk_inst_key" bson:"bk_inst_key"`

@@ -1,6 +1,6 @@
 ### 添加对象实例
 
-- API POST /api/{version}/inst/{bk_supplier_account}/{bk_obj_id}
+- API POST /api/{version}/inst/{org_id}/{bk_obj_id}
 - API 名称：create_inst
 - 功能说明：
 	- 中文：创建实例
@@ -17,7 +17,7 @@
 ``` json
 {
     "bk_cloud_name":"example18",
-    "bk_supplier_account":"0",
+    "org_id":"0",
     "bk_biz_id":0
 }
 ```
@@ -30,7 +30,7 @@
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_obj_id|string|是|无|模型ID，新建云区域时为plat|the object id，when to create a new bk cloud it should be plat |
-|bk_supplier_account|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
+|org_id|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
 |bk_inst_name/bk_cloud_name|string|是|无|实例名,当创建对象为云区域时为bk_cloud_name|the inst name, when the object is plat, it should be bk_cloud_name|
 | bk_biz_id|int|否|无| 业务ID |business ID|
 
@@ -69,7 +69,7 @@ data 字段说明
 
 ### 查询实例
 
-- API POST /api/{version}/inst/association/search/owner/{bk_supplier_account}/object/{bk_obj_id}
+- API POST /api/{version}/inst/association/search/owner/{org_id}/object/{bk_obj_id}
 - API 名称：search_inst
 - 功能说明：
 	- 中文：查询实例
@@ -105,7 +105,7 @@ data 字段说明
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_obj_id|string|是|无|模型ID|the object id|
-|bk_supplier_account|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
+|org_id|string|是|无|开发商账号,独立部署请填"0"|supplier account code,enterprise version is "0"|
 |page| object| 是|无|分页参数 |page parameter|
 |condition| object | 否|无|查询条件|the search condition|
 |fields|string array|否|无|查询的字段|the search fields|
@@ -149,7 +149,7 @@ fields 参数说明：
 			"bk_inst_id": 1,
 			"bk_inst_name": "test",
 			"bk_obj_id": "test",
-			"bk_supplier_account": "0",
+			"org_id": "0",
 			"create_time": "2018-04-17T14:50:15.993+08:00",
 			"last_time": "2018-04-17T15:00:49.274+08:00",
 			"test_asst": [{
@@ -180,7 +180,7 @@ data 字段说明
 |---|---|---|---|
 |id|string|已存储的关联实例的id|The id of the associated instance that has been stored.|
 |bk_inst_id|int|新增数据记录的ID|the id of the new inst |
-|bk_supplier_account|string|开发商账号|supplier account code|
+|org_id|string|开发商账号|supplier account code|
 |bk_obj_id|string|模型ID|the object id|
 |create_time|string|数据创建的时间|the creation date time|
 |last_time|string|最后修改时间|the last modify date time|
@@ -189,7 +189,7 @@ data 字段说明
 
 ### 更新对象实例（包含云区域）
 
-- API: PUT  /api/{version}/inst/{bk_supplier_account}/{bk_obj_id}/{bk_inst_id}
+- API: PUT  /api/{version}/inst/{org_id}/{bk_obj_id}/{bk_inst_id}
 - API 名称：update_inst
 - 功能说明：
 	- 中文： 更新对象实例
@@ -215,7 +215,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|模型ID，更新云区域时为plat|the object id, when update bk cloud it should be plat|
 |bk_inst_id|int|是|无|实例ID,更新云区域是为bk_cloud_id|the inst id, when update bk cloud it should be cloud area ID|
 |bk_inst_name|string|否|无|实例名，也可以为其它自定义字段|the inst name, can be other field|
@@ -248,7 +248,7 @@ data 字段说明
 
 ### 批量更新通用对象实例
 
-- API: PUT  /api/{version}/inst/{bk_supplier_account}/{bk_obj_id}/batch
+- API: PUT  /api/{version}/inst/{org_id}/{bk_obj_id}/batch
 - API 名称：batch_update_inst
 - 功能说明：
 	- 中文： 更新对象实例
@@ -274,7 +274,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|模型ID|the object id|
 |update|object array|是|无|实例被更新的字段及值|the inst value|
 
@@ -316,7 +316,7 @@ data 字段说明
 
 ### 批量删除对象实例
 
-- API: DELETE  /api/{version}/inst/{bk_supplier_account}/{bk_obj_id}/batch
+- API: DELETE  /api/{version}/inst/{org_id}/{bk_obj_id}/batch
 - API 名称：batch_delete_inst
 - 功能说明：
 	- 中文： 批量删除实例
@@ -336,7 +336,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
 |inst_ids|int array|是|无|实例ID集合|the inst id collection|
 
@@ -365,7 +365,7 @@ data 字段说明
 
 ### 删除对象实例（包含云区域）
 
-- API: DELETE  /api/{version}/inst/{bk_supplier_account}/{bk_obj_id}/{bk_inst_id}
+- API: DELETE  /api/{version}/inst/{org_id}/{bk_obj_id}/{bk_inst_id}
 - API 名称：delete_inst
 - 功能说明：
 	- 中文： 删除实例
@@ -379,7 +379,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|模型ID，删除对象为云区域时为plat|the object id, when delete bk cloud it should be plat|
 |bk_inst_id|int|是|无|实例ID，删除云区域时为云区域ID|the inst id, when delete bk cloud it should be cloud area ID|
 
@@ -410,7 +410,7 @@ data 字段说明
 
 ### 查询实例关联拓扑
 
-- API: POST  /api/{version}/inst/search/topo/owner/{bk_supplier_account}/object/{bk_obj_id}/inst/{bk_inst_id}
+- API: POST  /api/{version}/inst/search/topo/owner/{org_id}/object/{bk_obj_id}/inst/{bk_inst_id}
 - API 名称：search_inst_association_topo
 - 功能说明：
 	- 中文： 查询实例关联拓扑
@@ -424,7 +424,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|模型ID|the object id|
 |bk_inst_id|int|是|无|实例ID|the inst id|
 
@@ -574,7 +574,7 @@ data 字段说明
 
 ### 查询业务实例拓扑
 
-- API: GET /api/{version}/topo/inst/{bk_supplier_account}/{bk_biz_id}?level={level}
+- API: GET /api/{version}/topo/inst/{org_id}/{bk_biz_id}?level={level}
 - API 名称：search_biz_inst_topo
 - 功能说明：
 	- 中文： 查询业务实例拓扑
@@ -588,7 +588,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_biz_id|int|是|无|业务id|the business id|
 |level|int|否|2|拓扑的层级索引，索引取值从0开始，当设置为 -1 的时候会读取完整的业务实例拓扑|the topology level, read full topology when set to -1|
 
@@ -666,7 +666,7 @@ data 字段说明
 
 ### 查询实例列表
 
-- API: POST /api/{version}/inst/search/owner/{bk_supplier_account}/object/{bk_obj_id}
+- API: POST /api/{version}/inst/search/owner/{org_id}/object/{bk_obj_id}
 - API 名称：search_inst_by_object
 - 功能说明：
 	- 中文： 查询给定模型的实例列表
@@ -695,7 +695,7 @@ data 字段说明
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|自定义模型ID，查询区域时为plat|the object id， when search bk cloud it should be plat|
 |fields|array|否|无|指定查询的字段|need to show|
 |condition|object|否|无|查询条件|search condition|
@@ -732,7 +732,7 @@ condition 参数为查询的目标实例对应的模型定义的所有字段。
             {
                 "bk_cloud_id": 0,
                 "bk_cloud_name": "default area",
-                "bk_supplier_account": ""
+                "org_id": ""
             }
         ]
     }
@@ -764,5 +764,5 @@ condition 参数为查询的目标实例对应的模型定义的所有字段。
 |---|---|---|---|
 |bk_cloud_id|int|云区域ID|the cloud id|
 |bk_cloud_name|string|云区域名|the cloud name|
-|bk_supplier_account|string|开发商账号|supplier account code|
+|org_id|string|开发商账号|supplier account code|
 

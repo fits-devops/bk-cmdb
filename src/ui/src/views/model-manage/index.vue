@@ -82,7 +82,7 @@
                 v-for="(classification, classIndex) in currentClassifications"
                 :key="classIndex">
                 <div class="group-title">
-                    <span>{{classification['bk_classification_name']}}</span>
+                    <span>{{classification['classification_name']}}</span>
                     <span class="number">({{classification['bk_objects'].length}})</span>
                     <template v-if="isEditable(classification)">
                         <i class="icon-cc-edit text-primary"
@@ -143,7 +143,7 @@
                                 name="classifyId"
                                 :placeholder="$t('ModelManagement[\'请输入唯一标识\']')"
                                 :disabled="groupDialog.isEdit"
-                                v-model.trim="groupDialog.data['bk_classification_id']"
+                                v-model.trim="groupDialog.data['classification_id']"
                                 v-validate="'required|classifyId'">
                             <p class="form-error">{{errors.first('classifyId')}}</p>
                         </div>
@@ -159,7 +159,7 @@
                                 class="cmdb-form-input"
                                 name="classifyName"
                                 :placeholder="$t('ModelManagement[\'请输入名称\']')"
-                                v-model.trim="groupDialog.data['bk_classification_name']"
+                                v-model.trim="groupDialog.data['classification_name']"
                                 v-validate="'required|classifyName'">
                             <p class="form-error">{{errors.first('classifyName')}}</p>
                         </div>
@@ -203,8 +203,8 @@
                     isEdit: false,
                     title: this.$t('ModelManagement["新建分组"]'),
                     data: {
-                        bk_classification_id: '',
-                        bk_classification_name: '',
+                        classification_id: '',
+                        classification_name: '',
                         id: ''
                     }
                 },
@@ -279,7 +279,7 @@
                 'createObject'
             ]),
             isEditable (classification) {
-                if (classification['bk_classification_type'] === 'inner') {
+                if (classification['classification_type'] === 'inner') {
                     return false
                 }
                 if (this.isAdminView) {
@@ -295,14 +295,14 @@
                     if (!this.$isAuthorized(this.$OPERATION.U_MODEL_GROUP)) return
                     this.groupDialog.data.id = group.id
                     this.groupDialog.title = this.$t('ModelManagement["编辑分组"]')
-                    this.groupDialog.data.bk_classification_id = group['bk_classification_id']
-                    this.groupDialog.data.bk_classification_name = group['bk_classification_name']
+                    this.groupDialog.data.classification_id = group['classification_id']
+                    this.groupDialog.data.classification_name = group['classification_name']
                     this.groupDialog.data.id = group.id
                 } else {
                     if (!this.$isAuthorized(this.$OPERATION.C_MODEL_GROUP)) return
                     this.groupDialog.title = this.$t('ModelManagement["新建分组"]')
-                    this.groupDialog.data.bk_classification_id = ''
-                    this.groupDialog.data.bk_classification_name = ''
+                    this.groupDialog.data.classification_id = ''
+                    this.groupDialog.data.classification_name = ''
                     this.groupDialog.data.id = ''
                 }
                 this.groupDialog.isEdit = isEdit
@@ -321,9 +321,9 @@
                     return
                 }
                 const params = this.$injectMetadata({
-                    bk_supplier_account: this.supplierAccount,
-                    bk_classification_id: this.groupDialog.data['bk_classification_id'],
-                    bk_classification_name: this.groupDialog.data['bk_classification_name']
+                    org_id: this.supplierAccount,
+                    classification_id: this.groupDialog.data['classification_id'],
+                    classification_name: this.groupDialog.data['classification_name']
                 })
                 if (this.groupDialog.isEdit) {
                     // eslint-disable-next-line
@@ -357,7 +357,7 @@
                                 })
                             }
                         })
-                        this.$store.commit('objectModelClassify/deleteClassify', group['bk_classification_id'])
+                        this.$store.commit('objectModelClassify/deleteClassify', group['classification_id'])
                     }
                 })
             },
@@ -366,10 +366,10 @@
             },
             async saveModel (data) {
                 const params = this.$injectMetadata({
-                    bk_supplier_account: this.supplierAccount,
+                    org_id: this.supplierAccount,
                     bk_obj_name: data['bk_obj_name'],
                     bk_obj_icon: data['bk_obj_icon'],
-                    bk_classification_id: data['bk_classification_id'],
+                    classification_id: data['classification_id'],
                     bk_obj_id: data['bk_obj_id'],
                     userName: this.userName
                 })

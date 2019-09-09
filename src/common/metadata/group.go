@@ -22,7 +22,7 @@ const (
 	GroupFieldGroupName       = "bk_group_name"
 	GroupFieldGroupIndex      = "bk_group_index"
 	GroupFieldObjectID        = "bk_obj_id"
-	GroupFieldSupplierAccount = "bk_supplier_account"
+	GroupFieldSupplierAccount = "org_id"
 	GroupFieldIsDefault       = "bk_isdefault"
 	GroupFieldIsPre           = "ispre"
 )
@@ -30,7 +30,7 @@ const (
 // PropertyGroupObjectAtt uset to update or delete the property group object attribute
 type PropertyGroupObjectAtt struct {
 	Condition struct {
-		OwnerID    string `field:"bk_supplier_account" json:"bk_supplier_account"`
+		OwnerID    string `field:"org_id" json:"org_id"`
 		ObjectID   string `field:"bk_obj_id" json:"bk_obj_id"`
 		PropertyID string `field:"bk_property_id" json:"bk_property_id"`
 	} `json:"condition"`
@@ -48,7 +48,7 @@ type Group struct {
 	GroupName  string `field:"bk_group_name" json:"bk_group_name" bson:"bk_group_name"`
 	GroupIndex int64  `field:"bk_group_index" json:"bk_group_index" bson:"bk_group_index"`
 	ObjectID   string `field:"bk_obj_id" json:"bk_obj_id" bson:"bk_obj_id"`
-	OwnerID    string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID    string `field:"org_id" json:"org_id" bson:"org_id"`
 	IsDefault  bool   `field:"bk_isdefault" json:"bk_isdefault" bson:"bk_isdefault"`
 	IsPre      bool   `field:"ispre" json:"ispre" bson:"ispre"`
 }

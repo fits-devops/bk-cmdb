@@ -127,8 +127,8 @@ func (am *AuthManager) makeResourceByAttributes(ctx context.Context, header http
 
 		// check obj's group id in map
 		if _, exist := classificationMap[object.ObjCls]; exist == false {
-			blog.V(3).Infof("authorization failed, get classification by object failed, err: bk_classification_id not exist, rid: %s", rid)
-			return nil, fmt.Errorf("authorization failed, get classification by object failed, err: bk_classification_id not exist")
+			blog.V(3).Infof("authorization failed, get classification by object failed, err: classification_id not exist, rid: %s", rid)
+			return nil, fmt.Errorf("authorization failed, get classification by object failed, err: classification_id not exist")
 		}
 
 		parentLayers := meta.Layers{}

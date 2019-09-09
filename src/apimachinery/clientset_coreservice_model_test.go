@@ -584,9 +584,9 @@ func getReadModelResult() string {
 						"bk_obj_icon" : "icon-cc-host",
 						"bk_ispaused" : false,
 						"position" : "{\"bk_host_manage\":{\"x\":-600,\"y\":-650}}",
-						"bk_classification_id" : "bk_host_manage",
+						"classification_id" : "bk_host_manage",
 						"bk_obj_name" : "主机",
-						"bk_supplier_account" : "0",
+						"org_id" : "0",
 						"creator" : "cc_system"
 					},
 					"attributes":[{
@@ -594,7 +594,7 @@ func getReadModelResult() string {
 						"unit" : "",
 						"ispre" : true,
 						"bk_property_type" : "singlechar",
-						"bk_supplier_account" : "0",
+						"org_id" : "0",
 						"bk_property_id" : "bk_biz_name",
 						"placeholder" : "",
 						"editable" : true,
@@ -627,11 +627,11 @@ func getReadModelClassificationResult() string {
 			"count":1,
 			"info":[
 				{
-					"bk_classification_icon" : "",
-					"bk_classification_id" : "",
-					"bk_classification_name" : "",
-					"bk_classification_type" : "",
-					"bk_supplier_account" : ""
+					"classification_icon" : "",
+					"classification_id" : "",
+					"classification_name" : "",
+					"classification_type" : "",
+					"org_id" : ""
 				}
 			 ]
 		}

@@ -12,7 +12,7 @@
 
     "bk_set_name":"",
     "bk_parent_id":0,
-    "bk_supplier_account":"",
+    "org_id":"",
     "bk_biz_id":1,
     "default":0
 }
@@ -27,7 +27,7 @@
 |bk_set_id|int|是|无|集群ID|the set id|
 |bk_parent_id|int|是|无|父节点的ID|the parent inst identifier|
 |bk_biz_id|int|是|无|业务ID|business ID|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_set_name|string|是|无|集群名字 |set name|
 |bk_capacity|int|否|无|设计容量|the design the capacity|
 |description|string|否|无|备注|the remark|
@@ -152,7 +152,7 @@
     "bk_service_status":"1",
     "description":"",
     "bk_capacity":null,
-    "bk_supplier_account":"0"
+    "org_id":"0"
 }
 ```
 
@@ -198,7 +198,7 @@
 
 ### 查询集群
 
-- API： POST /api/{version}/set/search/{bk_supplier_account}/{bk_biz_id}   
+- API： POST /api/{version}/set/search/{org_id}/{bk_biz_id}   
 - API 名称：search_set
 - 功能说明：
 	- 中文： 查询集群
@@ -227,7 +227,7 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-| bk_supplier_account| string| 是| 无|开发商账号|supplier account code|
+| org_id| string| 是| 无|开发商账号|supplier account code|
 | bk_biz_id| int| 是|无|业务ID |  business ID|
 | page| object| 是|无|分页参数 |page parameter|
 | fields| array | 是| 无|查询字段|search fields|

@@ -22,10 +22,10 @@ var _ Classification = (*classification)(nil)
 
 // classification the model classification definition
 type classification struct {
-	ClassificationID   string `field:"bk_classification_id"`
-	ClassificationName string `field:"bk_classification_name"`
-	ClassificationType string `field:"bk_classification_type"`
-	ClassificationIcon string `field:"bk_classification_icon"`
+	ClassificationID   string `field:"classification_id"`
+	ClassificationName string `field:"classification_name"`
+	ClassificationType string `field:"classification_type"`
+	ClassificationIcon string `field:"classification_icon"`
 
 	id int
 }

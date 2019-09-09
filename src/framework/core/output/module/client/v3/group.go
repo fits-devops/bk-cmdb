@@ -50,7 +50,7 @@ func newGroup(cli *Client) *Group {
 
 // CreateGroup create a group
 func (g *Group) CreateGroup(data types.MapStr) (int, error) {
-	data.Set("bk_supplier_account", g.cli.GetSupplierAccount())
+	data.Set("org_id", g.cli.GetSupplierAccount())
 	if !data.Exists("bk_group_name") {
 		return 0, errors.New("bk_group_name must set")
 	}
@@ -103,7 +103,7 @@ func (g *Group) DeleteGroup(cond common.Condition) error {
 
 // UpdateGroup update a group by condition
 func (g *Group) UpdateGroup(data types.MapStr, cond common.Condition) error {
-	data.Set("bk_supplier_account", g.cli.GetSupplierAccount())
+	data.Set("org_id", g.cli.GetSupplierAccount())
 
 	param := types.MapStr{
 		"condition": cond.ToMapStr(),

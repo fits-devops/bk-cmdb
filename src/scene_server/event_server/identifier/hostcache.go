@@ -16,12 +16,12 @@ import (
 	"context"
 	"encoding/json"
 	"sort"
-	
+
 	redis "gopkg.in/redis.v5"
-	
-	"configcenter/src/common/util" 
+
 	"configcenter/src/common"
 	"configcenter/src/common/blog"
+	"configcenter/src/common/util"
 	"configcenter/src/storage/dal"
 )
 
@@ -29,7 +29,7 @@ type HostIdentifier struct {
 	HostID          int64              `json:"bk_host_id" bson:"bk_host_id"`
 	HostName        string             `json:"bk_host_name" bson:"bk_host_name"`
 	SupplierID      int64              `json:"bk_supplier_id"`
-	SupplierAccount string             `json:"bk_supplier_account"`
+	SupplierAccount string             `json:"org_id"`
 	CloudID         int64              `json:"bk_cloud_id" bson:"bk_cloud_id"`
 	CloudName       string             `json:"bk_cloud_name" bson:"bk_cloud_name"`
 	InnerIP         string             `json:"bk_host_innerip" bson:"bk_host_innerip"`

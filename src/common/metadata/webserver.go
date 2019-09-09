@@ -89,7 +89,7 @@ type LoginUserInfoResult struct {
 type LoginChangeSupplierResult struct {
 	BaseResp `json:",inline"`
 	Data     struct {
-		ID string `json:"bk_supplier_account"`
+		ID string `json:"org_id"`
 	} `json:"data"`
 }
 

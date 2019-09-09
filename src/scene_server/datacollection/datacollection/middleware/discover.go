@@ -68,14 +68,14 @@ func (d *Discover) Analyze(msg string) error {
 var MockMessage = `{
     "host": {
         "bk_host_id": 1,
-        "bk_supplier_account": "0"
+        "org_id": "0"
     },
     "meta": {
         "model": {
-            "bk_classification_id": "middelware",
+            "classification_id": "middelware",
             "bk_obj_id": "bk_apache",
             "bk_obj_name": "apache",
-            "bk_supplier_account": "0"
+            "org_id": "0"
         },
         "fields": {
             "bk_inst_name":{

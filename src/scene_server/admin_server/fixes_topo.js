@@ -11,7 +11,7 @@ var ret = db.cc_ObjAsst.update({"bk_asst_id": "bk_mainline", "bk_obj_id": "set"}
 print("update cc_ObjAsst for ", "set", " result: ", ret)
 
 db.cc_SetBase.find().forEach(function (myDoc) {
-    ret = db.cc_SetBase.update({"bk_set_id": myDoc.bk_set_id,"bk_supplier_account": myDoc.bk_supplier_account}, {"$set": {"bk_parent_id": myDoc.bk_biz_id}})
+    ret = db.cc_SetBase.update({"bk_set_id": myDoc.bk_set_id,"org_id": myDoc.org_id}, {"$set": {"bk_parent_id": myDoc.bk_biz_id}})
     print("update cc_SetBase for ", myDoc.bk_set_id, " result: ", ret)
 });
 

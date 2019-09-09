@@ -40,7 +40,7 @@ const getters = {
         // 2.去掉无启用模型的分类和不显示的分类
         activeClassifications = activeClassifications.filter(classification => {
             const {
-                'bk_classification_id': bkClassificationId,
+                'classification_id': bkClassificationId,
                 'bk_objects': bkObjects
             } = classification
             return !state.invisibleClassifications.includes(bkClassificationId) && Array.isArray(bkObjects) && bkObjects.length
@@ -120,20 +120,20 @@ const mutations = {
         state.classifications = classifications
     },
     updateClassify (state, classification) {
-        const activeClassification = state.classifications.find(({ bk_classification_id: bkClassificationId }) => bkClassificationId === classification['bk_classification_id'])
+        const activeClassification = state.classifications.find(({ classification_id: bkClassificationId }) => bkClassificationId === classification['classification_id'])
         if (activeClassification) {
-            activeClassification['bk_classification_icon'] = classification['bk_classification_icon']
-            activeClassification['bk_classification_name'] = classification['bk_classification_name']
+            activeClassification['classification_icon'] = classification['classification_icon']
+            activeClassification['classification_name'] = classification['classification_name']
         } else {
             state.classifications.push({
                 ...{
                     bk_asst_objects: {},
-                    bk_classification_icon: 'icon-cc-default',
-                    bk_classification_id: '',
-                    bk_classification_name: '',
-                    bk_classification_type: '',
+                    classification_icon: 'icon-cc-default',
+                    classification_id: '',
+                    classification_name: '',
+                    classification_type: '',
                     bk_objects: [],
-                    bk_supplier_account: '',
+                    org_id: '',
                     id: 0
                 },
                 ...classification
@@ -141,7 +141,7 @@ const mutations = {
         }
     },
     deleteClassify (state, classificationId) {
-        const index = state.classifications.findIndex(({ bk_classification_id: bkClassificationId }) => bkClassificationId === classificationId)
+        const index = state.classifications.findIndex(({ classification_id: bkClassificationId }) => bkClassificationId === classificationId)
         state.classifications.splice(index, 1)
     },
     updateModel (state, data) {

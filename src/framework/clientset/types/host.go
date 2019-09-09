@@ -20,7 +20,7 @@ import (
 )
 
 type ListHostsCtx struct {
-    BaseCtx
+	BaseCtx
 	Filter ListHostFilter
 }
 
@@ -99,7 +99,7 @@ type HostAttribute struct {
 }
 
 type GetHostSnapshotCtx struct {
-    BaseCtx
+	BaseCtx
 	HostID int64
 }
 
@@ -109,7 +109,7 @@ type GetHostSnapshotResult struct {
 }
 
 type UpdateHostsAttributesCtx struct {
-    BaseCtx
+	BaseCtx
 	Attributes HostsAttributes
 }
 
@@ -121,13 +121,13 @@ type HostsAttributes struct {
 }
 
 type DeleteHostsCtx struct {
-    BaseCtx
-	Hosts  DeletedHostsInfo
+	BaseCtx
+	Hosts DeletedHostsInfo
 }
 
 type DeletedHostsInfo struct {
 	// host ids, comma separated.
 	// like: "1,2,4"
 	HostIDs string `json:"bk_host_id"`
-	Tenancy string `json:"bk_supplier_account"`
+	Tenancy string `json:"org_id"`
 }

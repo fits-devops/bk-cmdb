@@ -30,7 +30,7 @@ package x18_11_19_01
 // 	type HostInst struct {
 // 		HostID  uint64 `bson:"bk_host_id"`
 // 		AssetID string `bson:"bk_asset_id"`
-// 		OwnerID string `bson:"bk_supplier_account"`
+// 		OwnerID string `bson:"org_id"`
 // 	}
 
 // 	cond := condition.CreateCondition()

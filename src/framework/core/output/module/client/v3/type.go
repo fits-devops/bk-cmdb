@@ -35,7 +35,7 @@ const (
 	// CommonInstID the common inst id
 	CommonInstID = "bk_inst_id"
 	// SupplierAccount the business id
-	SupplierAccount = "bk_supplier_account"
+	SupplierAccount = "org_id"
 )
 
 const (

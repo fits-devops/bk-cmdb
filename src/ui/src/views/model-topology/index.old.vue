@@ -54,14 +54,14 @@
             <ul class="topo-nav">
                 <li class="group-item" v-for="(group, groupIndex) in localClassifications" :key="groupIndex">
                     <div class="group-info"
-                        :class="{ 'active': topoNav.activeGroup === group['bk_classification_id'] }"
+                        :class="{ 'active': topoNav.activeGroup === group['classification_id'] }"
                         @click="toggleGroup(group)">
-                        <span class="group-name">{{group['bk_classification_name']}}</span>
+                        <span class="group-name">{{group['classification_name']}}</span>
                         <span class="model-count">{{group['bk_objects'].length}}</span>
                         <i class="bk-icon icon-angle-down"></i>
                     </div>
                     <cmdb-collapse-transition name="model-box">
-                        <ul class="model-box" v-show="topoNav.activeGroup === group['bk_classification_id']">
+                        <ul class="model-box" v-show="topoNav.activeGroup === group['classification_id']">
                             <li class="model-item"
                                 v-for="(model, modelIndex) in group['bk_objects']"
                                 :key="modelIndex"
@@ -709,8 +709,8 @@
                 slider.isShow = true
             },
             toggleGroup (group) {
-                if (group['bk_classification_id'] !== this.topoNav.activeGroup) {
-                    this.topoNav.activeGroup = group['bk_classification_id']
+                if (group['classification_id'] !== this.topoNav.activeGroup) {
+                    this.topoNav.activeGroup = group['classification_id']
                 } else {
                     this.topoNav.activeGroup = ''
                 }

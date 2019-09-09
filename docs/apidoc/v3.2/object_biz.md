@@ -1,6 +1,6 @@
 ### 添加业务
 
-- API: POST /api/{version}/biz/{bk_supplier_account}
+- API: POST /api/{version}/biz/{org_id}
 - API 名称：create_business
 - 功能说明：
 	- 中文：新建业务
@@ -24,7 +24,7 @@
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_biz_name|string|是|无|业务名|the business name|
 |bk_biz_maintainer|string|否|无|运维人员|operation staff|
 |bk_biz_developer|string|否|无|开发人员|the developer|
@@ -33,7 +33,7 @@
 
 ### 删除业务
 
-- API: DELETE /api/{version}/biz/{bk_supplier_account}/{bk_biz_id}
+- API: DELETE /api/{version}/biz/{org_id}/{bk_biz_id}
 - API 名称：delete_business
 - 功能说明：
 	- 中文：删除业务
@@ -48,7 +48,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 
 
 - output
@@ -76,7 +76,7 @@
 
 ### 修改业务启用状态
 
-- API: PUT /api/{version}/biz/status/{flag}/{bk_supplier_account}/{bk_biz_id}
+- API: PUT /api/{version}/biz/status/{flag}/{org_id}/{bk_biz_id}
 - API 名称：update_business_enable_status
 - 功能说明：
 	- 中文：修改业务启用状态
@@ -95,7 +95,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |flag|string|是|无|启用状态，为disabled 或者enable|the business name, it should be disabled or enable|
 
 
@@ -125,7 +125,7 @@
 
 ### 修改业务
 
-- API: PUT /api/{version}/biz/{bk_supplier_account}/{bk_biz_id}
+- API: PUT /api/{version}/biz/{org_id}/{bk_biz_id}
 - API 名称：update_business
 - 功能说明：
 	- 中文：更新业务信息
@@ -150,7 +150,7 @@
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_biz_name|string|否|无|业务名称|the business name|
 |bk_biz_developer|string|否|无|开发人员|the developer|
 |bk_biz_maintainer|string|否|无|运维人员|the maintainers|
@@ -184,7 +184,7 @@
 
 ### 查询业务
 
-- API: POST /api/{version}/biz/search/{bk_supplier_account}
+- API: POST /api/{version}/biz/search/{org_id}
 - API 名称：search_business
 - 功能说明：
 	- 中文：查询业务

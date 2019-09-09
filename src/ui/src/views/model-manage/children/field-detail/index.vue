@@ -242,7 +242,7 @@
                         creator: this.userName,
                         bk_property_group: (this.isPublicModel && !this.isAdminView) ? 'bizdefault' : 'default',
                         bk_obj_id: this.activeModel['bk_obj_id'],
-                        bk_supplier_account: this.supplierAccount
+                        org_id: this.supplierAccount
                     }
                     await this.createObjectAttribute({
                         params: this.$injectMetadata({

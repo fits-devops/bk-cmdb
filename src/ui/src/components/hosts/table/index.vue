@@ -315,7 +315,7 @@
                 return this.batchSearchObjectAttribute({
                     params: this.$injectMetadata({
                         bk_obj_id: { '$in': Object.keys(this.properties) },
-                        bk_supplier_account: this.supplierAccount
+                        org_id: this.supplierAccount
                     }, { inject: this.$route.name !== 'resource' }),
                     config: {
                         requestId: `post_batchSearchObjectAttribute_${Object.keys(this.properties).join('_')}`,

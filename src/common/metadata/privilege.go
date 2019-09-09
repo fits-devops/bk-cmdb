@@ -57,7 +57,7 @@ type UserPriviResult struct {
 
 type GroupPrivilege struct {
 	GroupID   string     `json:"group_id" bson:"group_id"`
-	OwnerID   string     `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID   string     `json:"org_id" bson:"org_id"`
 	Privilege *Privilege `json:"privilege"`
 }
 
@@ -84,7 +84,7 @@ type SearchMainLine struct {
 type UserGroup struct {
 	GroupName       string `field:"group_name" json:"group_name" bson:"group_name"`
 	UserList        string `field:"user_list" json:"user_list" bson:"user_list"`
-	SupplierAccount string `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
+	SupplierAccount string `field:"org_id" json:"org_id" bson:"org_id"`
 	GroupID         string `field:"group_id" json:"group_id" bson:"group_id"`
 }
 
@@ -106,8 +106,8 @@ func (u *UserGroup) ToMapStr() mapstr.MapStr {
 
 // PrivilegeUserGroup the user group permission configure
 type PrivilegeUserGroup struct {
-	SupplierAccount string        `field:"bk_supplier_account" json:"bk_supplier_account" bson:"bk_supplier_account"`
-	GroupID         string        `field:"group_id" json:"group_id" bson:"bk_supplier_account"`
+	SupplierAccount string        `field:"org_id" json:"org_id" bson:"org_id"`
+	GroupID         string        `field:"group_id" json:"group_id" bson:"org_id"`
 	ModelConfig     mapstr.MapStr `field:"model_config" json:"model_config" bson:"model_config"`
 	SystemConfig    mapstr.MapStr `field:"sys_config" json:"sys_config" bson:"sys_config"`
 }

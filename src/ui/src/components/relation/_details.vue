@@ -80,7 +80,7 @@
             getObjectProperties () {
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
-                        'bk_supplier_account': this.supplierAccount,
+                        'org_id': this.supplierAccount,
                         'bk_obj_id': this.objId
                     }),
                     config: {

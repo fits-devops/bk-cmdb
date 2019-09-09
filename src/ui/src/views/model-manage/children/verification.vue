@@ -98,7 +98,7 @@
                 'isInjectable'
             ]),
             isTopoModel () {
-                return this.activeModel.bk_classification_id === 'bk_biz_topo'
+                return this.activeModel.classification_id === 'bk_biz_topo'
             },
             isReadOnly () {
                 if (this.activeModel) {

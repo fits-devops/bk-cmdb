@@ -37,14 +37,14 @@ func (s *Service) CreateUserGroup(params types.ContextParams, pathParams, queryP
 
 // DeleteUserGroup delete user goup
 func (s *Service) DeleteUserGroup(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	err := s.Core.PermissionOperation().UserGroup(params).DeleteUserGroup(pathParams("bk_supplier_account"), pathParams("group_id"))
+	err := s.Core.PermissionOperation().UserGroup(params).DeleteUserGroup(pathParams("org_id"), pathParams("group_id"))
 	return nil, err
 }
 
 // UpdateUserGroup update user goup
 func (s *Service) UpdateUserGroup(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	err := s.Core.PermissionOperation().UserGroup(params).UpdateUserGroup(pathParams("bk_supplier_account"), pathParams("group_id"), data)
+	err := s.Core.PermissionOperation().UserGroup(params).UpdateUserGroup(pathParams("org_id"), pathParams("group_id"), data)
 	return nil, err
 }
 
@@ -58,5 +58,5 @@ func (s *Service) SearchUserGroup(params types.ContextParams, pathParams, queryP
 		return nil
 	})
 
-	return s.Core.PermissionOperation().UserGroup(params).SearchUserGroup(pathParams("bk_supplier_account"), cond)
+	return s.Core.PermissionOperation().UserGroup(params).SearchUserGroup(pathParams("org_id"), cond)
 }

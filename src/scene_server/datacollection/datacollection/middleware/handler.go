@@ -39,7 +39,7 @@ const (
 )
 
 type Model struct {
-	BkClassificationID string `json:"bk_classification_id"`
+	BkClassificationID string `json:"classification_id"`
 	BkObjID            string `json:"bk_obj_id"`
 	BkObjName          string `json:"bk_obj_name"`
 	Keys               string `json:"bk_obj_keys"`
@@ -47,7 +47,7 @@ type Model struct {
 
 type Attr struct {
 	ID            int    `json:"id"`
-	OwnerID       string `json:"bk_supplier_account"`
+	OwnerID       string `json:"org_id"`
 	ObjID         string `json:"bk_obj_id"`
 	PropertyGroup string `json:"bk_property_group"`
 
@@ -217,7 +217,7 @@ func (d *Discover) parseObjID(msg string) string {
 }
 
 func (d *Discover) parseOwnerId(msg string) string {
-	ownerId := gjson.Get(msg, "data.host.bk_supplier_account").String()
+	ownerId := gjson.Get(msg, "data.host.org_id").String()
 
 	if ownerId == "" {
 		ownerId = bkc.BKDefaultOwnerID

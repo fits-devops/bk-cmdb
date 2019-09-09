@@ -161,7 +161,7 @@ var tableKeysCache = map[string]*tableKey{
 	"cc_ApplicationBase":   {keys: []string{"bk_biz_name"}, ignores: []string{"bk_biz_id"}},
 	"cc_ModuleBase":        {keys: []string{"bk_module_name"}, ignores: []string{"bk_module_id", "bk_biz_id", "bk_set_id", "bk_parent_id"}},
 	"cc_ObjAttDes":         {keys: []string{"bk_obj_id", "bk_property_id"}, ignores: []string{"id"}},
-	"cc_ObjClassification": {keys: []string{"bk_classification_id"}, ignores: []string{"id"}},
+	"cc_ObjClassification": {keys: []string{"classification_id"}, ignores: []string{"id"}},
 	"cc_ObjDes":            {keys: []string{"bk_obj_id"}, ignores: []string{"id"}},
 	"cc_PlatBase":          {keys: []string{"bk_cloud_name"}, ignores: []string{}},
 	"cc_Proc2Module":       {keys: []string{"bk_module_name", "bk_process_id", "bk_biz_id"}, ignores: []string{}},

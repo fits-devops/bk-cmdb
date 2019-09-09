@@ -30,7 +30,7 @@ func fixedHostPlatAssocateRelation(ctx context.Context, db dal.RDB, conf *upgrad
 		ObjectID     string    `bson:"bk_obj_id"`
 		AsstInstID   int64     `bson:"bk_asst_inst_id"`
 		AsstObjectID string    `bson:"bk_asst_obj_id"`
-		OwnerID      string    `bson:"bk_supplier_account"`
+		OwnerID      string    `bson:"org_id"`
 		CreateTime   time.Time `bson:"create_time"`
 		LastTime     time.Time `bson:"last_time"`
 	}
@@ -53,7 +53,7 @@ func fixedHostPlatAssocateRelation(ctx context.Context, db dal.RDB, conf *upgrad
 	type hostInfoStruct struct {
 		HostID  int64  `bson:"bk_host_id"`
 		PlatID  int64  `bson:"bk_cloud_id"`
-		OwnerID string `bson:"bk_supplier_account"`
+		OwnerID string `bson:"org_id"`
 	}
 	hostInfoMap := make([]hostInfoStruct, 0)
 	fields := []string{common.BKHostIDField, common.BKCloudIDField, common.BKOwnerIDField}

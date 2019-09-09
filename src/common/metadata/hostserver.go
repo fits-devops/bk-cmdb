@@ -87,7 +87,7 @@ type HostToAppModule struct {
 	SetName     string   `json:"bk_set_name"`
 	AppName     string   `json:"bk_biz_name"`
 	OsType      string   `json:"bk_os_type"`
-	OwnerID     string   `json:"bk_supplier_account"`
+	OwnerID     string   `json:"org_id"`
 	PlatID      int64    `json:"bk_cloud_id"`
 	IsIncrement bool     `json:"is_increment"`
 }
@@ -253,7 +253,7 @@ type CloudSyncRedisPendingStart struct {
 	NewHeader    http.Header `json:"new_header"`
 	TaskID       int64       `json:"bk_task_id"`
 	TaskItemInfo TaskInfo    `json:"task_item_info"`
-	OwnerID      string      `json:"bk_supplier_account"`
+	OwnerID      string      `json:"org_id"`
 }
 
 type CloudSyncRedisAlreadyStarted struct {
@@ -261,12 +261,12 @@ type CloudSyncRedisAlreadyStarted struct {
 	NewHeader    http.Header `json:"new_header"`
 	TaskID       int64       `json:"bk_task_id"`
 	TaskItemInfo TaskInfo    `json:"task_item_info"`
-	OwnerID      string      `json:"bk_supplier_account"`
+	OwnerID      string      `json:"org_id"`
 }
 
 type CloudSyncRedisPendingStop struct {
 	TaskID  int64  `json:"bk_task_id"`
-	OwnerID string `json:"bk_supplier_account"`
+	OwnerID string `json:"org_id"`
 }
 
 // TransferHostAcrossBusinessParameter Transfer host across business request parameter

@@ -5,7 +5,7 @@
                 v-for="(classify, index) in displayClassifications"
                 :key="index">
                 <h2 class="classify-name">
-                    {{`${classify.bk_classification_name}(${classify.bk_objects.length})`}}
+                    {{`${classify.classification_name}(${classify.bk_objects.length})`}}
                 </h2>
                 <ul class="model-list">
                     <li class="model-item"
@@ -64,7 +64,7 @@
             displayClassifications () {
                 const noDisplay = ['bk_host_manage', 'bk_biz_topo', 'bk_organization']
                 return this.activeClassifications.filter(classify => {
-                    return !noDisplay.includes(classify.bk_classification_id)
+                    return !noDisplay.includes(classify.classification_id)
                 })
             }
         },

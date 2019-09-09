@@ -231,8 +231,8 @@ func (cli *Service) SelectClassificationWithObject(req *restful.Request, resp *r
 	// select object by cls
 	for tmpidx, tmpobj := range clsResults {
 		selector := map[string]interface{}{
-			"bk_classification_id": tmpobj.ClassificationID,
-			common.BKOwnerIDField:  ownerID,
+			"classification_id":   tmpobj.ClassificationID,
+			common.BKOwnerIDField: ownerID,
 		}
 		selector = util.SetQueryOwner(selector, ownerID)
 		if selErr := db.Table(common.BKTableNameObjDes).Find(selector).Limit(common.BKNoLimit).All(ctx, &clsResults[tmpidx].Objects); nil != selErr && db.IsNotFoundError(selErr) {

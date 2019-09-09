@@ -175,7 +175,7 @@
         async created () {
             const res = await this.searchObjects({
                 params: this.$injectMetadata({
-                    bk_classification_id: 'bk_network'
+                    classification_id: 'bk_network'
                 }),
                 config: {
                     fromCache: true,

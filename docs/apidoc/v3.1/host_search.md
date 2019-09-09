@@ -167,7 +167,7 @@ page 参数说明：
                         "bk_module_type":"1",
                         "bk_parent_id":8,
                         "bk_set_id":8,
-                        "bk_supplier_account":"0",
+                        "org_id":"0",
                         "create_time":"2018-05-16T21:03:22.724+08:00",
                         "default":0,
                         "last_time":"2018-05-16T21:03:22.724+08:00",
@@ -185,7 +185,7 @@ page 参数说明：
                         "bk_set_env":"3",
                         "bk_set_id":8,
                         "bk_set_name":"公共组件",
-                        "bk_supplier_account":"0",
+                        "org_id":"0",
                         "create_time":"2018-05-16T21:03:22.692+08:00",
                         "default":0,
                         "description":"",
@@ -225,7 +225,7 @@ info 字段说明:
 
 ###  获取主机详情
 
-* API: GET /api/{version}/hosts/{bk_supplier_account}/{bk_host_id}
+* API: GET /api/{version}/hosts/{org_id}/{bk_host_id}
 * API名称： get_host_base_info
 * 功能说明：
 	* 中文：获取主机基础信息详情
@@ -236,7 +236,7 @@ info 字段说明:
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_supplier_account| string| 是|无|开发商账号 |supplier account code |
+| org_id| string| 是|无|开发商账号 |supplier account code |
 | bk_host_id| int| 是|无|主机ID | host ID |
 
 * output:

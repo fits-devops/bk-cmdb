@@ -68,7 +68,7 @@ const (
 	// Position the position to draw the object in the page
 	Position = "position"
 	// SupplierAccount the business id
-	SupplierAccount = "bk_supplier_account"
+	SupplierAccount = "org_id"
 	// Description to introduced object
 	Description = "description"
 	// Creator the creator for the object
@@ -77,13 +77,13 @@ const (
 	Modifier = "modifier"
 
 	// ClassificationID the const definition
-	ClassificationID = "bk_classification_id"
+	ClassificationID = "classification_id"
 	// ClassificationName the const definition
-	ClassificationName = "bk_classification_name"
+	ClassificationName = "classification_name"
 	// ClassificationType the const definition
-	ClassificationType = "bk_classification_type"
+	ClassificationType = "classification_type"
 	// ClassificationIcon the const definition
-	ClassificationIcon = "bk_classification_icon"
+	ClassificationIcon = "classification_icon"
 )
 
 // FieldDataType type definition

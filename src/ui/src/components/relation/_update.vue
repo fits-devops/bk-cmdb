@@ -204,7 +204,7 @@
                 return this.searchObjectAttribute({
                     params: this.$injectMetadata({
                         'bk_obj_id': this.currentAsstObj,
-                        'bk_supplier_account': this.supplierAccount
+                        'org_id': this.supplierAccount
                     }),
                     config: {
                         requestId: `post_searchObjectAttribute_${this.currentAsstObj}`

@@ -35,7 +35,7 @@ const (
 type Attribute struct {
 	Description   string        `json:"description,omitempty"`
 	UpdateAt      time.Time     `json:"last_time,omitempty"`
-	Tenancy       string        `json:"bk_supplier_account,omitempty"`
+	Tenancy       string        `json:"org_id,omitempty"`
 	Name          string        `json:"bk_property_name,omitempty"`
 	IsRequired    bool          `json:"isrequired,omitempty"`
 	Type          AttributeType `json:"bk_property_type,omitempty"`

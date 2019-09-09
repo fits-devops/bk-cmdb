@@ -51,9 +51,9 @@ func (cli *Service) SearchTopoGraphics(req *restful.Request, resp *restful.Respo
 	}
 
 	cond := mapstr.MapStr{
-		"scope_type":          selector.ScopeType,
-		"scope_id":            selector.ScopeID,
-		"bk_supplier_account": ownerID,
+		"scope_type": selector.ScopeType,
+		"scope_id":   selector.ScopeID,
+		"org_id":     ownerID,
 	}
 	_, err = selector.Metadata.Label.GetBusinessID()
 	if nil == err {
@@ -98,12 +98,12 @@ func (cli *Service) UpdateTopoGraphics(req *restful.Request, resp *restful.Respo
 	for index := range datas {
 		datas[index].SetSupplierAccount(ownerID)
 		cond := mapstr.MapStr{
-			"scope_type":          datas[index].ScopeType,
-			"scope_id":            datas[index].ScopeID,
-			"node_type":           datas[index].NodeType,
-			"bk_obj_id":           datas[index].ObjID,
-			"bk_inst_id":          datas[index].InstID,
-			"bk_supplier_account": ownerID,
+			"scope_type": datas[index].ScopeType,
+			"scope_id":   datas[index].ScopeID,
+			"node_type":  datas[index].NodeType,
+			"bk_obj_id":  datas[index].ObjID,
+			"bk_inst_id": datas[index].InstID,
+			"org_id":     ownerID,
 		}
 
 		cnt, err := db.Table(common.BKTableNameTopoGraphics).Find(cond).Count(ctx)

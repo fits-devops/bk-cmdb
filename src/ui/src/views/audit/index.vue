@@ -159,9 +159,9 @@
             filterClassifications () {
                 const classifications = []
                 this.classifications.map(classify => {
-                    if (classify['bk_classification_id'] === 'bk_biz_topo') {
+                    if (classify['classification_id'] === 'bk_biz_topo') {
                         classifications.push({
-                            name: classify['bk_classification_name'],
+                            name: classify['classification_name'],
                             children: [{
                                 id: 'set',
                                 name: this.$t('Hosts["集群"]')
@@ -170,7 +170,7 @@
                                 name: this.$t('Hosts["模块"]')
                             }]
                         })
-                    } else if (classify['bk_classification_id'] !== 'bk_host_manage') {
+                    } else if (classify['classification_id'] !== 'bk_host_manage') {
                         if (classify['bk_objects'].length) {
                             const children = []
                             classify['bk_objects'].map(({ bk_obj_id: bkObjId, bk_obj_name: bkObjName }) => {
@@ -180,7 +180,7 @@
                                 })
                             })
                             classifications.push({
-                                name: classify['bk_classification_name'],
+                                name: classify['classification_name'],
                                 children
                             })
                         }

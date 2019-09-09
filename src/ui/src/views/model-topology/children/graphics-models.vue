@@ -6,19 +6,19 @@
                 :key="index">
                 <div class="group-info"
                     :class="{
-                        open: openGroup === group['bk_classification_id']
+                        open: openGroup === group['classification_id']
                     }"
                     @click="toggleCollapse(group)">
                     <span class="group-name"
-                        :title="group['bk_classification_name']">
-                        {{group['bk_classification_name']}}
+                        :title="group['classification_name']">
+                        {{group['classification_name']}}
                     </span>
                     <span class="group-hidden-count">{{group.hiddenModels.length}}</span>
                     <i class="group-collapse-icon bk-icon icon-angle-right"></i>
                 </div>
                 <template v-if="group.hiddenModels.length">
                     <cmdb-collapse-transition>
-                        <ul class="models-list" v-show="openGroup === group['bk_classification_id']">
+                        <ul class="models-list" v-show="openGroup === group['classification_id']">
                             <li class="models-item" draggable
                                 v-for="(model, index) in group.hiddenModels"
                                 :key="index"
@@ -88,7 +88,7 @@
         },
         methods: {
             toggleCollapse (group) {
-                const groupId = group['bk_classification_id']
+                const groupId = group['classification_id']
                 this.openGroup = groupId === this.openGroup ? null : groupId
             },
             handleDragStart (event, model) {

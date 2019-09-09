@@ -26,7 +26,7 @@ type ObjectUnique struct {
 	MustCheck bool        `json:"must_check" bson:"must_check"`
 	Keys      []UniqueKey `json:"keys" bson:"keys"`
 	Ispre     bool        `json:"ispre" bson:"ispre"`
-	OwnerID   string      `json:"bk_supplier_account" bson:"bk_supplier_account"`
+	OwnerID   string      `json:"org_id" bson:"org_id"`
 	Metadata  `field:"metadata" json:"metadata" bson:"metadata"`
 	LastTime  Time `json:"last_time" bson:"last_time"`
 }

@@ -109,7 +109,7 @@ func (c *classification) DeleteClassification(params types.ContextParams, id int
 		if nil == cond {
 			cond = condition.CreateCondition()
 		}
-		cond.Field(metadata.ClassificationFieldID).Eq(id)
+		cond.Field(metadata.ClassFieldID).Eq(id)
 	}
 
 	if nil != params.MetaData {
@@ -245,10 +245,10 @@ func (c *classification) FindClassificationWithObjects(params types.ContextParam
 			Objects:        []metadata.Object{},
 			AsstObjects:    map[string][]metadata.Object{},
 		}
-		if obj, ok := objMap[cls.ClassificationID] ; ok {
+		if obj, ok := objMap[cls.ClassificationID]; ok {
 			clsItem.Objects = obj
 		}
-		if asst, ok := asstMap[cls.ClassificationID] ; ok {
+		if asst, ok := asstMap[cls.ClassificationID]; ok {
 			clsItem.AsstObjects = asst
 		}
 		datas = append(datas, clsItem)

@@ -10,10 +10,10 @@
 
 ``` json
 {
-	"bk_classification_id": "XXX",
+	"classification_id": "XXX",
 	"bk_obj_id": "cc_test",
 	"bk_obj_name": "cc_test",
-	"bk_supplier_account": "0",
+	"org_id": "0",
 	"bk_asst_obj_id": "id-XXX",
 	"bk_obj_icon": "icon-XXX"
 }
@@ -27,10 +27,10 @@
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
+|classification_id|string|是|无|对象模型的分类ID，只能用英文字母序列命名|the classification identifier|
 | bk_obj_id |string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
 | bk_obj_name |string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 | bk_asst_obj_id |string|是|无|主线模型关联的父对象模型的ID（bk_obj_id）|the association object identifier|
 | bk_obj_icon|string|是|无|模型的图标|the icon of the object|
 
@@ -58,7 +58,7 @@
 
 ### 删除模型主关联
 
-- API: DELETE  /api/{version}/topo/model/mainline/owners/{bk_supplier_account}/objectids/{bk_obj_id}
+- API: DELETE  /api/{version}/topo/model/mainline/owners/{org_id}/objectids/{bk_obj_id}
 - API 名称：delete_mainline_object
 - 功能说明：
 	- 中文：删除主线模型
@@ -73,7 +73,7 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|对象模型的ID|the object identifier|
 
 
@@ -101,7 +101,7 @@
 
 ### 查询模型拓扑
 
-- API: GET/api/{version}/topo/model/{bk_supplier_account}  
+- API: GET/api/{version}/topo/model/{org_id}  
 - API 名称：search_mainline_object
 - 功能说明：
 	- 中文：搜索主线模型
@@ -115,7 +115,7 @@
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 
 
 - output
@@ -132,7 +132,7 @@
 		"bk_obj_name": "业务",
 		"bk_pre_obj_id": "",
 		"bk_pre_obj_name": "",
-		"bk_supplier_account": "0"
+		"org_id": "0"
 	}]
 }
 ```
@@ -158,13 +158,13 @@ data 字段说明：
 |bk_obj_name|string|当前模型的名字|the current object name|
 |bk_pre_obj_id|string|上一个模型的ID|the pre object identifier|
 |bk_pre_obj_name|string|上一个模型的名字|the pre object name|
-|bk_supplier_account|string|开发商账号|supplier account code|
+|org_id|string|开发商账号|supplier account code|
 
 
 
 ### 获取实例拓扑
 
-- API: GET /api/{version}/topo/inst/{bk_supplier_account}/{bk_biz_id}
+- API: GET /api/{version}/topo/inst/{org_id}/{bk_biz_id}
 - API 名称：get_inst_topo
 - 功能说明：
 	- 中文：获取实例拓扑
@@ -180,7 +180,7 @@ data 字段说明：
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 
 
 - output
@@ -240,7 +240,7 @@ data 字段说明：
 
 ###  获取子节点实例
 
-- API: GET /api/{version}/topo/inst/child/{bk_supplier_account}/{bk_obj_id}/{bk_biz_id}/{bk_inst_id}
+- API: GET /api/{version}/topo/inst/child/{org_id}/{bk_obj_id}/{bk_biz_id}/{bk_inst_id}
 - API名称：search_inst_topo
 - 功能说明：
 	- 中文：获取子节点实例拓扑
@@ -255,7 +255,7 @@ data 字段说明：
 | 字段|类型|必填|默认值|Description|
 |---|---|---|---|---|
 |bk_biz_id|int|是|无|业务id|the business id|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_obj_id|string|是|无|对象模型的ID|the object identifier|
 |bk_inst_id|string|是|无|实例ID|the inst id|
 
@@ -316,7 +316,7 @@ data 字段说明：
 **注:child节点下包含的字段于data节点包含的字段一致。**
 
 ###  查询内置模块集
-- API: GET /api/{version}/topo/internal/{bk_supplier_account}/{bk_biz_id}
+- API: GET /api/{version}/topo/internal/{org_id}/{bk_biz_id}
 - API名称： get_internal_topo
 - 功能说明：
 	- 中文：获取业务的空闲机和故障机模块
@@ -332,7 +332,7 @@ data 字段说明：
 
 | 字段|类型|必填|默认值|说明Description|
 |---|---|---|---|---|
-|bk_supplier_account|string|是|无|开发商账号|supplier account code|
+|org_id|string|是|无|开发商账号|supplier account code|
 |bk_biz_id|int|是|无|业务ID|the business id|
 
 
