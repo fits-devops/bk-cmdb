@@ -148,7 +148,7 @@ type PluginProcessInfo struct {
 // UpgradePluginRequest define
 // {
 //     "creator": "aaaaa",
-//     "bk_cloud_id": "0",                     云区域id
+//     "cloud_id": "0",                     云区域id
 //     "node_type": "PLUGIN",                  操作对象  PLUGIN
 //     "op_type": "UPDATE",                    操作   更新: UPDATE
 //     "global_params": {
@@ -203,7 +203,7 @@ type PluginProcessInfo struct {
 // }
 type UpgradePluginRequest struct {
 	Creator      string `json:"creator"`
-	BkCloudID    string `json:"bk_cloud_id"`
+	BkCloudID    string `json:"cloud_id"`
 	NodeType     string `json:"node_type"` // 操作对象  PLUGIN
 	OpType       string `json:"op_type"`   // 操作   更新: UPDATE
 	GlobalParams struct {
@@ -242,7 +242,7 @@ type UpgradePluginResult struct {
 // 	"message": "success",
 // 	"code": "OK",
 // 	"data": {
-// 	  "bk_biz_id": "2",
+// 	  "biz_id": "2",
 // 	  "host_count": 1,
 // 	  "op_target": {
 // 		"category": "official",
@@ -263,14 +263,14 @@ type UpgradePluginResult struct {
 // 	  "job_type_desc": "更新PLUGIN",
 // 	  "start_time": "2018-09-20 20:15:00",
 // 	  "job_type": "UPDATE_PLUGIN",
-// 	  "bk_cloud_id": "0",
+// 	  "cloud_id": "0",
 // 	  "hosts": [
 // 		{
 // 		  "status": "FAILED",
 // 		  "step": "任务执行失败(更新)",
 // 		  "host": {
-// 			"bk_biz_id": "2",
-// 			"bk_cloud_id": "0",
+// 			"biz_id": "2",
+// 			"cloud_id": "0",
 // 			"outer_ip": null,
 // 			"node_type": "AGENT",
 // 			"inner_ip": "127.0.0.1",
@@ -351,14 +351,14 @@ type SearchTaskResult struct {
 }
 
 type Task struct {
-	BkBizID   string `json:"bk_biz_id"`
-	BkCloudID string `json:"bk_cloud_id"`
+	BkBizID   string `json:"biz_id"`
+	BkCloudID string `json:"cloud_id"`
 	Hosts     []struct {
 		Status string `json:"status"` // QUEUE: 队列等待中 RUNNING: 执行中 SUCCESS: 执行成功 FAILED: 执行失败
 		Step   string `json:"step"`
 		Host   struct {
-			BkBizID   string `json:"bk_biz_id"`
-			BkCloudID string `json:"bk_cloud_id"`
+			BkBizID   string `json:"biz_id"`
+			BkCloudID string `json:"cloud_id"`
 			OuterIP   string `json:"outer_ip"`
 			NodeType  string `json:"node_type"`
 			InnerIP   string `json:"inner_ip"`
@@ -375,8 +375,8 @@ type Task struct {
 }
 
 type Host struct {
-	BkBizID   int64  `json:"bk_biz_id,string"`
-	BkCloudID int64  `json:"bk_cloud_id,string"`
+	BkBizID   int64  `json:"biz_id,string"`
+	BkCloudID int64  `json:"cloud_id,string"`
 	OuterIP   string `json:"outer_ip"`
 	NodeType  string `json:"node_type"`
 	InnerIP   string `json:"inner_ip"`
@@ -393,8 +393,8 @@ type Host struct {
 //         {
 //             "status": "RUNNING",
 //             "host": {
-//                 "bk_biz_id": "2",
-//                 "bk_cloud_id": "0",
+//                 "biz_id": "2",
+//                 "cloud_id": "0",
 //                 "outer_ip": null,
 //                 "node_type": "AGENT",
 //                 "inner_ip": "127.0.0.1",

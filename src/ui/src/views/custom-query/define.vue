@@ -216,19 +216,19 @@
                     isShow: false,
                     defaultName: `${this.$t("Common['内网IP']")},${this.$t("Hosts['集群']")},${this.$t("Hosts['模块']")},${this.$t("Common['业务']")},${this.$t("Hosts['云区域']")}`,
                     default: [{
-                        'property_id': 'bk_host_innerip',
+                        'property_id': 'host_innerip',
                         'property_name': this.$t("Common['内网IP']")
                     }, {
-                        'property_id': 'bk_set_name',
+                        'property_id': 'set_name',
                         'property_name': this.$t("Hosts['集群']")
                     }, {
-                        'property_id': 'bk_module_name',
+                        'property_id': 'module_name',
                         'property_name': this.$t("Hosts['模块']")
                     }, {
-                        'property_id': 'bk_biz_name',
+                        'property_id': 'biz_name',
                         'property_name': this.$t("Common['业务']")
                     }, {
-                        'property_id': 'bk_cloud_id',
+                        'property_id': 'cloud_id',
                         'property_name': this.$t("Hosts['云区域']")
                     }]
                 },
@@ -327,11 +327,11 @@
                     }
                 ]
                 const specialObj = {
-                    'host': 'bk_host_innerip',
-                    'biz': 'bk_biz_name',
-                    'plat': 'bk_cloud_name',
-                    'module': 'bk_module_name',
-                    'set': 'bk_set_name'
+                    'host': 'host_innerip',
+                    'biz': 'biz_name',
+                    'plat': 'cloud_name',
+                    'module': 'module_name',
+                    'set': 'set_name'
                 }
                 this.userProperties.forEach((property, index) => {
                     const param = paramsMap.find(({ obj_id: objId }) => {
@@ -342,7 +342,7 @@
                             'obj_id': property.asstObjId,
                             fields: [],
                             condition: [{
-                                field: specialObj.hasOwnProperty(property.asstObjId) ? specialObj[property.asstObjId] : 'bk_inst_name',
+                                field: specialObj.hasOwnProperty(property.asstObjId) ? specialObj[property.asstObjId] : 'inst_name',
                                 operator: property.operator,
                                 value: property.value
                             }]
@@ -369,7 +369,7 @@
                         let operator = property.operator
                         let value = property.value
                         // 多模块与多集群查询
-                        if (property.propertyId === 'bk_module_name' || property.propertyId === 'bk_set_name') {
+                        if (property.propertyId === 'module_name' || property.propertyId === 'set_name') {
                             operator = operator === '$regex' ? '$in' : operator
                             if (operator === '$in') {
                                 const arr = value.replace('，', ',').split(',')
@@ -387,7 +387,7 @@
                     }
                 })
                 const params = {
-                    'bk_biz_id': this.bizId,
+                    'biz_id': this.bizId,
                     'info': {
                         condition: paramsMap
                     },
@@ -504,7 +504,7 @@
             getUserPropertyValue (property, originalProperty) {
                 if (
                     property.operator === '$in'
-                    && ['bk_module_name', 'bk_set_name'].includes(originalProperty['property_id'])
+                    && ['module_name', 'set_name'].includes(originalProperty['property_id'])
                 ) {
                     return property.value[property.value.length - 1]
                 }
@@ -586,7 +586,7 @@
             getOperatorType (property) {
                 const propertyType = property.propertyType
                 const propertyId = property.propertyId
-                if (['bk_set_name', 'bk_module_name'].includes(propertyId)) {
+                if (['set_name', 'module_name'].includes(propertyId)) {
                     return 'name'
                 } else if (['singlechar', 'longchar', 'singleasst', 'multiasst'].includes(propertyType)) {
                     return 'char'

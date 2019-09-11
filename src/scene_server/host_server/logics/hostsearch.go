@@ -771,9 +771,9 @@ func (sh *searchHost) appendHostTopoConds() errors.CCError {
 		}
 
 		// merge two condition
-		// {"field": "bk_host_id", "operator": "$eq", "value": 1}
-		// {"field": "bk_host_id", "operator": "$eq", "value": [1, 2]}
-		// ==> {"field": "bk_host_id", "operator": "", "value": {"$in": [1,2], "$eq": 1}}
+		// {"field": "host_id", "operator": "$eq", "value": 1}
+		// {"field": "host_id", "operator": "$eq", "value": [1, 2]}
+		// ==> {"field": "host_id", "operator": "", "value": {"$in": [1,2], "$eq": 1}}
 		hostIDConditionExist = true
 		if cond.Operator != common.BKDBIN {
 			// it's somewhat trick here to use common.BKDBEQ as merge operator

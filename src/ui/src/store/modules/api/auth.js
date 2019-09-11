@@ -8,7 +8,7 @@ import {
 } from '@/dictionary/auth'
 
 const defaultAuthData = {
-    bk_biz_id: 0,
+    biz_id: 0,
     is_pass: false,
     parent_layers: null,
     reason: '',
@@ -33,7 +33,7 @@ const getters = {
         const authData = authList.find(auth => {
             const sameType = auth.resource_type === authMeta.resource_type
             const sameAction = auth.action === authMeta.action
-            const sameBusiness = authMeta.hasOwnProperty('bk_biz_id') ? auth.bk_biz_id === authMeta.bk_biz_id : true
+            const sameBusiness = authMeta.hasOwnProperty('biz_id') ? auth.biz_id === authMeta.biz_id : true
             return sameType && sameAction && sameBusiness
         })
         return (authData || {}).is_pass
@@ -47,7 +47,7 @@ const getters = {
             && bizId
             && STATIC_BUSINESS_MODE.includes(auth)
         ) {
-            meta.bk_biz_id = bizId
+            meta.biz_id = bizId
         }
         if (DYNAMIC_BUSINESS_MODE.includes(auth)) {
             Object.assign(meta, state.parentMeta)

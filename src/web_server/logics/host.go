@@ -147,7 +147,7 @@ func (lgc *Logics) ImportHosts(ctx context.Context, f *xlsx.File, header http.He
 
 	params := mapstr.MapStr{}
 	params["host_info"] = hosts
-	params["bk_supplier_id"] = common.BKDefaultSupplierID
+	params["supplier_id"] = common.BKDefaultSupplierID
 	params["input_type"] = common.InputTypeExcel
 
 	result, resultErr := lgc.CoreAPI.ApiServer().AddHost(context.Background(), header, params)

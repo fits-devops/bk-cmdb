@@ -118,7 +118,7 @@ func TestORCondition(t *testing.T) {
 }
 
 func TestParseConditionWithMetaData(t *testing.T) {
-	data := `{"aa":"a1","bb":"b1","metadata":{"label":{"bk_biz_id":"123"}}}`
+	data := `{"aa":"a1","bb":"b1","metadata":{"label":{"biz_id":"123"}}}`
 	mData := mapstr.MapStr{}
 	json.Unmarshal([]byte(data), &mData)
 	cond := CreateCondition()

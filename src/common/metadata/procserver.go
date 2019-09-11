@@ -19,29 +19,29 @@ import (
 )
 
 type ProcModuleConfig struct {
-	ApplicationID int64  `json:"bk_biz_id"`
-	ModuleName    string `json:"bk_module_name"`
-	ProcessID     int64  `json:"bk_process_id"`
+	ApplicationID int64  `json:"biz_id"`
+	ModuleName    string `json:"module_name"`
+	ProcessID     int64  `json:"process_id"`
 }
 
 type ProcInstanceModel struct {
-	ApplicationID  int64  `json:"bk_biz_id" bson:"bk_biz_id"`
-	SetID          int64  `json:"bk_set_id" bson:"bk_set_id,omitempty"`
-	ModuleID       int64  `json:"bk_module_id" bson:"bk_module_id,omitempty"`
-	ProcID         int64  `json:"bk_process_id" bson:"bk_process_id"`
-	FuncID         int64  `json:"bk_func_id" bson:"bk_func_id"`
+	ApplicationID  int64  `json:"biz_id" bson:"biz_id"`
+	SetID          int64  `json:"set_id" bson:"set_id,omitempty"`
+	ModuleID       int64  `json:"module_id" bson:"module_id,omitempty"`
+	ProcID         int64  `json:"process_id" bson:"process_id"`
+	FuncID         int64  `json:"func_id" bson:"func_id"`
 	ProcInstanceID uint64 `json:"proc_instance_id" bson:"proc_instance_id"`
-	HostID         int64  `json:"bk_host_id" bson:"bk_host_id"`
+	HostID         int64  `json:"host_id" bson:"host_id"`
 	HostInstanID   uint64 `json:"bk_host_instance_id" bson:"bk_host_instance_id"`
 	HostProcID     uint64 `json:"host_proc_id" bson:"host_proc_id"`
 	OwnerID        string `json:"org_id" bson:"org_id"`
 }
 
 type MatchProcInstParam struct {
-	ApplicationID  int64  `json:"bk_biz_id" bson:"bk_biz_id"`
-	SetName        string `json:"bk_set_name" bson:"bk_set_name"`
-	ModuleName     string `json:"bk_module_name" bson:"bk_module_name"`
-	FuncID         string `json:"bk_func_id" bson:"bk_func_id"`
+	ApplicationID  int64  `json:"biz_id" bson:"biz_id"`
+	SetName        string `json:"set_name" bson:"set_name"`
+	ModuleName     string `json:"module_name" bson:"module_name"`
+	FuncID         string `json:"func_id" bson:"func_id"`
 	HostInstanceID string `json:"bk_host_instance_id" bson:"bk_host_instance_id"`
 }
 
@@ -64,10 +64,10 @@ type ProcInstModelResult struct {
 }
 
 type GseHost struct {
-	HostID       int64  `json:"bk_host_id,omitempty"`
+	HostID       int64  `json:"host_id,omitempty"`
 	Ip           string `json:"ip,omitempty"`
-	BkCloudId    int64  `json:"bk_cloud_id"`
-	BkSupplierId int64  `json:"bk_supplier_id"`
+	BkCloudId    int64  `json:"cloud_id"`
+	BkSupplierId int64  `json:"supplier_id"`
 }
 
 type GseProcMeta struct {
@@ -81,9 +81,9 @@ type ProcInfoArrResult struct {
 	Data     []mapstr.MapStr `json:"data"`
 }
 type GseProcRequest struct {
-	AppID    int64       `json:"bk_biz_id"  bson:"bk_biz_id"`
-	ModuleID int64       `json:"bk_module_id" bson:"bk_module_id"`
-	ProcID   int64       `json:"bk_process_id" bson:"bk_process_id"`
+	AppID    int64       `json:"biz_id"  bson:"biz_id"`
+	ModuleID int64       `json:"module_id" bson:"module_id"`
+	ProcID   int64       `json:"process_id" bson:"process_id"`
 	Meta     GseProcMeta `json:"meta,omitempty" bson:"meta"`
 	Hosts    []GseHost   `json:"hosts,omitempty" bson:"hosts"`
 	OpType   int         `json:"op_type,omitempty" bson:"-"`
@@ -93,7 +93,7 @@ type GseProcRequest struct {
 type ProcInstanceDetail struct {
 	GseProcRequest `json:",inline" bson:",inline"`
 	OwnerID        string                   `json:"org_id" bson:"org_id"`
-	HostID         int64                    `json:"bk_host_id" bson:"bk_host_id"`
+	HostID         int64                    `json:"host_id" bson:"host_id"`
 	Status         ProcInstanceDetailStatus `json:"status" bson:"status"` //1 register gse sucess, 2 register error need retry 3 unregister error need retry
 }
 
@@ -200,7 +200,7 @@ type ProcessOperateTask struct {
 	User        string                              `json:"user,omitempty" bson:"user,omitempty"`
 	Detail      map[string]ProcessOperateTaskDetail `json:"detail" bson:"detail"`
 	Host        []GseHost                           `json:"host_info" bson:"host_info"`
-	ProcName    string                              `json:"bk_process_name" bson:"bk_process_name"`
+	ProcName    string                              `json:"process_name" bson:"process_name"`
 	HTTPHeader  http.Header                         `json:"http_header" bson:"http_header"`
 }
 
@@ -246,9 +246,9 @@ type EsbBaseResponse struct {
 }
 
 type ProcessModule struct {
-	AppID      int64  `json:"bk_biz_id" bson:"bk_biz_id"`
-	ModuleName string `json:"bk_module_name" bson:"bk_module_name"`
-	ProcessID  int64  `json:"bk_process_id" bson:"bk_process_id"`
+	AppID      int64  `json:"biz_id" bson:"biz_id"`
+	ModuleName string `json:"module_name" bson:"module_name"`
+	ProcessID  int64  `json:"process_id" bson:"process_id"`
 	OwnerID    string `json:"org_id" bson:"org_id"`
 }
 

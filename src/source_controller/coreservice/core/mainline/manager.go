@@ -280,7 +280,7 @@ func (im *InstanceMainline) CheckAndFillingMissingModels(withDetail bool) error 
 			continue
 		}
 		blog.Warnf("get parent of %+v with key=%s failed, not Found", topoInstance, parentKey)
-		// There is a bug in legacy code that business before mainline model be created in cc_ObjectBase table has no bk_biz_id field
+		// There is a bug in legacy code that business before mainline model be created in cc_ObjectBase table has no biz_id field
 		// and therefore find parentInstance failed.
 		// In this case current algorithm degenerate in to o(n) query cost.
 

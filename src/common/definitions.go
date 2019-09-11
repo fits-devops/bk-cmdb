@@ -210,10 +210,10 @@ const (
 	BKOwnerIDField = "org_id"
 
 	// BKSupplierIDField the supplier id field
-	BKSupplierIDField = "bk_supplier_id"
+	BKSupplierIDField = "supplier_id"
 
 	// BKAppIDField the appid field
-	BKAppIDField = "bk_biz_id"
+	BKAppIDField = "biz_id"
 
 	// BKIPArr the ip address
 	BKIPArr = "ipArr"
@@ -222,13 +222,13 @@ const (
 	BKAssetIDField = "bk_asset_id"
 
 	// BKHostInnerIPField the host innerip field
-	BKHostInnerIPField = "bk_host_innerip"
+	BKHostInnerIPField = "host_innerip"
 
 	// BKHostCloudRegionField the host cloud region field
 	BKHostCloudRegionField = "bk_cloud_region"
 
 	// BKHostOuterIPField the host outerip field
-	BKHostOuterIPField = "bk_host_outerip"
+	BKHostOuterIPField = "host_outerip"
 
 	// TimeTransferModel the time transferModel field
 	TimeTransferModel = "2006-01-02 15:04:05"
@@ -270,25 +270,25 @@ const (
 	BKImportFrom = "import_from"
 
 	// BKHostIDField the host id field
-	BKHostIDField = "bk_host_id"
+	BKHostIDField = "host_id"
 
 	// BKHostNameField the host name field
-	BKHostNameField = "bk_host_name"
+	BKHostNameField = "host_name"
 
 	// BKAppNameField the app name field
-	BKAppNameField = "bk_biz_name"
+	BKAppNameField = "biz_name"
 
 	// BKSetIDField the setid field
-	BKSetIDField = "bk_set_id"
+	BKSetIDField = "set_id"
 
 	// BKSetNameField the set name field
-	BKSetNameField = "bk_set_name"
+	BKSetNameField = "set_name"
 
 	// BKModuleIDField the module id field
-	BKModuleIDField = "bk_module_id"
+	BKModuleIDField = "module_id"
 
 	// BKModuleNameField the module name field
-	BKModuleNameField = "bk_module_name"
+	BKModuleNameField = "module_name"
 
 	// BKSubscriptionIDField the subscription id field
 	BKSubscriptionIDField = "subscription_id"
@@ -296,10 +296,10 @@ const (
 	BKSubscriptionNameField = "subscription_name"
 
 	// BKOSTypeField the os type field
-	BKOSTypeField = "bk_os_type"
+	BKOSTypeField = "os_type"
 
 	// BKOSNameField the os name field
-	BKOSNameField = "bk_os_name"
+	BKOSNameField = "os_name"
 
 	// BKHttpGet the http get
 	BKHttpGet = "GET"
@@ -314,10 +314,10 @@ const (
 	TencentCloudSignMethod = "HmacSHA1"
 
 	// BKCloudIDField the cloud id field
-	BKCloudIDField = "bk_cloud_id"
+	BKCloudIDField = "cloud_id"
 
 	// BKCloudNameField the cloud name field
-	BKCloudNameField = "bk_cloud_name"
+	BKCloudNameField = "cloud_name"
 
 	// BKObjIDField the obj id field
 	BKObjIDField = "obj_id"
@@ -329,22 +329,22 @@ const (
 	BKObjIconField = "obj_icon"
 
 	// BKInstIDField the inst id field
-	BKInstIDField = "bk_inst_id"
+	BKInstIDField = "inst_id"
 
 	// BKInstNameField the inst name field
-	BKInstNameField = "bk_inst_name"
+	BKInstNameField = "inst_name"
 
 	// ExportCustomFields the use custom display columns
 	ExportCustomFields = "export_custom_fields"
 
 	// BKProcIDField the proc id field
-	BKProcIDField = "bk_process_id"
+	BKProcIDField = "process_id"
 
 	// BKConfTempId is the config template id field
 	BKConfTempIdField = "bk_conftemp_id"
 
 	// BKProcNameField the proc name field
-	BKProcNameField = "bk_process_name"
+	BKProcNameField = "process_name"
 
 	// BKTemlateIDField the process template id field
 	BKTemlateIDField = "template_id"
@@ -430,10 +430,10 @@ const (
 	BKOpTimeField = "op_time"
 
 	// BKSetEnvField the set env field
-	BKSetEnvField = "bk_set_env"
+	BKSetEnvField = "set_env"
 
 	// BKSetStatusField the set status field
-	BKSetStatusField = "bk_service_status"
+	BKSetStatusField = "service_status"
 
 	// BKSetDescField the set desc field
 	BKSetDescField = "bk_set_desc"
@@ -451,16 +451,16 @@ const (
 	BKProtocol = "protocol"
 
 	// BKProcessIDField the process id field
-	BKProcessIDField = "bk_process_id"
+	BKProcessIDField = "process_id"
 
 	// BKProcessNameField the process name field
-	BKProcessNameField = "bk_process_name"
+	BKProcessNameField = "process_name"
 
 	// BKFuncIDField the func id field
-	BKFuncIDField = "bk_func_id"
+	BKFuncIDField = "func_id"
 
 	// BKFuncName the function name
-	BKFuncName = "bk_func_name"
+	BKFuncName = "func_name"
 
 	// BKBindIP the bind ip
 	BKBindIP = "bind_ip"
@@ -487,7 +487,7 @@ const (
 	BKGseProxyField = "bk_gse_proxy"
 
 	// BKSubAreaField the sub area field
-	BKSubAreaField = "bk_cloud_id"
+	BKSubAreaField = "cloud_id"
 
 	// BKProcField the proc field
 	BKProcField = "bk_process"
@@ -832,7 +832,7 @@ const (
 	//BKHTTPOwnerID = "HTTP_BLUEKING_OWNERID"
 	BKHTTPCookieLanugageKey = "blueking_language"
 	BKSessionLanugageKey    = "language"
-	BKHTTPSupplierID        = "bk_supplier_id"
+	BKHTTPSupplierID        = "supplier_id"
 
 	// BKHTTPCCRequestID cc request id cc_request_id
 	BKHTTPCCRequestID = "Cc_Request_Id"

@@ -35,7 +35,7 @@ func (cli *eventHost) constructEvent(hostID int, data types.MapStr) (types.MapSt
 	}
 
 	cond := common.CreateCondition()
-	cond.Field("bk_host_id").Eq(hostID)
+	cond.Field("host_id").Eq(hostID)
 	hostIter, err := cli.outputerMgr.InstOperation().FindHostsByCondition(hostModel, cond)
 	if nil != err {
 		log.Errorf("failed to serch the host, %s", err.Error())
@@ -74,7 +74,7 @@ func (cli *eventHost) constructEvent(hostID int, data types.MapStr) (types.MapSt
 
 		for _, bizItem := range biz {
 
-			bizID, err := bizItem.Int("bk_biz_id")
+			bizID, err := bizItem.Int("biz_id")
 			if nil != err {
 				log.Errorf("failed to get biz id, %s", err.Error())
 				return err
@@ -82,7 +82,7 @@ func (cli *eventHost) constructEvent(hostID int, data types.MapStr) (types.MapSt
 			setArr := make([]types.MapStr, 0)
 			for _, setItem := range set {
 
-				setBizID, err := setItem.Int("bk_biz_id")
+				setBizID, err := setItem.Int("biz_id")
 				if nil != err {
 					log.Errorf("failed to get biz id, %s", err.Error())
 					return err
@@ -95,14 +95,14 @@ func (cli *eventHost) constructEvent(hostID int, data types.MapStr) (types.MapSt
 				setArr = append(setArr, setItem)
 				moduleArr := make([]types.MapStr, 0)
 
-				setID, err := setItem.Int("bk_set_id")
+				setID, err := setItem.Int("set_id")
 				if nil != err {
 					log.Errorf("failed to get set id, %s", err.Error())
 					return err
 				}
 				for _, moduleItem := range module {
 
-					moduleSetID, err := moduleItem.Int("bk_set_id")
+					moduleSetID, err := moduleItem.Int("set_id")
 					if nil != err {
 						log.Errorf("failed to get set id, %s", err.Error())
 						return err
@@ -143,7 +143,7 @@ func (cli *eventHost) getEvent(dataKey string, dataItem types.MapStr) (types.Map
 		return nil, err
 	}
 
-	hostID, err := curHost.Int("bk_host_id")
+	hostID, err := curHost.Int("host_id")
 	if nil != err {
 		log.Errorf("failed to get the host id, %s", err.Error())
 		return nil, err

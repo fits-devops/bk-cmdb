@@ -110,7 +110,7 @@ func (lgc *Logics) SearchCollector(header http.Header, cond metadata.ParamNetcol
 		if clodInst, ok := cloudMap[collector.CloudID]; ok {
 			cloudname, err := clodInst.String(common.BKCloudNameField)
 			if err != nil {
-				blog.Errorf("[NetDevice][SearchCollector] bk_cloud_name field invalied: %v, inst: %+v", err, clodInst)
+				blog.Errorf("[NetDevice][SearchCollector] cloud_name field invalied: %v, inst: %+v", err, clodInst)
 			}
 			collector.CloudName = cloudname
 		}
@@ -433,7 +433,7 @@ func (lgc *Logics) findCustom() ([]Custom, error) {
 
 type NetDeviceConfig struct {
 	DataID      int64      `yaml:"dataid,omitempty"`
-	CloudID     int64      `yaml:"bk_cloud_id,omitempty"`
+	CloudID     int64      `yaml:"cloud_id,omitempty"`
 	OwnerID     string     `yaml:"org_id"`
 	ScanRange   []string   `yaml:"scan_range,omitempty"`
 	Snmp        SnmpConfig `yaml:"snmp,omitempty"`

@@ -1,5 +1,5 @@
 ### 新增进程
-* API： POST /api/{version}/proc/{org_id}/{bk_biz_id}
+* API： POST /api/{version}/proc/{org_id}/{biz_id}
 * API名称： create_process
 * 功能说明：
 	* 中文：创建进程
@@ -7,11 +7,11 @@
 * input body：
 ```
 {
-    "bk_process_name":"nginx",
+    "process_name":"nginx",
     "port":80,
     "bind_ip":"1",
     "protocol":"1",
-    "bk_func_name":"nginx",
+    "func_name":"nginx",
     "work_path":"/data/cc/running",
     "user":"cc"
 }
@@ -21,7 +21,7 @@
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_process_name| string| 是|无|进程名 |process name|
+| process_name| string| 是|无|进程名 |process name|
 | port|  string| 是| 无|主机端口|host port|
 |protocol|string|协议:1/2(1:tcp, 2:udp)|protocol:1/2(1:tcp, 2:udp)|
 |bind_ip|string|绑定IP:1/2/3/4(1:127.0.0.1,2:0.0.0.0,3:第一内网IP,4:第一外网IP)|1/2/3/4(1:127.0.0.1,2:0.0.0.0,3:first intranet IP,4:first extranet IP)|
@@ -50,7 +50,7 @@
 
 ### 查询进程
 
-* API:  POST /api/{version}/proc/search/{org_id}/{bk_biz_id}
+* API:  POST /api/{version}/proc/search/{org_id}/{biz_id}
 * API名称： search_process
 * 功能说明：
 	* 中文：查询进程
@@ -63,15 +63,15 @@
     "page":{
         "start":0,
         "limit":10,
-        "sort":"bk_process_name"
+        "sort":"process_name"
     },
     "fields":[
-        "bk_process_id",
-        "bk_process_name"
+        "process_id",
+        "process_name"
     ],
     "condition":{
-        "bk_biz_id":"12233",
-        "bk_process_name":"nginx"
+        "biz_id":"12233",
+        "process_name":"nginx"
     }
 }
 
@@ -98,8 +98,8 @@ fields参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_process_id| int| 否|无|进程ID |process id|
-| bk_process_name| string| 否|无|进程名称 |process name|
+| process_id| int| 否|无|进程ID |process id|
+| process_name| string| 否|无|进程名称 |process name|
 
 参数为进程的任意属性
 
@@ -115,16 +115,16 @@ condition 参数说明：condition 参数为进程的属性
         "count":5,
         "info":[
             {
-                "bk_process_name":"nginx",
+                "process_name":"nginx",
                 "port":80,
                 "bind_ip":"1",
                 "protocol":"1",
-                "bk_func_name":"nginx",
+                "func_name":"nginx",
                 "work_path":"/data/cc/running",
                 "user":"cc"
             },
             {
-                "bk_process_name":"apache",
+                "process_name":"apache",
                 "port":8080,
                 "bind_ip":"1",
                 "protocol":"1",
@@ -158,7 +158,7 @@ data 数据信息：
 info字段说明：
 ### 获取进程详情
 
-* API: GET    /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
+* API: GET    /api/{version}/proc/{org_id}/{biz_id}/{process_id}
 * API名称： get_process_detail
 * 功能说明：
 	* 中文：获取进程详情
@@ -170,8 +170,8 @@ info字段说明：
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 id|business id |
-| bk_process_id|  int| 是| 无|进程 id |process id|
+| biz_id| int | 是| 无|业务 id|business id |
+| process_id|  int| 是| 无|进程 id |process id|
 
 
 * output:
@@ -182,12 +182,12 @@ info字段说明：
     "error_msg":"",
     "data":[
         {
-            "property_id":"bk_process_name",
+            "property_id":"process_name",
             "property_name":"进程名",
             "bk_property_value":"nginx"
         },
         {
-            "property_id":"bk_process_name",
+            "property_id":"process_name",
             "property_name":"功能名",
             "bk_property_value":"nginx"
         }
@@ -208,7 +208,7 @@ data 数据说明： 进程属性的具体数据
 
 ### 删除进程
 
-* API: DELETE    /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
+* API: DELETE    /api/{version}/proc/{org_id}/{biz_id}/{process_id}
 * API名称： delete_process
 * 功能说明：
 	* 中文：删除进程
@@ -236,7 +236,7 @@ data 数据说明： 进程属性的具体数据
 | data | string | 请求返回的数据 |the data response|
 
 ### 更新进程
-* API:  PUT  /api/{version}/proc/{org_id}/{bk_biz_id}/{bk_process_id}
+* API:  PUT  /api/{version}/proc/{org_id}/{biz_id}/{process_id}
 * API名称： update_process
 * 功能说明：
 	* 中文：更新进程
@@ -244,7 +244,7 @@ data 数据说明： 进程属性的具体数据
 * input body:
 ```
 {
-    "bk_process_name":"nginx"
+    "process_name":"nginx"
 }
 ```
 
@@ -253,8 +253,8 @@ data 数据说明： 进程属性的具体数据
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 id|business id |
-| bk_process_id|  int| 是| 无|进程 id |process id|
+| biz_id| int | 是| 无|业务 id|business id |
+| process_id|  int| 是| 无|进程 id |process id|
 body 字段为进程属性
 
 
@@ -280,7 +280,7 @@ body 字段为进程属性
 
 
 ### 批量更新进程
-* API:  PUT  /api/{version}/proc/{org_id}/{bk_biz_id}
+* API:  PUT  /api/{version}/proc/{org_id}/{biz_id}
 * API名称： batch_update_process
 * 功能说明：
 	* 中文：批量更新进程
@@ -288,7 +288,7 @@ body 字段为进程属性
 * input body:
 ```
 {
-    "bk_process_id" : "44,45,46,47,48",
+    "process_id" : "44,45,46,47,48",
 	"start_cmd": "./start.sh 8080",
 	"port": "1000"
 }
@@ -299,9 +299,9 @@ body 字段为进程属性
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 id|business id |
-| bk_process_id|  string| 是| 无|进程id,int类型的bk_process_id,分割|process ids joined by ','|
-body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外的属性
+| biz_id| int | 是| 无|业务 id|business id |
+| process_id|  string| 是| 无|进程id,int类型的process_id,分割|process ids joined by ','|
+body 字段为进程属性，可指定除`func_id`和`process_name`以外的属性
 
 
 * output:
@@ -326,7 +326,7 @@ body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外�
 
 
 ### 获取进程绑定模块
-* API: GET    /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}
+* API: GET    /api/{version}/proc/module/{org_id}/{biz_id}/{process_id}
 * API名称： get_process_bind_module
 * 功能说明：
 	* 中文：获取进程绑定的模块
@@ -339,8 +339,8 @@ body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外�
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 id|business id |
-| bk_process_id|  int| 是| 无|进程 id |process id|
+| biz_id| int | 是| 无|业务 id|business id |
+| process_id|  int| 是| 无|进程 id |process id|
 
 
 * output：
@@ -351,12 +351,12 @@ body 字段为进程属性，可指定除`bk_func_id`和`bk_process_name`以外�
     "error_msg":"",
     "data":[
         {
-            "bk_module_name":"db",
+            "module_name":"db",
             "set_num":10,
             "is_bind":0
         },
         {
-            "bk_module_name":"gs",
+            "module_name":"gs",
             "set_num":5,
             "is_bind":1
         }
@@ -377,12 +377,12 @@ data 数据结构
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
-| bk_module_name| string| 模块名 |module name|
+| module_name| string| 模块名 |module name|
 | set_num| int | 属于几个集群 | bind set num |
 | is_bind| int| 是否绑定模块 |is bind to module|
 
 ### 绑定进程到模块
-* API: PUT   /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
+* API: PUT   /api/{version}/proc/module/{org_id}/{biz_id}/{process_id}/{module_name}
 * API名称： bind_process_module
 * 功能说明：
 	* 中文：绑定进程到模块
@@ -396,9 +396,9 @@ data 数据结构
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 id|business id |
-| bk_process_id|  int| 是| 无|进程 id |process id|
-| bk_module_name|  string| 是| 无|模块名称 |module name|
+| biz_id| int | 是| 无|业务 id|business id |
+| process_id|  int| 是| 无|进程 id |process id|
+| module_name|  string| 是| 无|模块名称 |module name|
 
 
 * output:
@@ -422,7 +422,7 @@ data 数据结构
 
 
 ### 解绑进程模块
-* API: DELETE   /api/{version}/proc/module/{org_id}/{bk_biz_id}/{bk_process_id}/{bk_module_name}
+* API: DELETE   /api/{version}/proc/module/{org_id}/{biz_id}/{process_id}/{module_name}
 * API名称： delete_process_module_binding
 * 功能说明：
 	* 中文： 删除进程模块绑定关系
@@ -434,9 +434,9 @@ data 数据结构
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商 code |supplier account code|
-| bk_biz_id| int | 是| 无|业务 ID|business id |
-| bk_process_id|  int| 是| 无|进程 ID |process id|
-| bk_module_name|  string| 是| 无|模块名称 |module name|
+| biz_id| int | 是| 无|业务 ID|business id |
+| process_id|  int| 是| 无|进程 ID |process id|
+| module_name|  string| 是| 无|模块名称 |module name|
 
 
 * output:

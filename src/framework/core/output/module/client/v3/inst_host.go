@@ -31,8 +31,8 @@ type HostGetter interface {
 
 // HostInfo the host infos
 type HostInfo struct {
-	HostInnerIP string `json:"bk_host_innerip"`
-	CloudID     int64  `json:"bk_cloud_id"`
+	HostInnerIP string `json:"host_innerip"`
+	CloudID     int64  `json:"cloud_id"`
 }
 
 // HostInterface host operation
@@ -252,10 +252,10 @@ func (h *Host) CreateHostBatch(bizID int64, moduleIDS []int64, data ...types.Map
 		infos[index] = data[index]
 	}
 	param := types.MapStr{
-		"bk_biz_id":      bizID,
-		"bk_module_id":   moduleIDS,
-		"bk_supplier_id": cccommon.BKDefaultSupplierID,
-		"host_info":      infos,
+		"biz_id":      bizID,
+		"module_id":   moduleIDS,
+		"supplier_id": cccommon.BKDefaultSupplierID,
+		"host_info":   infos,
 	}
 	targetURL := fmt.Sprintf("%s/api/v3/hosts/sync/new/host", h.cli.GetAddress())
 	rst, err := h.cli.httpCli.POST(targetURL, nil, param.ToJSON())
@@ -282,7 +282,7 @@ func (h *Host) CreateHostBatch(bizID int64, moduleIDS []int64, data ...types.Map
 // UpdateHostBatch batch to update the hosts
 func (h *Host) UpdateHostBatch(data types.MapStr, hostID string) error {
 
-	data.Set("bk_host_id", hostID)
+	data.Set("host_id", hostID)
 	targetURL := fmt.Sprintf("%s/api/v3/hosts/batch", h.cli.GetAddress())
 	rst, err := h.cli.httpCli.PUT(targetURL, nil, data.ToJSON())
 	if nil != err {
@@ -301,7 +301,7 @@ func (h *Host) UpdateHostBatch(data types.MapStr, hostID string) error {
 
 // DeleteHostBatch batch to delete the host
 func (h *Host) DeleteHostBatch(hostID string) error {
-	data := common.CreateCondition().Field("bk_host_id").Eq(hostID)
+	data := common.CreateCondition().Field("host_id").Eq(hostID)
 
 	targetURL := fmt.Sprintf("%s/api/v3/hosts/batch", h.cli.GetAddress())
 	rst, err := h.cli.httpCli.DELETE(targetURL, nil, data.ToMapStr().ToJSON())
@@ -348,7 +348,7 @@ func (h *Host) SearchHost(cond common.Condition) ([]types.MapStr, error) {
 	}
 
 	params := map[string]interface{}{
-		"bk_biz_id": -1,
+		"biz_id": -1,
 		"page": types.MapStr{
 			"start": cond.GetStart(),
 			"limit": cond.GetLimit(),

@@ -10,12 +10,12 @@
     "page":{
         "start":0,
         "limit":10,
-        "sort":"bk_host_id"
+        "sort":"host_id"
     },
     "pattern":"",
-    "bk_biz_id":2,
+    "biz_id":2,
     "ip":{
-        "flag":"bk_host_innerip|bk_host_outerip",
+        "flag":"host_innerip|host_outerip",
         "exact":1,
         "data":[
 
@@ -82,7 +82,7 @@ ip参数说明：
 | ---  | ---  | --- |---  | --- | ---|
 | data | ip 数组| 否| 无|ip list for search| the list for search |
 | exact| int| 否| 无|是否根据ip精确搜索| is the exact query |
-| flag| string| 否| 空|bk_host_innerip只匹配内网ip,bk_host_outerip只匹配外网ip, bk_host_innerip,bk_host_outerip同时匹配|bk_host_innerip match lan ip,bk_host_outerip match wan ip|
+| flag| string| 否| 空|host_innerip只匹配内网ip,host_outerip只匹配外网ip, host_innerip,host_outerip同时匹配|host_innerip match lan ip,host_outerip match wan ip|
 
 condition 参数说明：
 
@@ -100,7 +100,7 @@ condition 参数说明：
 | operator| string| 否| 无|操作符, $eq为相等，$neq为不等，$in为属于，$nin为不属于|$eq is equal,$in is belongs, $nin is not belong,$neq is not equal|
 | value| string| 否| 无|字段对应的值|the value of field|
 
-可以指定特定的提交查询，例如设置biz 中default =1 查资源池下主机， BK_SUPPLIER_ID_FIELD= 查询开发商下主机
+可以指定特定的提交查询，例如设置biz 中default =1 查资源池下主机， supplier_id_FIELD= 查询开发商下主机
 
 
 page 参数说明：
@@ -125,48 +125,48 @@ page 参数说明：
                 "biz":[
                     {
                         "bk_biz_developer":"",
-                        "bk_biz_id":2,
+                        "biz_id":2,
                         "bk_biz_maintainer":"admin",
-                        "bk_biz_name":"蓝鲸"
+                        "biz_name":"蓝鲸"
                     }
                 ],
                 "host":{
                     "bk_asset_id":"DKUXHBUH189",
                     "bk_bak_operator":"admin",
-                    "bk_cloud_id":[
+                    "cloud_id":[
                         {
                             "id":"0",
                             "obj_id":"plat",
                             "obj_icon":"",
-                            "bk_inst_id":0,
+                            "inst_id":0,
                             "obj_name":"",
-                            "bk_inst_name":"default area"
+                            "inst_name":"default area"
                         }
                     ],
                     "bk_comment":"",
-                    "bk_cpu":8,
-                    "bk_cpu_mhz":2609,
-                    "bk_cpu_module":"E5-2620",
-                    "bk_disk":300000,
-                    "bk_host_id":17,
-                    "bk_host_innerip":"192.168.1.1",
-                    "bk_host_name":"nginx-1",
-                    "bk_host_outerip":"",
+                    "cpu":8,
+                    "cpu_mhz":2609,
+                    "cpu_module":"E5-2620",
+                    "disk":300000,
+                    "host_id":17,
+                    "host_innerip":"192.168.1.1",
+                    "host_name":"nginx-1",
+                    "host_outerip":"",
                     "bk_isp_name":null,
                     "bk_mac":"",
-                    "bk_mem":32000,
+                    "mem":32000,
                     "bk_os_bit":""
                 },
                 "module":[
                     {
                         "TopModuleName":"蓝鲸##公共组件##consul",
                         "bk_bak_operator":"",
-                        "bk_biz_id":2,
-                        "bk_module_id":35,
-                        "bk_module_name":"consul",
+                        "biz_id":2,
+                        "module_id":35,
+                        "module_name":"consul",
                         "bk_module_type":"1",
                         "bk_parent_id":8,
-                        "bk_set_id":8,
+                        "set_id":8,
                         "org_id":"0",
                         "create_time":"2018-05-16T21:03:22.724+08:00",
                         "default":0,
@@ -177,14 +177,14 @@ page 参数说明：
                 "set":[
                     {
                         "TopSetName":"蓝鲸##公共组件",
-                        "bk_biz_id":2,
+                        "biz_id":2,
                         "bk_capacity":null,
                         "bk_parent_id":3,
-                        "bk_service_status":"1",
+                        "service_status":"1",
                         "bk_set_desc":"111",
-                        "bk_set_env":"3",
-                        "bk_set_id":8,
-                        "bk_set_name":"公共组件",
+                        "set_env":"3",
+                        "set_id":8,
+                        "set_name":"公共组件",
                         "org_id":"0",
                         "create_time":"2018-05-16T21:03:22.692+08:00",
                         "default":0,
@@ -225,7 +225,7 @@ info 字段说明:
 
 ###  获取主机详情
 
-* API: GET /api/{version}/hosts/{org_id}/{bk_host_id}
+* API: GET /api/{version}/hosts/{org_id}/{host_id}
 * API名称： get_host_base_info
 * 功能说明：
 	* 中文：获取主机基础信息详情
@@ -237,7 +237,7 @@ info 字段说明:
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | ---|
 | org_id| string| 是|无|开发商账号 |supplier account code |
-| bk_host_id| int| 是|无|主机ID | host ID |
+| host_id| int| 是|无|主机ID | host ID |
 
 * output:
 ```
@@ -247,12 +247,12 @@ info 字段说明:
   "error_msg": "", 
   "data": [
     {
-      "property_id": "bk_host_name", 
+      "property_id": "host_name", 
       "property_name": "主机名", 
       "bk_property_value": "centos7"
     }, 
     {
-      "property_id": "bk_host_id", 
+      "property_id": "host_id", 
       "property_name": "主机ID", 
       "bk_property_value": "1007"
     }
@@ -280,7 +280,7 @@ data说明：
 
 ### 根据主机id获取主机快照数据
 
-*  API:   GET /api/{version}/hosts/snapshot/{bk_host_id}
+*  API:   GET /api/{version}/hosts/snapshot/{host_id}
 * API名称： get_host_snapshot
 * 功能说明：
 	* 中文：获取主机详情
@@ -291,7 +291,7 @@ data说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | --- |
-| bk_host_id| int| 是|无|主机id | host ID |
+| host_id| int| 是|无|主机id | host ID |
 
 
 * output:

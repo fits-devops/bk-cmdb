@@ -158,16 +158,16 @@ type tableKey struct {
 }
 
 var tableKeysCache = map[string]*tableKey{
-	"cc_ApplicationBase":   {keys: []string{"bk_biz_name"}, ignores: []string{"bk_biz_id"}},
-	"cc_ModuleBase":        {keys: []string{"bk_module_name"}, ignores: []string{"bk_module_id", "bk_biz_id", "bk_set_id", "bk_parent_id"}},
+	"cc_ApplicationBase":   {keys: []string{"biz_name"}, ignores: []string{"biz_id"}},
+	"cc_ModuleBase":        {keys: []string{"module_name"}, ignores: []string{"module_id", "biz_id", "set_id", "bk_parent_id"}},
 	"cc_ObjAttDes":         {keys: []string{"obj_id", "property_id"}, ignores: []string{"id"}},
 	"cc_ObjClassification": {keys: []string{"classification_id"}, ignores: []string{"id"}},
 	"cc_ObjDes":            {keys: []string{"obj_id"}, ignores: []string{"id"}},
-	"cc_PlatBase":          {keys: []string{"bk_cloud_name"}, ignores: []string{}},
-	"cc_Proc2Module":       {keys: []string{"bk_module_name", "bk_process_id", "bk_biz_id"}, ignores: []string{}},
-	"cc_Process":           {keys: []string{"bk_process_name"}, ignores: []string{}},
+	"cc_PlatBase":          {keys: []string{"cloud_name"}, ignores: []string{}},
+	"cc_Proc2Module":       {keys: []string{"module_name", "process_id", "biz_id"}, ignores: []string{}},
+	"cc_Process":           {keys: []string{"process_name"}, ignores: []string{}},
 	"cc_PropertyGroup":     {keys: []string{"obj_id", "group_id"}, ignores: []string{}},
-	"cc_SetBase":           {keys: []string{"bk_set_name", "bk_biz_id"}, ignores: []string{"bk_set_id"}},
+	"cc_SetBase":           {keys: []string{"set_name", "biz_id"}, ignores: []string{"set_id"}},
 	"cc_OperationLog":      {keys: []string{"op_type", "inst_id"}, ignores: []string{"op_time"}},
 	"cc_ObjAsst":           {keys: []string{"obj_id", "bk_object_att_id", "bk_asst_obj_id"}, ignores: []string{"id"}},
 }

@@ -83,7 +83,7 @@ func (s *Service) UpdateUserCustomQuery(req *restful.Request, resp *restful.Resp
 
 	params["modify_user"] = srvData.user
 	params[common.LastTimeField] = time.Now().UTC()
-	bizID := req.PathParameter("bk_biz_id")
+	bizID := req.PathParameter("biz_id")
 	result, err := s.CoreAPI.HostController().User().UpdateUserConfig(srvData.ctx, bizID, req.PathParameter("id"), srvData.header, params)
 	if err != nil {
 		blog.Errorf("UpdateUserCustomQuery http do error,err:%s, biz:%v,input:%+v,rid:%s", err.Error(), bizID, params, srvData.rid)
@@ -114,7 +114,7 @@ func (s *Service) DeleteUserCustomQuery(req *restful.Request, resp *restful.Resp
 	srvData := s.newSrvComm(req.Request.Header)
 
 	dynamicID := req.PathParameter("id")
-	appID := req.PathParameter("bk_biz_id")
+	appID := req.PathParameter("biz_id")
 
 	dyResult, err := s.CoreAPI.HostController().User().GetUserConfigDetail(srvData.ctx, appID, dynamicID, srvData.header)
 	if err != nil {
@@ -177,9 +177,9 @@ func (s *Service) GetUserCustomQuery(req *restful.Request, resp *restful.Respons
 	}
 
 	var err error
-	condition[common.BKAppIDField], err = util.GetInt64ByInterface(req.PathParameter("bk_biz_id"))
+	condition[common.BKAppIDField], err = util.GetInt64ByInterface(req.PathParameter("biz_id"))
 	if nil != err {
-		blog.Error("GetUserCustomQuery query user custom query parameter ApplicationID not integer in url,bizID:%s,rid:%s", req.PathParameter("bk_biz_id"), srvData.rid)
+		blog.Error("GetUserCustomQuery query user custom query parameter ApplicationID not integer in url,bizID:%s,rid:%s", req.PathParameter("biz_id"), srvData.rid)
 		resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: srvData.ccErr.Errorf(common.CCErrCommParamsNeedInt, common.BKAppIDField)})
 		return
 	}
@@ -187,12 +187,12 @@ func (s *Service) GetUserCustomQuery(req *restful.Request, resp *restful.Respons
 
 	result, err := s.CoreAPI.HostController().User().GetUserConfig(srvData.ctx, srvData.header, input)
 	if err != nil {
-		blog.Errorf("GetUserCustomQuery http do error,err:%s, biz:%v,input:%+v,rid:%s", err.Error(), req.PathParameter("bk_biz_id"), input, srvData.rid)
+		blog.Errorf("GetUserCustomQuery http do error,err:%s, biz:%v,input:%+v,rid:%s", err.Error(), req.PathParameter("biz_id"), input, srvData.rid)
 		resp.WriteError(http.StatusInternalServerError, &meta.RespError{Msg: srvData.ccErr.Error(common.CCErrCommHTTPDoRequestFailed)})
 		return
 	}
 	if !result.Result {
-		blog.Errorf("GetUserCustomQuery http response error,err code:%d,err msg:%s, bizID:%v,input:%+v,rid:%s", result.Code, result.ErrMsg, req.PathParameter("bk_biz_id"), input, srvData.rid)
+		blog.Errorf("GetUserCustomQuery http response error,err code:%d,err msg:%s, bizID:%v,input:%+v,rid:%s", result.Code, result.ErrMsg, req.PathParameter("biz_id"), input, srvData.rid)
 		resp.WriteError(http.StatusInternalServerError, &meta.RespError{Msg: srvData.ccErr.New(result.Code, result.ErrMsg)})
 		return
 	}
@@ -207,7 +207,7 @@ func (s *Service) GetUserCustomQueryDetail(req *restful.Request, resp *restful.R
 
 	srvData := s.newSrvComm(req.Request.Header)
 
-	appID := req.PathParameter("bk_biz_id")
+	appID := req.PathParameter("biz_id")
 	ID := req.PathParameter("id")
 
 	result, err := s.CoreAPI.HostController().User().GetUserConfigDetail(srvData.ctx, appID, ID, srvData.header)
@@ -233,7 +233,7 @@ func (s *Service) GetUserCustomQueryResult(req *restful.Request, resp *restful.R
 
 	srvData := s.newSrvComm(req.Request.Header)
 
-	appID := req.PathParameter("bk_biz_id")
+	appID := req.PathParameter("biz_id")
 	ID := req.PathParameter("id")
 
 	intAppID, err := util.GetInt64ByInterface(appID)

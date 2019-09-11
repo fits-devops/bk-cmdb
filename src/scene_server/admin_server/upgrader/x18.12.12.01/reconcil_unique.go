@@ -42,7 +42,7 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 
 	shouldCheck := []string{
 		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
-		keyfunc(common.BKInnerObjIDProc, "bk_start_param_regex"),
+		keyfunc(common.BKInnerObjIDProc, "start_param_regex"),
 		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
 		keyfunc(common.BKInnerObjIDProc, common.BKFuncName),
 	}
@@ -61,7 +61,7 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 				},
 				{
 					Kind: metadata.UniqueKeyKindProperty,
-					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, "bk_start_param_regex")].ID),
+					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, "start_param_regex")].ID),
 				},
 				{
 					Kind: metadata.UniqueKeyKindProperty,

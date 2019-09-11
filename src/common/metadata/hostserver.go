@@ -23,7 +23,7 @@ import (
 )
 
 type DeleteHostBatchOpt struct {
-	HostID string `json:"bk_host_id"`
+	HostID string `json:"host_id"`
 }
 
 type HostInstanceProperties struct {
@@ -55,9 +55,9 @@ const (
 )
 
 type HostList struct {
-	ApplicationID int64                            `json:"bk_biz_id"`
+	ApplicationID int64                            `json:"biz_id"`
 	HostInfo      map[int64]map[string]interface{} `json:"host_info"`
-	SupplierID    int64                            `json:"bk_supplier_id"`
+	SupplierID    int64                            `json:"supplier_id"`
 	InputType     HostInputType                    `json:"input_type"`
 }
 
@@ -66,34 +66,34 @@ type AddHostFromAgentHostList struct {
 }
 
 type HostSyncList struct {
-	ApplicationID int64                            `json:"bk_biz_id"`
+	ApplicationID int64                            `json:"biz_id"`
 	HostInfo      map[int64]map[string]interface{} `json:"host_info"`
-	SupplierID    int64                            `json:"bk_supplier_id"`
-	ModuleID      []int64                          `json:"bk_module_id"`
+	SupplierID    int64                            `json:"supplier_id"`
+	ModuleID      []int64                          `json:"module_id"`
 	InputType     HostInputType                    `json:"input_type"`
 }
 
 type HostsModuleRelation struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	HostID        []int64 `json:"bk_host_id"`
-	ModuleID      []int64 `json:"bk_module_id"`
+	ApplicationID int64   `json:"biz_id"`
+	HostID        []int64 `json:"host_id"`
+	ModuleID      []int64 `json:"module_id"`
 	IsIncrement   bool    `json:"is_increment"`
 }
 
 type HostToAppModule struct {
 	Ips         []string `json:"ips"`
-	HostName    []string `json:"bk_host_name"`
-	ModuleName  string   `json:"bk_module_name"`
-	SetName     string   `json:"bk_set_name"`
-	AppName     string   `json:"bk_biz_name"`
-	OsType      string   `json:"bk_os_type"`
+	HostName    []string `json:"host_name"`
+	ModuleName  string   `json:"module_name"`
+	SetName     string   `json:"set_name"`
+	AppName     string   `json:"biz_name"`
+	OsType      string   `json:"os_type"`
 	OwnerID     string   `json:"org_id"`
-	PlatID      int64    `json:"bk_cloud_id"`
+	PlatID      int64    `json:"cloud_id"`
 	IsIncrement bool     `json:"is_increment"`
 }
 
 type HostCommonSearch struct {
-	AppID     int64             `json:"bk_biz_id,omitempty"`
+	AppID     int64             `json:"biz_id,omitempty"`
 	Ip        IPInfo            `json:"ip"`
 	Condition []SearchCondition `json:"condition"`
 	Page      BasePage          `json:"page"`
@@ -101,7 +101,7 @@ type HostCommonSearch struct {
 }
 
 type HostModuleFind struct {
-	ModuleIDS []int64  `json:"bk_module_ids"`
+	ModuleIDS []int64  `json:"module_ids"`
 	Metadata  Metadata `json:"metadata"`
 	Page      BasePage `json:"page"`
 }
@@ -134,12 +134,12 @@ func (sh SearchHost) ExtractHostIDs() *[]int64 {
 		}
 		hostID, exist := h["host"].(mapstr.MapStr)[common.BKHostIDField]
 		if exist == false {
-			blog.ErrorJSON("unexpected error, host: %s don't have host.bk_host_id field.", h)
+			blog.ErrorJSON("unexpected error, host: %s don't have host.host_id field.", h)
 			continue
 		}
 		id, err := util.GetInt64ByInterface(hostID)
 		if err != nil {
-			blog.ErrorJSON("unexpected error, host: %s host.bk_host_id field is not integer.", h)
+			blog.ErrorJSON("unexpected error, host: %s host.host_id field is not integer.", h)
 			continue
 		}
 		hostIDArray = append(hostIDArray, id)
@@ -155,21 +155,21 @@ type SearchHostResult struct {
 type HostCloneInputParams struct {
 	OrgIP  string `json:"bk_org_ip"`
 	DstIP  string `json:"bk_dst_ip"`
-	AppID  int64  `json:"bk_biz_id"`
-	PlatID int64  `json:"bk_cloud_id"`
+	AppID  int64  `json:"biz_id"`
+	PlatID int64  `json:"cloud_id"`
 }
 
 type SetHostConfigParams struct {
-	ApplicationID int64 `json:"bk_biz_id"`
-	SetID         int64 `json:"bk_set_id"`
-	ModuleID      int64 `json:"bk_module_id"`
+	ApplicationID int64 `json:"biz_id"`
+	SetID         int64 `json:"set_id"`
+	ModuleID      int64 `json:"module_id"`
 }
 
 type CloneHostPropertyParams struct {
-	AppID   int64  `json:"bk_biz_id"`
+	AppID   int64  `json:"biz_id"`
 	OrgIP   string `json:"bk_org_ip"`
 	DstIP   string `json:"bk_dst_ip"`
-	CloudID int64  `json:"bk_cloud_id"`
+	CloudID int64  `json:"cloud_id"`
 }
 
 type CloudTaskList struct {
@@ -271,20 +271,20 @@ type CloudSyncRedisPendingStop struct {
 
 // TransferHostAcrossBusinessParameter Transfer host across business request parameter
 type TransferHostAcrossBusinessParameter struct {
-	SrcAppID       int64   `json:"src_bk_biz_id"`
-	DstAppID       int64   `json:"dst_bk_biz_id"`
-	HostID         int64   `json:"bk_host_id"`
-	DstModuleIDArr []int64 `json:"bk_module_ids"`
+	SrcAppID       int64   `json:"src_biz_id"`
+	DstAppID       int64   `json:"dst_biz_id"`
+	HostID         int64   `json:"host_id"`
+	DstModuleIDArr []int64 `json:"module_ids"`
 }
 
 // HostModuleRelationParameter get host and module  relation parameter
 type HostModuleRelationParameter struct {
-	AppID  int64   `json:"bk_biz_id"`
-	HostID []int64 `json:"bk_host_id"`
+	AppID  int64   `json:"biz_id"`
+	HostID []int64 `json:"host_id"`
 }
 
 // DeleteHostFromBizParameter delete host from business
 type DeleteHostFromBizParameter struct {
-	AppID     int64   `json:"bk_biz_id"`
-	HostIDArr []int64 `json:"bk_host_ids"`
+	AppID     int64   `json:"biz_id"`
+	HostIDArr []int64 `json:"host_ids"`
 }

@@ -62,7 +62,7 @@ func (lgc *Logics) UpdateHost(ctx context.Context, input map[string]interface{},
 
 	dstPlat, ok := mapData[common.BKSubAreaField]
 	if !ok {
-		blog.Errorf("params data.bk_cloud_id is require, input:%+v, rid:%s", input, lgc.rid)
+		blog.Errorf("params data.cloud_id is require, input:%+v, rid:%s", input, lgc.rid)
 		return nil, http.StatusBadRequest, lgc.ccErr.Errorf(common.CCErrCommParamsNeedSet, common.BKSubAreaField)
 
 	}

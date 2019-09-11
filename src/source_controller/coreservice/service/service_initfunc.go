@@ -107,7 +107,7 @@ func (s *coreService) initInstanceAssociation() {
 func (s *coreService) initMainline() {
 	// add handler for model topo and business topo
 	s.addAction(http.MethodPost, "/read/mainline/model", s.SearchMainlineModelTopo, nil)
-	s.addAction(http.MethodPost, "/read/mainline/instance/{bk_biz_id}", s.SearchMainlineInstanceTopo, nil)
+	s.addAction(http.MethodPost, "/read/mainline/instance/{biz_id}", s.SearchMainlineInstanceTopo, nil)
 }
 
 func (s *coreService) host() {

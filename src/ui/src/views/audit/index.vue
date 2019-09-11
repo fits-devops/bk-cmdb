@@ -9,9 +9,9 @@
                         :selected.sync="filter.bizId"
                         :searchable="true"
                         :allow-clear="true"
-                        display-key="bk_biz_name"
-                        search-key="bk_biz_name"
-                        setting-key="bk_biz_id"
+                        display-key="biz_name"
+                        search-key="biz_name"
+                        setting-key="biz_id"
                     ></bk-selector>
                 </div>
             </div>
@@ -120,9 +120,9 @@
                         id: 'op_desc',
                         name: this.$t('OperationAudit["描述"]')
                     }, {
-                        id: 'bk_biz_name',
+                        id: 'biz_name',
                         name: this.$t('OperationAudit["所属业务"]'),
-                        sortKey: 'bk_biz_id'
+                        sortKey: 'biz_id'
                     }, {
                         id: 'ext_key',
                         name: 'IP'
@@ -204,7 +204,7 @@
                     limit: this.table.pagination.size,
                     sort: this.table.sort
                 }
-                this.setParams(params.condition, 'bk_biz_id', this.isAdminView ? this.filter.bizId : this.bizId)
+                this.setParams(params.condition, 'biz_id', this.isAdminView ? this.filter.bizId : this.bizId)
                 this.setParams(params.condition, 'op_type', this.filter.bkOpType)
                 this.setParams(params.condition, 'op_target', this.filter.classify)
                 if (this.filter.bkIP) { // 将IP分隔成查询数组
@@ -222,7 +222,7 @@
             applicationMap () {
                 const applicationMap = {}
                 this.authorizedBusiness.forEach((application, index) => {
-                    applicationMap[application['bk_biz_id']] = application['bk_biz_name']
+                    applicationMap[application['biz_id']] = application['biz_name']
                 })
                 return applicationMap
             },
@@ -269,7 +269,7 @@
             initTableList (list) {
                 if (list) {
                     list.map(item => {
-                        item['bk_biz_name'] = this.applicationMap[item['bk_biz_id']]
+                        item['biz_name'] = this.applicationMap[item['biz_id']]
                         item['op_type_name'] = this.operateTypeMap[item['op_type']]
                         item['op_time'] = this.$tools.formatTime(moment(item['op_time']))
                     })

@@ -39,7 +39,7 @@ func addOperationLogIndex(ctx context.Context, db dal.RDB, conf *upgrader.Config
 	expectIndexs := []dal.Index{
 		{Name: "op_target_1_inst_id_1_op_time_-1", Keys: map[string]int32{"op_target": 1, "inst_id": 1, "op_time": -1}, Background: true},
 		{Name: "org_id_1_op_time_-1", Keys: map[string]int32{"org_id": 1, "op_time": -1}, Background: true},
-		{Name: "bk_biz_id_1_org_id_1_op_time_-1", Keys: map[string]int32{"bk_biz_id": 1, "org_id": 1, "op_time": -1}, Background: true},
+		{Name: "biz_id_1_org_id_1_op_time_-1", Keys: map[string]int32{"biz_id": 1, "org_id": 1, "op_time": -1}, Background: true},
 		{Name: "ext_key_1_org_id_1_op_time_-1", Keys: map[string]int32{"ext_key": 1, "org_id": 1, "op_time": -1}, Background: true},
 	}
 	for _, idx := range expectIndexs {

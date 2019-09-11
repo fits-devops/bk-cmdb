@@ -67,23 +67,23 @@
                 activeComponent: 'cmdbRelationTopology',
                 previousComponent: 'cmdbRelationTopology',
                 idKeyMap: {
-                    host: 'bk_host_id',
-                    biz: 'bk_biz_id'
+                    host: 'host_id',
+                    biz: 'biz_id'
                 },
                 nameKeyMap: {
-                    host: 'bk_host_innerip',
-                    biz: 'bk_biz_name'
+                    host: 'host_innerip',
+                    biz: 'biz_name'
                 }
             }
         },
         computed: {
             formatedInst () {
-                const idKey = this.idKeyMap[this.objId] || 'bk_inst_id'
-                const nameKey = this.nameKeyMap[this.objId] || 'bk_inst_name'
+                const idKey = this.idKeyMap[this.objId] || 'inst_id'
+                const nameKey = this.nameKeyMap[this.objId] || 'inst_name'
                 return {
                     ...this.inst,
-                    'bk_inst_id': this.inst[idKey],
-                    'bk_inst_name': this.inst[nameKey]
+                    'inst_id': this.inst[idKey],
+                    'inst_name': this.inst[nameKey]
                 }
             }
         },

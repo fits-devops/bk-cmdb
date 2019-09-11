@@ -20,20 +20,20 @@ const (
 	IsIncrement = "is_increment"
 
 	// HostID host id
-	HostID = "bk_host_id"
+	HostID = "host_id"
 
 	// PlatID  plat id
-	PlatID = "bk_cloud_id"
+	PlatID = "cloud_id"
 	// BusinessID the business id
-	BusinessID = "bk_biz_id"
+	BusinessID = "biz_id"
 	// SetID the set id
-	SetID = "bk_set_id"
+	SetID = "set_id"
 	// ModuleID the module id
-	ModuleID = "bk_module_id"
+	ModuleID = "module_id"
 	// ObjectID the object identifier name
 	ObjectID = "obj_id"
 	// CommonInstID the common inst id
-	CommonInstID = "bk_inst_id"
+	CommonInstID = "inst_id"
 	// SupplierAccount the business id
 	SupplierAccount = "org_id"
 )

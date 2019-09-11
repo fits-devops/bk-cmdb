@@ -71,7 +71,7 @@ const redirect = {
 const isAdmin = window.User.admin === '1'
 
 const defaultMeta = {
-    bk_biz_id: 0,
+    biz_id: 0,
     is_pass: false,
     parent_layers: null,
     reason: '',
@@ -102,7 +102,7 @@ const transformResponse = data => {
                     resource_model: 'biz'
                 }]
                 setModelMeta(meta, modelConfig)
-            } else if (businessResourceAuth.includes(auth) && resource.bk_biz_id) {
+            } else if (businessResourceAuth.includes(auth) && resource.biz_id) {
                 meta.is_pass = true
             } else if (resourceAuth.includes(auth)) {
                 setSystemMeta('resource', meta, globalBusi)

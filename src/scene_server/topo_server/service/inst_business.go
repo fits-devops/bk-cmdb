@@ -289,7 +289,7 @@ func (s *Service) SearchBusiness(params types.ContextParams, pathParams, queryPa
 	var bizIDs []int64
 	biz, exist := searchCond.Condition[common.BKAppIDField]
 	if exist {
-		// constrict that bk_biz_id field can only be a numeric value,
+		// constrict that biz_id field can only be a numeric value,
 		// operators like or/in/and is not allowed.
 		if bizcond, ok := biz.(map[string]interface{}); ok {
 			if cond, ok := bizcond["$eq"]; ok {

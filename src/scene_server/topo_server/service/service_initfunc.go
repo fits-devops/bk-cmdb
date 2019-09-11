@@ -29,7 +29,7 @@ func (s *Service) initAssociation() {
 	s.addAction(http.MethodDelete, "/topo/model/mainline/owners/{owner_id}/objectids/{obj_id}", s.DeleteMainLineObject, nil)
 	s.addAction(http.MethodGet, "/topo/model/{owner_id}", s.SearchMainLineObjectTopo, nil)
 	s.addAction(http.MethodGet, "/topo/model/{owner_id}/{cls_id}/{obj_id}", s.SearchObjectByClassificationID, nil)
-	s.addAction(http.MethodGet, "/topo/inst/{owner_id}/{bk_biz_id}", s.SearchBusinessTopo, nil)
+	s.addAction(http.MethodGet, "/topo/inst/{owner_id}/{biz_id}", s.SearchBusinessTopo, nil)
 	// TODO: delete this api, it's not used by front.
 	s.addAction(http.MethodGet, "/topo/inst/child/{owner_id}/{obj_id}/{app_id}/{inst_id}", s.SearchMainLineChildInstTopo, nil)
 

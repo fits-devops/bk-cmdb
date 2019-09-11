@@ -72,7 +72,7 @@ const actions = {
         return $http.post(`find/instassociation/object/${objId}`, params, config)
     },
 
-    searchInstById ({ rootGetters }, { config, objId, instId, idKey = 'bk_inst_id', params }) {
+    searchInstById ({ rootGetters }, { config, objId, instId, idKey = 'inst_id', params }) {
         return $http.post(`find/instassociation/object/${objId}`, Object.assign({
             condition: {
                 [objId]: [{

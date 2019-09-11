@@ -5,10 +5,10 @@
             <div class="filter-group">
                 <label for="filterIp" class="filter-label">IP</label>
                 <textarea id="filterIp" class="filter-field filter-field-ip" v-model.trim="ip.text"></textarea>
-                <cmdb-form-bool class="filter-field-bool" v-model="ip.bk_host_innerip" :disabled="!ip.bk_host_outerip">
+                <cmdb-form-bool class="filter-field-bool" v-model="ip.host_innerip" :disabled="!ip.host_outerip">
                     <span class="filter-field-bool-label">{{$t('HostResourcePool[\'内网\']')}}</span>
                 </cmdb-form-bool>
-                <cmdb-form-bool class="filter-field-bool" v-model="ip.bk_host_outerip" :disabled="!ip.bk_host_innerip">
+                <cmdb-form-bool class="filter-field-bool" v-model="ip.host_outerip" :disabled="!ip.host_innerip">
                     <span class="filter-field-bool-label">{{$t('HostResourcePool[\'外网\']')}}</span>
                 </cmdb-form-bool>
                 <cmdb-form-bool class="filter-field-bool" v-model="ip.exact" :true-value="1" :false-value="0">
@@ -133,16 +133,16 @@
                 },
                 ip: {
                     text: '',
-                    'bk_host_innerip': true,
-                    'bk_host_outerip': true,
+                    'host_innerip': true,
+                    'host_outerip': true,
                     exact: 0
                 },
                 condition: {},
                 associateFieldMap: {
-                    'biz': 'bk_biz_name',
-                    'plat': 'bk_cloud_name',
-                    'module': 'bk_module_name',
-                    'set': 'bk_set_name'
+                    'biz': 'biz_name',
+                    'plat': 'cloud_name',
+                    'module': 'module_name',
+                    'set': 'set_name'
                 },
                 collection: {
                     show: false,
@@ -209,13 +209,13 @@
             applyingInfo (info) {
                 if (info) {
                     this.ip.text = info['ip_list'].join('\n')
-                    this.ip['bk_host_innerip'] = info['bk_host_innerip']
-                    this.ip['bk_host_outerip'] = info['bk_host_outerip']
+                    this.ip['host_innerip'] = info['host_innerip']
+                    this.ip['host_outerip'] = info['host_outerip']
                     this.ip.exact = info['exact_search']
                 } else {
                     this.ip.text = ''
-                    this.ip['bk_host_innerip'] = true
-                    this.ip['bk_host_outerip'] = true
+                    this.ip['host_innerip'] = true
+                    this.ip['host_outerip'] = true
                     this.ip.exact = 0
                 }
             },
@@ -262,9 +262,9 @@
                     if (key === 'ip') {
                         this.ip.text = query.ip
                     } else if (key === 'inner') {
-                        this.ip['bk_host_innerip'] = ['true', 'false'].includes(query.inner) ? query.inner === 'true' : !!query.inner
+                        this.ip['host_innerip'] = ['true', 'false'].includes(query.inner) ? query.inner === 'true' : !!query.inner
                     } else if (key === 'outer') {
-                        this.ip['bk_host_outerip'] = ['true', 'false'].includes(query.outer) ? query.outer === 'true' : !!query.outer
+                        this.ip['host_outerip'] = ['true', 'false'].includes(query.outer) ? query.outer === 'true' : !!query.outer
                     } else if (key === 'exact') {
                         this.ip.exact = parseInt(query.exact)
                     }
@@ -295,7 +295,7 @@
             getOperatorType (property) {
                 const propertyType = property['property_type']
                 const propertyId = property['property_id']
-                if (['bk_set_name', 'bk_module_name'].includes(propertyId)) {
+                if (['set_name', 'module_name'].includes(propertyId)) {
                     return 'name'
                 } else if (['singlechar', 'longchar'].includes(propertyType)) {
                     return 'char'
@@ -310,7 +310,7 @@
             getParams () {
                 const params = {
                     ip: {
-                        flag: ['bk_host_innerip', 'bk_host_outerip'].filter(flag => this.ip[flag]).join('|'),
+                        flag: ['host_innerip', 'host_outerip'].filter(flag => this.ip[flag]).join('|'),
                         exact: this.ip.exact,
                         data: this.ipArray
                     },
@@ -360,7 +360,7 @@
                             params.condition.push(objParams)
                         }
                         objParams.condition.push({
-                            field: this.associateFieldMap[associateObjId] || 'bk_inst_name',
+                            field: this.associateFieldMap[associateObjId] || 'inst_name',
                             operator: propertyCondition.operator,
                             value: propertyCondition.value
                         })
@@ -397,8 +397,8 @@
             reset () {
                 this.ip = {
                     text: '',
-                    'bk_host_innerip': true,
-                    'bk_host_outerip': true,
+                    'host_innerip': true,
+                    'host_outerip': true,
                     exact: 0
                 }
                 for (const objId in this.condition) {
@@ -415,7 +415,7 @@
                 const content = []
                 const params = this.getParams()
                 if (this.collectionContent.hasOwnProperty('business')) {
-                    content.push(`bk_biz_id:${this.bizId}`)
+                    content.push(`biz_id:${this.bizId}`)
                 }
                 if (params.ip.data.length) {
                     content.push(`ip:${params.ip.data.join(',')}`)
@@ -455,10 +455,10 @@
             getCollectionParams () {
                 const params = this.getParams()
                 const info = {
-                    'bk_biz_id': this.bizId || -1,
+                    'biz_id': this.bizId || -1,
                     'exact_search': this.ip.exact,
-                    'bk_host_innerip': this.ip['bk_host_innerip'],
-                    'bk_host_outerip': this.ip['bk_host_outerip'],
+                    'host_innerip': this.ip['host_innerip'],
+                    'host_outerip': this.ip['host_outerip'],
                     'ip_list': params.ip.data
                 }
                 const queryParams = []

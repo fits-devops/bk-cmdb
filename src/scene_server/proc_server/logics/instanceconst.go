@@ -30,8 +30,8 @@ type chanItem struct {
 
 type refreshHostInstModuleID struct {
 	Header   http.Header `json:"header"`
-	AppID    int64       `json:"bk_biz_id"`
-	ModuleID int64       `json:"bk_module_id"`
+	AppID    int64       `json:"biz_id"`
+	ModuleID int64       `json:"module_id"`
 }
 
 type opProcTask struct {

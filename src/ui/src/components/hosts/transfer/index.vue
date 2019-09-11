@@ -36,7 +36,7 @@
                             <i class="topo-node-icon topo-node-icon-internal icon-cc-host-breakdown" v-else></i>
                         </template>
                         <i class="topo-node-icon topo-node-icon-text" v-else>{{node['obj_name'][0]}}</i>
-                        <span class="topo-node-text">{{node['bk_inst_name']}}</span>
+                        <span class="topo-node-text">{{node['inst_name']}}</span>
                     </div>
                 </cmdb-tree>
             </div>
@@ -50,7 +50,7 @@
                     <li class="module-item clearfix"
                         v-for="(state, index) in selectedModuleStates" :key="index">
                         <div class="module-info fl">
-                            <span class="module-info-name">{{state.node['bk_inst_name']}}</span>
+                            <span class="module-info-name">{{state.node['inst_name']}}</span>
                             <span class="module-info-path">{{getModulePath(state)}}</span>
                         </div>
                         <i class="bk-icon icon-close fr" @click="removeSelectedModule(state, index)"></i>
@@ -112,10 +112,10 @@
         computed: {
             ...mapGetters('objectBiz', ['authorizedBusiness']),
             currentBusiness () {
-                return this.authorizedBusiness.find(item => item['bk_biz_id'] === this.businessId)
+                return this.authorizedBusiness.find(item => item['biz_id'] === this.businessId)
             },
             hostIds () {
-                return this.selectedHosts.map(host => host['host']['bk_host_id'])
+                return this.selectedHosts.map(host => host['host']['host_id'])
             },
             hostModules () {
                 const modules = []
@@ -128,7 +128,7 @@
             },
             showIncrementOption () {
                 const hasSpecialModule = this.selectedModuleStates.some(({ node }) => {
-                    return node['bk_inst_id'] === 'resource' || [1, 2].includes(node.default)
+                    return node['inst_id'] === 'resource' || [1, 2].includes(node.default)
                 })
                 return this.selectedModuleStates.length && this.selectedHosts.length > 1 && !hasSpecialModule
             },
@@ -193,19 +193,19 @@
                     const moduleModel = this.getModelByObjId('module')
                     const internalModule = (internalTopo.module || []).map(module => {
                         return {
-                            'default': ['空闲机', 'idle machine'].includes(module['bk_module_name']) ? 1 : 2,
+                            'default': ['空闲机', 'idle machine'].includes(module['module_name']) ? 1 : 2,
                             'obj_id': 'module',
                             'obj_name': moduleModel['obj_name'],
-                            'bk_inst_id': module['bk_module_id'],
-                            'bk_inst_name': module['bk_module_name']
+                            'inst_id': module['module_id'],
+                            'inst_name': module['module_name']
                         }
                     })
                     const resourceNode = {
                         'default': 0,
                         'obj_id': 'module',
                         'obj_name': this.$t('HostResourcePool["资源池"]'),
-                        'bk_inst_id': 'resource',
-                        'bk_inst_name': this.$t('HostResourcePool["资源池"]'),
+                        'inst_id': 'resource',
+                        'inst_name': this.$t('HostResourcePool["资源池"]'),
                         'child': []
                     }
                     const treeData = [resourceNode, {
@@ -229,7 +229,7 @@
                     modules.forEach(module => {
                         const nodeId = this.getTopoNodeId({
                             'obj_id': 'module',
-                            'bk_inst_id': module['bk_module_id']
+                            'inst_id': module['module_id']
                         })
                         const state = this.$refs.topoTree.getStateById(nodeId)
                         if (state) {
@@ -243,7 +243,7 @@
                 return this.topoModel.find(model => model['obj_id'] === id)
             },
             getTopoNodeId (node) {
-                return `${node['obj_id']}-${node['bk_inst_id']}`
+                return `${node['obj_id']}-${node['inst_id']}`
             },
             beforeNodeSelect (node, state) {
                 /* eslint-disable */
@@ -257,16 +257,16 @@
                 if (node['obj_id'] !== 'module') {
                     confirmResolver(true)
                 } else {
-                    const isSpecialNode = !!node.default || node['bk_inst_id'] === 'resource'
+                    const isSpecialNode = !!node.default || node['inst_id'] === 'resource'
                     const hasNormalNode = this.selectedModuleStates.some(({ node }) => {
-                        return !node.default && node['bk_inst_id'] !== 'resource'
+                        return !node.default && node['inst_id'] !== 'resource'
                     })
                     const hasSpecialNode = this.selectedModuleStates.some(({ node }) => {
-                        return node.default || node['bk_inst_id'] === 'resource'
+                        return node.default || node['inst_id'] === 'resource'
                     })
                     if (isSpecialNode && hasNormalNode) {
                         this.$bkInfo({
-                            title: this.$t('Common[\'转移确认\']', { target: node['bk_inst_name'] }),
+                            title: this.$t('Common[\'转移确认\']', { target: node['inst_name'] }),
                             confirmFn: () => {
                                 this.selectedModuleStates = []
                                 confirmResolver(true)
@@ -285,7 +285,7 @@
                 return asyncConfirm
             },
             isNodeDisabled (node) {
-                if (node.bk_inst_id === 'resource') {
+                if (node.inst_id === 'resource') {
                     return !this.$isAuthorized(this.transferResourceAuth)
                 }
                 return false
@@ -308,17 +308,17 @@
                 }
             },
             getModulePath (state) {
-                if (state.node['bk_inst_id'] === 'resource') {
+                if (state.node['inst_id'] === 'resource') {
                     return this.$t('Common["主机资源池"]')
                 }
                 const currentBusiness = this.currentBusiness
                 if ([1, 2].includes(state.node.default)) {
-                    return `${currentBusiness['bk_biz_name']}-${state.node['bk_inst_name']}`
+                    return `${currentBusiness['biz_name']}-${state.node['inst_name']}`
                 }
-                return `${currentBusiness['bk_biz_name']}-${state.parent.node['bk_inst_name']}`
+                return `${currentBusiness['biz_name']}-${state.parent.node['inst_name']}`
             },
             handleTransfer () {
-                const toSource = this.selectedModuleStates.some(({ node }) => node['bk_inst_id'] === 'resource')
+                const toSource = this.selectedModuleStates.some(({ node }) => node['inst_id'] === 'resource')
                 const toIdle = this.selectedModuleStates.some(({ node }) => node.default === 1)
                 const toFault = this.selectedModuleStates.some(({ node }) => node.default === 2)
                 const transferConfig = {
@@ -342,8 +342,8 @@
             transferToSource (config) {
                 return this.transferHostToResourceModule({
                     params: {
-                        'bk_biz_id': this.businessId,
-                        'bk_host_id': this.hostIds
+                        'biz_id': this.businessId,
+                        'host_id': this.hostIds
                     },
                     config
                 })
@@ -372,9 +372,9 @@
                     increment = false
                 }
                 return {
-                    'bk_biz_id': this.businessId,
-                    'bk_host_id': this.hostIds,
-                    'bk_module_id': this.selectedModuleStates.map(({ node }) => node['bk_inst_id']),
+                    'biz_id': this.businessId,
+                    'host_id': this.hostIds,
+                    'module_id': this.selectedModuleStates.map(({ node }) => node['inst_id']),
                     'is_increment': increment
                 }
             },

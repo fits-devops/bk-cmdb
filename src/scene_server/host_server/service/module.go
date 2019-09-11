@@ -28,7 +28,7 @@ import (
 	"github.com/emicklei/go-restful"
 )
 
-// HostModuleRelation transfer host to module specify by bk_module_id (in the same business)
+// HostModuleRelation transfer host to module specify by module_id (in the same business)
 // move a business host to a module.
 func (s *Service) HostModuleRelation(req *restful.Request, resp *restful.Response) {
 	srvData := s.newSrvComm(req.Request.Header)

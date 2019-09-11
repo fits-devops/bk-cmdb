@@ -26,19 +26,19 @@ import (
 )
 
 type HostIdentifier struct {
-	HostID          int64              `json:"bk_host_id" bson:"bk_host_id"`
-	HostName        string             `json:"bk_host_name" bson:"bk_host_name"`
-	SupplierID      int64              `json:"bk_supplier_id"`
+	HostID          int64              `json:"host_id" bson:"host_id"`
+	HostName        string             `json:"host_name" bson:"host_name"`
+	SupplierID      int64              `json:"supplier_id"`
 	SupplierAccount string             `json:"org_id"`
-	CloudID         int64              `json:"bk_cloud_id" bson:"bk_cloud_id"`
-	CloudName       string             `json:"bk_cloud_name" bson:"bk_cloud_name"`
-	InnerIP         string             `json:"bk_host_innerip" bson:"bk_host_innerip"`
-	OuterIP         string             `json:"bk_host_outerip" bson:"bk_host_outerip"`
-	OSType          string             `json:"bk_os_type" bson:"bk_os_type"`
-	OSName          string             `json:"bk_os_name" bson:"bk_os_name"`
-	Memory          int64              `json:"bk_mem" bson:"bk_mem"`
-	CPU             int64              `json:"bk_cpu" bson:"bk_cpu"`
-	Disk            int64              `json:"bk_disk" bson:"bk_disk"`
+	CloudID         int64              `json:"cloud_id" bson:"cloud_id"`
+	CloudName       string             `json:"cloud_name" bson:"cloud_name"`
+	InnerIP         string             `json:"host_innerip" bson:"host_innerip"`
+	OuterIP         string             `json:"host_outerip" bson:"host_outerip"`
+	OSType          string             `json:"os_type" bson:"os_type"`
+	OSName          string             `json:"os_name" bson:"os_name"`
+	Memory          int64              `json:"mem" bson:"mem"`
+	CPU             int64              `json:"cpu" bson:"cpu"`
+	Disk            int64              `json:"disk" bson:"disk"`
 	Module          map[string]*Module `json:"associations" bson:"associations"`
 	Process         []Process          `json:"process" bson:"process"`
 }
@@ -53,26 +53,26 @@ func (p PorcessSorter) Less(i, j int) bool {
 }
 
 type Process struct {
-	ProcessID       int64   `json:"bk_process_id" bson:"bk_process_id"`               // 进程名称
-	ProcessName     string  `json:"bk_process_name" bson:"bk_process_name"`           // 进程名称
-	BindIP          string  `json:"bind_ip" bson:"bind_ip"`                           // 绑定IP, 枚举: [{ID: "1", Name: "127.0.0.1"}, {ID: "2", Name: "0.0.0.0"}, {ID: "3", Name: "第一内网IP"}, {ID: "4", Name: "第一外网IP"}]
-	PORT            string  `json:"port" bson:"port"`                                 // 端口, 单个端口："8080", 多个连续端口："8080-8089", 多个不连续端口："8080-8089,8199"
-	PROTOCOL        string  `json:"protocol" bson:"protocol"`                         // 协议, 枚举: [{ID: "1", Name: "TCP"}, {ID: "2", Name: "UDP"}],
-	FuncID          string  `json:"bk_func_id" bson:"bk_func_id"`                     // 功能ID
-	FuncName        string  `json:"bk_func_name" bson:"bk_func_name"`                 // 功能名称
-	StartParamRegex string  `json:"bk_start_param_regex" bson:"bk_start_param_regex"` // 启动参数匹配规则
-	BindModules     []int64 `json:"bind_modules" bson:"bind_modules"`                 // 进程绑定的模块ID，数字数组
+	ProcessID       int64   `json:"process_id" bson:"process_id"`               // 进程名称
+	ProcessName     string  `json:"process_name" bson:"process_name"`           // 进程名称
+	BindIP          string  `json:"bind_ip" bson:"bind_ip"`                     // 绑定IP, 枚举: [{ID: "1", Name: "127.0.0.1"}, {ID: "2", Name: "0.0.0.0"}, {ID: "3", Name: "第一内网IP"}, {ID: "4", Name: "第一外网IP"}]
+	PORT            string  `json:"port" bson:"port"`                           // 端口, 单个端口："8080", 多个连续端口："8080-8089", 多个不连续端口："8080-8089,8199"
+	PROTOCOL        string  `json:"protocol" bson:"protocol"`                   // 协议, 枚举: [{ID: "1", Name: "TCP"}, {ID: "2", Name: "UDP"}],
+	FuncID          string  `json:"func_id" bson:"func_id"`                     // 功能ID
+	FuncName        string  `json:"func_name" bson:"func_name"`                 // 功能名称
+	StartParamRegex string  `json:"start_param_regex" bson:"start_param_regex"` // 启动参数匹配规则
+	BindModules     []int64 `json:"bind_modules" bson:"bind_modules"`           // 进程绑定的模块ID，数字数组
 }
 
 type Module struct {
-	BizID      int64  `json:"bk_biz_id"`
-	BizName    string `json:"bk_biz_name"`
-	SetID      int64  `json:"bk_set_id"`
-	SetName    string `json:"bk_set_name"`
-	ModuleID   int64  `json:"bk_module_id"`
-	ModuleName string `json:"bk_module_name"`
-	SetStatus  string `json:"bk_service_status"`
-	SetEnv     string `json:"bk_set_env"`
+	BizID      int64  `json:"biz_id"`
+	BizName    string `json:"biz_name"`
+	SetID      int64  `json:"set_id"`
+	SetName    string `json:"set_name"`
+	ModuleID   int64  `json:"module_id"`
+	ModuleName string `json:"module_name"`
+	SetStatus  string `json:"service_status"`
+	SetEnv     string `json:"set_env"`
 }
 
 func (iden *HostIdentifier) MarshalBinary() (data []byte, err error) {
@@ -131,7 +131,7 @@ func (iden *HostIdentifier) fillIden(ctx context.Context, cache *redis.Client, d
 		process.BindIP = getString(proc.data[common.BKBindIP])
 		process.PROTOCOL = getString(proc.data[common.BKProtocol])
 		process.PORT = getString(proc.data[common.BKPort])
-		process.StartParamRegex = getString(proc.data["bk_start_param_regex"])
+		process.StartParamRegex = getString(proc.data["start_param_regex"])
 	}
 
 	return iden

@@ -72,7 +72,7 @@ func (m *CommonInst) CreateCommonInst(data types.MapStr) (int, error) {
 	}
 
 	// parse id
-	id := gs.Get("data.bk_inst_id").Int()
+	id := gs.Get("data.inst_id").Int()
 
 	return int(id), nil
 

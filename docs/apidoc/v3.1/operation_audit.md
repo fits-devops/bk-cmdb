@@ -9,7 +9,7 @@
 ```
 {
     "condition":{
-        "bk_biz_id":99999,
+        "biz_id":99999,
         "ext_key":{
             "$in":[
                 "127.0.0.23",
@@ -33,7 +33,7 @@
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务ID |  business ID|
+| biz_id| int| 是|无|业务ID |  business ID|
 |ext_key|object|否|无|当bk_op_type为0， 填入多个IP地址| if bk_op_type=0, the input is ip array|
 |op_target|string|否|无|操作对象，可以为biz host process set module object| op target, and it can be biz host process set module object|
 |op_type|string|否|无|操作类型， add delete update | op type, and it can be add , delete ,update|
@@ -57,7 +57,7 @@ ext_key 字段说明： 为根据ip的匹配搜索
         "info":[
             {
                 "org_id":"0",
-                "bk_biz_id":1,
+                "biz_id":1,
                 "op_desc":"修改主机",
                 "op_type":2,
                 "op_target":"host",
@@ -65,37 +65,37 @@ ext_key 字段说明： 为根据ip的匹配搜索
                 "content":{
                     "pre_data":{
                         "last_time":"2018-03-08T15:10:42.264+08:00",
-                        "bk_cloud_id":[
+                        "cloud_id":[
                             {
                                 "ref_id":1,
                                 "ref_name":"Direct connecting area"
                             }
                         ],
                         "create_time":"2018-03-08T14:23:05.05+08:00",
-                        "bk_host_id":1,
-                        "bk_host_innerip":"127.0.01",
+                        "host_id":1,
+                        "host_innerip":"127.0.01",
                         "bk_import_from":"1"
                     },
                     "cur_data":{
                         "last_time":"2018-03-08T15:10:42.264+08:00",
-                        "bk_cloud_id":[
+                        "cloud_id":[
                             {
                                 "ref_id":2,
                                 "ref_name":"test connecting area"
                             }
                         ],
                         "create_time":"2018-03-08T14:23:05.05+08:00",
-                        "bk_host_id":1,
-                        "bk_host_innerip":"127.0.0.1",
+                        "host_id":1,
+                        "host_innerip":"127.0.0.1",
                         "bk_import_from":"1"
                     },
                     "header":[
                         {
-                            "property_id":"bk_host_innerip",
+                            "property_id":"host_innerip",
                             "property_name":"内网IP"
                         },
                         {
-                            "property_id":"bk_host_outerip",
+                            "property_id":"host_outerip",
                             "property_name":"外网IP"
                         }
                     ],
@@ -131,7 +131,7 @@ info 字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 | org_id| string| 开发商ID |supplier account code|
-| bk_biz_id| int | 业务ID | business ID  |
+| biz_id| int | 业务ID | business ID  |
 | op_type| string | 操作类型 | the type of record  |
 | op_desc| string | 操作描述 | operation description  |
 | op_target| string| 操作对象 | operation target  |

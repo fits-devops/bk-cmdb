@@ -28,7 +28,7 @@ type ListHostFilter struct {
 	Page Page `json:"page"`
 	// if you list hosts from the host resource pool,
 	// the value should be -1, this is a special one.
-	BusinessID      int64           `json:"bk_biz_id"`
+	BusinessID      int64           `json:"biz_id"`
 	IPCtx           IPCtx           `json:"ip"`
 	SearchCondition SearchCondition `json:"condition"`
 }
@@ -37,8 +37,8 @@ type IPCtxFlag string
 
 const (
 	// search the inner ip or outer ip.
-	InnerIP IPCtxFlag = "bk_host_innerip"
-	OuterIP IPCtxFlag = "bk_host_outerip"
+	InnerIP IPCtxFlag = "host_innerip"
+	OuterIP IPCtxFlag = "host_outerip"
 )
 
 type IPCtx struct {
@@ -116,7 +116,7 @@ type UpdateHostsAttributesCtx struct {
 type HostsAttributes struct {
 	// host ids, comma separated.
 	// like: "1,2,4"
-	HostIDs    string       `json:"bk_host_id"`
+	HostIDs    string       `json:"host_id"`
 	Attributes types.MapStr `json:",inline"`
 }
 
@@ -128,6 +128,6 @@ type DeleteHostsCtx struct {
 type DeletedHostsInfo struct {
 	// host ids, comma separated.
 	// like: "1,2,4"
-	HostIDs string `json:"bk_host_id"`
+	HostIDs string `json:"host_id"`
 	Tenancy string `json:"org_id"`
 }

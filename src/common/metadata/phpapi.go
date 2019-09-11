@@ -14,41 +14,41 @@ package metadata
 
 type UpdateHostParams struct {
 	ProxyList []interface{} `json:"bk_proxy_list"`
-	CloudID   int64         `json:"bk_cloud_id"`
+	CloudID   int64         `json:"cloud_id"`
 }
 
 type HostSearchByIPParams struct {
 	IpList  []string `json:"ip_list"`
-	CloudID *int64   `json:"bk_cloud_id"`
-	AppID   []int64  `json:"bk_biz_id"`
+	CloudID *int64   `json:"cloud_id"`
+	AppID   []int64  `json:"biz_id"`
 }
 
 //  HostSearchByAppIDParams host search by app
 type HostSearchByAppIDParams struct {
-	ApplicationID *int64 `json:"bk_biz_id"`
+	ApplicationID *int64 `json:"biz_id"`
 }
 
 type HostSearchBySetIDParams struct {
-	ApplicationID *int64  `json:"bk_biz_id"`
-	SetID         []int64 `json:"bk_set_id"`
+	ApplicationID *int64  `json:"biz_id"`
+	SetID         []int64 `json:"set_id"`
 }
 
 type HostSearchByModuleIDParams struct {
-	ApplicationID *int64  `json:"bk_biz_id"`
-	ModuleID      []int64 `json:"bk_module_id"`
+	ApplicationID *int64  `json:"biz_id"`
+	ModuleID      []int64 `json:"module_id"`
 }
 
 // GetIPAndProxyByCompanyParams get id and proxy by company
 type GetIPAndProxyByCompanyParams struct {
 	Ips        []string `json:"ips"`
-	AppIDStr   *string  `json:"bk_biz_id"`
-	CloudIDStr *string  `json:"bk_cloud_id"`
+	AppIDStr   *string  `json:"biz_id"`
+	CloudIDStr *string  `json:"cloud_id"`
 }
 
 type GetHostAppByCompanyIDParams struct {
 	CompaynID  string `json:"org_id"`
 	IPs        string `json:"ip"`
-	CloudIDStr string `json:"bk_cloud_id"`
+	CloudIDStr string `json:"cloud_id"`
 }
 
 var DelHostInAppParams struct {
@@ -57,9 +57,9 @@ var DelHostInAppParams struct {
 }
 
 type GitServerIpParams struct {
-	AppName    string `json:"bk_biz_name"`
-	SetName    string `json:"bk_set_name"`
-	ModuleName string `json:"bk_module_name"`
+	AppName    string `json:"biz_name"`
+	SetName    string `json:"set_name"`
+	ModuleName string `json:"module_name"`
 }
 
 type GetAgentStatusResult struct {

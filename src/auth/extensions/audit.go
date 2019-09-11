@@ -135,7 +135,7 @@ func (am *AuthManager) RegisterAuditCategories(ctx context.Context, header http.
 }
 
 // MakeAuthorizedAuditListCondition make a query condition, with which user can only search audit log under it.
-// ==> [{"bk_biz_id":2,"op_target":{"$in":["module"]}}]
+// ==> [{"biz_id":2,"op_target":{"$in":["module"]}}]
 func (am *AuthManager) MakeAuthorizedAuditListCondition(ctx context.Context, header http.Header, businessID int64) (cond []mapstr.MapStr, hasAuthorization bool, err error) {
 	rid := util.ExtractRequestIDFromContext(ctx)
 	// businessID 0 means audit log priority of special model on any business

@@ -68,7 +68,7 @@ export default [{
                     const bizId = getMetadataBiz(model)
                     if (bizId) {
                         app.$store.commit('auth/setBusinessMeta', {
-                            bk_biz_id: parseInt(bizId)
+                            biz_id: parseInt(bizId)
                         })
                     }
                 }

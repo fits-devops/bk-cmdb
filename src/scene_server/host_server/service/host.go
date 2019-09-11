@@ -155,7 +155,7 @@ func (s *Service) DeleteHostBatchFromResourcePool(req *restful.Request, resp *re
 func (s *Service) GetHostInstanceProperties(req *restful.Request, resp *restful.Response) {
 	srvData := s.newSrvComm(req.Request.Header)
 
-	hostID := req.PathParameter("bk_host_id")
+	hostID := req.PathParameter("host_id")
 	hostIDInt64, err := util.GetInt64ByInterface(hostID)
 	if err != nil {
 		blog.Errorf("convert hostID to int64, err: %v,host:%s,rid:%s", err, hostID, srvData.rid)
@@ -717,7 +717,7 @@ func (s *Service) NewHostSyncAppTopo(req *restful.Request, resp *restful.Respons
 	resp.WriteEntity(meta.NewSuccessResp(succ))
 }
 
-// MoveSetHost2IdleModule bk_set_id and bk_module_id cannot be empty at the same time
+// MoveSetHost2IdleModule set_id and module_id cannot be empty at the same time
 // Remove the host from the module or set.
 // The host belongs to the current module or host only, and puts the host into the idle machine of the current service.
 // When the host data is in multiple modules or sets. Disconnect the host from the module or set only
@@ -733,7 +733,7 @@ func (s *Service) MoveSetHost2IdleModule(req *restful.Request, resp *restful.Res
 		return
 	}
 	if 0 == data.ApplicationID {
-		blog.Errorf("MoveSetHost2IdleModule bk_biz_id cannot be empty at the same time,input:%#v,rid:%s", data, util.GetHTTPCCRequestID(pheader))
+		blog.Errorf("MoveSetHost2IdleModule biz_id cannot be empty at the same time,input:%#v,rid:%s", data, util.GetHTTPCCRequestID(pheader))
 		resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: srvData.ccErr.Error(common.CCErrCommParamsNeedSet)})
 		return
 	}
@@ -743,7 +743,7 @@ func (s *Service) MoveSetHost2IdleModule(req *restful.Request, resp *restful.Res
 	hostIDArr := make([]int64, 0)
 
 	if 0 == data.SetID && 0 == data.ModuleID {
-		blog.Errorf("MoveSetHost2IdleModule bk_set_id and bk_module_id cannot be empty at the same time,input:%#v,rid:%s", data, util.GetHTTPCCRequestID(pheader))
+		blog.Errorf("MoveSetHost2IdleModule set_id and module_id cannot be empty at the same time,input:%#v,rid:%s", data, util.GetHTTPCCRequestID(pheader))
 		resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: srvData.ccErr.Error(common.CCErrCommParamsNeedSet)})
 		return
 	}
@@ -939,7 +939,7 @@ func (s *Service) ip2hostID(srvData *srvComm, ip string, cloudID int64) (hostID 
 
 	hostID, err = util.GetInt64ByInterface(hostMapData[common.BKHostIDField])
 	if nil != err {
-		blog.Errorf("ip2hostID bk_host_id field not found hostmap:%+v ip:%+v, cloudID:%+v,rid:%s", hostMapData, ip, cloudID, srvData.rid)
+		blog.Errorf("ip2hostID host_id field not found hostmap:%+v ip:%+v, cloudID:%+v,rid:%s", hostMapData, ip, cloudID, srvData.rid)
 		return 0, fmt.Errorf("ip %+v:%+v not found", cloudID, ip)
 	}
 

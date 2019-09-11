@@ -49,7 +49,7 @@
                 },
                 table: {
                     header: [{
-                        id: 'bk_cloud_name',
+                        id: 'cloud_name',
                         name: this.$t('Hosts["云区域"]')
                     }, {
                         id: 'info',
@@ -76,7 +76,7 @@
         },
         computed: {
             tableList () {
-                return this.table.list.filter(({ bk_cloud_name: cloudName }) => cloudName.includes(this.filter.text))
+                return this.table.list.filter(({ cloud_name: cloudName }) => cloudName.includes(this.filter.text))
             }
         },
         created () {
@@ -108,11 +108,11 @@
                 this.$store.commit('setHeaderStatus', {
                     back: true
                 })
-                this.setCloudName(item['bk_cloud_name'])
+                this.setCloudName(item['cloud_name'])
                 this.$router.push({
                     name: 'networkDiscoveryConfirm',
                     params: {
-                        cloudId: item['bk_cloud_id']
+                        cloudId: item['cloud_id']
                     }
                 })
             },

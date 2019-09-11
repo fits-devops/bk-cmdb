@@ -42,9 +42,9 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 		    {
 		      "BatchInfo": {
 		        "4": { // excel line number
-		          "bk_inst_id": 1,
+		          "inst_id": 1,
 		          "bk_inst_key": "a22",
-		          "bk_inst_name": "a11",
+		          "inst_name": "a11",
 		          "bk_version": "121",
 		          "import_from": "1"
 		        },

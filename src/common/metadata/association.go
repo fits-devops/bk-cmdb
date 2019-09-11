@@ -104,7 +104,7 @@ type SearchAssociationInstRequestCond struct {
 	AsstID       string  `field:"bk_asst_id" json:"bk_asst_id,omitempty" bson:"bk_asst_id,omitempty"`
 	ObjectID     string  `field:"obj_id" json:"obj_id,omitempty" bson:"obj_id,omitempty"`
 	AsstObjID    string  `field:"bk_asst_obj_id" json:"bk_asst_obj_id,omitempty" bson:"bk_asst_obj_id,omitempty"`
-	InstID       []int64 `field:"bk_inst_id" json:"bk_inst_id,omitempty" bson:"bk_inst_id,omitempty"`
+	InstID       []int64 `field:"inst_id" json:"inst_id,omitempty" bson:"inst_id,omitempty"`
 	AsstInstID   []int64 `field:"bk_asst_inst_id" json:"bk_asst_inst_id,omitempty" bson:"bk_asst_inst_id,omitempty"`
 	BothObjectID string  `field:"both_obj_id" json:"both_obj_id" bson:"both_obj_id"`
 	BothInstID   []int64 `field:"both_inst_id" json:"both_inst_id" bson:"both_inst_id"`
@@ -121,7 +121,7 @@ type SearchAssociationInstResult struct {
 
 type CreateAssociationInstRequest struct {
 	ObjectAsstID string `field:"bk_obj_asst_id" json:"bk_obj_asst_id,omitempty" bson:"bk_obj_asst_id,omitempty"`
-	InstID       int64  `field:"bk_inst_id" json:"bk_inst_id,omitempty" bson:"bk_inst_id,omitempty"`
+	InstID       int64  `field:"inst_id" json:"inst_id,omitempty" bson:"inst_id,omitempty"`
 	AsstInstID   int64  `field:"bk_asst_inst_id" json:"bk_asst_inst_id,omitempty" bson:"bk_asst_inst_id,omitempty"`
 }
 type CreateAssociationInstResult struct {
@@ -308,7 +308,7 @@ type InstAsst struct {
 	// sequence ID
 	ID int64 `field:"id" json:"id"`
 	// inst id associate to ObjectID
-	InstID int64 `field:"bk_inst_id" json:"bk_inst_id" bson:"bk_inst_id"`
+	InstID int64 `field:"inst_id" json:"inst_id" bson:"inst_id"`
 	// association source ObjectID
 	ObjectID string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	// inst id associate to AsstObjectID
@@ -341,9 +341,9 @@ type InstNameAsst struct {
 	ID         string `json:"id"`
 	ObjID      string `json:"obj_id"`
 	ObjIcon    string `json:"obj_icon"`
-	InstID     int64  `json:"bk_inst_id"`
+	InstID     int64  `json:"inst_id"`
 	ObjectName string `json:"obj_name"`
-	InstName   string `json:"bk_inst_name"`
+	InstName   string `json:"inst_name"`
 	AssoID     int64  `json:"asso_id"`
 	// AsstName   string                 `json:"bk_asst_name"`
 	// AsstID   string                 `json:"bk_asst_id"`
@@ -395,8 +395,8 @@ func (cli *MainlineObjectTopo) ToMapStr() mapstr.MapStr {
 
 // TopoInst 实例拓扑结构
 type TopoInst struct {
-	InstID   int64  `json:"bk_inst_id"`
-	InstName string `json:"bk_inst_name"`
+	InstID   int64  `json:"inst_id"`
+	InstName string `json:"inst_name"`
 	ObjID    string `json:"obj_id"`
 	ObjName  string `json:"obj_name"`
 	Default  int    `json:"default"`

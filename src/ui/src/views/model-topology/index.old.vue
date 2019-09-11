@@ -364,7 +364,7 @@
                 fromNode.assts.push({
                     bk_asst_inst_id: this.associationList.find(asst => asst['bk_asst_id'] === params['bk_asst_id']).id,
                     obj_id: params['bk_asst_obj_id'],
-                    bk_inst_id: params.id,
+                    inst_id: params.id,
                     checked: true,
                     asstInfo: params
                 })
@@ -375,8 +375,8 @@
                     this.localTopoModelList.forEach(model => {
                         if (model.hasOwnProperty('assts')) {
                             const index = model.assts.findIndex(asst => {
-                                if (asst['bk_inst_id'] !== '') {
-                                    return asst['bk_inst_id'] === data.params.id
+                                if (asst['inst_id'] !== '') {
+                                    return asst['inst_id'] === data.params.id
                                 } else {
                                     return asst.asstInfo['obj_id'] === data.params['obj_id'] && asst.asstInfo['bk_asst_id'] === data.params['bk_asst_id'] && asst.asstInfo['bk_asst_obj_id'] === data.params['bk_asst_obj_id']
                                 }
@@ -437,7 +437,7 @@
 
                         this.updateSingleNodePosition({
                             obj_id: node['obj_id'],
-                            bk_inst_id: node['bk_inst_id'],
+                            inst_id: node['inst_id'],
                             node_type: node['node_type'],
                             position: {
                                 x: node.position.x,
@@ -469,7 +469,7 @@
                 this.updateNetwork()
                 this.updateSingleNodePosition({
                     obj_id: node['obj_id'],
-                    bk_inst_id: node['bk_inst_id'],
+                    inst_id: node['inst_id'],
                     node_type: node['node_type'],
                     position: {
                         x: node.position.x,
@@ -643,7 +643,7 @@
                 this.slider.properties = {
                     objId: labelInfo.objId,
                     isEdit: this.topoEdit.isEdit,
-                    asstId: labelInfo.asst['bk_inst_id'],
+                    asstId: labelInfo.asst['inst_id'],
                     asstInfo: labelInfo.asst.asstInfo || {}
                 }
                 this.showSlider('theRelationDetail')
@@ -961,7 +961,7 @@
                         const nodeData = node.data
                         return {
                             'obj_id': node.id,
-                            'bk_inst_id': nodeData['bk_inst_id'],
+                            'inst_id': nodeData['inst_id'],
                             'node_type': nodeData['node_type'],
                             'position': {
                                 x: nodePositions[node.id]['x'],
@@ -974,7 +974,7 @@
                     removeNodes.forEach(node => {
                         params.push({
                             'obj_id': node['obj_id'],
-                            'bk_inst_id': node['bk_inst_id'],
+                            'inst_id': node['inst_id'],
                             'node_type': node['node_type'],
                             'position': {
                                 x: null,
@@ -1015,7 +1015,7 @@
                         model.position.y = position[nodeId].y
                         this.updateSingleNodePosition({
                             obj_id: model['obj_id'],
-                            bk_inst_id: model['bk_inst_id'],
+                            inst_id: model['inst_id'],
                             node_type: model['node_type'],
                             position: {
                                 x: model.position.x,

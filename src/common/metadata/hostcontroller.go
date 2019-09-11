@@ -99,25 +99,25 @@ type GetHostModuleIDsResult struct {
 }
 
 type ParamData struct {
-	ApplicationID       int64   `json:"bk_biz_id"`
-	HostID              []int64 `json:"bk_host_id"`
+	ApplicationID       int64   `json:"biz_id"`
+	HostID              []int64 `json:"host_id"`
 	OwnerModuleID       int64   `json:"bk_owner_module_id"`
 	OwnerAppplicationID int64   `json:"bk_owner_biz_id"`
 }
 
 type AssignHostToAppParams struct {
-	ApplicationID      int64   `json:"bk_biz_id"`
-	HostID             []int64 `json:"bk_host_id"`
-	ModuleID           int64   `json:"bk_module_id"`
+	ApplicationID      int64   `json:"biz_id"`
+	HostID             []int64 `json:"host_id"`
+	ModuleID           int64   `json:"module_id"`
 	OwnerApplicationID int64   `json:"bk_owner_biz_id"`
 	OwnerModuleID      int64   `json:"bk_owner_module_id"`
 }
 
 type ModuleHost struct {
-	AppID    int64  `json:"bk_biz_id" bson:"bk_biz_id"`
-	HostID   int64  `json:"bk_host_id" bson:"bk_host_id"`
-	ModuleID int64  `json:"bk_module_id" bson:"bk_module_id"`
-	SetID    int64  `json:"bk_set_id" bson:"bk_set_id"`
+	AppID    int64  `json:"biz_id" bson:"biz_id"`
+	HostID   int64  `json:"host_id" bson:"host_id"`
+	ModuleID int64  `json:"module_id" bson:"module_id"`
+	SetID    int64  `json:"set_id" bson:"set_id"`
 	OwnerID  string `json:"org_id" bson:"org_id"`
 }
 
@@ -127,9 +127,9 @@ type HostConfig struct {
 }
 
 type ModuleHostConfigParams struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	HostID        int64   `json:"bk_host_id"`
-	ModuleID      []int64 `json:"bk_module_id"`
+	ApplicationID int64   `json:"biz_id"`
+	HostID        int64   `json:"host_id"`
+	ModuleID      []int64 `json:"module_id"`
 	OwnerID       string  `json:"org_id" bson:"org_id"`
 }
 
@@ -139,7 +139,7 @@ type UserConfig struct {
 	ID         string    `json:"id" bson:"id"`
 	CreateTime time.Time `json:"create_time" bson:"create_time"`
 	UpdateTime time.Time `json:"last_time" bson:"last_time"`
-	AppID      int64     `json:"bk_biz_id" bson:"bk_biz_id"`
+	AppID      int64     `json:"biz_id" bson:"biz_id"`
 	CreateUser string    `json:"create_user" bson:"create_user"`
 	ModifyUser string    `json:"modify_user" bson:"modify_user"`
 }
@@ -187,7 +187,7 @@ type GetUserConfigDetailResult struct {
 }
 
 type UserConfigMeta struct {
-	AppID      int64     `json:"bk_biz_id,omitempty" bson:"bk_biz_id,omitempty"`
+	AppID      int64     `json:"biz_id,omitempty" bson:"biz_id,omitempty"`
 	Info       string    `json:"info,omitempty" bson:"info,omitempty"`
 	Name       string    `json:"name,omitempty" bson:"name,omitempty"`
 	ID         string    `json:"id,omitempty" bson:"id,omitempty"`
@@ -199,7 +199,7 @@ type UserConfigMeta struct {
 }
 
 type AddConfigQuery struct {
-	AppID      int64  `json:"bk_biz_id,omitempty"`
+	AppID      int64  `json:"biz_id,omitempty"`
 	Info       string `json:"info,omitempty"`
 	Name       string `json:"name,omitempty"`
 	CreateUser string `json:"create_user,omitempty"`
@@ -233,7 +233,7 @@ type CloudTaskInfo struct {
 
 // TransferHostToInnerModule transfer host to inner module eg:idle module ,fault module
 type TransferHostToInnerModule struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	ModuleID      int64   `json:"bk_module_id"`
-	HostID        []int64 `json:"bk_host_id"`
+	ApplicationID int64   `json:"biz_id"`
+	ModuleID      int64   `json:"module_id"`
+	HostID        []int64 `json:"host_id"`
 }

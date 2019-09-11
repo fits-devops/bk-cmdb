@@ -68,14 +68,14 @@ export function getPropertyText (property, item) {
         propertyValue = enumOption ? enumOption.name : null
     } else if (['singleasst', 'multiasst'].includes(propertyType)) {
         const values = Array.isArray(propertyValue) ? propertyValue : []
-        propertyValue = values.map(inst => inst['bk_inst_name']).join(',')
+        propertyValue = values.map(inst => inst['inst_name']).join(',')
     } else if (['date', 'time'].includes(propertyType)) {
         propertyValue = formatTime(propertyValue, propertyType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
     } else if (propertyType === 'objuser') {
         propertyValue = getFullName(propertyValue)
     } else if (propertyType === 'foreignkey') {
         if (Array.isArray(propertyValue)) {
-            propertyValue = propertyValue.map(inst => inst['bk_inst_name']).join(',')
+            propertyValue = propertyValue.map(inst => inst['inst_name']).join(',')
         } else {
             return String(propertyValue).length ? propertyValue : '--'
         }
@@ -130,7 +130,7 @@ export function getInstFormValues (properties, inst = {}) {
         const propertyType = property['property_type']
         if (['singleasst', 'multiasst', 'foreignkey'].includes(propertyType)) {
             // const validAsst = (inst[propertyId] || []).filter(asstInst => asstInst.id !== '')
-            // values[propertyId] = validAsst.map(asstInst => asstInst['bk_inst_id']).join(',')
+            // values[propertyId] = validAsst.map(asstInst => asstInst['inst_id']).join(',')
         } else if (['date', 'time'].includes(propertyType)) {
             const formatedTime = formatTime(inst[propertyId], propertyType === 'date' ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss')
             values[propertyId] = formatedTime || null
@@ -267,14 +267,14 @@ export function clone (object) {
 }
 
 /**
- * 获取对象中的metada.label.bk_biz_id属性
+ * 获取对象中的metada.label.biz_id属性
  * @param {Object} object - 需拷贝的对象
  * @return {Object} 拷贝后的对象
  */
 export function getMetadataBiz (object = {}) {
     const metadata = object.metadata || {}
     const label = metadata.label || {}
-    const biz = label['bk_biz_id']
+    const biz = label['biz_id']
     return biz
 }
 

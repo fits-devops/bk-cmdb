@@ -68,7 +68,7 @@ func (m *instanceManager) validCreateInstanceData(ctx core.ContextParams, objID 
 	bizID, err := FetchBizIDFromInstance(objID, instanceData)
 	if err != nil {
 		blog.Errorf("validCreateInstanceData failed, FetchBizIDFromInstance failed, err: %+v", err)
-		return ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, "bk_biz_id")
+		return ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, "biz_id")
 	}
 
 	valid, err := NewValidator(ctx, m.dependent, objID, bizID)
@@ -148,7 +148,7 @@ func (m *instanceManager) validUpdateInstanceData(ctx core.ContextParams, objID 
 	bizID, err := FetchBizIDFromInstance(objID, originData)
 	if err != nil {
 		blog.Errorf("validUpdateInstanceData failed, FetchBizIDFromInstance failed, err: %+v", err)
-		return ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, "bk_biz_id")
+		return ctx.Error.Errorf(common.CCErrCommParamsIsInvalid, "biz_id")
 	}
 
 	valid, err := NewValidator(ctx, m.dependent, objID, bizID)

@@ -24,7 +24,7 @@ type CreateInstanceCtx struct {
 type CreateInstanceResult struct {
 	BaseResp `json:",inline"`
 	Data     struct {
-		ID int64 `json:"bk_inst_id"`
+		ID int64 `json:"inst_id"`
 	} `json:"data"`
 }
 
@@ -48,16 +48,16 @@ type ListInstanceResult struct {
 }
 
 type UpdateObjectCtx struct {
-    BaseCtx
-    Tenancy string
-    ObjectID string 
-    InstanceID int64
-    Object types.MapStr
+	BaseCtx
+	Tenancy    string
+	ObjectID   string
+	InstanceID int64
+	Object     types.MapStr
 }
 
 type DeleteObjectCtx struct {
-    BaseCtx
-    Tenancy string
-    ObjectID string
-    InstanceID int64
+	BaseCtx
+	Tenancy    string
+	ObjectID   string
+	InstanceID int64
 }

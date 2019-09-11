@@ -8,11 +8,11 @@
 * input body:
 ```
 {
-    "host_query_column":"["bk_host_innerip", "bk_host_name"]",
-    "host_display_column":"["bk_host_innerip", "bk_host_name"]",
-    "biz_query_column":"["bk_biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
-    "biz_display_column":"{"bk_biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
-    "bk_biz_id":123
+    "host_query_column":"["host_innerip", "host_name"]",
+    "host_display_column":"["host_innerip", "host_name"]",
+    "biz_query_column":"["biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
+    "biz_display_column":"{"biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
+    "biz_id":123
 }
 ```
 
@@ -25,7 +25,7 @@
 | host_display_column| string数组|否|无|主机展示字段 | host display fields|
 | biz_query_column| string 数组|否|无|业务查询字段 | business query fields|
 | biz_display_column| string数组|否|无|业务展示字段 |business  display fields|
-| bk_biz_id| int|否|无|业务ID | business ID|
+| biz_id| int|否|无|业务ID | business ID|
 
 
 * output:
@@ -64,11 +64,11 @@
     "error_code":0,
     "error_msg":"",
     "data":{
-        "bk_biz_id":123,
-        "host_query_column":"{"bk_host_innerip", "bk_host_name"}",
-        "host_display_column":"{"bk_host_innerip", "bk_host_name"}",
-        "biz_query_column":"{"bk_biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
-        "biz_display_column":"{"bk_biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "biz_id":123,
+        "host_query_column":"{"host_innerip", "host_name"}",
+        "host_display_column":"{"host_innerip", "host_name"}",
+        "biz_query_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "biz_display_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
         "id":"b81ervtmjrcduf67mm9g",
         "user":"test default"
     }
@@ -93,7 +93,7 @@ data字段说明：
 | host_display_column| string数组|主机展示字段 | host display fields|
 | biz_query_column| string 数组|业务查询字段 | business query fields|
 | biz_display_column| string数组|业务展示字段 |business display fields|
-| bk_biz_id| int|业务ID | business ID|
+| biz_id| int|业务ID | business ID|
 | id| int|主键ID | primary key ID|
 | user| string|用户名 | user name|
 
@@ -114,10 +114,10 @@ data字段说明：
     "error_code":0,
     "error_msg":"",
     "data":{
-        "host_query_column":"{"bk_host_innerip", "bk_host_name"}",
-        "host_display_column":"{"bk_host_innerip", "bk_host_name"}",
-        "biz_query_column":"{"bk_biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
-        "biz_display_column":"{"bk_biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "host_query_column":"{"host_innerip", "host_name"}",
+        "host_display_column":"{"host_innerip", "host_name"}",
+        "biz_query_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "biz_display_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
         "id":"b81ervtmjrcduf67mm9g",
         "user":"test default",
         "is_default":1,
@@ -143,7 +143,7 @@ data字段说明：
 | host_display_column| string数组|主机展示字段 | host display fields|
 | biz_query_column| string 数组|业务查询字段 | business query fields|
 | biz_display_column| string数组|业务展示字段 |business display fields|
-| bk_biz_id| int|业务ID | business ID|
+| biz_id| int|业务ID | business ID|
 | id| int|主键ID | primary key ID|
 | user| string|用户名 | user name|
 

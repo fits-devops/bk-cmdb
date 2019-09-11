@@ -42,11 +42,11 @@
                     'page': {
                         'start': 0,
                         'limit': 15,
-                        'sort': 'bk_host_id'
+                        'sort': 'host_id'
                     },
                     'pattern': '',
                     'ip': {
-                        'flag': 'bk_host_innerip|bk_host_outerip',
+                        'flag': 'host_innerip|host_outerip',
                         'exact': 0,
                         'data': []
                     },

@@ -52,8 +52,8 @@
                 return `${this.userName}_host_${this.isAdminView ? 'adminView' : this.bizId}_filter_fields`
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
+                const setProperties = this.properties.set.filter(property => ['set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['module_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...hostProperties]
             }
@@ -65,7 +65,7 @@
             },
             applyingInfo (info) {
                 if (info) {
-                    this.filter.business = info['bk_biz_id']
+                    this.filter.business = info['biz_id']
                 }
             }
         },

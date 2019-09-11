@@ -48,7 +48,7 @@ export default [{
                 app.$store.commit('auth/setResourceMeta', {
                     ...meta,
                     resource_id: parseInt(to.params.id),
-                    bk_biz_id: parseInt(to.params.business)
+                    biz_id: parseInt(to.params.business)
                 })
             },
             setAuthScope () {

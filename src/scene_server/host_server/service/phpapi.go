@@ -1004,7 +1004,7 @@ func (s *Service) GetPlat(req *restful.Request, resp *restful.Response) {
 }
 
 // CreatePlat create a plat instance
-// available fields for body are last_time, bk_cloud_name, org_id, bk_cloud_id, create_time
+// available fields for body are last_time, cloud_name, org_id, cloud_id, create_time
 func (s *Service) CreatePlat(req *restful.Request, resp *restful.Response) {
 	srvData := s.newSrvComm(req.Request.Header)
 	input := make(map[string]interface{})
@@ -1015,7 +1015,7 @@ func (s *Service) CreatePlat(req *restful.Request, resp *restful.Response) {
 	}
 
 	input[common.BKOwnerIDField] = srvData.ownerID
-	cloudName := input["bk_cloud_name"]
+	cloudName := input["cloud_name"]
 
 	valid := validator.NewValidMap(util.GetOwnerID(req.Request.Header), common.BKInnerObjIDPlat, srvData.header, s.Engine)
 	validErr := valid.ValidMap(input, common.ValidCreate, 0)

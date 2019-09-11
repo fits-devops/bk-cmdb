@@ -83,14 +83,14 @@
                 </bk-tabpanel>
                 <bk-tabpanel name="moduleBind" :title="$t('ProcessManagement[\'模块绑定\']')" :show="attribute.type === 'details'">
                     <v-module v-if="tab.active === 'moduleBind'"
-                        :process-id="attribute.inst.details['bk_process_id']"
+                        :process-id="attribute.inst.details['process_id']"
                         :biz-id="bizId">
                     </v-module>
                 </bk-tabpanel>
                 <bk-tabpanel name="history" :title="$t('HostResourcePool[\'变更记录\']')" :show="attribute.type === 'details'">
                     <cmdb-audit-history v-if="tab.active === 'history'"
                         target="process"
-                        :inst-id="attribute.inst.details['bk_process_id']">
+                        :inst-id="attribute.inst.details['process_id']">
                     </cmdb-audit-history>
                 </bk-tabpanel>
             </bk-tab>
@@ -141,8 +141,8 @@
                         size: 10
                     },
                     checked: [],
-                    defaultSort: '-bk_process_id',
-                    sort: '-bk_process_id'
+                    defaultSort: '-process_id',
+                    sort: '-process_id'
                 }
             }
         },
@@ -196,7 +196,7 @@
                     bizId: this.bizId,
                     params: {
                         ...values,
-                        bk_process_id: this.table.checked.join(',')
+                        process_id: this.table.checked.join(',')
                     },
                     config: {
                         requestId: `processBatchUpdate`
@@ -241,7 +241,7 @@
             },
             setTableHeader () {
                 const header = []
-                const headerMap = ['bk_process_name', 'bk_func_id', 'bind_ip', 'port', 'protocol', 'bk_func_name']
+                const headerMap = ['process_name', 'func_id', 'bind_ip', 'port', 'protocol', 'func_name']
                 this.properties.map(property => {
                     const {
                         'property_id': propertyId,
@@ -256,7 +256,7 @@
                     }
                 })
                 header.unshift({
-                    id: 'bk_process_id',
+                    id: 'process_id',
                     type: 'checkbox',
                     width: 50
                 })
@@ -264,7 +264,7 @@
             },
             async handleEdit (flatternItem) {
                 const list = await this.getProcessList({ fromCache: true })
-                const inst = list.info.find(item => item['bk_process_id'] === flatternItem['bk_process_id'])
+                const inst = list.info.find(item => item['process_id'] === flatternItem['process_id'])
                 this.attribute.inst.edit = inst
                 this.attribute.type = 'update'
             },
@@ -276,11 +276,11 @@
             },
             handleDelete (process) {
                 this.$bkInfo({
-                    title: this.$t("Common['确认要删除']", { name: process['bk_process_name'] }),
+                    title: this.$t("Common['确认要删除']", { name: process['process_name'] }),
                     confirmFn: () => {
                         this.deleteProcess({
                             bizId: this.bizId,
-                            processId: process['bk_process_id']
+                            processId: process['process_id']
                         }).then(() => {
                             this.slider.show = false
                             this.$success(this.$t('Common["删除成功"]'))
@@ -293,13 +293,13 @@
                 if (type === 'update') {
                     this.updateProcess({
                         bizId: this.bizId,
-                        processId: originalValues['bk_process_id'],
+                        processId: originalValues['process_id'],
                         params: values
                     }).then(() => {
                         this.getTableData()
                         this.searchProcessById({
                             bizId: this.bizId,
-                            processId: originalValues['bk_process_id']
+                            processId: originalValues['process_id']
                         }).then(process => {
                             this.attribute.inst.details = this.$tools.flatternItem(this.properties, process)
                         })
@@ -354,7 +354,7 @@
             getSearchParams () {
                 const params = {
                     condition: {
-                        'bk_biz_id': this.bizId
+                        'biz_id': this.bizId
                     },
                     fields: [],
                     page: {
@@ -364,22 +364,22 @@
                     }
                 }
                 if (this.filter.text !== '') {
-                    params['condition']['bk_process_name'] = this.filter.text
+                    params['condition']['process_name'] = this.filter.text
                 }
                 return params
             },
             async handleCheckAll (type) {
                 if (type === 'current') {
-                    this.table.checked = this.table.list.map(inst => inst['bk_process_id'])
+                    this.table.checked = this.table.list.map(inst => inst['process_id'])
                 } else {
                     const allData = await this.getAllProcessList()
-                    this.table.checked = allData.info.map(inst => inst['bk_process_id'])
+                    this.table.checked = allData.info.map(inst => inst['process_id'])
                 }
             },
             handleRowClick (item) {
                 this.tab.active = 'attribute'
                 this.slider.show = true
-                this.slider.title = item['bk_process_name']
+                this.slider.title = item['process_name']
                 this.attribute.inst.details = item
                 this.attribute.type = 'details'
             },

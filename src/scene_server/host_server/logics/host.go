@@ -77,7 +77,7 @@ func (lgc *Logics) GetHostInstanceDetails(ctx context.Context, ownerID, hostID s
 	}
 	ip, ok := hostInfo[common.BKHostInnerIPField].(string)
 	if !ok {
-		blog.Errorf("GetHostInstanceDetails http response format error,convert bk_biz_id to int error, inst:%#v  input:%#v, rid:%s", hostInfo, hostID, lgc.rid)
+		blog.Errorf("GetHostInstanceDetails http response format error,convert biz_id to int error, inst:%#v  input:%#v, rid:%s", hostInfo, hostID, lgc.rid)
 		return nil, "", lgc.ccErr.Errorf(common.CCErrCommInstFieldConvFail, common.BKInnerObjIDHost, common.BKHostInnerIPField, "string", "not string")
 
 	}
@@ -262,7 +262,7 @@ const (
 )
 
 // GetHostIDByCond query hostIDs by condition base on cc_ModuleHostConfig
-// available condition fields are org_id, bk_biz_id, bk_host_id, bk_module_id, bk_set_id
+// available condition fields are org_id, biz_id, host_id, module_id, set_id
 func (lgc *Logics) GetHostIDByCond(ctx context.Context, cond metadata.HostModuleRelationRequest) ([]int64, errors.CCError) {
 
 	result, err := lgc.CoreAPI.CoreService().Host().GetHostModuleRelation(ctx, lgc.header, &cond)

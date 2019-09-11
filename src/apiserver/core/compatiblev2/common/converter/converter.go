@@ -731,19 +731,19 @@ func convHostHardInfo(hostID int64, innerIP string, host mapstr.MapStr) (hostHar
 		system.Set("serverDockerVersion", dockerServerVersion)
 	}
 	system.Set("kernelVersion", "")
-	mem, err := host.Int64("bk_mem")
+	mem, err := host.Int64("mem")
 	if nil != err {
 		mem = 0
 	} else {
 		mem = mem * 1024 * 1024
 	}
-	disk, err := host.Int64("bk_disk")
+	disk, err := host.Int64("disk")
 	if nil != err {
 		disk = 0
 	} else {
 		disk = disk * 1024 * 1024 * 1024
 	}
-	cpu, err := host.Int64("bk_cpu")
+	cpu, err := host.Int64("cpu")
 	if nil != err {
 		cpu = 0
 	}
@@ -1277,8 +1277,8 @@ func getFieldsMap(objType string) map[string]string {
 
 		common.BKSetIDField:   "SetID",
 		common.BKSetNameField: "SetName",
-		"bk_set_env":          "SetEnv",
-		"bk_service_status":   "ServiceStatus",
+		"set_env":             "SetEnv",
+		"service_status":      "ServiceStatus",
 		"description":         "Description",
 		"bk_capacity":         "Capacity",
 
@@ -1291,10 +1291,10 @@ func getFieldsMap(objType string) map[string]string {
 		"bk_assetId":              "AssetID",
 		"bk_sn":                   "SN",
 		common.BKCloudIDField:     "Source",
-		"bk_os_type":              "osType",
-		"bk_os_name":              "OSName",
-		"bk_cpu":                  "Cpu",
-		"bk_mem":                  "Mem",
+		"os_type":                 "osType",
+		"os_name":                 "OSName",
+		"cpu":                     "Cpu",
+		"mem":                     "Mem",
 		common.BKHostInnerIPField: "InnerIP",
 		common.BKHostOuterIPField: "OuterIP",
 

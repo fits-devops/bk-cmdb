@@ -112,7 +112,7 @@
             getBusinessDetails () {
                 return this.searchBusiness({
                     params: {
-                        condition: { 'bk_biz_id': this.instId },
+                        condition: { 'biz_id': this.instId },
                         fields: [],
                         page: { start: 0, limit: 1 }
                     }
@@ -124,7 +124,7 @@
                     params: this.$injectMetadata({
                         condition: {
                             [this.objId]: [{
-                                field: 'bk_inst_id',
+                                field: 'inst_id',
                                 operator: '$eq',
                                 value: this.instId
                             }]

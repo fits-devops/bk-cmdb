@@ -16,10 +16,10 @@
                     <div class="tree-row tree-row-child"
                         v-for="(inst, _index) in relation.children"
                         :key="_index"
-                        :class="{ active: details.instId === inst['bk_inst_id'] && details.objId === relation['obj_id'] }"
+                        :class="{ active: details.instId === inst['inst_id'] && details.objId === relation['obj_id'] }"
                         @click="handleShowDetails(relation, inst)">
                         <i :class="['tree-row-icon', relation['obj_icon']]"></i>
-                        <span>{{inst['bk_inst_name']}}</span>
+                        <span>{{inst['inst_name']}}</span>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 return this.$parent.objId
             },
             instId () {
-                return this.$parent.formatedInst['bk_inst_id']
+                return this.$parent.formatedInst['inst_id']
             }
         },
         watch: {
@@ -100,8 +100,8 @@
             },
             handleShowDetails (obj, inst) {
                 this.details.objId = obj['obj_id']
-                this.details.instId = inst['bk_inst_id']
-                this.details.title = `${obj['obj_name']}-${inst['bk_inst_name']}`
+                this.details.instId = inst['inst_id']
+                this.details.title = `${obj['obj_name']}-${inst['inst_name']}`
                 this.details.show = true
             }
         }

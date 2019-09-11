@@ -8,8 +8,8 @@
 * input body：
 ```
 {
-    "info":"{\"biz\":{\"bk_biz_id\":12},\"exact\":0,\"bk_host_innerip\":true,\"bk_host_outerip\":true,\"ip\":[]}",
-    "query_params":"[{\"bk_biz_id\":12,\"obj_id\":\"host\",\"field\":\"bk_agent_status\",\"operator\":\"$eq\",\"value\":\"正常\"},{\"bk_biz_id\":12,\"obj_id\":\"host\",\"field\":\"CPUModule\",\"operator\":\"$regex\",\"value\":\"123\"},{\"bk_biz_id\":12,\"obj_id\":\"biz\",\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}]",
+    "info":"{\"biz\":{\"biz_id\":12},\"exact\":0,\"host_innerip\":true,\"host_outerip\":true,\"ip\":[]}",
+    "query_params":"[{\"biz_id\":12,\"obj_id\":\"host\",\"field\":\"bk_agent_status\",\"operator\":\"$eq\",\"value\":\"正常\"},{\"biz_id\":12,\"obj_id\":\"host\",\"field\":\"CPUModule\",\"operator\":\"$regex\",\"value\":\"123\"},{\"biz_id\":12,\"obj_id\":\"biz\",\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}]",
     "is_default":2,
     "name":"my5"
 }
@@ -30,20 +30,20 @@ info 参数说明：
 | ---  | --- |---| --- | --- | ---|
 | biz|object|是|无| 业务信息查询条件 |business info for search|
 | exact|int|是|无|是否精确查询 | is exeact search|
-| bk_host_innerip|bool|是|无|true 或者false| true or false|
-| bk_host_outerip|bool|是|无|true 或者false|true or false|
+| host_innerip|bool|是|无|true 或者false| true or false|
+| host_outerip|bool|是|无|true 或者false|true or false|
 
 biz 参数信息：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无| 业务ID |business ID|
+| biz_id|int|是|无| 业务ID |business ID|
 
 query_params 参数说明:
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无|业务ID |business ID |
+| biz_id|int|是|无|业务ID |business ID |
 | obj_id|string|是|无|对象ID | object ID|
 | field| string| 否| 无|对象的字段|field of object|
 | operator| string| 否| 无|操作符, $eq为相等，$neq为不等，$in为属于，$nin为不属于|$eq is equal,$in is belongs, $nin is not belong,$neq is not equal|
@@ -90,10 +90,10 @@ data 结构说明：
 {
     "count":6,
     "id":"bacb3j4kd42325venmag",
-    "info":"{\"biz\":{\"id\":bk_biz_id},\"exact\":0,\"bk_host_innerip\":true,\"bk_host_outerip\":true,\"ip\":[]}",
+    "info":"{\"biz\":{\"id\":biz_id},\"exact\":0,\"host_innerip\":true,\"host_outerip\":true,\"ip\":[]}",
     "is_default":2,
     "name":"my211",
-    "query_params":"[{\"bk_biz_id\":12,\"obj_id\":\"biz\",\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}]"
+    "query_params":"[{\"biz_id\":12,\"obj_id\":\"biz\",\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}]"
 }
 ```
 
@@ -115,20 +115,20 @@ info 参数说明：
 | ---  | --- |---| --- | --- | ---|
 | biz|object|是|无| 业务信息查询条件 |biz info for search|
 | exact|int|是|无|是否精确查询 | is exeact search|
-| bk_host_innerip|bool|是|无|true 或者false| true or false|
-| bk_host_outerip|bool|是|无|true 或者false|true or false|
+| host_innerip|bool|是|无|true 或者false| true or false|
+| host_outerip|bool|是|无|true 或者false|true or false|
 
 biz 参数信息：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无| 业务ID |business ID|
+| biz_id|int|是|无| 业务ID |business ID|
 
 query_params 参数说明:
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无|业务ID |business ID |
+| biz_id|int|是|无|业务ID |business ID |
 | obj_id|string|是|无|对象ID | object ID|
 | field| string| 否| 无|对象的字段|field of object|
 | operator| string| 否| 无|操作符, $eq为相等，$neq为不等，$in为属于，$nin为不属于|$eq is equal,$in is belongs, $nin is not belong,$neq is not equal|
@@ -218,7 +218,7 @@ query_params 参数说明:
     "data":{
         "count":1,
         "info":[
-{"count":1,"id":"bacb3j4kd42325venmag","info":"{\"biz\":{\"bk_biz_id\":12},\"exact\":0,\"bk_host_innerip\":true,\"bk_host_outerip\":true,\"ip\":[]}","is_default":2,"name":"my2","bk_query_params":"[{\"bk_biz_id\":12,\"obj_id\":\"biz\",\"field\":\"Default\",\"operator\":\"$ne\",\"value\":1}]"}
+{"count":1,"id":"bacb3j4kd42325venmag","info":"{\"biz\":{\"biz_id\":12},\"exact\":0,\"host_innerip\":true,\"host_outerip\":true,\"ip\":[]}","is_default":2,"name":"my2","bk_query_params":"[{\"biz_id\":12,\"obj_id\":\"biz\",\"field\":\"Default\",\"operator\":\"$ne\",\"value\":1}]"}
         ]
     }
 }

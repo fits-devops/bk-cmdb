@@ -35,15 +35,15 @@ var delayTime = time.Second * 30
 
 var hostIndentDiffFiels = map[string][]string{
 	common.BKInnerObjIDApp:    {common.BKAppNameField},
-	common.BKInnerObjIDSet:    {common.BKSetNameField, "bk_service_status", "bk_set_env"},
+	common.BKInnerObjIDSet:    {common.BKSetNameField, "service_status", "set_env"},
 	common.BKInnerObjIDModule: {common.BKModuleNameField},
 	common.BKInnerObjIDPlat:   {common.BKCloudNameField},
 	common.BKInnerObjIDProc: {common.BKProcessNameField, common.BKFuncIDField, common.BKFuncName,
-		common.BKBindIP, common.BKProtocol, common.BKPort, "bk_start_param_regex"},
+		common.BKBindIP, common.BKProtocol, common.BKPort, "start_param_regex"},
 	common.BKInnerObjIDHost: {common.BKHostNameField,
 		common.BKCloudIDField, common.BKHostInnerIPField, common.BKHostOuterIPField,
 		common.BKOSTypeField, common.BKOSNameField,
-		"bk_mem", "bk_cpu", "bk_disk"},
+		"mem", "cpu", "disk"},
 }
 
 func (ih *IdentifierHandler) handleInst(e *metadata.EventInstCtx) {
@@ -375,23 +375,23 @@ func (i *Inst) set(key string, value interface{}) {
 	var err error
 	if i.objType == common.BKInnerObjIDHost {
 		switch key {
-		case "bk_host_name":
+		case "host_name":
 			i.ident.HostName = getString(value)
-		case "bk_cloud_id":
+		case "cloud_id":
 			i.ident.CloudID, err = util.GetInt64ByInterface(value)
-		case "bk_host_innerip":
+		case "host_innerip":
 			i.ident.InnerIP = getString(value)
-		case "bk_host_outerip":
+		case "host_outerip":
 			i.ident.OuterIP = getString(value)
-		case "bk_os_type":
+		case "os_type":
 			i.ident.OSType = getString(value)
-		case "bk_os_name":
+		case "os_name":
 			i.ident.OSName = getString(value)
-		case "bk_mem":
+		case "mem":
 			i.ident.Memory, err = util.GetInt64ByInterface(value)
-		case "bk_cpu":
+		case "cpu":
 			i.ident.CPU, err = util.GetInt64ByInterface(value)
-		case "bk_disk":
+		case "disk":
 			i.ident.Disk, err = util.GetInt64ByInterface(value)
 		}
 		if nil != err {
@@ -411,35 +411,35 @@ func (i *Inst) saveCache(cache *redis.Client) error {
 func NewHostIdentifier(m map[string]interface{}) *HostIdentifier {
 	var err error
 	ident := HostIdentifier{}
-	ident.HostName = getString(m["bk_host_name"])
-	ident.CloudID, err = util.GetInt64ByInterface(m["bk_cloud_id"])
+	ident.HostName = getString(m["host_name"])
+	ident.CloudID, err = util.GetInt64ByInterface(m["cloud_id"])
 	if nil != err {
-		blog.Errorf("%s is not integer, %+v", "bk_cloud_id", m)
+		blog.Errorf("%s is not integer, %+v", "cloud_id", m)
 	}
-	ident.InnerIP = getString(m["bk_host_innerip"])
-	ident.OuterIP = getString(m["bk_host_outerip"])
-	ident.OSType = getString(m["bk_os_type"])
-	ident.OSName = getString(m["bk_os_name"])
+	ident.InnerIP = getString(m["host_innerip"])
+	ident.OuterIP = getString(m["host_outerip"])
+	ident.OSType = getString(m["os_type"])
+	ident.OSName = getString(m["os_name"])
 	ident.HostID, err = util.GetInt64ByInterface(m[common.BKHostIDField])
 	if nil != err {
-		blog.Errorf("%s is not integer, %+v ", "bk_host_id", m)
+		blog.Errorf("%s is not integer, %+v ", "host_id", m)
 	}
-	if m["bk_mem"] != nil {
-		ident.Memory, err = util.GetInt64ByInterface(m["bk_mem"])
+	if m["mem"] != nil {
+		ident.Memory, err = util.GetInt64ByInterface(m["mem"])
 		if nil != err {
-			blog.Warnf("%s is not integer, %+v ", "bk_mem", m)
+			blog.Warnf("%s is not integer, %+v ", "mem", m)
 		}
 	}
-	if m["bk_cpu"] != nil {
-		ident.CPU, err = util.GetInt64ByInterface(m["bk_cpu"])
+	if m["cpu"] != nil {
+		ident.CPU, err = util.GetInt64ByInterface(m["cpu"])
 		if nil != err {
-			blog.Warnf("%s is not integer, %+v ", "bk_cpu", m)
+			blog.Warnf("%s is not integer, %+v ", "cpu", m)
 		}
 	}
-	if m["bk_disk"] != nil {
-		ident.Disk, err = util.GetInt64ByInterface(m["bk_disk"])
+	if m["disk"] != nil {
+		ident.Disk, err = util.GetInt64ByInterface(m["disk"])
 		if nil != err {
-			blog.Warnf("%s is not integer, %+v ", "bk_disk", m)
+			blog.Warnf("%s is not integer, %+v ", "disk", m)
 		}
 	}
 	ident.Module = map[string]*Module{}

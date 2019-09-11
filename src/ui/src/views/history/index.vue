@@ -125,22 +125,22 @@
             },
             setTableHeader () {
                 const idMap = {
-                    'host': 'bk_host_id',
-                    'set': 'bk_set_id',
-                    'module': 'bk_module_id',
-                    'biz': 'bk_biz_id',
+                    'host': 'host_id',
+                    'set': 'set_id',
+                    'module': 'module_id',
+                    'biz': 'biz_id',
                     'plat': 'bk_plat_id'
                 }
                 const fixedPropertyMap = {
-                    'host': ['bk_host_innerip', 'bk_cloud_id'],
-                    'set': ['bk_set_name'],
-                    'module': ['bk_module_name'],
-                    'biz': ['bk_biz_name'],
+                    'host': ['host_innerip', 'cloud_id'],
+                    'set': ['set_name'],
+                    'module': ['module_name'],
+                    'biz': ['biz_name'],
                     'plat': ['bk_plat_name']
                 }
-                const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customColumns, fixedPropertyMap[this.objId] || ['bk_inst_name'])
+                const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customColumns, fixedPropertyMap[this.objId] || ['inst_name'])
                 this.header = [{
-                    id: idMap[this.objId] || 'bk_inst_id',
+                    id: idMap[this.objId] || 'inst_id',
                     name: 'ID'
                 }].concat(headerProperties.map(property => {
                     return {

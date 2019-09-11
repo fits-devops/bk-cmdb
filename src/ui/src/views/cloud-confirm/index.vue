@@ -111,7 +111,7 @@
                         id: 'bk_resource_id',
                         type: 'checkbox'
                     }, {
-                        id: 'bk_host_innerip',
+                        id: 'host_innerip',
                         name: this.$t('Cloud["资源名称"]')
                     }, {
                         id: 'bk_resource_type',

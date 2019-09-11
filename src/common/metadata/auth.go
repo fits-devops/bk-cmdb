@@ -17,7 +17,7 @@ type AuthBathVerifyRequest struct {
 }
 
 type AuthResource struct {
-	BizID        int64  `json:"bk_biz_id"`
+	BizID        int64  `json:"biz_id"`
 	ResourceType string `json:"resource_type"`
 	ResourceID   int64  `json:"resource_id"`
 	Action       string `json:"action"`

@@ -215,7 +215,7 @@ func setExcelRow(row *xlsx.Row, item interface{}) *xlsx.Row {
 type ExportObjectBody struct {
 	Metadata struct {
 		Label struct {
-			BkBizID string `json:"bk_biz_id"`
+			BkBizID string `json:"biz_id"`
 		} `json:"label"`
 	} `json:"metadata"`
 }

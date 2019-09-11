@@ -48,8 +48,8 @@ const actions = {
     searchProcessById ({ rootGetters }, { bizId, processId, config }) {
         return $http.post(`proc/search/${rootGetters.supplierAccount}/${bizId}`, {
             condition: {
-                'bk_biz_id': bizId,
-                'bk_process_id': {
+                'biz_id': bizId,
+                'process_id': {
                     '$eq': processId
                 }
             }

@@ -9,14 +9,14 @@
             <template slot="is_bind" slot-scope="{ item }">
                 <bk-button type="primary"
                     v-if="item['is_bind'] === 1"
-                    :loading="$loading(`${item['bk_module_name']}Bind`)"
+                    :loading="$loading(`${item['module_name']}Bind`)"
                     :disabled="!unbindModuleAuth"
                     @click="unbindModule(item)">
                     {{$t("ProcessManagement['已绑定']")}}
                 </bk-button>
                 <bk-button type="default"
                     v-else
-                    :loading="$loading(`${item['bk_module_name']}Bind`)"
+                    :loading="$loading(`${item['module_name']}Bind`)"
                     :disabled="!bindModuleAuth"
                     @click="bindModule(item)">
                     {{$t("ProcessManagement['未绑定']")}}
@@ -43,7 +43,7 @@
             return {
                 table: {
                     header: [{
-                        id: 'bk_module_name',
+                        id: 'module_name',
                         name: this.$t("ProcessManagement['模块名']")
                     }, {
                         id: 'set_num',
@@ -75,25 +75,25 @@
                 'getProcessBindModule'
             ]),
             bindModule (item) {
-                const moduleName = item['bk_module_name'].replace(' ', '')
+                const moduleName = item['module_name'].replace(' ', '')
                 this.bindProcessModule({
                     bizId: this.bizId,
                     processId: this.processId,
                     moduleName,
                     config: {
-                        requestId: `${item['bk_module_name']}Bind`
+                        requestId: `${item['module_name']}Bind`
                     }
                 })
                 item['is_bind'] = 1
             },
             unbindModule (item) {
-                const moduleName = item['bk_module_name'].replace(' ', '')
+                const moduleName = item['module_name'].replace(' ', '')
                 this.deleteProcessModuleBinding({
                     bizId: this.bizId,
                     processId: this.processId,
                     moduleName,
                     config: {
-                        requestId: `${item['bk_module_name']}Bind`
+                        requestId: `${item['module_name']}Bind`
                     }
                 })
                 item['is_bind'] = 0
@@ -116,10 +116,10 @@
                     module['is_bind'] ? bindedModule.push(module) : unbindModule.push(module)
                 })
                 bindedModule.sort((moduleA, moduleB) => {
-                    return moduleA['bk_module_name'].localeCompare(moduleB['bk_module_name'])
+                    return moduleA['module_name'].localeCompare(moduleB['module_name'])
                 })
                 unbindModule.sort((moduleA, moduleB) => {
-                    return moduleA['bk_module_name'].localeCompare(moduleB['bk_module_name'])
+                    return moduleA['module_name'].localeCompare(moduleB['module_name'])
                 })
                 return [...bindedModule, ...unbindModule]
             },

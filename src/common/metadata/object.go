@@ -170,12 +170,12 @@ type ObjectClsDes struct {
 }
 
 type InnerModule struct {
-	ModuleID   int64  `json:"bk_module_id"`
-	ModuleName string `json:"bk_module_name"`
+	ModuleID   int64  `json:"module_id"`
+	ModuleName string `json:"module_name"`
 }
 type InnterAppTopo struct {
-	SetID   int64         `json:"bk_set_id"`
-	SetName string        `json:"bk_set_name"`
+	SetID   int64         `json:"set_id"`
+	SetName string        `json:"set_name"`
 	Module  []InnerModule `json:"module"`
 }
 

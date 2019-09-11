@@ -328,7 +328,7 @@ func TestEmbedMap(t *testing.T) {
 		"classification_name": "test",
 		"metadata": {
 			"label": {
-				"bk_biz_id": "1"
+				"biz_id": "1"
 			}
 		}
 	}`

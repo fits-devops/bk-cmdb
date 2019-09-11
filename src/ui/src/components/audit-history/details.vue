@@ -59,7 +59,7 @@
                     key: 'operator'
                 }, {
                     label: this.$t('OperationAudit[\'所属业务\']'),
-                    key: 'bk_biz_id',
+                    key: 'biz_id',
                     optionKey: 'biz'
                 }, {
                     label: this.$t('OperationAudit[\'IP\']'),
@@ -88,7 +88,7 @@
             },
             options () {
                 const biz = {}
-                this.authorizedBusiness.forEach(({ bk_biz_id: bkBizId, bk_biz_name: bkBizName }) => {
+                this.authorizedBusiness.forEach(({ biz_id: bkBizId, biz_name: bkBizName }) => {
                     biz[bkBizId] = bkBizName
                 })
                 const opType = {
@@ -141,8 +141,8 @@
                     })
                 } else {
                     const content = this.details.content
-                    const preBizId = content['pre_data']['bk_biz_id']
-                    const curBizId = content['cur_data']['bk_biz_id']
+                    const preBizId = content['pre_data']['biz_id']
+                    const curBizId = content['cur_data']['biz_id']
                     const preModule = content['pre_data']['module'] || []
                     const curModule = content['cur_data']['module'] || []
                     const pre = []

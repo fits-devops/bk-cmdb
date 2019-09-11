@@ -67,7 +67,7 @@ func (cli *Set) CreateSet(bizID int64, data types.MapStr) (int, error) {
 	}
 
 	// parse id
-	id := gs.Get("data.bk_set_id").Int()
+	id := gs.Get("data.set_id").Int()
 
 	return int(id), nil
 }

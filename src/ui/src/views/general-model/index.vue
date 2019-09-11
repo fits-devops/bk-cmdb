@@ -152,7 +152,7 @@
                 <bk-tabpanel name="history" :title="$t('HostResourcePool[\'变更记录\']')" :show="['update', 'details'].includes(attribute.type)">
                     <cmdb-audit-history v-if="tab.active === 'history'"
                         :target="objId"
-                        :inst-id="attribute.inst.details['bk_inst_id']">
+                        :inst-id="attribute.inst.details['inst_id']">
                     </cmdb-audit-history>
                 </bk-tabpanel>
             </bk-tab>
@@ -210,8 +210,8 @@
                         size: 10,
                         current: 1
                     },
-                    defaultSort: 'bk_inst_id',
-                    sort: 'bk_inst_id'
+                    defaultSort: 'inst_id',
+                    sort: 'inst_id'
                 },
                 filter: {
                     id: '',
@@ -236,7 +236,7 @@
                 columnsConfig: {
                     show: false,
                     selected: [],
-                    disabledColumns: ['bk_inst_name']
+                    disabledColumns: ['inst_name']
                 },
                 importSlider: {
                     show: false
@@ -344,8 +344,8 @@
                         size: 10,
                         current: 1
                     },
-                    defaultSort: 'bk_inst_id',
-                    sort: 'bk_inst_id'
+                    defaultSort: 'inst_id',
+                    sort: 'inst_id'
                 }
             },
             getPropertyGroups () {
@@ -381,7 +381,7 @@
             },
             updateTableHeader (properties) {
                 this.table.header = [{
-                    id: 'bk_inst_id',
+                    id: 'inst_id',
                     type: 'checkbox',
                     width: 50
                 }].concat(properties.map(property => {
@@ -393,15 +393,15 @@
             },
             async handleCheckAll (type) {
                 if (type === 'current') {
-                    this.table.checked = this.table.list.map(inst => inst['bk_inst_id'])
+                    this.table.checked = this.table.list.map(inst => inst['inst_id'])
                 } else {
                     const allData = await this.getAllInstList()
-                    this.table.checked = allData.info.map(inst => inst['bk_inst_id'])
+                    this.table.checked = allData.info.map(inst => inst['inst_id'])
                 }
             },
             handleRowClick (item) {
                 this.slider.show = true
-                this.slider.title = item['bk_inst_name']
+                this.slider.title = item['inst_name']
                 this.attribute.inst.details = item
                 this.attribute.type = 'details'
             },
@@ -443,7 +443,7 @@
             setAllHostList (list) {
                 const newList = []
                 list.forEach(item => {
-                    const existItem = this.table.allList.some(existItem => existItem['bk_inst_id'] === item['bk_inst_id'])
+                    const existItem = this.table.allList.some(existItem => existItem['inst_id'] === item['inst_id'])
                     if (existItem) {
                         Object.assign(existItem, item)
                     } else {
@@ -493,14 +493,14 @@
                         const asstObjId = (this.$tools.getProperty(this.properties, this.filter.id) || {})['bk_asst_obj_id']
                         if (asstObjId) {
                             const fieldMap = {
-                                'host': 'bk_host_innerip',
-                                'biz': 'bk_biz_name',
-                                'plat': 'bk_cloud_name',
-                                'module': 'bk_module_name',
-                                'set': 'bk_set_name'
+                                'host': 'host_innerip',
+                                'biz': 'biz_name',
+                                'plat': 'cloud_name',
+                                'module': 'module_name',
+                                'set': 'set_name'
                             }
                             params.condition[asstObjId] = [{
-                                field: fieldMap.hasOwnProperty(asstObjId) ? fieldMap[asstObjId] : 'bk_inst_name',
+                                field: fieldMap.hasOwnProperty(asstObjId) ? fieldMap[asstObjId] : 'inst_name',
                                 operator: '$in',
                                 value: filterValue.split(',')
                             }]
@@ -517,7 +517,7 @@
             },
             async handleEdit (flatternItem) {
                 const list = await this.getInstList({ fromCache: true })
-                const inst = list.info.find(item => item['bk_inst_id'] === flatternItem['bk_inst_id'])
+                const inst = list.info.find(item => item['inst_id'] === flatternItem['inst_id'])
                 this.attribute.inst.edit = inst
                 this.attribute.type = 'update'
             },
@@ -529,11 +529,11 @@
             },
             handleDelete (inst) {
                 this.$bkInfo({
-                    title: this.$t("Common['确认要删除']", { name: inst['bk_inst_name'] }),
+                    title: this.$t("Common['确认要删除']", { name: inst['inst_name'] }),
                     confirmFn: () => {
                         this.deleteInst({
                             objId: this.objId,
-                            instId: inst['bk_inst_id'],
+                            instId: inst['inst_id'],
                             config: {
                                 data: this.$injectMetadata({}, { inject: !this.isPublicModel })
                             }
@@ -549,13 +549,13 @@
                 if (type === 'update') {
                     this.updateInst({
                         objId: this.objId,
-                        instId: originalValues['bk_inst_id'],
+                        instId: originalValues['inst_id'],
                         params: this.$injectMetadata(values, { inject: !this.isPublicModel })
                     }).then(() => {
                         this.getTableData()
                         this.searchInstById({
                             objId: this.objId,
-                            instId: originalValues['bk_inst_id'],
+                            instId: originalValues['inst_id'],
                             params: this.$injectMetadata({}, { inject: !this.isPublicModel })
                         }).then(item => {
                             this.attribute.inst.details = this.$tools.flatternItem(this.properties, item)
@@ -680,7 +680,7 @@
             },
             handleExport () {
                 const data = new FormData()
-                data.append('bk_inst_id', this.table.checked.join(','))
+                data.append('inst_id', this.table.checked.join(','))
                 const customFields = this.usercustom[this.customConfigKey]
                 if (customFields) {
                     data.append('export_custom_fields', customFields)

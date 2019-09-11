@@ -61,7 +61,7 @@
         },
         watch: {
             info (info) {
-                this.$store.commit('setHeaderTitle', `${this.$t('HostDetails["主机详情"]')}(${info.host.bk_host_innerip})`)
+                this.$store.commit('setHeaderTitle', `${this.$t('HostDetails["主机详情"]')}(${info.host.host_innerip})`)
             },
             id () {
                 this.getData()
@@ -103,12 +103,12 @@
             },
             getSearchHostParams () {
                 const hostCondition = {
-                    field: 'bk_host_id',
+                    field: 'host_id',
                     operator: '$eq',
                     value: this.id
                 }
                 return this.$injectMetadata({
-                    bk_biz_id: this.business,
+                    biz_id: this.business,
                     condition: ['biz', 'set', 'module', 'host'].map(model => {
                         return {
                             obj_id: model,
@@ -116,7 +116,7 @@
                             fields: []
                         }
                     }),
-                    ip: { flag: 'bk_host_innerip', exact: 1, data: [] }
+                    ip: { flag: 'host_innerip', exact: 1, data: [] }
                 })
             },
             async getProperties () {

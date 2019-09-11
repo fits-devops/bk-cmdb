@@ -43,7 +43,7 @@ func (s *Service) GetHostByID(req *restful.Request, resp *restful.Response) {
 	ctx := util.GetDBContext(context.Background(), req.Request.Header)
 
 	pathParams := req.PathParameters()
-	hostID, err := strconv.Atoi(pathParams["bk_host_id"])
+	hostID, err := strconv.Atoi(pathParams["host_id"])
 	if err != nil {
 		blog.Errorf("get host by id, but got invalid host id, err: %v", err)
 		resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.Error(common.CCErrCommParamsIsInvalid)})
@@ -163,7 +163,7 @@ func (s *Service) GetHostSnap(req *restful.Request, resp *restful.Response) {
 	language := util.GetLanguage(req.Request.Header)
 	defErr := s.Core.CCErr.CreateDefaultCCErrorIf(language)
 
-	hostID := req.PathParameter("bk_host_id")
+	hostID := req.PathParameter("host_id")
 	key := common.RedisSnapKeyPrefix + hostID
 	result, err := s.Cache.Get(key).Result()
 	if nil != err && err != redis.Nil {

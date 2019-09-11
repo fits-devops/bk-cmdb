@@ -285,11 +285,11 @@ func addSystemField(fields map[string]Property, objID string, defLang lang.Defau
 	switch objID {
 	case common.BKInnerObjIDHost:
 		idProperty.ID = common.BKHostIDField
-		idProperty.Name = defLang.Languagef("host_property_bk_host_id")
+		idProperty.Name = defLang.Languagef("host_property_host_id")
 		fields[idProperty.ID] = idProperty
 	case common.BKInnerObjIDObject:
 		idProperty.ID = common.BKInstIDField
-		idProperty.Name = defLang.Languagef("common_property_bk_inst_id")
+		idProperty.Name = defLang.Languagef("common_property_inst_id")
 		fields[idProperty.ID] = idProperty
 	}
 

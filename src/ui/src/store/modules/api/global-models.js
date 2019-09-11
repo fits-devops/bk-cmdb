@@ -97,7 +97,7 @@ const mutations = {
         const topologyData = state.topologyData
         for (let i = 0; i < topologyData.length; i++) {
             const associations = topologyData[i]['assts'] || []
-            const index = associations.findIndex(association => association['bk_inst_id'] === associationId)
+            const index = associations.findIndex(association => association['inst_id'] === associationId)
             if (index > -1) {
                 associations.splice(index, 1)
                 break

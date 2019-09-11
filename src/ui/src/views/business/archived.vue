@@ -82,9 +82,9 @@
                 this.$router.go(-1)
             },
             setTableHeader () {
-                const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customBusinessColumns, ['bk_biz_name'])
+                const headerProperties = this.$tools.getHeaderProperties(this.properties, this.customBusinessColumns, ['biz_name'])
                 this.header = [{
-                    id: 'bk_biz_id',
+                    id: 'biz_id',
                     name: 'ID'
                 }].concat(headerProperties.map(property => {
                     return {
@@ -123,14 +123,14 @@
                     page: {
                         start: (this.pagination.current - 1) * this.pagination.size,
                         limit: this.pagination.size,
-                        sort: '-bk_biz_id'
+                        sort: '-biz_id'
                     }
                 }
             },
             handleRecovery (biz) {
                 this.$bkInfo({
                     title: this.$t('Inst["是否确认恢复业务？"]'),
-                    content: this.$t('Inst["恢复业务提示"]', { bizName: biz['bk_biz_name'] }),
+                    content: this.$t('Inst["恢复业务提示"]', { bizName: biz['biz_name'] }),
                     confirmFn: () => {
                         this.recoveryBiz(biz)
                     }
@@ -139,7 +139,7 @@
             recoveryBiz (biz) {
                 this.recoveryBusiness({
                     params: {
-                        'bk_biz_id': biz['bk_biz_id']
+                        'biz_id': biz['biz_id']
                     },
                     config: {
                         cancelWhenRouteChange: false

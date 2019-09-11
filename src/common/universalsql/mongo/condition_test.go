@@ -121,9 +121,9 @@ func TestIssue1708(t *testing.T) {
 
 func TestIssue1738(t *testing.T) {
 	cond := mongo.NewCondition()
-	cond.Element(&mongo.Eq{Key: "bk_set_name", Val: nil})
-	cond.Element(&mongo.Eq{Key: "bk_set_id", Val: nil})
-	cond.Element(&mongo.Eq{Key: "bk_biz_id", Val: nil})
+	cond.Element(&mongo.Eq{Key: "set_name", Val: nil})
+	cond.Element(&mongo.Eq{Key: "set_id", Val: nil})
+	cond.Element(&mongo.Eq{Key: "biz_id", Val: nil})
 	cond.Element(&mongo.Eq{Key: "bk_parent_id", Val: 2})
 	cond.Element(&mongo.In{Key: "bk_parent_in_nil", Val: nil})
 	cond.Element(&mongo.Nin{Key: "bk_parent_nin_nil", Val: nil})

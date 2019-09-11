@@ -168,15 +168,15 @@ func parseSetter(val *gjson.Result, innerIP, outerIP string) map[string]interfac
 	dockerServerVersion := val.Get("data.system.docker.Server.Version").String()
 
 	setter := map[string]interface{}{
-		"bk_cpu":                            cupnum,
-		"bk_cpu_module":                     cpumodule,
-		"bk_cpu_mhz":                        CPUMhz,
-		"bk_disk":                           disk / 1024 / 1024 / 1024,
-		"bk_mem":                            mem / 1024 / 1024,
-		"bk_os_type":                        ostype,
-		"bk_os_name":                        osname,
+		"cpu":                               cupnum,
+		"cpu_module":                        cpumodule,
+		"cpu_mhz":                           CPUMhz,
+		"disk":                              disk / 1024 / 1024 / 1024,
+		"mem":                               mem / 1024 / 1024,
+		"os_type":                           ostype,
+		"os_name":                           osname,
 		"bk_os_version":                     version,
-		"bk_host_name":                      hostname,
+		"host_name":                         hostname,
 		"bk_outer_mac":                      OuterMAC,
 		"bk_mac":                            InnerMAC,
 		"bk_os_bit":                         osbit,
@@ -185,31 +185,31 @@ func parseSetter(val *gjson.Result, innerIP, outerIP string) map[string]interfac
 	}
 
 	if cupnum <= 0 {
-		blog.Infof("bk_cpu not found in message for %s", innerIP)
+		blog.Infof("cpu not found in message for %s", innerIP)
 	}
 	if cpumodule == "" {
-		blog.Infof("bk_cpu_module not found in message for %s", innerIP)
+		blog.Infof("cpu_module not found in message for %s", innerIP)
 	}
 	if CPUMhz <= 0 {
-		blog.Infof("bk_cpu_mhz not found in message for %s", innerIP)
+		blog.Infof("cpu_mhz not found in message for %s", innerIP)
 	}
 	if disk <= 0 {
-		blog.Infof("bk_disk not found in message for %s", innerIP)
+		blog.Infof("disk not found in message for %s", innerIP)
 	}
 	if mem <= 0 {
-		blog.Infof("bk_mem not found in message for %s", innerIP)
+		blog.Infof("mem not found in message for %s", innerIP)
 	}
 	if ostype == "" {
-		blog.Infof("bk_os_type not found in message for %s", innerIP)
+		blog.Infof("os_type not found in message for %s", innerIP)
 	}
 	if osname == "" {
-		blog.Infof("bk_os_name not found in message for %s", innerIP)
+		blog.Infof("os_name not found in message for %s", innerIP)
 	}
 	if version == "" {
 		blog.Infof("bk_os_version not found in message for %s", innerIP)
 	}
 	if hostname == "" {
-		blog.Infof("bk_host_name not found in message for %s", innerIP)
+		blog.Infof("host_name not found in message for %s", innerIP)
 	}
 	if outerIP != "" && OuterMAC == "" {
 		blog.Infof("bk_outer_mac not found in message for %s", innerIP)

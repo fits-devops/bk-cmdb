@@ -128,7 +128,7 @@ func (s *Service) SearchObjectByClassificationID(params types.ContextParams, pat
 func (s *Service) SearchBusinessTopo(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
 	paramPath := mapstr.MapStr{}
-	paramPath.Set("id", pathParams("bk_biz_id"))
+	paramPath.Set("id", pathParams("biz_id"))
 	id, err := paramPath.Int64("id")
 	if nil != err {
 		blog.Errorf("[api-asst] failed to parse the path params id(%s), error info is %s ", pathParams("app_id"), err.Error())

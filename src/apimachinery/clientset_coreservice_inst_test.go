@@ -217,7 +217,7 @@ func getReadModelInstanceResult() string {
     "data": {
         "count":1,
         "info":[{
-            "bk_inst_id":1
+            "inst_id":1
             }]
     	}
 	}`

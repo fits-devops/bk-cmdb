@@ -182,8 +182,8 @@
             },
             async createRootNode (root) {
                 const node = {
-                    id: `${root['obj_id']}_${root['bk_inst_id']}_${NODE_ID++}`,
-                    label: root['bk_inst_name'],
+                    id: `${root['obj_id']}_${root['inst_id']}_${NODE_ID++}`,
+                    label: root['inst_name'],
                     data: root,
                     loaded: true,
                     children: [],
@@ -214,8 +214,8 @@
                         inst['obj_id'] = obj['obj_id']
                         if (!this.exist(currentNode, inst, type)) {
                             const node = {
-                                id: `${inst['obj_id']}_${inst['bk_inst_id']}_${NODE_ID++}`,
-                                label: inst['bk_inst_name'],
+                                id: `${inst['obj_id']}_${inst['inst_id']}_${NODE_ID++}`,
+                                label: inst['inst_name'],
                                 data: inst,
                                 loaded: false,
                                 level: this.getRelationNodeLevel(currentNode, type),
@@ -262,7 +262,7 @@
             },
             exist (currentNode, newInst, type) {
                 return currentNode[type].some(node => {
-                    return node.data['obj_id'] === newInst['obj_id'] && node.data['bk_inst_id'] === newInst['bk_inst_id']
+                    return node.data['obj_id'] === newInst['obj_id'] && node.data['inst_id'] === newInst['inst_id']
                 })
             },
             getRelationNodeLevel (currentNode, type) {
@@ -326,7 +326,7 @@
                 if (!node.loaded) {
                     this.hoverNode = null
                     const data = node.data
-                    await this.getRelation(data['obj_id'], data['bk_inst_id'], node)
+                    await this.getRelation(data['obj_id'], data['inst_id'], node)
                     node.loaded = true
                 } else {
                     this.legends = node.legends
@@ -385,7 +385,7 @@
             },
             async handleShowDetails () {
                 const nodeData = this.hoverNode.data
-                this.details.title = `${nodeData['obj_name']}-${nodeData['bk_inst_name']}`
+                this.details.title = `${nodeData['obj_name']}-${nodeData['inst_name']}`
                 try {
                     const [inst, properties, propertyGroups] = await Promise.all([
                         this.getInst(),
@@ -413,7 +413,7 @@
                 return this.getInstDetails()
             },
             getHostDetails () {
-                const hostId = this.hoverNode.data.bk_inst_id
+                const hostId = this.hoverNode.data.inst_id
                 return this.$store.dispatch('hostSearch/getHostBaseInfo', { hostId }).then(data => {
                     const inst = {}
                     data.forEach(field => {
@@ -423,10 +423,10 @@
                 })
             },
             getBusinessDetails () {
-                const bizId = this.hoverNode.data.bk_inst_id
+                const bizId = this.hoverNode.data.inst_id
                 return this.$store.dispatch('objectBiz/searchBusiness', {
                     params: {
-                        condition: { 'bk_biz_id': bizId },
+                        condition: { 'biz_id': bizId },
                         fields: [],
                         page: { start: 0, limit: 1 }
                     }
@@ -434,14 +434,14 @@
             },
             getInstDetails () {
                 const modelId = this.hoverNode.data.obj_id
-                const instId = this.hoverNode.data.bk_inst_id
+                const instId = this.hoverNode.data.inst_id
                 const model = this.$store.getters['objectModelClassify/getModelById'](modelId)
                 return this.$store.dispatch('objectCommonInst/searchInst', {
                     objId: modelId,
                     params: this.$injectMetadata({
                         condition: {
                             [modelId]: [{
-                                field: 'bk_inst_id',
+                                field: 'inst_id',
                                 operator: '$eq',
                                 value: instId
                             }]

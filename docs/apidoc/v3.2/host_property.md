@@ -9,10 +9,10 @@
 * input body：
 ```
 {
-    "bk_biz_id":2,
+    "biz_id":2,
     "bk_org_ip":"127.0.0.1",
     "bk_dst_ip":"127.0.0.2",
-    "bk_cloud_id":0
+    "cloud_id":0
 }
 ```
 
@@ -22,8 +22,8 @@
 | ---  | ---  | --- |---  | --- | ---|
 | bk_org_ip| string| 是|无| 源主机ip, 只支持传入单ip |origin host ip ,only support single|
 | bk_dst_ip| string| 是| 无|目标主机ip, 多个ip用","分割|destination host ip,  multiple ip splits with "," |
-| bk_biz_id|int|是|无| 业务ID |business ID|
-| bk_cloud_id| int| 否| 无| 云区域ID|cloud area ID|
+| biz_id|int|是|无| 业务ID |business ID|
+| cloud_id| int| 否| 无| 云区域ID|cloud area ID|
 
 * output:
 ```

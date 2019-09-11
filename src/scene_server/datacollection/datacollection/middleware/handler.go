@@ -67,8 +67,8 @@ type Attr struct {
 }
 
 type Related struct {
-	BkInstId   int    `json:"bk_inst_id"`
-	BkInstName string `json:"bk_inst_name"`
+	BkInstId   int    `json:"inst_id"`
+	BkInstName string `json:"inst_name"`
 	BkObjIcon  string `json:"obj_icon"`
 	BkObjId    string `json:"obj_id"`
 	BkObjName  string `json:"obj_name"`
@@ -602,7 +602,7 @@ func (d *Discover) UpdateOrCreateInst(msg string) error {
 
 	instID, err := util.GetInt64ByInterface(inst[bkc.BKInstIDField])
 	if nil != err {
-		return fmt.Errorf("get bk_inst_id failed: %s %s", inst[bkc.BKInstIDField], err.Error())
+		return fmt.Errorf("get inst_id failed: %s %s", inst[bkc.BKInstIDField], err.Error())
 	}
 
 	hasDiff := false

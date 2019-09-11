@@ -21,14 +21,14 @@ import (
 //type Flag string
 
 const (
-	INNERONLY string = "bk_host_innerip"
-	OUTERONLY string = "bk_host_outerip"
-	IOBOTH    string = "bk_host_innerip|bk_host_outerip"
+	INNERONLY string = "host_innerip"
+	OUTERONLY string = "host_outerip"
+	IOBOTH    string = "host_innerip|host_outerip"
 )
 
 //common search struct
 type HostCommonSearch struct {
-	AppID     int               `json:"bk_biz_id,omitempty"`
+	AppID     int               `json:"biz_id,omitempty"`
 	Ip        IPInfo            `json:"ip"`
 	Condition []SearchCondition `json:"condition"`
 	Page      PageInfo          `json:"page"`

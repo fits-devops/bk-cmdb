@@ -118,7 +118,7 @@
                     if (Array.isArray(model.assts)) {
                         model.assts.forEach(asst => {
                             edges.push({
-                                id: asst['bk_inst_id'],
+                                id: asst['inst_id'],
                                 from: model['obj_id'],
                                 to: asst['obj_id'],
                                 label: this.getEdgeLable(asst),
@@ -198,7 +198,7 @@
                         confirmFn: () => {
                             const data = this.topologyMap[nodeId]
                             this.updateSavedPosition([{
-                                'bk_inst_id': data['bk_inst_id'],
+                                'inst_id': data['inst_id'],
                                 'obj_id': data['obj_id'],
                                 'node_type': data['node_type'],
                                 'position': { x: null, y: null }
@@ -215,7 +215,7 @@
             handleDragNode (nodeId, position) {
                 const data = this.topologyMap[nodeId]
                 this.updateSavedPosition([{
-                    'bk_inst_id': data['bk_inst_id'],
+                    'inst_id': data['inst_id'],
                     'obj_id': data['obj_id'],
                     'node_type': data['node_type'],
                     'position': position
@@ -231,7 +231,7 @@
                     this.$store.commit(commitMethod, {
                         resolve: data => {
                             resolve({
-                                id: data['bk_inst_id'],
+                                id: data['inst_id'],
                                 label: this.getEdgeLable(data),
                                 data: data,
                                 arrows: this.getEdgeArrows(data)
@@ -267,7 +267,7 @@
                     const oldPosition = data.position
                     if (newPosition.x !== oldPosition.x || newPosition.y !== oldPosition.y) {
                         updateQueue.push({
-                            'bk_inst_id': data['bk_inst_id'],
+                            'inst_id': data['inst_id'],
                             'obj_id': data['obj_id'],
                             'node_type': data['node_type'],
                             'position': newPosition
@@ -283,7 +283,7 @@
                     const position = this.instance.convertNodePosition(event)
                     this.instance.showNode(modelId, position)
                     this.updateSavedPosition([{
-                        'bk_inst_id': data['bk_inst_id'],
+                        'inst_id': data['inst_id'],
                         'obj_id': data['obj_id'],
                         'node_type': data['node_type'],
                         'position': position

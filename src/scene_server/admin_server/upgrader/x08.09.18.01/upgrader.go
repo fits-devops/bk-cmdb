@@ -26,7 +26,7 @@ func fixedHostPlatAssocateRelation(ctx context.Context, db dal.RDB, conf *upgrad
 
 	type instAsstStruct struct {
 		ID           int64     `bson:"id"`
-		InstID       int64     `bson:"bk_inst_id"`
+		InstID       int64     `bson:"inst_id"`
 		ObjectID     string    `bson:"obj_id"`
 		AsstInstID   int64     `bson:"bk_asst_inst_id"`
 		AsstObjectID string    `bson:"bk_asst_obj_id"`
@@ -51,8 +51,8 @@ func fixedHostPlatAssocateRelation(ctx context.Context, db dal.RDB, conf *upgrad
 	}
 
 	type hostInfoStruct struct {
-		HostID  int64  `bson:"bk_host_id"`
-		PlatID  int64  `bson:"bk_cloud_id"`
+		HostID  int64  `bson:"host_id"`
+		PlatID  int64  `bson:"cloud_id"`
 		OwnerID string `bson:"org_id"`
 	}
 	hostInfoMap := make([]hostInfoStruct, 0)

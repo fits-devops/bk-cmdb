@@ -141,7 +141,7 @@
                 return data.children || []
             },
             instanceIds () {
-                return this.instances.map(instance => instance.bk_inst_id)
+                return this.instances.map(instance => instance.inst_id)
             },
             header () {
                 const headerProperties = this.$tools.getDefaultHeaderProperties(this.properties)
@@ -230,7 +230,7 @@
             getHostInstances (config) {
                 const models = ['biz', 'set', 'module', 'host']
                 const hostCondition = {
-                    field: 'bk_host_id',
+                    field: 'host_id',
                     operator: '$in',
                     value: this.instanceIds
                 }
@@ -243,16 +243,16 @@
                 })
                 return this.$store.dispatch('hostSearch/searchHost', {
                     params: this.$injectMetadata({
-                        bk_biz_id: -1,
+                        biz_id: -1,
                         condition,
                         id: {
                             data: [],
                             exact: 0,
-                            flag: 'bk_host_innerip|bk_host_outerip'
+                            flag: 'host_innerip|host_outerip'
                         },
                         page: {
                             ...this.page,
-                            sort: 'bk_host_id'
+                            sort: 'host_id'
                         }
                     }),
                     config
@@ -267,14 +267,14 @@
                 return this.$store.dispatch('objectBiz/searchBusiness', {
                     params: {
                         condition: {
-                            bk_biz_id: {
+                            biz_id: {
                                 $in: this.instanceIds
                             }
                         },
                         fields: [],
                         page: {
                             ...this.page,
-                            sort: 'bk_biz_id'
+                            sort: 'biz_id'
                         }
                     },
                     config
@@ -287,14 +287,14 @@
                         fields: {},
                         condition: {
                             [this.id]: [{
-                                field: 'bk_inst_id',
+                                field: 'inst_id',
                                 operator: '$in',
                                 value: this.instanceIds
                             }]
                         },
                         page: {
                             ...this.page,
-                            sort: 'bk_inst_id'
+                            sort: 'inst_id'
                         }
                     },
                     config
@@ -309,12 +309,12 @@
             async cancelAssociation () {
                 const item = this.confirm.item
                 const keyMap = {
-                    host: 'bk_host_id',
-                    biz: 'bk_biz_id'
+                    host: 'host_id',
+                    biz: 'biz_id'
                 }
-                const idKey = keyMap[this.id] || 'bk_inst_id'
+                const idKey = keyMap[this.id] || 'inst_id'
                 try {
-                    const associationInstance = this.instances.find(instance => instance.bk_inst_id === item[idKey])
+                    const associationInstance = this.instances.find(instance => instance.inst_id === item[idKey])
                     await this.$store.dispatch('objectAssociation/deleteInstAssociation', {
                         id: associationInstance.asso_id,
                         config: {

@@ -71,7 +71,7 @@ func (h *Business) CreateBusiness(data types.MapStr) (int, error) {
 		return 0, errors.New(gs.Get(cccommon.HTTPBKAPIErrorMessage).String())
 	}
 
-	id := gs.Get("data.bk_biz_id").Int()
+	id := gs.Get("data.biz_id").Int()
 
 	return int(id), nil
 }

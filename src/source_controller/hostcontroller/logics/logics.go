@@ -323,8 +323,8 @@ func (lgc *Logics) GetSetAndModuleMapByModuleID(ctx context.Context, appID int64
 	condMapStr.Merge(cond.ToMapStr())
 	rid := util.GetHTTPCCRequestID(header)
 	dbResult := make([]struct {
-		SetID    int64 `bson:"bk_set_id"`
-		ModuleID int64 `bson:"bk_module_id"`
+		SetID    int64 `bson:"set_id"`
+		ModuleID int64 `bson:"module_id"`
 	}, 0)
 	fields := []string{common.BKModuleIDField, common.BKSetIDField}
 	err := lgc.Instance.Table(common.BKTableNameBaseModule).Find(condMapStr).Fields(fields...).All(ctx, &dbResult)

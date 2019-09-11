@@ -6,12 +6,12 @@
     "biz_property_language_enum_1": "Chinese",
     "biz_property_language_enum_2": "English",
 
-    "set_property_bk_service_status_enum_1": "opened",
-    "set_property_bk_service_status_enum_2": "closed",
+    "set_property_service_status_enum_1": "opened",
+    "set_property_service_status_enum_2": "closed",
 
-    "set_property_bk_set_env_enum_1": "testing",
-    "set_property_bk_set_env_enum_2": "experience",
-    "set_property_bk_set_env_enum_3": "formal",
+    "set_property_set_env_enum_1": "testing",
+    "set_property_set_env_enum_2": "experience",
+    "set_property_set_env_enum_3": "formal",
 
     "module_property_bk_module_type_enum_1": "normal",
     "module_property_bk_module_type_enum_2": "database",
@@ -20,8 +20,8 @@
     "host_property_bk_sla_enum_2": "L2",
     "host_property_bk_sla_enum_3": "L3",
 
-    "host_property_bk_os_type_enum_1": "Linux",
-    "host_property_bk_os_type_enum_2": "Windows",
+    "host_property_os_type_enum_1": "Linux",
+    "host_property_os_type_enum_2": "Windows",
 
     "host_property_import_from_enum_1": "excel",
     "host_property_import_from_enum_2": "agent",

@@ -10,8 +10,8 @@
 *  input body:
 ```
 {
-    "bk_biz_id":12,
-    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+    "biz_id":12,
+    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"host_innerip\",\"host_outerip\",\"bk_agent_status\"]}]}",
     "name":"api1"
 }
 ``` 
@@ -21,7 +21,7 @@
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无| 业务ID |business ID|
+| biz_id|int|是|无| 业务ID |business ID|
 | info|json string|是|无|通用查询条件 | common search query parameters|
 | name|string|是|无|收藏的名称|the name of user api|
 
@@ -64,7 +64,7 @@ info 参数说明：
 
 ### 更新自定义API接口
 
-*  API: PUT /api/{version}/userapi/{bk_biz_id}/{id}
+*  API: PUT /api/{version}/userapi/{biz_id}/{id}
 
 * API名称： update_custom_query
 * 功能说明：
@@ -74,7 +74,7 @@ info 参数说明：
 *  input body:
 ```
 {
-    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+    "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"host_innerip\",\"host_outerip\",\"bk_agent_status\"]}]}",
     "name":"api1"
 }
 ```
@@ -84,7 +84,7 @@ info 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无| 业务ID |business ID|
+| biz_id|int|是|无| 业务ID |business ID|
 | id|string|是|无| 主键ID |Primary key ID|
 | info|json string|否|无|通用查询条件 | common search query parameters|
 | name|string|否|无|收藏的名称|the name of user api|
@@ -126,7 +126,7 @@ condition 参数说明：
 
 ### 删除自定义API接口
 
-*  API:  DELETE /api/{version}/userapi/{bk_biz_id}/{id}
+*  API:  DELETE /api/{version}/userapi/{biz_id}/{id}
 
 * API名称：  delete_custom_query
 * 功能说明：
@@ -139,7 +139,7 @@ condition 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无| 业务ID |business ID|
+| biz_id|int|是|无| 业务ID |business ID|
 | id|string|是|无| 主键ID |Primary key ID|
 
 
@@ -166,7 +166,7 @@ condition 参数说明：
 
 ### 查询自定义API
 
-*  API: POST /api/{version}/userapi/search/{bk_biz_id}
+*  API: POST /api/{version}/userapi/search/{biz_id}
 * API名称：  search_custom_query
 * 功能说明：
 	* 中文： 查询自定义api
@@ -189,7 +189,7 @@ condition 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | --- |
-| bk_biz_id|int|是|无|业务ID | business ID |
+| biz_id|int|是|无|业务ID | business ID |
 | condition|object对象|是|无|查询条件 | search condition|
 | start|int|是|无|记录开始位置 |start record|
 | limit|int|是|无|每页限制条数,最大200 |page limit, max is 200|
@@ -209,11 +209,11 @@ condition 参数说明： condition 字段为自定义api的属性字段, 可以
         "count":1,
         "info":[
             {
-                "bk_biz_id":12,
+                "biz_id":12,
                 "create_time":"2018-03-02T15:04:20.117+08:00",
                 "create_user":"admin_default",
                 "id":"bacfet4kd42325venmcg",
-                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"host_innerip\",\"host_outerip\",\"bk_agent_status\"]}]}",
                 "last_time":"",
                 "modify_user":"",
                 "name":"api1"
@@ -243,7 +243,7 @@ info 字段说明：
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|--- |
-| bk_biz_id|int| 业务ID| business ID|
+| biz_id|int| 业务ID| business ID|
 | create_time|时间格式| 创建时间|create time |
 | create_user|string| 创建者|create user|
 | id|string| 自定义api主键ID|primary key ID|
@@ -271,7 +271,7 @@ condition 参数说明：
 
 ### 获取自定义API详情
 
-*  API: GET /api/{version}/userapi/detail/{bk_biz_id}/{id}
+*  API: GET /api/{version}/userapi/detail/{biz_id}/{id}
 * API名称：  get_custom_query_detail
 * 功能说明：
 	* 中文： 获取自定义api详情
@@ -283,7 +283,7 @@ condition 参数说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无|业务ID | business ID|
+| biz_id|int|是|无|业务ID | business ID|
 | id|string|是|无|主键ID | pripary key ID|
 
 
@@ -299,7 +299,7 @@ condition 参数说明：
                 "creat_time":"2018-03-02T15:04:20.117+08:00",
                 "create_user":"admin_default",
                 "id":"bacfet4kd42325venmcg",
-                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"bk_host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"bk_host_innerip\",\"bk_host_outerip\",\"bk_agent_status\"]}]}",
+                "info":"{\"condition\":[{\"obj_id\":\"biz\",\"condition\":[{\"field\":\"default\",\"operator\":\"$ne\",\"value\":1}],\"fields\":[]},{\"obj_id\":\"set\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"module\",\"condition\":[],\"fields\":[]},{\"obj_id\":\"host\",\"condition\":[{\"field\":\"host_innerip\",\"operator\":\"$eq\",\"value\":\"127.0.0.1\"}],\"fields\":[\"host_innerip\",\"host_outerip\",\"bk_agent_status\"]}]}",
                 "last_time":"",
                 "modify_user":"",
                 "name":"api1"
@@ -319,7 +319,7 @@ data字段说明：
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|--- |
-| bk_biz_id|int| 业务ID| business ID|
+| biz_id|int| 业务ID| business ID|
 | create_time|时间格式| 创建时间|create time |
 | create_user|string| 创建者|create user|
 | id|string| 自定义api主键ID|primary key ID|
@@ -347,7 +347,7 @@ condition 参数说明：
 ### 根据自定义api获取数据
 
 *  API:
-GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
+GET /api/{version}/userapi/data/{biz_id}/{id}/{start}/{limit}
 * API名称：  get_custom_query_data
 * 功能说明：
 	* 中文： 根据自定义api获取数据
@@ -358,7 +358,7 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description |
 | ---  | --- |---| --- | --- | ---|
-| bk_biz_id|int|是|无|业务ID | business ID|
+| biz_id|int|是|无|业务ID | business ID|
 | id|string|是|无|主键ID | primary key ID|
 | start|int|是|无|记录开始位置 |start record|
 | limit|int|是|无|每页限制条数,最大200 |page limit, max is 200|
@@ -376,8 +376,8 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
         "info":[
             {
                 "biz":{
-                    "bk_biz_id":11,
-                    "bk_biz_name":"1111",
+                    "biz_id":11,
+                    "biz_name":"1111",
                     "create_time":"2017-12-20T14:45:22.04+08:00",
                     "default":0,
                     "last_time":"2017-12-20T14:45:22.04+08:00",
@@ -390,21 +390,21 @@ GET /api/{version}/userapi/data/{bk_biz_id}/{id}/{start}/{limit}
                     "bk_host_assetid":"",
                     "bk_comment":"准备下架设备",
                     "create_time":"2018-01-04T14:41:17.376+08:00",
-                    "bk_host_id":187,
-                    "bk_host_name":"nginx.27",
+                    "host_id":187,
+                    "host_name":"nginx.27",
                     "bk_host_type":"虚拟机",
                     "import_from":"1",
-                    "bk_host_innerip":"10.0.0.0",
-                    "bk_cloud_id":0,
+                    "host_innerip":"10.0.0.0",
+                    "cloud_id":0,
                     "aaa":"",
                     "cpu":"",
                     "enum2":""
                 },
                 "module":{
-                    "bk_module_name":"空闲机"
+                    "module_name":"空闲机"
                 },
                 "set":{
-                    "bk_set_name":"内置模块集"
+                    "set_name":"内置模块集"
                 }
             }
         ]

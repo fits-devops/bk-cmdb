@@ -54,7 +54,7 @@ func addBkStartParamRegex(ctx context.Context, db dal.RDB, conf *upgrader.Config
 
 	row := &Attribute{
 		ObjectID:      common.BKInnerObjIDProc,
-		PropertyID:    "bk_start_param_regex",
+		PropertyID:    "start_param_regex",
 		PropertyName:  "启动参数匹配规则",
 		IsRequired:    false,
 		IsOnly:        false,

@@ -45,7 +45,7 @@ func (ps *parseStream) parseBusinessID() (int64, error) {
 	}
 	bizID := gjson.GetBytes(ps.RequestCtx.Body, common.BKAppIDField).Int()
 	if bizID == 0 {
-		return 0, errors.New("invalid bk_biz_id value")
+		return 0, errors.New("invalid biz_id value")
 	}
 	return bizID, nil
 }

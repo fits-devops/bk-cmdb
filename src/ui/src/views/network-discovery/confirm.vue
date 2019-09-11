@@ -198,12 +198,12 @@
                     isShowIgnore: true,
                     action: '',
                     obj_name: '',
-                    bk_host_innerip: ''
+                    host_innerip: ''
                 },
                 filterCopy: {
                     action: '',
                     obj_name: '',
-                    bk_host_innerip: ''
+                    host_innerip: ''
                 },
                 changeList: [{
                     id: 'create',
@@ -233,7 +233,7 @@
                         id: 'bk_inst_key',
                         name: this.$t('NetworkDiscovery["唯一标识"]')
                     }, {
-                        id: 'bk_host_innerip',
+                        id: 'host_innerip',
                         name: 'IP'
                     }, {
                         id: 'configuration',
@@ -283,7 +283,7 @@
                     if (this.filter.action !== '' && item.action !== this.filter.action) {
                         return false
                     }
-                    if (!item['bk_host_innerip'].includes(this.filter.bk_host_innerip)) {
+                    if (!item['host_innerip'].includes(this.filter.host_innerip)) {
                         return false
                     }
                     return true
@@ -341,7 +341,7 @@
             search () {
                 this.filter['obj_id'] = this.filterCopy['obj_id']
                 this.filter.action = this.filterCopy.action
-                this.filter['bk_host_innerip'] = this.filterCopy['bk_host_innerip']
+                this.filter['host_innerip'] = this.filterCopy['host_innerip']
             },
             toggleIgnore (ignore) {
                 this.table.checked.map(instKey => {
@@ -372,7 +372,7 @@
             },
             showDetails (item) {
                 this.activeItem = item
-                this.slider.title = item['bk_host_innerip']
+                this.slider.title = item['host_innerip']
                 this.slider.isShow = true
             },
             async showResultDialog () {
@@ -382,12 +382,12 @@
                 this.table.list.forEach(item => {
                     if (!item.ignore) {
                         const detail = {
-                            bk_cloud_id: item['bk_cloud_id'],
+                            cloud_id: item['cloud_id'],
                             obj_id: item['obj_id'],
                             bk_inst_key: item['bk_inst_key'],
                             action: item['action'],
                             configuration: item['configuration'],
-                            bk_host_innerip: item['bk_host_innerip'],
+                            host_innerip: item['host_innerip'],
                             last_time: item['last_time'],
                             attributes: [],
                             associations: []
@@ -430,7 +430,7 @@
                 this.resultDialog.isDetailsShow = !this.resultDialog.isDetailsShow
             },
             async getTableData () {
-                const res = await this.searchNetcollectList({ params: { bk_cloud_id: Number(this.$route.params.cloudId) }, config: { requestId: 'searchNetcollectList' } })
+                const res = await this.searchNetcollectList({ params: { cloud_id: Number(this.$route.params.cloudId) }, config: { requestId: 'searchNetcollectList' } })
                 res.info.map(item => {
                     Object.assign(item, { ignore: false })
                     item.attributes.map(attr => Object.assign(attr, { method: 'accept' }))

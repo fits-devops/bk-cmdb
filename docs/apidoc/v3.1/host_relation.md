@@ -9,13 +9,13 @@
 {
 　　"host_info":{
 　　　　"0":{
-　　　　　　"bk_host_innerip":"127.0.0.1",
+　　　　　　"host_innerip":"127.0.0.1",
 　　　　　　"import_from":"3",
-　　　　　　"bk_cloud_id":1
+　　　　　　"cloud_id":1
 　　　　}
 　　},
-　　"bk_supplier_id":0,
-　　"bk_biz_id":3
+　　"supplier_id":0,
+　　"biz_id":3
 }
 ```
 * input字段说明:
@@ -23,17 +23,17 @@
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
 | host_info| object array| 是|无| 主机信息 | host info|
-| bk_supplier_id| int| 是| 无| 开发商 ID|supplier ID|
-| bk_biz_id| int| 否| 无| 业务ID |business ID|
+| supplier_id| int| 是| 无| 开发商 ID|supplier ID|
+| biz_id| int| 否| 无| 业务ID |business ID|
 
 host_info object 说明：
 
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_host_innerip| string| 是|无| 主机内网ip | host inner ip|
+| host_innerip| string| 是|无| 主机内网ip | host inner ip|
 | import_from| string| 是|api| 主机导入来源,以api方式导入为3 | host import source|
-| bk_cloud_id| int| 是| 无| 云区域ID|cloud area ID|
+| cloud_id| int| 是| 无| 云区域ID|cloud area ID|
 
 
 
@@ -65,12 +65,12 @@ host_info object 说明：
 * input body：
 ```
 {
-    "bk_biz_id":151,
-    "bk_host_id":[
+    "biz_id":151,
+    "host_id":[
         10,
         9
     ],
-    "bk_module_id":[
+    "module_id":[
         170
     ],
     "is_increment":true
@@ -80,9 +80,9 @@ host_info object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务ID |  business ID|
-| bk_host_id| int数组| 是| 无|主机 ID|host ID|
-| bk_module_id| int数组| 是| 无|模块 id| module ID |
+| biz_id| int| 是|无|业务ID |  business ID|
+| host_id| int数组| 是| 无|主机 ID|host ID|
+| module_id| int数组| 是| 无|模块 id| module ID |
 | is_increment| bool| 是| 无|覆盖或者追加,会删除原有关系. true是更新，false是覆盖|cover or pursue ,true will cover |
 
 
@@ -114,8 +114,8 @@ host_info object 说明：
 * input body：
 ```
 {
-  "bk_biz_id": 115, 
-  "bk_host_id": [
+  "biz_id": 115, 
+  "host_id": [
     10, 
     9
   ]
@@ -125,8 +125,8 @@ host_info object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务ID | host ID|
-| bk_host_id| int数组| 是| 无|主机ID|host ID |
+| biz_id| int| 是|无|业务ID | host ID|
+| host_id| int数组| 是| 无|主机ID|host ID |
 
 
 * output:
@@ -157,8 +157,8 @@ host_info object 说明：
 * input body:
 ```
 {
-  "bk_biz_id": 115, 
-  "bk_host_id": [
+  "biz_id": 115, 
+  "host_id": [
     10, 
     9
   ]
@@ -168,8 +168,8 @@ host_info object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务id | business ID|
-| bk_host_id| int数组| 是| 无|主机id| host ID|
+| biz_id| int| 是|无|业务id | business ID|
+| host_id| int数组| 是| 无|主机id| host ID|
 
 
 * output:
@@ -201,8 +201,8 @@ host_info object 说明：
 * input boy:
 ```
 {
-  "bk_biz_id": 115, 
-  "bk_host_id": [
+  "biz_id": 115, 
+  "host_id": [
     10, 
     9
   ]
@@ -212,8 +212,8 @@ host_info object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务id | business ID|
-| bk_host_id| int数组| 是| 无|主机id| host ID|
+| biz_id| int| 是|无|业务id | business ID|
+| host_id| int数组| 是| 无|主机id| host ID|
 
 
 * output:
@@ -245,16 +245,16 @@ host_info object 说明：
 * input:
 ```
 {
-"bk_biz_id":269,
-"bk_host_id":[204]
+"biz_id":269,
+"host_id":[204]
 }
 ```
 * input字段说明:
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务id | business ID|
-| bk_host_id| int数组| 是| 无|主机id| host ID|
+| biz_id| int| 是|无|业务id | business ID|
+| host_id| int数组| 是| 无|主机id| host ID|
 
 
 * output:
@@ -286,12 +286,12 @@ host_info object 说明：
 * input:
 ```
 {
-    "bk_biz_id":10,
-    "bk_module_id":58,
+    "biz_id":10,
+    "module_id":58,
     "host_info":[
      {
-       "bk_host_innerip":"10.20.30.45",
-       "bk_cloud_id":0
+       "host_innerip":"10.20.30.45",
+       "cloud_id":0
     }]
 }
 ```
@@ -299,16 +299,16 @@ host_info object 说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务id | business ID|
-| bk_host_id| int array| 是| 无|主机id| host ID|
+| biz_id| int| 是|无|业务id | business ID|
+| host_id| int array| 是| 无|主机id| host ID|
 | host_info| object array| 是| 无|主机信息| 主机信息数组|
 
 host_info说明：
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_host_innerip| string| 是|无|主机内网ip | host inner ip|
-| bk_cloud_id| int | 是| 无|云区域ID| cloud area ID|
+| host_innerip| string| 是|无|主机内网ip | host inner ip|
+| cloud_id| int | 是| 无|云区域ID| cloud area ID|
 
 * output:
 ```
@@ -339,18 +339,18 @@ host_info说明：
 * input:
 ```
 {
-    "bk_biz_id":10,
-    "bk_module_id":58,
-    "bk_set_id":1
+    "biz_id":10,
+    "module_id":58,
+    "set_id":1
 }
 ```
 * input字段说明:
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_biz_id| int| 是|无|业务id | business ID|
-| bk_set_id| int | 是| 无|集群id| set ID|
-| bk_module_id| int| 是| 无|模块id| module ID|
+| biz_id| int| 是|无|业务id | business ID|
+| set_id| int | 是| 无|集群id| set ID|
+| module_id| int| 是| 无|模块id| module ID|
 
 
 * output:
@@ -386,12 +386,12 @@ host_info说明：
 {
 　　"host_info":{
 　　　　"0":{
-　　　　　　"bk_host_innerip":"127.0.0.1",
-　　　　　　"bk_cloud_id":1
+　　　　　　"host_innerip":"127.0.0.1",
+　　　　　　"cloud_id":1
 　　　　}
 　　},
-　　"bk_biz_id": 3,
-    "bk_module_id":[7,8],
+　　"biz_id": 3,
+    "module_id":[7,8],
 }
 ```
 * input字段说明:
@@ -399,8 +399,8 @@ host_info说明：
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
 | host_info| object array| 是|无| 主机信息 | host info|
-| bk_biz_id| int| 是| 无| 业务 ID|bussines ID|
-| bk_module_id|int array| 是| 无| 模块 ID|模块 ID|
+| biz_id| int| 是| 无| 业务 ID|bussines ID|
+| module_id|int array| 是| 无| 模块 ID|模块 ID|
  	 
  	 
 host_info object 说明：
@@ -408,8 +408,8 @@ host_info object 说明：
  
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_host_innerip| string| 是|无| 主机内网ip | host inner ip|
-| bk_cloud_id| int| 是| 无| 云区域ID|cloud ID|
+| host_innerip| string| 是|无| 主机内网ip | host inner ip|
+| cloud_id| int| 是| 无| 云区域ID|cloud ID|
 |...|主机其他属性|
  
  

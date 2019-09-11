@@ -131,7 +131,7 @@
                 })
             },
             checkAvaliable (property) {
-                return !(['bk_host_innerip', 'bk_host_outerip'].includes(property['property_id']) || property['isapi'])
+                return !(['host_innerip', 'host_outerip'].includes(property['property_id']) || property['isapi'])
             },
             selectProperty (property) {
                 if (this.localSelcted.length < this.max) {

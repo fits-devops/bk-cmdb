@@ -31,31 +31,31 @@ func createTable(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err er
 
 var tables = map[string][]dal.Index{
 	"cc_ApplicationBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_name": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"default": 1}, Background: true},
 	},
 
 	"cc_HostBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_host_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_host_name": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_host_innerip": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_host_outerip": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"host_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"host_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"host_innerip": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"host_outerip": 1}, Background: true},
 	},
 	"cc_ModuleBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_module_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_module_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"module_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"module_name": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"default": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"set_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_parent_id": 1}, Background: true},
 	},
 	"cc_ModuleHostConfig": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_host_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_module_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"host_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"module_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"set_id": 1}, Background: true},
 	},
 	"cc_ObjAsst": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
@@ -80,24 +80,24 @@ var tables = map[string][]dal.Index{
 	"cc_ObjectBase": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_inst_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"inst_id": 1}, Background: true},
 	},
 	"cc_OperationLog": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"op_target": 1, "inst_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1, "org_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1, "org_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"ext_key": 1, "org_id": 1}, Background: true},
 	},
 	"cc_PlatBase": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_Proc2Module": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_process_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"process_id": 1}, Background: true},
 	},
 	"cc_Process": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_process_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"process_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_PropertyGroup": []dal.Index{
@@ -106,20 +106,20 @@ var tables = map[string][]dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"group_id": 1}, Background: true},
 	},
 	"cc_SetBase": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"set_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"bk_parent_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_biz_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"biz_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_set_name": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"set_name": 1}, Background: true},
 	},
 	"cc_Subscription": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"subscription_id": 1}, Background: true},
 	},
 	"cc_TopoGraphics": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"scope_type": 1, "scope_id": 1, "node_type": 1, "obj_id": 1, "bk_inst_id": 1}, Background: true, Unique: true},
+		dal.Index{Name: "", Keys: map[string]int32{"scope_type": 1, "scope_id": 1, "node_type": 1, "obj_id": 1, "inst_id": 1}, Background: true, Unique: true},
 	},
 	"cc_InstAsst": []dal.Index{
-		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1, "bk_inst_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1, "inst_id": 1}, Background: true},
 	},
 
 	"cc_Privilege":          []dal.Index{},

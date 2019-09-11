@@ -9,7 +9,7 @@
 * input body：
 ```
 {
-    "bk_host_id":"235,236",
+    "host_id":"235,236",
     "org_id":"0"
 }
 ```
@@ -17,7 +17,7 @@
 
 | 名称  | 类型 |必填| 默认值 | 说明 |Description|
 | ---  | ---  | --- |---  | --- | ---|
-| bk_host_id| string| 是|无|主机id | host id join by","|
+| host_id| string| 是|无|主机id | host id join by","|
 | org_id| string| 是| 无|开发商账号|supplier account code|
 
 

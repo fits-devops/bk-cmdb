@@ -70,7 +70,7 @@ func (s *Service) initBusinessAssociation() {
 	s.addAction(http.MethodPost, "/create/topomodelmainline", s.CreateMainLineObject, nil)
 	s.addAction(http.MethodDelete, "/delete/topomodelmainline/object/{obj_id}", s.DeleteMainLineObject, nil)
 	s.addAction(http.MethodPost, "/find/topomodelmainline", s.SearchMainLineObjectTopo, nil)
-	s.addAction(http.MethodPost, "/find/topoinst/biz/{bk_biz_id}", s.SearchBusinessTopo, nil)
+	s.addAction(http.MethodPost, "/find/topoinst/biz/{biz_id}", s.SearchBusinessTopo, nil)
 
 	// association type methods ,NOT SUPPORT BUSINESS
 	s.addAction(http.MethodPost, "/find/topoassociationtype", s.SearchObjectAssoWithAssoKindList, nil)

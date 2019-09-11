@@ -67,7 +67,7 @@ func (d *Discover) Analyze(msg string) error {
 
 var MockMessage = `{
     "host": {
-        "bk_host_id": 1,
+        "host_id": 1,
         "org_id": "0"
     },
     "meta": {
@@ -78,7 +78,7 @@ var MockMessage = `{
             "org_id": "0"
         },
         "fields": {
-            "bk_inst_name":{
+            "inst_name":{
                 "property_name": "实例名",
                 "property_type":"longchar"
             },
@@ -89,7 +89,7 @@ var MockMessage = `{
         }
     },
     "data": {
-        "bk_inst_name": "apache",
+        "inst_name": "apache",
         "bk_ip": "192.168.0.1"
     }
 }`

@@ -97,8 +97,8 @@ func (s *Service) ImportHost(c *gin.Context) {
 func (s *Service) ExportHost(c *gin.Context) {
 	rid := util.GetHTTPCCRequestID(c.Request.Header)
 
-	appIDStr := c.PostForm("bk_biz_id")
-	hostIDStr := c.PostForm("bk_host_id")
+	appIDStr := c.PostForm("biz_id")
+	hostIDStr := c.PostForm("host_id")
 
 	logics.SetProxyHeader(c)
 	pheader := c.Request.Header

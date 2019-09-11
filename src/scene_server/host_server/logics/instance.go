@@ -30,9 +30,9 @@ type InstNameAsst struct {
 	ID         string                 `json:"id"`
 	ObjID      string                 `json:"obj_id"`
 	ObjIcon    string                 `json:"obj_icon"`
-	ObjectID   int64                  `json:"bk_inst_id"`
+	ObjectID   int64                  `json:"inst_id"`
 	ObjectName string                 `json:"obj_name"`
-	Name       string                 `json:"bk_inst_name"`
+	Name       string                 `json:"inst_name"`
 	InstInfo   map[string]interface{} `json:"inst_info,omitempty"`
 }
 

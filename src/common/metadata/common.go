@@ -205,19 +205,19 @@ func (o *QueryInput) convInterfaceToTime(val interface{}) (interface{}, error) {
 }
 
 type CloudHostModuleParams struct {
-	ApplicationID int64        `json:"bk_biz_id"`
+	ApplicationID int64        `json:"biz_id"`
 	HostInfoArr   []BkHostInfo `json:"host_info"`
-	ModuleID      int64        `json:"bk_module_id"`
+	ModuleID      int64        `json:"module_id"`
 }
 
 type BkHostInfo struct {
-	IP      string `json:"bk_host_innerip"`
-	CloudID int    `json:"bk_cloud_id"`
+	IP      string `json:"host_innerip"`
+	CloudID int    `json:"cloud_id"`
 }
 
 type DefaultModuleHostConfigParams struct {
-	ApplicationID int64    `json:"bk_biz_id"`
-	HostID        []int64  `json:"bk_host_id"`
+	ApplicationID int64    `json:"biz_id"`
+	HostID        []int64  `json:"host_id"`
 	Metadata      Metadata `field:"metadata" json:"metadata" bson:"metadata"`
 }
 

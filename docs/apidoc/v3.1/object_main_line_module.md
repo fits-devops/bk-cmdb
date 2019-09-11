@@ -164,7 +164,7 @@ data 字段说明：
 
 ### 获取实例拓扑
 
-- API: GET /api/{version}/topo/inst/{org_id}/{bk_biz_id}
+- API: GET /api/{version}/topo/inst/{org_id}/{biz_id}
 - API 名称：get_inst_topo
 - 功能说明：
 	- 中文：获取实例拓扑
@@ -179,7 +179,7 @@ data 字段说明：
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|the business id|
+|biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 
 
@@ -192,20 +192,20 @@ data 字段说明：
 	"error_msg": null,
 	"data": [{
 		"default": 0,
-		"bk_inst_id": 96,
-		"bk_inst_name": "cc_biz_test",
+		"inst_id": 96,
+		"inst_name": "cc_biz_test",
 		"obj_id": "biz",
 		"obj_name": "业务",
 		"child": [{
 			"default": 0,
-			"bk_inst_id": 58,
-			"bk_inst_name": "obj_id_name",
+			"inst_id": 58,
+			"inst_name": "obj_id_name",
 			"obj_id": "obj_id",
 			"obj_name": "obj_id_name",
 			"child": [{
 				"default": 0,
-				"bk_inst_id": 59,
-				"bk_inst_name": "obj_inst_name",
+				"inst_id": 59,
+				"inst_name": "obj_inst_name",
 				"obj_id": "obj_inst",
 				"obj_name": "obj_inst",
 				"child": []
@@ -230,8 +230,8 @@ data 字段说明：
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
-|bk_inst_id|int|实例ID|the inst identifier|
-|bk_inst_name|string|实例名字|the inst name|
+|inst_id|int|实例ID|the inst identifier|
+|inst_name|string|实例名字|the inst name|
 |obj_id|string|模型的标识|the object identifier|
 |obj_name|string|模型名|the object name|
 |child|array|实例集合|the inst array|
@@ -240,7 +240,7 @@ data 字段说明：
 
 ###  获取子节点实例
 
-- API: GET /api/{version}/topo/inst/child/{org_id}/{obj_id}/{bk_biz_id}/{bk_inst_id}
+- API: GET /api/{version}/topo/inst/child/{org_id}/{obj_id}/{biz_id}/{inst_id}
 - API名称：search_inst_topo
 - 功能说明：
 	- 中文：获取子节点实例拓扑
@@ -254,10 +254,10 @@ data 字段说明：
 
 | 字段|类型|必填|默认值|Description|
 |---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|the business id|
+|biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |obj_id|string|是|无|对象模型的ID|the object identifier|
-|bk_inst_id|string|是|无|实例ID|the inst id|
+|inst_id|string|是|无|实例ID|the inst id|
 
 - output
 
@@ -268,20 +268,20 @@ data 字段说明：
 	"error_msg": null,
 	"data": [{
 		"default": 0,
-		"bk_inst_id": 96,
-		"bk_inst_name": "cc_biz_test",
+		"inst_id": 96,
+		"inst_name": "cc_biz_test",
 		"obj_id": "biz",
 		"obj_name": "业务",
 		"child": [{
 			"default": 0,
-			"bk_inst_id": 58,
-			"bk_inst_name": "obj_id_name",
+			"inst_id": 58,
+			"inst_name": "obj_id_name",
 			"obj_id": "obj_id",
 			"obj_name": "obj_id_name",
 			"child": [{
 				"default": 0,
-				"bk_inst_id": 59,
-				"bk_inst_name": "obj_inst_name",
+				"inst_id": 59,
+				"inst_name": "obj_inst_name",
 				"obj_id": "obj_inst",
 				"obj_name": "obj_inst",
 				"child": []
@@ -307,8 +307,8 @@ data 字段说明：
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
 |default|int|1-资源模块（空闲机），2-故障模块（故障机）|1-Resource Module(Idle Machine),2-Fault Module(Fault Machine)|
-|bk_inst_id|int|实例ID|the inst identifier|
-|bk_inst_name|string|实例名字|the inst name|
+|inst_id|int|实例ID|the inst identifier|
+|inst_name|string|实例名字|the inst name|
 |obj_id|string|模型的标识|the object identifier|
 |obj_name|string|模型名|the object name|
 |child|array|实例集合|the inst array|
@@ -316,7 +316,7 @@ data 字段说明：
 **注:child节点下包含的字段于data节点包含的字段一致。**
 
 ###  查询内置模块集
-- API: GET /api/{version}/topo/internal/{org_id}/{bk_biz_id}
+- API: GET /api/{version}/topo/internal/{org_id}/{biz_id}
 - API名称： get_internal_topo
 - 功能说明：
 	- 中文：获取业务的空闲机和故障机模块
@@ -333,7 +333,7 @@ data 字段说明：
 | 字段|类型|必填|默认值|说明Description|
 |---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_biz_id|int|是|无|业务ID|the business id|
+|biz_id|int|是|无|业务ID|the business id|
 
 
 - output
@@ -345,16 +345,16 @@ data 字段说明：
     "data":{
         “module":[
             {
-                “bk_module_id":503,
-                “bk_module_name":"空闲机"
+                “module_id":503,
+                “module_name":"空闲机"
             },
             {
-                “bk_module_id":504,
-                “bk_module_name":"故障机"
+                “module_id":504,
+                “module_name":"故障机"
             }
         ],
-        “bk_set_id":214,
-        “bk_set_name":"内置模块集"
+        “set_id":214,
+        “set_name":"内置模块集"
     }
 }
 ```
@@ -374,12 +374,12 @@ data 字段说明:
 
 | 名称  | 类型  | 说明 |Description| 
 |---|---|---|---|
-|bk_set_id|int|集群ID|the set id|
-|bk_set_name|string|集群名字|the set name|
+|set_id|int|集群ID|the set id|
+|set_name|string|集群名字|the set name|
 
 module 字段说明:
 
 | 名称  | 类型  | 说明 |Description| 
 |---|---|---|---|
-| bk_module_id|int|模块记录ID|the module data record id|
-|bk_module_name|string|模块名|the module name|
+| module_id|int|模块记录ID|the module data record id|
+|module_name|string|模块名|the module name|

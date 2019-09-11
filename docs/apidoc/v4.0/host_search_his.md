@@ -8,7 +8,7 @@
 * input body：
 ```
 {
-    "content":"{"bk_host_id":"10"}"
+    "content":"{"host_id":"10"}"
 }
 ```
 

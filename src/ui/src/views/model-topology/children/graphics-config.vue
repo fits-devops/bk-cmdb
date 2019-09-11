@@ -54,8 +54,8 @@
                                         v-click-outside="hideAssociation">
                                         <cmdb-form-bool class="association-checkbox"
                                             v-for="(association, index) in associations[model.id]"
-                                            :checked="edgeConfig[association['bk_inst_id']]"
-                                            :key="association['bk_inst_id']"
+                                            :checked="edgeConfig[association['inst_id']]"
+                                            :key="association['inst_id']"
                                             :size="14"
                                             @click="handleCheckAssociiation(association)">
                                             <span class="association-desc">{{getAssociationDesc(association)}}</span>
@@ -144,7 +144,7 @@
             edgeConfig () {
                 const edgeConfig = {}
                 const localConfig = this.config.edge
-                const idKey = 'bk_inst_id'
+                const idKey = 'inst_id'
                 this.topologyData.forEach(data => {
                     (data.assts || []).forEach(association => {
                         const id = association[idKey]
@@ -217,22 +217,22 @@
                 const isAllChecked = this.isModelAllChecked(model)
                 const associations = this.associations[id]
                 associations.forEach(association => {
-                    this.$set(this.config.edge, association['bk_inst_id'], !isAllChecked)
+                    this.$set(this.config.edge, association['inst_id'], !isAllChecked)
                 })
             },
             handleCheckAssociiation (association) {
-                const id = association['bk_inst_id']
+                const id = association['inst_id']
                 const previousState = this.config.edge[id]
                 this.$set(this.config.edge, id, typeof previousState === 'undefined' ? false : !previousState)
             },
             isModelAllChecked ({ id }) {
                 const associations = this.associations[id]
-                const checked = associations.filter(association => this.edgeConfig[association['bk_inst_id']])
+                const checked = associations.filter(association => this.edgeConfig[association['inst_id']])
                 return checked.length === associations.length
             },
             isModelPartialChecked ({ id }) {
                 const associations = this.associations[id]
-                const checked = associations.filter(association => this.edgeConfig[association['bk_inst_id']])
+                const checked = associations.filter(association => this.edgeConfig[association['inst_id']])
                 return checked.length !== 0 && checked.length !== associations.length
             },
             handleConfirm () {

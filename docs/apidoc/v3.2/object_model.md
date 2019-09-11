@@ -297,7 +297,7 @@ data 字段说明
                 "position": "{\"bk_host_manage\":{\"x\":-357,\"y\":-344},\"lhmtest\":{\"x\":163,\"y\":75}}",
                 "org_id": "0"
             },
-            "label": "bk_cloud_id",
+            "label": "cloud_id",
             "label_name": "",
             "label_type": "",
             "to": {
@@ -371,7 +371,7 @@ none
         {
             "node_type": "obj",
             "obj_id": "switch",
-            "bk_inst_id": 0,
+            "inst_id": 0,
             "node_name": "switch",
             "position": {
                 "x": 100,
@@ -381,14 +381,14 @@ none
             "obj_icon": "icon-cc-switch2",
             "scope_type": "global",
             "scope_id": "",
-            "bk_biz_id": 1,
+            "biz_id": 1,
             "org_id": "0",
             "assts": [
                 {
                     "bk_asst_type": "singleasst",
                     "node_type": "obj",
                     "obj_id": "host",
-                    "bk_inst_id": 0,
+                    "inst_id": 0,
                     "bk_object_att_id": "host_id",
                     "lable": {}
                 }
@@ -415,14 +415,14 @@ data 字段说明
 |---|---|---|---|
 |node_type|string|节点类型,可选obj,inst|node type, could be obj,inst|
 |obj_id|string|对象模型的ID|the object identifier|
-|bk_inst_id|int|实例ID|the inst identifier|
+|inst_id|int|实例ID|the inst identifier|
 |node_name|string|节点名,当node_type为obj时是模型名称,当node_type为inst时是实例名称|the node name|
 |position|string|节点在图中的位置|the node position in the graphics|
 |ext|object|前端扩展字段|the extention field for frondend|
 |obj_icon|string|对象模型的图标|the object icon|
 |scope_type|string|图形范围类型,可选global,biz,cls(当前只有global)|the graphical scope type, could be global,biz,cls|
 |scope_id|string|图形范围类型下的ID,如果为global,则填0|the id under the graphical scope, should be 0 when socope type is global |
-|bk_biz_id|int|业务id|business id|
+|biz_id|int|业务id|business id|
 |org_id|string|开发商账号|supplier account code|
 |assts|array|关联节点|the associated end point|
 
@@ -433,7 +433,7 @@ assts 字段说明
 |bk_asst_type|string|关联类型|association type|
 |node_type|string|节点类型,可选obj,inst|node type, could be obj,inst|
 |obj_id|string|对象模型的ID|the object identifier|
-|bk_inst_id|int|实例ID|the inst identifier|
+|inst_id|int|实例ID|the inst identifier|
 |bk_object_att_id|string|关联的属性|the associated attribute|
 |lable|object|标签,扩展字段,未启用|the association lable|
 
@@ -452,7 +452,7 @@ assts 字段说明
     {
         "node_type": "obj",
         "obj_id": "switch",
-        "bk_inst_id": 0,
+        "inst_id": 0,
         "position": {
             "x": 100,
             "y": 100
@@ -474,13 +474,13 @@ assts 字段说明
 |scope_id|string|是|无|图形范围类型下的ID,如果为global,则填0|the id under the graphical scope, should be 0 when socope type is global |
 |node_type|string|是|无|节点类型,可选obj,inst|node type, could be obj,inst|
 |obj_id|string|是|无|对象模型的ID|the object identifier|
-|bk_inst_id|int|是|无|实例ID|the inst identifier|
+|inst_id|int|是|无|实例ID|the inst identifier|
 |position|string|否|无|节点在图中的位置|the node position in the graphics|
 |ext|object|否|无|前端扩展字段|the extention field for frondend|
 |obj_icon|string|否|无|对象模型的图标|the object icon|
 
 > scope_type,scope_id 唯一确定一张图
-> node_type,obj_id,bk_inst_id三者唯一确定每张图的一个节点,故必填
+> node_type,obj_id,inst_id三者唯一确定每张图的一个节点,故必填
 
 **注:以上 JSON 数据中各字段的取值仅为示例数据。**
 

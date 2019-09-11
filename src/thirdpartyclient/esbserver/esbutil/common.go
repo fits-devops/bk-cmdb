@@ -27,7 +27,7 @@ type EsbCommParams struct {
 	AppCode    string `json:"bk_app_code"`
 	AppSecret  string `json:"bk_app_secret"`
 	UserName   string `json:"bk_username"`
-	SupplierID string `json:"bk_supplier_id"`
+	SupplierID string `json:"supplier_id"`
 }
 
 func GetEsbRequestParams(esbConfig EsbConfig, header http.Header) *EsbCommParams {

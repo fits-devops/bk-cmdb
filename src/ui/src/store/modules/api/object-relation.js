@@ -42,10 +42,10 @@ const actions = {
                 promise = $http.put('hosts/batch', updateParams)
                 break
             case 'biz':
-                promise = $http.put(`biz/${rootGetters.supplierAccount}/${params['bk_biz_id']}`, updateParams)
+                promise = $http.put(`biz/${rootGetters.supplierAccount}/${params['biz_id']}`, updateParams)
                 break
             default:
-                promise = $http.put(`inst/${rootGetters.supplierAccount}/${params.objId}/${params['bk_inst_id']}`, updateParams)
+                promise = $http.put(`inst/${rootGetters.supplierAccount}/${params.objId}/${params['inst_id']}`, updateParams)
         }
         return promise
     }

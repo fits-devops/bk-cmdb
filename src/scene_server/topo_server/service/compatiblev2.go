@@ -240,8 +240,8 @@ func (s *Service) DeleteMultiModule(params types.ContextParams, pathParams, quer
 	}
 
 	inputParams := &struct {
-		BizID     int64   `json:"bk_biz_id"`
-		ModuleIDS []int64 `json:"bk_module_id"`
+		BizID     int64   `json:"biz_id"`
+		ModuleIDS []int64 `json:"module_id"`
 	}{BizID: bizID}
 
 	if err := data.MarshalJSONInto(inputParams); nil != err {

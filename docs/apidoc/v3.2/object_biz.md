@@ -10,7 +10,7 @@
 
 ``` json
 	{
-		"bk_biz_name": "cc_app_test",
+		"biz_name": "cc_app_test",
 		"bk_biz_maintainer": "admin",
 		"bk_biz_productor": "admin",
 		"bk_biz_developer": "admin",
@@ -25,7 +25,7 @@
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_biz_name|string|是|无|业务名|the business name|
+|biz_name|string|是|无|业务名|the business name|
 |bk_biz_maintainer|string|否|无|运维人员|operation staff|
 |bk_biz_developer|string|否|无|开发人员|the developer|
 |bk_biz_tester|string|否|无|测试人员|the tester|
@@ -33,7 +33,7 @@
 
 ### 删除业务
 
-- API: DELETE /api/{version}/biz/{org_id}/{bk_biz_id}
+- API: DELETE /api/{version}/biz/{org_id}/{biz_id}
 - API 名称：delete_business
 - 功能说明：
 	- 中文：删除业务
@@ -47,7 +47,7 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|the business id|
+|biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 
 
@@ -76,7 +76,7 @@
 
 ### 修改业务启用状态
 
-- API: PUT /api/{version}/biz/status/{flag}/{org_id}/{bk_biz_id}
+- API: PUT /api/{version}/biz/status/{flag}/{org_id}/{biz_id}
 - API 名称：update_business_enable_status
 - 功能说明：
 	- 中文：修改业务启用状态
@@ -94,7 +94,7 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|the business id|
+|biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |flag|string|是|无|启用状态，为disabled 或者enable|the business name, it should be disabled or enable|
 
@@ -125,7 +125,7 @@
 
 ### 修改业务
 
-- API: PUT /api/{version}/biz/{org_id}/{bk_biz_id}
+- API: PUT /api/{version}/biz/{org_id}/{biz_id}
 - API 名称：update_business
 - 功能说明：
 	- 中文：更新业务信息
@@ -137,7 +137,7 @@
 {
     "bk_biz_developer": "",
     "bk_biz_maintainer": "admin,jobdevelop,cmdbdevelop",
-    "bk_biz_name": "example_biz",
+    "biz_name": "example_biz",
     "bk_biz_productor": "admin",
     "bk_biz_tester": "",
 }
@@ -149,9 +149,9 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|the business id|
+|biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
-|bk_biz_name|string|否|无|业务名称|the business name|
+|biz_name|string|否|无|业务名称|the business name|
 |bk_biz_developer|string|否|无|开发人员|the developer|
 |bk_biz_maintainer|string|否|无|运维人员|the maintainers|
 |bk_biz_productor|string|否|无|产品人员|the productor|

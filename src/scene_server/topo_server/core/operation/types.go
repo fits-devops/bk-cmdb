@@ -81,7 +81,7 @@ type deletedInst struct {
 // OperationLog opeartion log item definition
 type OperationLog struct {
 	OwnerID       string      `bson:"org_id"    json:"org_id"`
-	ApplicationID int         `bson:"bk_biz_id"              json:"bk_biz_id"`
+	ApplicationID int         `bson:"biz_id"              json:"biz_id"`
 	ExtKey        string      `bson:"ext_key"             json:"ext_key"`
 	OpDesc        string      `bson:"op_desc"             json:"op_desc"`
 	OpType        int         `bson:"op_type"             json:"op_type"`

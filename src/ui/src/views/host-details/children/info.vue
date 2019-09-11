@@ -2,7 +2,7 @@
     <div class="info">
         <div class="info-basic">
             <i :class="['info-icon', model.obj_icon]"></i>
-            <span class="info-ip">{{host.bk_host_innerip}}</span>
+            <span class="info-ip">{{host.host_innerip}}</span>
         </div>
         <div class="info-topology clearfix">
             <div class="topology-label fl">{{$t("BusinessTopology['业务拓扑']")}}：</div>
@@ -58,11 +58,11 @@
                 const modules = this.info.module || []
                 const businesses = this.info.biz || []
                 modules.forEach(module => {
-                    const set = sets.find(set => set.bk_set_id === module.bk_set_id)
+                    const set = sets.find(set => set.set_id === module.set_id)
                     if (set) {
-                        const business = businesses.find(business => business.bk_biz_id === set.bk_biz_id)
+                        const business = businesses.find(business => business.biz_id === set.biz_id)
                         if (business) {
-                            topology.push(`${business.bk_biz_name} / ${set.bk_set_name} / ${module.bk_module_name}`)
+                            topology.push(`${business.biz_name} / ${set.set_name} / ${module.module_name}`)
                         }
                     }
                 })
@@ -84,7 +84,7 @@
         },
         watch: {
             info (info) {
-                this.$store.commit('setHeaderTitle', `${this.$t('HostDetails["主机详情"]')}(${info.host.bk_host_innerip})`)
+                this.$store.commit('setHeaderTitle', `${this.$t('HostDetails["主机详情"]')}(${info.host.host_innerip})`)
             }
         },
         created () {

@@ -86,8 +86,8 @@ func (s *Service) WebService() *restful.Container {
 	api.Path("/host/v3").Filter(rdapi.AllGlobalFilter(getErrFunc)).Produces(restful.MIME_JSON)
 
 	api.Route(api.DELETE("/hosts/batch").To(s.DeleteHostBatchFromResourcePool))
-	api.Route(api.GET("/hosts/{org_id}/{bk_host_id}").To(s.GetHostInstanceProperties))
-	api.Route(api.GET("/hosts/snapshot/{bk_host_id}").To(s.HostSnapInfo))
+	api.Route(api.GET("/hosts/{org_id}/{host_id}").To(s.GetHostInstanceProperties))
+	api.Route(api.GET("/hosts/snapshot/{host_id}").To(s.HostSnapInfo))
 	api.Route(api.POST("/hosts/add").To(s.AddHost))
 	// api.Route(api.POST("/host/add/agent").To(s.AddHostFromAgent))
 	api.Route(api.POST("/hosts/sync/new/host").To(s.NewHostSyncAppTopo))
@@ -118,11 +118,11 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.DELETE("/hosts/module/biz/delete").To(s.DeleteHostFromBusiness))
 
 	api.Route(api.POST("/userapi").To(s.AddUserCustomQuery))
-	api.Route(api.PUT("/userapi/{bk_biz_id}/{id}").To(s.UpdateUserCustomQuery))
-	api.Route(api.DELETE("/userapi/{bk_biz_id}/{id}").To(s.DeleteUserCustomQuery))
-	api.Route(api.POST("/userapi/search/{bk_biz_id}").To(s.GetUserCustomQuery))
-	api.Route(api.GET("/userapi/detail/{bk_biz_id}/{id}").To(s.GetUserCustomQueryDetail))
-	api.Route(api.GET("/userapi/data/{bk_biz_id}/{id}/{start}/{limit}").To(s.GetUserCustomQueryResult))
+	api.Route(api.PUT("/userapi/{biz_id}/{id}").To(s.UpdateUserCustomQuery))
+	api.Route(api.DELETE("/userapi/{biz_id}/{id}").To(s.DeleteUserCustomQuery))
+	api.Route(api.POST("/userapi/search/{biz_id}").To(s.GetUserCustomQuery))
+	api.Route(api.GET("/userapi/detail/{biz_id}/{id}").To(s.GetUserCustomQueryDetail))
+	api.Route(api.GET("/userapi/data/{biz_id}/{id}/{start}/{limit}").To(s.GetUserCustomQueryResult))
 
 	api.Route(api.POST("/host/lock").To(s.LockHost))
 	api.Route(api.DELETE("/host/lock").To(s.UnlockHost))
@@ -144,7 +144,7 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/openapi/host/getGitServerIp").To(s.GetGitServerIp))
 	api.Route(api.GET("/plat").To(s.GetPlat))
 	api.Route(api.POST("/plat").To(s.CreatePlat))
-	api.Route(api.DELETE("/plat/{bk_cloud_id}").To(s.DelPlat))
+	api.Route(api.DELETE("/plat/{cloud_id}").To(s.DelPlat))
 
 	api.Route(api.POST("/findmany/modulehost").To(s.FindModuleHost))
 

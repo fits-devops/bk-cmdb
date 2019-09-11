@@ -82,7 +82,7 @@
             },
             operatorOptions () {
                 if (this.selectedProperty) {
-                    if (['bk_host_innerip', 'bk_host_outerip'].includes(this.selectedProperty['property_id']) || this.objId === 'biz') {
+                    if (['host_innerip', 'host_outerip'].includes(this.selectedProperty['property_id']) || this.objId === 'biz') {
                         return [{ label: this.operatorLabel['$regex'], value: '$regex' }]
                     } else {
                         const propertyType = this.selectedProperty['property_type']

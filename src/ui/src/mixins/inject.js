@@ -16,7 +16,7 @@ export default {
                 Object.assign(injectedParams, {
                     metadata: {
                         label: {
-                            bk_biz_id: String(bizId)
+                            biz_id: String(bizId)
                         }
                     }
                 })

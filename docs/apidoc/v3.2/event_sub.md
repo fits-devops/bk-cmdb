@@ -1,6 +1,6 @@
 ### 订阅事件
 
-- API: POST /api/{version}/event/subscribe/{org_id}/{bk_biz_id}
+- API: POST /api/{version}/event/subscribe/{org_id}/{biz_id}
 - API 名称: subscribe_event
 - 功能说明：
 	- 中文：事件订阅
@@ -24,7 +24,7 @@
 
 |字段|类型|是否必须|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id|business id|
+|biz_id|int|是|无|业务id|business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |subscription_name|string|是|无|订阅的名字|the subscription name|
 |system_name|string|是|无|订阅事件的系统的名字|the subscriber's name|
@@ -68,7 +68,7 @@ data 字段说明
 
 ### 退订事件
 
-- API: DELETE /api/{version}/event/subscribe/{supplier_account}/{bk_biz_id}/{subscription_id}
+- API: DELETE /api/{version}/event/subscribe/{supplier_account}/{biz_id}/{subscription_id}
 - API 名称：unsubcribe_event
 - 功能说明：
 	- 中文：退订
@@ -84,7 +84,7 @@ data 字段说明
 
 |名称|类型|默认值|说明|Description|
 |---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id| business id|
+|biz_id|int|是|无|业务id| business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |subscription_id|int|订阅ID|无|subscription_id|
 
@@ -111,7 +111,7 @@ data 字段说明
 
 ### 修改订阅
 
-- API: PUT  /api/{version}/event/subscribe/{org_id}/{bk_biz_id}/{subscription_id}
+- API: PUT  /api/{version}/event/subscribe/{org_id}/{biz_id}/{subscription_id}
 - API 名称：update_event_subscribe
 	- 中文：修改订阅
 	- English：update the event subscription
@@ -134,7 +134,7 @@ data 字段说明
 
 |字段|类型|是否必须|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_biz_id|int|是|无|业务id| business id|
+|biz_id|int|是|无|业务id| business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |subscription_id|int|是|无|订阅ID|subscription_id|
 |subscription_name|string|是|无|订阅的名字|the subscription name|
@@ -170,7 +170,7 @@ data 字段说明
 
 ### 查询订阅
 
-- API: POST /api/{version}/event/subscribe/search/{org_id}/{bk_biz_id}
+- API: POST /api/{version}/event/subscribe/search/{org_id}/{biz_id}
 - API 名称：search_subscription
 	- 中文：查询订阅
 	- English：search subscriptions

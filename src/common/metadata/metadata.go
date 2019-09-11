@@ -32,7 +32,7 @@ const (
 	LabelFalse string = "false"
 
 	// LabelBusinessID is used to define a label key which value is the business number value.
-	LabelBusinessID string = "bk_biz_id"
+	LabelBusinessID string = "biz_id"
 
 	// LabelModelKind is used to define a label key which describe what kind of this object is.
 	// this label key is always used with the value of PublicModelKindValue or BusinessModelKindValue.
@@ -45,7 +45,7 @@ var (
 	LabelKeyNotExistError = errors.New("label key does not exist")
 )
 
-var BizLabelNotExist = mapstr.MapStr{"metadata.label.bk_biz_id": mapstr.MapStr{"$exists": false}}
+var BizLabelNotExist = mapstr.MapStr{"metadata.label.biz_id": mapstr.MapStr{"$exists": false}}
 
 /*
 func PublicAndBizCondition(meta Metadata) mapstr.MapStr {
@@ -54,7 +54,7 @@ func PublicAndBizCondition(meta Metadata) mapstr.MapStr {
 		bizID = ""
 	}
 	condArr := make([]mapstr.MapStr, 0)
-	condArr = append(condArr, BizLabelNotExist, mapstr.MapStr{"metadata.label.bk_biz_id": bizID})
+	condArr = append(condArr, BizLabelNotExist, mapstr.MapStr{"metadata.label.biz_id": bizID})
 	return mapstr.MapStr{"$or": condArr}
 }
 */
@@ -97,7 +97,7 @@ func NewPublicOrBizConditionByBizID(businessID int64) mapstr.MapStr {
 	condArr := make([]mapstr.MapStr, 0)
 	condArr = append(condArr, BizLabelNotExist)
 	if businessID != 0 {
-		condArr = append(condArr, mapstr.MapStr{"metadata.label.bk_biz_id": strconv.FormatInt(businessID, 10)})
+		condArr = append(condArr, mapstr.MapStr{"metadata.label.biz_id": strconv.FormatInt(businessID, 10)})
 	}
 	return mapstr.MapStr{"$or": condArr}
 }
@@ -142,8 +142,8 @@ func GetBusinessIDFromMeta(data interface{}) string {
 // {}  ==> 0, nil
 // {"label": {}} ==> 0, nil
 // {"label": []} ==> 0, error
-// {"label": {"bk_biz_id": 1}} ==> 1, nil
-// {"label": {"bk_biz_id": "a"}} ==> 0, error
+// {"label": {"biz_id": 1}} ==> 1, nil
+// {"label": {"biz_id": "a"}} ==> 0, error
 func ParseBizIDFromData(rawData mapstr.MapStr) (int64, error) {
 	rawMetadata, exist := rawData.Get(BKMetadata)
 	if exist == false {

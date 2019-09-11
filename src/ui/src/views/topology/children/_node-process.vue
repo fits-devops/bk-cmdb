@@ -38,8 +38,8 @@
                 properties: [],
                 header: [],
                 list: [],
-                defaultSort: '-bk_process_id',
-                sort: '-bk_process_id',
+                defaultSort: '-process_id',
+                sort: '-process_id',
                 pagination: {
                     current: 1,
                     size: 10,
@@ -85,12 +85,12 @@
             },
             getHeader () {
                 const headerKey = [
-                    'bk_process_name',
-                    'bk_func_id',
+                    'process_name',
+                    'func_id',
                     'bind_ip',
                     'port',
                     'protocol',
-                    'bk_func_name'
+                    'func_name'
                 ]
                 const header = []
                 this.properties.forEach(property => {
@@ -106,7 +106,7 @@
             search () {
                 const params = {
                     condition: {
-                        'bk_module_name': this.module['bk_inst_name']
+                        'module_name': this.module['inst_name']
                     },
                     fields: [],
                     page: {

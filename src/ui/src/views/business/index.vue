@@ -76,7 +76,7 @@
                         :property-groups="propertyGroups"
                         :inst="attribute.inst.details"
                         :delete-button-text="$t('Inst[\'归档\']')"
-                        :show-delete="attribute.inst.details['bk_biz_name'] !== '蓝鲸'"
+                        :show-delete="attribute.inst.details['biz_name'] !== '蓝鲸'"
                         :show-options="isAdminView"
                         :edit-auth="$OPERATION.U_BUSINESS"
                         :delete-auth="$OPERATION.BUSINESS_ARCHIVE"
@@ -105,7 +105,7 @@
                 <bk-tabpanel name="history" :title="$t('HostResourcePool[\'变更记录\']')" :show="attribute.type !== 'create'">
                     <cmdb-audit-history v-if="tab.active === 'history'"
                         target="biz"
-                        :inst-id="attribute.inst.details['bk_biz_id']">
+                        :inst-id="attribute.inst.details['biz_id']">
                     </cmdb-audit-history>
                 </bk-tabpanel>
             </bk-tab>
@@ -146,8 +146,8 @@
                         size: 10,
                         current: 1
                     },
-                    defaultSort: 'bk_biz_id',
-                    sort: 'bk_biz_id'
+                    defaultSort: 'biz_id',
+                    sort: 'biz_id'
                 },
                 filter: {
                     id: '',
@@ -173,7 +173,7 @@
                 columnsConfig: {
                     show: false,
                     selected: [],
-                    disabledColumns: ['bk_biz_name']
+                    disabledColumns: ['biz_name']
                 }
             }
         },
@@ -284,7 +284,7 @@
             },
             updateTableHeader (properties) {
                 this.table.header = [{
-                    id: 'bk_biz_id',
+                    id: 'biz_id',
                     name: 'ID'
                 }].concat(properties.map(property => {
                     return {
@@ -295,7 +295,7 @@
             },
             handleRowClick (item) {
                 this.slider.show = true
-                this.slider.title = item['bk_biz_name']
+                this.slider.title = item['biz_name']
                 this.attribute.inst.details = item
                 this.attribute.type = 'details'
             },
@@ -356,9 +356,9 @@
             },
             async handleEdit (flatternItem) {
                 const list = await this.getBusinessList({ fromCache: true })
-                const inst = list.info.find(item => item['bk_biz_id'] === flatternItem['bk_biz_id'])
-                const bizNameProperty = this.$tools.getProperty(this.properties, 'bk_biz_name')
-                bizNameProperty.isreadonly = inst['bk_biz_name'] === '蓝鲸'
+                const inst = list.info.find(item => item['biz_id'] === flatternItem['biz_id'])
+                const bizNameProperty = this.$tools.getProperty(this.properties, 'biz_name')
+                bizNameProperty.isreadonly = inst['biz_name'] === '蓝鲸'
                 this.attribute.inst.edit = inst
                 this.attribute.type = 'update'
             },
@@ -370,9 +370,9 @@
             },
             handleDelete (inst) {
                 this.$bkInfo({
-                    title: this.$t("Common['确认要归档']", { name: inst['bk_biz_name'] }),
+                    title: this.$t("Common['确认要归档']", { name: inst['biz_name'] }),
                     confirmFn: () => {
-                        this.archiveBusiness(inst['bk_biz_id']).then(() => {
+                        this.archiveBusiness(inst['biz_id']).then(() => {
                             this.slider.show = false
                             this.$success(this.$t('Common["归档成功"]'))
                             this.handlePageChange(1)
@@ -384,11 +384,11 @@
             handleSave (values, changedValues, originalValues, type) {
                 if (type === 'update') {
                     this.updateBusiness({
-                        bizId: originalValues['bk_biz_id'],
+                        bizId: originalValues['biz_id'],
                         params: values
                     }).then(() => {
                         this.getTableData()
-                        this.searchBusinessById({ bizId: originalValues['bk_biz_id'] }).then(item => {
+                        this.searchBusinessById({ bizId: originalValues['biz_id'] }).then(item => {
                             this.attribute.inst.details = this.$tools.flatternItem(this.properties, item)
                         })
                         this.handleCancel()

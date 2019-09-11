@@ -48,7 +48,7 @@ var dataWithCondition = []inputDatas{
 			metadata.AttributeFieldPlaceHoler:    `程序的二进制名称</br> 比如zookeeper的二进制名称是java，则填java`,
 		},
 		cond: mapstr.MapStr{
-			metadata.AttributeFieldPropertyID: "bk_func_name",
+			metadata.AttributeFieldPropertyID: "func_name",
 			metadata.AttributeFieldObjectID:   common.BKInnerObjIDProc,
 		},
 	},
@@ -59,7 +59,7 @@ var dataWithCondition = []inputDatas{
 			metadata.AttributeFieldPlaceHoler:    `程序启动参数</br> 唯一识别一个进程，比如zookeeper的启动参数包含 zookeeper`,
 		},
 		cond: mapstr.MapStr{
-			metadata.AttributeFieldPropertyID: "bk_start_param_regex",
+			metadata.AttributeFieldPropertyID: "start_param_regex",
 			metadata.AttributeFieldObjectID:   common.BKInnerObjIDProc,
 		},
 	},

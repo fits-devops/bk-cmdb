@@ -27,7 +27,7 @@
                 <label class="table-checkbox bk-form-checkbox bk-checkbox-small"
                     @click.stop>
                     <input type="checkbox"
-                        :value="`${item['bk_cloud_id']}#${item['bk_host_innerip']}#${item['bk_biz_id']}`"
+                        :value="`${item['cloud_id']}#${item['host_innerip']}#${item['biz_id']}`"
                         v-model="table.checked">
                 </label>
             </template>
@@ -44,15 +44,15 @@
                             <div class="rotate rotate7"></div>
                             <div class="rotate rotate8"></div>
                         </div>
-                        <span class="text" :id="item['bk_host_innerip']" v-if="item.status['report_status'] !== 'normal'">{{$t('NetworkDiscovery["上报中"]')}}</span>
-                        <span class="text" :id="item['bk_host_innerip']" v-else>{{$t('NetworkDiscovery["下发中"]')}}</span>
+                        <span class="text" :id="item['host_innerip']" v-if="item.status['report_status'] !== 'normal'">{{$t('NetworkDiscovery["上报中"]')}}</span>
+                        <span class="text" :id="item['host_innerip']" v-else>{{$t('NetworkDiscovery["下发中"]')}}</span>
                     </template>
                     <template v-else-if="item.status['collector_status'] === 'abnormal' || item.status['config_status'] !== 'normal'">
-                        <i class="bk-icon icon-circle color-danger" :id="item['bk_host_innerip']"></i>
+                        <i class="bk-icon icon-circle color-danger" :id="item['host_innerip']"></i>
                         <span class="text">{{$t('NetworkDiscovery["异常"]')}}</span>
                     </template>
                     <template v-else>
-                        <i class="bk-icon icon-circle color-success" :id="item['bk_host_innerip']"></i>
+                        <i class="bk-icon icon-circle color-success" :id="item['host_innerip']"></i>
                         <span class="text">{{$t('NetworkDiscovery["正常"]')}}</span>
                     </template>
                 </div>
@@ -144,10 +144,10 @@
                         id: 'id',
                         type: 'checkbox'
                     }, {
-                        id: 'bk_cloud_name',
+                        id: 'cloud_name',
                         name: this.$t('Hosts["云区域"]')
                     }, {
-                        id: 'bk_host_innerip',
+                        id: 'host_innerip',
                         name: this.$t('Common["内网IP"]')
                     }, {
                         id: 'status',
@@ -181,8 +181,8 @@
                     period: '',
                     scan_range: '',
                     community: 'public',
-                    bk_host_innerip: '',
-                    bk_cloud_id: '',
+                    host_innerip: '',
+                    cloud_id: '',
                     periodList: [{
                         id: '∞',
                         name: this.$t('NetworkDiscovery["手动"]')
@@ -226,18 +226,18 @@
                 this.table.checked.map(key => {
                     const keyArr = key.split('#')
                     params.collectors.push({
-                        bk_cloud_id: Number(keyArr[0]),
-                        bk_host_innerip: keyArr[1],
-                        bk_biz_id: Number(keyArr[2])
+                        cloud_id: Number(keyArr[0]),
+                        host_innerip: keyArr[1],
+                        biz_id: Number(keyArr[2])
                     })
                 })
                 this.collectDataCollection({ params, config: { requestId: 'collectDataCollection' } })
             },
             showConfig (item) {
                 this.configDialog.scan_range = item.config['scan_range'] === null ? '' : item.config['scan_range'].join('\n')
-                this.configDialog.bk_host_innerip = item['bk_host_innerip']
-                this.configDialog.bk_cloud_id = item['bk_cloud_id']
-                this.configDialog.bk_biz_id = item['bk_biz_id']
+                this.configDialog.host_innerip = item['host_innerip']
+                this.configDialog.cloud_id = item['cloud_id']
+                this.configDialog.biz_id = item['biz_id']
                 this.configDialog.period = item.config.period
                 this.configDialog.community = item.config.community
                 this.configDialog.isShow = true
@@ -250,9 +250,9 @@
                     return
                 }
                 const params = {
-                    bk_cloud_id: this.configDialog['bk_cloud_id'],
-                    bk_host_innerip: this.configDialog['bk_host_innerip'],
-                    bk_biz_id: this.configDialog['bk_biz_id'],
+                    cloud_id: this.configDialog['cloud_id'],
+                    host_innerip: this.configDialog['host_innerip'],
+                    biz_id: this.configDialog['biz_id'],
                     config: {
                         scan_range: this.configDialog.scan_range.split(/\n|;|；|,|，/),
                         period: this.configDialog.period,
@@ -268,7 +268,7 @@
             },
             setTooltip (event, item) {
                 this.tooltip.content = item
-                this.tooltip.id = item['bk_host_innerip']
+                this.tooltip.id = item['host_innerip']
                 this.$nextTick(() => {
                     this.tooltip.instance && this.tooltip.instance.destroy()
                     this.tooltip.instance = this.$tooltips({
@@ -276,7 +276,7 @@
                         theme: 'light',
                         zIndex: 9999,
                         container: document.body,
-                        target: document.getElementById(item['bk_host_innerip'])
+                        target: document.getElementById(item['host_innerip'])
                     })
                     this.tooltip.instance.$el.append(this.$refs.tooltipContent)
                 })
@@ -323,7 +323,7 @@
                 this.getTableData()
             },
             handleCheckAll () {
-                this.table.checked = this.table.list.map(item => `${item['bk_cloud_id']}#${item['bk_host_innerip']}#${item['bk_biz_id']}`)
+                this.table.checked = this.table.list.map(item => `${item['cloud_id']}#${item['host_innerip']}#${item['biz_id']}`)
             }
         }
     }

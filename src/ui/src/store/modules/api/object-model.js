@@ -19,7 +19,7 @@ const getters = {
     isPublicModel: state => {
         const metadata = state.activeModel.metadata || {}
         const label = metadata.label || {}
-        return !label.hasOwnProperty('bk_biz_id')
+        return !label.hasOwnProperty('biz_id')
     },
     isInjectable: (state, getters, rootState, rootGetters) => {
         const model = state.activeModel

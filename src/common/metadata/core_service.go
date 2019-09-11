@@ -120,7 +120,7 @@ type CreateManyInstanceAssociation struct {
 }
 
 type Dimension struct {
-	AppID int64 `json:"bk_biz_id"`
+	AppID int64 `json:"biz_id"`
 }
 
 type SetOneInstanceAssociation CreateOneInstanceAssociation
@@ -213,7 +213,7 @@ type TopoInstance struct {
 	InstanceID       int64
 	ParentInstanceID int64
 	Detail           map[string]interface{}
-	Default        int64
+	Default          int64
 }
 
 // Key generate a unique key for instance(as instances's of different object type maybe conflict)
@@ -223,18 +223,18 @@ func (ti *TopoInstance) Key() string {
 
 // TransferHostsCrossBusinessRequest Transfer host across business request parameter
 type TransferHostsCrossBusinessRequest struct {
-	SrcApplicationID int64   `json:"src_bk_biz_id"`
-	DstApplicationID int64   `json:"dst_bk_biz_id"`
-	HostIDArr        []int64 `json:"bk_host_id"`
-	DstModuleIDArr   []int64 `json:"bk_module_ids"`
+	SrcApplicationID int64   `json:"src_biz_id"`
+	DstApplicationID int64   `json:"dst_biz_id"`
+	HostIDArr        []int64 `json:"host_id"`
+	DstModuleIDArr   []int64 `json:"module_ids"`
 }
 
 // HostModuleRelationRequest gethost module relation request parameter
 type HostModuleRelationRequest struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	SetIDArr      []int64 `json:"bk_set_ids"`
-	HostIDArr     []int64 `json:"bk_host_ids"`
-	ModuleIDArr   []int64 `json:"bk_module_ids"`
+	ApplicationID int64   `json:"biz_id"`
+	SetIDArr      []int64 `json:"set_ids"`
+	HostIDArr     []int64 `json:"host_ids"`
+	ModuleIDArr   []int64 `json:"module_ids"`
 }
 
 // Empty empty struct
@@ -257,6 +257,6 @@ func (h *HostModuleRelationRequest) Empty() bool {
 
 // DeleteHostRequest delete host from application
 type DeleteHostRequest struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	HostIDArr     []int64 `json:"bk_host_ids"`
+	ApplicationID int64   `json:"biz_id"`
+	HostIDArr     []int64 `json:"host_ids"`
 }

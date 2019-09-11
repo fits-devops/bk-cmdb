@@ -47,9 +47,9 @@ func NewAuthManager(clientSet apimachinery.ClientSetInterface, Authorize auth.Au
 }
 
 type InstanceSimplify struct {
-	InstanceID int64  `field:"bk_inst_id"`
-	Name       string `field:"bk_inst_name"`
-	BizID      int64  `field:"bk_biz_id"`
+	InstanceID int64  `field:"inst_id"`
+	Name       string `field:"inst_name"`
+	BizID      int64  `field:"biz_id"`
 	ObjectID   string `field:"obj_id"`
 }
 
@@ -71,7 +71,7 @@ func (is *InstanceSimplify) ParseBizID(data mapstr.MapStr) (int64, error) {
 		{
 		  "metadata": {
 			"label": {
-			  "bk_biz_id": "2"
+			  "biz_id": "2"
 			}
 		  }
 		}
@@ -106,9 +106,9 @@ func (is *InstanceSimplify) ParseBizID(data mapstr.MapStr) (int64, error) {
 }
 
 type BusinessSimplify struct {
-	BKAppIDField      int64  `field:"bk_biz_id"`
-	BKAppNameField    string `field:"bk_biz_name"`
-	BKSupplierIDField int64  `field:"bk_supplier_id"`
+	BKAppIDField      int64  `field:"biz_id"`
+	BKAppNameField    string `field:"biz_name"`
+	BKSupplierIDField int64  `field:"supplier_id"`
 	BKOwnerIDField    string `field:"org_id"`
 	IsDefault         int64  `field:"default"`
 }
@@ -125,9 +125,9 @@ func (business *BusinessSimplify) Parse(data mapstr.MapStr) (*BusinessSimplify, 
 }
 
 type SetSimplify struct {
-	BKAppIDField   int64  `field:"bk_biz_id"`
-	BKSetIDField   int64  `field:"bk_set_id"`
-	BKSetNameField string `field:"bk_set_name"`
+	BKAppIDField   int64  `field:"biz_id"`
+	BKSetIDField   int64  `field:"set_id"`
+	BKSetNameField string `field:"set_name"`
 }
 
 // Parse load the data from mapstr attribute into ObjectUnique instance
@@ -142,9 +142,9 @@ func (is *SetSimplify) Parse(data mapstr.MapStr) (*SetSimplify, error) {
 }
 
 type ModuleSimplify struct {
-	BKAppIDField      int64  `field:"bk_biz_id"`
-	BKModuleIDField   int64  `field:"bk_module_id"`
-	BKModuleNameField string `field:"bk_module_name"`
+	BKAppIDField      int64  `field:"biz_id"`
+	BKModuleIDField   int64  `field:"module_id"`
+	BKModuleNameField string `field:"module_name"`
 }
 
 // Parse load the data from mapstr attribute into ObjectUnique instance
@@ -159,12 +159,12 @@ func (is *ModuleSimplify) Parse(data mapstr.MapStr) (*ModuleSimplify, error) {
 }
 
 type HostSimplify struct {
-	BKAppIDField       int64  `field:"bk_biz_id"`
-	BKModuleIDField    int64  `field:"bk_module_id"`
-	BKSetIDField       int64  `field:"bk_set_id"`
-	BKHostIDField      int64  `field:"bk_host_id"`
-	BKHostNameField    string `field:"bk_host_name"`
-	BKHostInnerIPField string `field:"bk_host_innerip"`
+	BKAppIDField       int64  `field:"biz_id"`
+	BKModuleIDField    int64  `field:"module_id"`
+	BKSetIDField       int64  `field:"set_id"`
+	BKHostIDField      int64  `field:"host_id"`
+	BKHostNameField    string `field:"host_name"`
+	BKHostInnerIPField string `field:"host_innerip"`
 }
 
 func (is *HostSimplify) Parse(data mapstr.MapStr) (*HostSimplify, error) {
@@ -178,8 +178,8 @@ func (is *HostSimplify) Parse(data mapstr.MapStr) (*HostSimplify, error) {
 }
 
 type PlatSimplify struct {
-	BKCloudIDField   int64  `field:"bk_cloud_id"`
-	BKCloudNameField string `field:"bk_cloud_name"`
+	BKCloudIDField   int64  `field:"cloud_id"`
+	BKCloudNameField string `field:"cloud_name"`
 }
 
 func (is *PlatSimplify) Parse(data mapstr.MapStr) (*PlatSimplify, error) {
@@ -193,7 +193,7 @@ func (is *PlatSimplify) Parse(data mapstr.MapStr) (*PlatSimplify, error) {
 }
 
 type AuditCategorySimplify struct {
-	BKAppIDField    int64  `field:"bk_biz_id"`
+	BKAppIDField    int64  `field:"biz_id"`
 	BKOpTargetField string `field:"op_target"`
 }
 
@@ -231,9 +231,9 @@ func (cls *ModelUniqueSimplify) Parse(data mapstr.MapStr) (*ModelUniqueSimplify,
 }
 
 type ProcessSimplify struct {
-	ProcessID    int64  `field:"bk_process_id"`
-	ProcessName  string `field:"bk_process_name"`
-	BKAppIDField int64  `field:"bk_biz_id"`
+	ProcessID    int64  `field:"process_id"`
+	ProcessName  string `field:"process_name"`
+	BKAppIDField int64  `field:"biz_id"`
 }
 
 func (is *ProcessSimplify) Parse(data mapstr.MapStr) (*ProcessSimplify, error) {
@@ -247,7 +247,7 @@ func (is *ProcessSimplify) Parse(data mapstr.MapStr) (*ProcessSimplify, error) {
 }
 
 type DynamicGroupSimplify struct {
-	BKAppIDField int64  `field:"bk_biz_id"`
+	BKAppIDField int64  `field:"biz_id"`
 	ID           string `field:"id"`
 	Name         string `field:"name"`
 }

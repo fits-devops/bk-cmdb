@@ -16,8 +16,8 @@
                 :list="typeList"
                 :selected.sync="filter['obj_id']"
             ></bk-selector>
-            <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入云区域名称\']')" v-model.trim="filter['bk_cloud_name']">
-            <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入IP\']')" v-model.trim="filter['bk_host_innerip']">
+            <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入云区域名称\']')" v-model.trim="filter['cloud_name']">
+            <input type="text" class="cmdb-form-input" :placeholder="$t('NetworkDiscovery[\'请输入IP\']')" v-model.trim="filter['host_innerip']">
             <bk-button type="primary" @click="getTableData">
                 {{$t("Common['查询']")}}
             </bk-button>
@@ -54,8 +54,8 @@
                     last_time: [],
                     action: '',
                     obj_id: '',
-                    bk_cloud_name: '',
-                    bk_host_innerip: ''
+                    cloud_name: '',
+                    host_innerip: ''
                 },
                 changeList: [{
                     id: 'create',
@@ -79,7 +79,7 @@
                         id: 'action',
                         name: this.$t('NetworkDiscovery["变更方式"]')
                     }, {
-                        id: 'bk_cloud_name',
+                        id: 'cloud_name',
                         name: this.$t('Hosts["云区域"]')
                     }, {
                         id: 'obj_name',
@@ -88,7 +88,7 @@
                         id: 'bk_inst_key',
                         name: this.$t('NetworkDiscovery["唯一标识"]')
                     }, {
-                        id: 'bk_host_innerip',
+                        id: 'host_innerip',
                         name: 'IP'
                     }, {
                         id: 'configuration',
@@ -119,8 +119,8 @@
         computed: {
             params () {
                 const params = {
-                    bk_cloud_name: this.filter['bk_cloud_name'],
-                    bk_host_innerip: this.filter['bk_host_innerip'],
+                    cloud_name: this.filter['cloud_name'],
+                    host_innerip: this.filter['host_innerip'],
                     obj_id: this.filter['obj_id'],
                     action: this.filter['action'],
                     last_time: this.filter['last_time']

@@ -26,11 +26,11 @@ const getters = {
         }
         const selected = parseInt(window.localStorage.getItem('selectedBusiness'))
         if (selected) {
-            const isAuthorized = authorizedBusiness.some(business => business.bk_biz_id === selected)
+            const isAuthorized = authorizedBusiness.some(business => business.biz_id === selected)
             if (isAuthorized) {
                 return selected
             }
-            return authorizedBusiness[0]['bk_biz_id']
+            return authorizedBusiness[0]['biz_id']
         }
         return null
     },
@@ -107,7 +107,7 @@ const actions = {
      * @return {promises} promises 对象
      */
     recoveryBusiness ({ commit, state, dispatch, rootGetters }, { params, config }) {
-        return $http.put(`biz/status/enable/${rootGetters.supplierAccount}/${params['bk_biz_id']}`, {}, config)
+        return $http.put(`biz/status/enable/${rootGetters.supplierAccount}/${params['biz_id']}`, {}, config)
     },
 
     /**
@@ -126,7 +126,7 @@ const actions = {
     searchBusinessById ({ rootGetters }, { bizId, config }) {
         return $http.post(`biz/search/${rootGetters.supplierAccount}`, {
             condition: {
-                'bk_biz_id': {
+                'biz_id': {
                     '$eq': bizId
                 }
             },

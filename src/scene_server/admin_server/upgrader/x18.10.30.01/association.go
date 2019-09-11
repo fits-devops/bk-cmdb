@@ -215,7 +215,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 				// 交换 源<->目标
 				updateInst.Set("obj_id", instAsst.AsstObjectID)
 				updateInst.Set("bk_asst_obj_id", instAsst.ObjectID)
-				updateInst.Set("bk_inst_id", instAsst.AsstInstID)
+				updateInst.Set("inst_id", instAsst.AsstInstID)
 				updateInst.Set("bk_asst_inst_id", instAsst.InstID)
 
 				updateInst.Set(flag, true)
@@ -234,7 +234,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 		return err
 	}
 
-	// update bk_cloud_id to int
+	// update cloud_id to int
 	cloudIDUpdateCond := condition.CreateCondition()
 	cloudIDUpdateCond.Field(common.BKObjIDField).Eq(common.BKInnerObjIDHost)
 	cloudIDUpdateCond.Field(common.BKPropertyIDField).Eq(common.BKCloudIDField)

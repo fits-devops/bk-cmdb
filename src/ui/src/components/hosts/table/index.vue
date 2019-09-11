@@ -30,11 +30,11 @@
                     {{$t('ModelManagement["导出"]')}}
                 </bk-button>
                 <form id="exportForm" :action="table.exportUrl" method="POST" hidden>
-                    <input type="hidden" name="bk_host_id" :value="table.checked">
+                    <input type="hidden" name="host_id" :value="table.checked">
                     <input type="hidden" name="export_custom_fields"
                         v-if="usercustom[columnsConfigKey]"
                         :value="usercustom[columnsConfigKey]">
-                    <input type="hidden" name="bk_biz_id" value="-1">
+                    <input type="hidden" name="biz_id" value="-1">
                     <input type="hidden" name="metadata"
                         v-if="$route.name !== 'resource'"
                         :value="JSON.stringify($injectMetadata().metadata)">
@@ -83,10 +83,10 @@
             <template v-for="(header, index) in table.header" :slot="header.id" slot-scope="{ item }">
                 <label class="table-checkbox bk-form-checkbox bk-checkbox-small"
                     :key="index"
-                    v-if="header.id === 'bk_host_id'"
+                    v-if="header.id === 'host_id'"
                     @click.stop>
                     <input type="checkbox"
-                        :value="item['host']['bk_host_id']"
+                        :value="item['host']['host_id']"
                         v-model="table.checked">
                 </label>
                 <span v-else :key="index">
@@ -133,7 +133,7 @@
             <div class="transfer-title" slot="tools">
                 <i class="icon icon-cc-shift mr5"></i>
                 <span>{{$t('Common[\'主机转移\']')}}</span>
-                <span v-if="selectedHosts.length === 1">{{selectedHosts[0]['host']['bk_host_innerip']}}</span>
+                <span v-if="selectedHosts.length === 1">{{selectedHosts[0]['host']['host_innerip']}}</span>
             </div>
             <div class="transfer-content" slot="content">
                 <cmdb-transfer-host v-if="transfer.show"
@@ -172,7 +172,7 @@
             columnsConfigDisabledColumns: {
                 type: Array,
                 default () {
-                    return ['bk_host_innerip', 'bk_cloud_id', 'bk_module_name']
+                    return ['host_innerip', 'cloud_id', 'module_name']
                 }
             },
             quickSearch: {
@@ -223,8 +223,8 @@
                         size: 10,
                         count: 0
                     },
-                    defaultSort: 'bk_host_id',
-                    sort: 'bk_host_id',
+                    defaultSort: 'host_id',
+                    sort: 'host_id',
                     exportUrl: `${window.API_HOST}hosts/export`,
                     tableMinusHeight: 200
                 },
@@ -250,7 +250,7 @@
                 columnsConfig: {
                     show: false,
                     selected: [],
-                    disabledColumns: ['bk_host_innerip', 'bk_cloud_id', 'bk_module_name', 'bk_set_name']
+                    disabledColumns: ['host_innerip', 'cloud_id', 'module_name', 'set_name']
                 },
                 transfer: {
                     show: false
@@ -267,7 +267,7 @@
                 return this.table.header.filter(header => header.type !== 'checkbox')
             },
             selectedHosts () {
-                return this.table.allList.filter(host => this.table.checked.includes(host['host']['bk_host_id']))
+                return this.table.allList.filter(host => this.table.checked.includes(host['host']['host_id']))
             }
         },
         watch: {
@@ -344,7 +344,7 @@
             setTableHeader () {
                 const properties = this.$tools.getHeaderProperties(this.columnsConfigProperties, this.customColumns, this.columnsConfigDisabledColumns)
                 this.table.header = [{
-                    id: 'bk_host_id',
+                    id: 'host_id',
                     type: 'checkbox',
                     objId: 'host'
                 }].concat(properties.map(property => {
@@ -360,7 +360,7 @@
             setAllHostList (list) {
                 const newList = []
                 list.forEach(item => {
-                    const existItem = this.table.allList.find(existItem => existItem['host']['bk_host_id'] === item['host']['bk_host_id'])
+                    const existItem = this.table.allList.find(existItem => existItem['host']['host_id'] === item['host']['host_id'])
                     if (existItem) {
                         Object.assign(existItem, item)
                     } else {
@@ -385,7 +385,7 @@
                 this.searchHost({
                     params: {
                         ...this.filter.condition,
-                        'bk_biz_id': this.filter.business,
+                        'biz_id': this.filter.business,
                         page: {
                             start: (this.table.pagination.current - 1) * this.table.pagination.size,
                             limit: this.table.pagination.size,
@@ -411,7 +411,7 @@
                 return this.searchHost({
                     params: {
                         ...this.filter.condition,
-                        'bk_biz_id': this.filter.business,
+                        'biz_id': this.filter.business,
                         page: {}
                     },
                     config: {
@@ -445,7 +445,7 @@
             },
             handleCopy (target) {
                 const copyList = this.table.allList.filter(item => {
-                    return this.table.checked.includes(item['host']['bk_host_id'])
+                    return this.table.checked.includes(item['host']['host_id'])
                 })
                 const copyText = []
                 this.$tools.clone(copyList).forEach(item => {
@@ -472,7 +472,7 @@
                     const data = await this.getAllHostList()
                     list = data.info
                 }
-                this.table.checked = list.map(item => item['host']['bk_host_id'])
+                this.table.checked = list.map(item => item['host']['host_id'])
             },
             handleRowClick (item) {
                 const business = item.biz[0]
@@ -480,15 +480,15 @@
                     this.$router.push({
                         name: 'businessHostDetails',
                         params: {
-                            business: business.bk_biz_id,
-                            id: item.host.bk_host_id
+                            business: business.biz_id,
+                            id: item.host.host_id
                         }
                     })
                 } else {
                     this.$router.push({
                         name: 'resourceHostDetails',
                         params: {
-                            id: item.host.bk_host_id
+                            id: item.host.host_id
                         }
                     })
                 }
@@ -514,7 +514,7 @@
             async handleMultipleSave (changedValues) {
                 await this.batchUpdate(this.$injectMetadata({
                     ...changedValues,
-                    'bk_host_id': this.table.checked.join(',')
+                    'host_id': this.table.checked.join(',')
                 }, { inject: this.$route.name !== 'resource' }))
                 this.slider.show = false
             },

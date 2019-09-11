@@ -71,7 +71,7 @@ export default [{
                 }]
                 if (bizId) {
                     resourceMeta.forEach(meta => {
-                        meta.bk_biz_id = parseInt(bizId)
+                        meta.biz_id = parseInt(bizId)
                     })
                 }
                 app.$store.commit('auth/setResourceMeta', resourceMeta)

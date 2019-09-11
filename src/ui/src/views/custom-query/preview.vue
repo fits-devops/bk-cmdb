@@ -65,7 +65,7 @@
                 })
                 hostCondition['fields'] = this.previewFields
                 const previewParams = {
-                    'bk_biz_id': this.apiParams['bk_biz_id'],
+                    'biz_id': this.apiParams['biz_id'],
                     condition: condition,
                     page: {
                         start: (this.table.pagination.current - 1) * this.table.pagination.size,
@@ -103,24 +103,24 @@
                 const headerList = []
                 this.tableHeader.map(propertyId => {
                     let header = null
-                    if (propertyId === 'bk_set_name') {
+                    if (propertyId === 'set_name') {
                         header = {
                             objId: 'set',
-                            id: 'bk_set_name',
+                            id: 'set_name',
                             name: this.$t("Hosts['集群']"),
                             sortable: false
                         }
-                    } else if (propertyId === 'bk_module_name') {
+                    } else if (propertyId === 'module_name') {
                         header = {
                             objId: 'module',
-                            id: 'bk_module_name',
+                            id: 'module_name',
                             name: this.$t("Hosts['模块']"),
                             sortable: false
                         }
-                    } else if (propertyId === 'bk_biz_name') {
+                    } else if (propertyId === 'biz_name') {
                         header = {
                             objId: 'biz',
-                            id: 'bk_biz_name',
+                            id: 'biz_name',
                             name: this.$t("Common['业务']")
                         }
                     } else {

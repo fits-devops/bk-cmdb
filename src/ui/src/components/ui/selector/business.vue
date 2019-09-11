@@ -5,9 +5,9 @@
         :selected.sync="localSelected"
         :searchable="authorizedBusiness.length > 5"
         :disabled="disabled"
-        setting-key="bk_biz_id"
-        display-key="bk_biz_name"
-        search-key="bk_biz_name">
+        setting-key="biz_id"
+        display-key="biz_name"
+        search-key="biz_name">
     </bk-selector>
 </template>
 
@@ -70,18 +70,18 @@
         methods: {
             setHeader () {
                 if (this.requireBusiness) {
-                    this.$http.setHeader('bk_biz_id', this.localSelected)
+                    this.$http.setHeader('biz_id', this.localSelected)
                 } else {
-                    this.$http.deleteHeader('bk_biz_id')
+                    this.$http.deleteHeader('biz_id')
                 }
             },
             setLocalSelected () {
                 const selected = this.value || parseInt(window.localStorage.getItem('selectedBusiness'))
-                const exist = this.authorizedBusiness.some(business => business['bk_biz_id'] === selected)
+                const exist = this.authorizedBusiness.some(business => business['biz_id'] === selected)
                 if (exist) {
                     this.localSelected = selected
                 } else if (this.authorizedBusiness.length) {
-                    this.localSelected = this.authorizedBusiness[0]['bk_biz_id']
+                    this.localSelected = this.authorizedBusiness[0]['biz_id']
                 }
                 this.$store.commit('objectBiz/setBizId', this.localSelected)
             }

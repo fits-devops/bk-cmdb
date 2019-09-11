@@ -146,9 +146,9 @@ type Topo struct {
 }
 
 type ProModule struct {
-	ProcessID  uint64 `json:"bk_process_id" bson:"bk_process_id,omitempty"`
-	ModuleName string `json:"bk_module_name" bson:"bk_module_name,omitempty"`
-	BizID      uint64 `json:"bk_biz_id" bson:"bk_biz_id,omitempty"`
+	ProcessID  uint64 `json:"process_id" bson:"process_id,omitempty"`
+	ModuleName string `json:"module_name" bson:"module_name,omitempty"`
+	BizID      uint64 `json:"biz_id" bson:"biz_id,omitempty"`
 	OwnerID    string `json:"org_id" bson:"org_id"`
 }
 
@@ -157,7 +157,7 @@ type Process struct {
 	Modules []string               `json:"modules"`
 }
 type ProcessTopo struct {
-	BizName   string     `json:"bk_biz_name"`
+	BizName   string     `json:"biz_name"`
 	Processes []*Process `json:"procs"`
 }
 

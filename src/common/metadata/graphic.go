@@ -23,7 +23,7 @@ type GraphAsst struct {
 	AsstType              string            `json:"bk_asst_type"`
 	NodeType              string            `json:"node_type"`
 	ObjID                 string            `json:"obj_id"`
-	InstID                int64             `json:"bk_inst_id"`
+	InstID                int64             `json:"inst_id"`
 	AssociationKindInstID int64             `json:"bk_asst_inst_id"`
 	AsstName              string            `json:"bk_asst_name"`
 	Label                 map[string]string `json:"label"`
@@ -36,12 +36,12 @@ type TopoGraphics struct {
 	NodeType  string                 `json:"node_type" bson:"node_type"`                       // obj inst
 	ObjID     string                 `json:"obj_id" bson:"obj_id"`
 	IsPre     bool                   `json:"ispre"             bson:"ispre"`
-	InstID    int                    `json:"bk_inst_id" bson:"bk_inst_id"`
+	InstID    int                    `json:"inst_id" bson:"inst_id"`
 	NodeName  string                 `json:"node_name,omitempty" bson:"node_name,omitempty"`
 	Position  Position               `json:"position" bson:"position"`
 	Ext       map[string]interface{} `json:"ext,omitempty" bson:"ext,omitempty"`
 	Icon      string                 `json:"obj_icon,omitempty" bson:"obj_icon,omitempty"`
-	// BizID           int                    `json:"bk_biz_id,omitempty" bson:"bk_biz_id,omitempty"`
+	// BizID           int                    `json:"biz_id,omitempty" bson:"biz_id,omitempty"`
 	SupplierAccount string      `json:"org_id,omitempty" bson:"org_id,omitempty"` // org_id
 	Assts           []GraphAsst `json:"assts,omitempty"`
 }

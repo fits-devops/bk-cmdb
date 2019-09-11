@@ -158,7 +158,7 @@ export const RESOURCE_ACTION_NAME = {
     modelTopologyView: '模型拓扑视图'
 }
 
-const AUTH_META_KEYS = ['bk_biz_id', 'parent_layers', 'resource_id']
+const AUTH_META_KEYS = ['biz_id', 'parent_layers', 'resource_id']
 
 export const GET_AUTH_META = (auth, options = {}) => {
     const [type, action, scope] = auth.split('.')

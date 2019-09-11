@@ -212,7 +212,7 @@ func importProcess(ctx context.Context, db dal.RDB, opt *option, cur, tar *Proce
 		if curTopo != nil {
 			procID, err := getInt64(curTopo.Data[common.BKProcessIDField])
 			if nil != err {
-				return fmt.Errorf("cur process has no bk_process_id field, %s", err.Error())
+				return fmt.Errorf("cur process has no process_id field, %s", err.Error())
 			}
 
 			topo.Data[common.BKProcessIDField] = procID

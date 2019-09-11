@@ -11,8 +11,8 @@
 * input body：
 ```
 {
-    "bk_host_id":"1,2,3"   ,
-    "bk_host_name":"test"
+    "host_id":"1,2,3"   ,
+    "host_name":"test"
 }
 ```
 
@@ -20,7 +20,7 @@
 
 | 名称  | 类型 |必填| 默认值 | 说明 | Description|
 | ---  | ---  | --- |---  | --- | --- |
-|bk_host_id| string| 是|无|主机id,int类型的bk_host_id,分割 | host id join by ","|
+|host_id| string| 是|无|主机id,int类型的host_id,分割 | host id join by ","|
 需要更新的主机属性见主机属性列表
 
 * output:

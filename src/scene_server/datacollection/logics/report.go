@@ -177,7 +177,7 @@ func (lgc *Logics) SearchReport(header http.Header, param metadata.ParamSearchNe
 		if clodInst, ok := cloudMap[reports[index].CloudID]; ok {
 			cloudname, err := clodInst.String(common.BKCloudNameField)
 			if err != nil {
-				blog.Errorf("[NetDevice][SearchReport] bk_cloud_name field invalied: %v", err)
+				blog.Errorf("[NetDevice][SearchReport] cloud_name field invalied: %v", err)
 			}
 			reports[index].CloudName = cloudname
 		}
@@ -323,8 +323,8 @@ func (lgc *Logics) findInstAssociation(header http.Header, objectID string, inst
 	cond := condition.CreateCondition()
 	or := cond.NewOR()
 	or.Item(mapstr.MapStr{
-		"bk_inst_id": instID,
-		"obj_id":     objectID,
+		"inst_id": instID,
+		"obj_id":  objectID,
 	})
 	or.Item(mapstr.MapStr{
 		"bk_asst_inst_id": instID,
@@ -635,7 +635,7 @@ func (lgc *Logics) SearchHistory(header http.Header, param metadata.ParamSearchN
 		if clodInst, ok := cloudMap[reports[index].CloudID]; ok {
 			cloudname, err := clodInst.String(common.BKCloudNameField)
 			if err != nil {
-				blog.Errorf("[NetDevice][SearchReport] bk_cloud_name field invalied: %v", err)
+				blog.Errorf("[NetDevice][SearchReport] cloud_name field invalied: %v", err)
 			}
 			reports[index].CloudName = cloudname
 		}

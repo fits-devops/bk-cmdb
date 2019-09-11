@@ -323,9 +323,9 @@ const (
 	CCErrorTopoDeletePredefinedAssociation = 1101055
 	// association do not exist.
 	CCErrorTopoAssociationDoNotExist = 1101056
-	// create model's instance patch, but instance's data missing field bk_inst_name
+	// create model's instance patch, but instance's data missing field inst_name
 	CCErrorTopoObjectInstanceMissingInstanceNameField = 1101057
-	// object instance's bk_inst_name filed is not string
+	// object instance's inst_name filed is not string
 	CCErrorTopoInvalidObjectInstanceNameFieldValue = 1101058
 	// create model's instance patch, but instance's name is duplicate.
 	CCErrorTopoMutipleObjectInstanceName = 1101059

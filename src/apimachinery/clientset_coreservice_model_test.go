@@ -595,7 +595,7 @@ func getReadModelResult() string {
 						"ispre" : true,
 						"property_type" : "singlechar",
 						"org_id" : "0",
-						"property_id" : "bk_biz_name",
+						"property_id" : "biz_name",
 						"placeholder" : "",
 						"editable" : true,
 						"last_time" : "2018-11-19T08:10:20.554Z",

@@ -17,7 +17,7 @@
     },
     "metadata":{
         "label":{
-            "bk_biz_id":"1"
+            "biz_id":"1"
         }
     }
 }
@@ -101,7 +101,7 @@
     "on_delete": "none",
     "metadata":{
         "label":{
-            "bk_biz_id":"1"
+            "biz_id":"1"
         }
     }
 }
@@ -160,7 +160,7 @@
     "on_delete":""// 具体枚举值见上。
     "metadata":{
         "label":{
-            "bk_biz_id":"1"
+            "biz_id":"1"
         }
     }
 }
@@ -241,7 +241,7 @@
     "asst_ids": ["run","group"]，
     "metadata":{
         "label":{
-            "bk_biz_id":"1"
+            "biz_id":"1"
         }
     }
 }

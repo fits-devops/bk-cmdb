@@ -112,7 +112,7 @@
         },
         async mounted () {
             try {
-                const [rootData] = await this.getRelation(this.$parent.objId, this.$parent.formatedInst['bk_inst_id'])
+                const [rootData] = await this.getRelation(this.$parent.objId, this.$parent.formatedInst['inst_id'])
                 const validRelation = rootData.next.filter(next => !this.ignore.includes(next['obj_id']))
                 if (validRelation.length) {
                     this.$emit('on-relation-loaded', validRelation)
@@ -191,8 +191,8 @@
             },
             async createRootNode (root) {
                 const node = {
-                    id: `${root['obj_id']}_${root['bk_inst_id']}_${NODE_ID++}`,
-                    label: root['bk_inst_name'],
+                    id: `${root['obj_id']}_${root['inst_id']}_${NODE_ID++}`,
+                    label: root['inst_name'],
                     data: root,
                     loaded: true,
                     children: [],
@@ -223,8 +223,8 @@
                         inst['obj_id'] = obj['obj_id']
                         if (!this.exist(currentNode, inst, type)) {
                             const node = {
-                                id: `${inst['obj_id']}_${inst['bk_inst_id']}_${NODE_ID++}`,
-                                label: inst['bk_inst_name'],
+                                id: `${inst['obj_id']}_${inst['inst_id']}_${NODE_ID++}`,
+                                label: inst['inst_name'],
                                 data: inst,
                                 loaded: false,
                                 level: this.getRelationNodeLevel(currentNode, type),
@@ -271,7 +271,7 @@
             },
             exist (currentNode, newInst, type) {
                 return currentNode[type].some(node => {
-                    return node.data['obj_id'] === newInst['obj_id'] && node.data['bk_inst_id'] === newInst['bk_inst_id']
+                    return node.data['obj_id'] === newInst['obj_id'] && node.data['inst_id'] === newInst['inst_id']
                 })
             },
             getRelationNodeLevel (currentNode, type) {
@@ -335,7 +335,7 @@
                 if (!node.loaded) {
                     this.hoverNode = null
                     const data = node.data
-                    await this.getRelation(data['obj_id'], data['bk_inst_id'], node)
+                    await this.getRelation(data['obj_id'], data['inst_id'], node)
                     node.loaded = true
                 } else {
                     this.legends = node.legends
@@ -395,8 +395,8 @@
             handleShowDetails () {
                 const nodeData = this.hoverNode.data
                 this.details.objId = nodeData['obj_id']
-                this.details.instId = nodeData['bk_inst_id']
-                this.details.title = `${nodeData['obj_name']}-${nodeData['bk_inst_name']}`
+                this.details.instId = nodeData['inst_id']
+                this.details.title = `${nodeData['obj_name']}-${nodeData['inst_name']}`
                 this.details.show = true
             },
             toggleFullScreen (fullScreen) {

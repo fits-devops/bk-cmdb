@@ -18,10 +18,10 @@ type FieldName string
 const (
 
 	// HostID host id
-	HostID = "bk_host_id"
+	HostID = "host_id"
 
 	// PlatID the plat id
-	PlatID = "bk_cloud_id"
+	PlatID = "cloud_id"
 	// Plat the object id
 	Plat = "plat"
 	// Business the business object
@@ -34,41 +34,41 @@ const (
 	Set = "set"
 
 	// BusinessID the business id
-	BusinessID = "bk_biz_id"
+	BusinessID = "biz_id"
 	// BusinessNameField the business name
-	BusinessNameField = "bk_biz_name"
+	BusinessNameField = "biz_name"
 	// InstID the common inst id
-	InstID = "bk_inst_id"
+	InstID = "inst_id"
 
 	ParentID = "bk_parent_id"
 
 	// InstName the common inst name
-	InstName = "bk_inst_name"
+	InstName = "inst_name"
 
 	// SetID the set id
-	SetID = "bk_set_id"
+	SetID = "set_id"
 
 	// SetName the set name
-	SetName = "bk_set_name"
+	SetName = "set_name"
 
 	// ModuleID the module id
-	ModuleID = "bk_module_id"
+	ModuleID = "module_id"
 
 	// ModuleName the module name
-	ModuleName = "bk_module_name"
+	ModuleName = "module_name"
 
 	// PlatName the plat name
-	PlatName = "bk_cloud_name"
+	PlatName = "cloud_name"
 
 	// DefaultLimit the limit num
 	DefaultLimit = 1000
 	// HostIDField the host id field
-	HostIDField = "bk_host_id"
+	HostIDField = "host_id"
 	// HostNameField the host name field
-	HostNameField = "bk_host_name"
+	HostNameField = "host_name"
 
 	// HostInnerIP the host innerip
-	HostInnerIP = "bk_host_innerip"
+	HostInnerIP = "host_innerip"
 )
 
 // Maintaince the operation method

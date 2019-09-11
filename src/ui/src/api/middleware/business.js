@@ -13,7 +13,7 @@ const redirect = {
     url: 'biz/search/0',
     method: 'post',
     data: {
-        'fields': ['bk_biz_id', 'bk_biz_name'],
+        'fields': ['biz_id', 'biz_name'],
         'condition': {
             'bk_data_status': {
                 '$ne': 'disabled'
@@ -37,7 +37,7 @@ export default {
                 const cookieBizId = Cookies.get('bk_privi_biz_id')
                 const authorizedBizIds = cookieBizId ? cookieBizId.split('-') : []
                 authorizedBusiness = authorizedBusiness.filter(business => {
-                    return authorizedBizIds.some(id => id === business.bk_biz_id.toString())
+                    return authorizedBizIds.some(id => id === business.biz_id.toString())
                 })
             }
             response.data.data = {

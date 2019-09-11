@@ -117,12 +117,12 @@ const MockMessage = `{
         {
             "obj_id": "bk_switch",
             "bk_inst_key": "huawei 5789#56-79-9a-ii",
-            "bk_host_innerip": "192.168.1.1",
-			"bk_cloud_id": 0,
+            "host_innerip": "192.168.1.1",
+			"cloud_id": 0,
 			"last_time": "2018-10-03 17:09:00",
             "attributes": [
                 {
-                    "property_id": "bk_inst_name",
+                    "property_id": "inst_name",
                     "value": "huawei 5789#56-79-9a-ii"
                 }
             ],
@@ -131,7 +131,7 @@ const MockMessage = `{
 					"bk_asst_inst_name": "192.168.1.1",
                     "bk_asst_obj_id": "bk_host",
                     "bk_asst_obj_name": "主机",
-                    "bk_asst_property_id": "bk_host_id"
+                    "bk_asst_property_id": "host_id"
 				}
 			]
         }

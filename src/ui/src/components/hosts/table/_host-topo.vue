@@ -32,14 +32,14 @@
                 const hostTopo = []
                 this.host.module.map(module => {
                     const set = this.host.set.find(set => {
-                        return set['bk_set_id'] === module['bk_set_id']
+                        return set['set_id'] === module['set_id']
                     })
                     if (set) {
                         const biz = this.host.biz.find(biz => {
-                            return biz['bk_biz_id'] === set['bk_biz_id']
+                            return biz['biz_id'] === set['biz_id']
                         })
                         if (biz) {
-                            hostTopo.push(`${biz['bk_biz_name']} > ${set['bk_set_name']} > ${module['bk_module_name']}`)
+                            hostTopo.push(`${biz['biz_name']} > ${set['set_name']} > ${module['module_name']}`)
                         }
                     }
                 })

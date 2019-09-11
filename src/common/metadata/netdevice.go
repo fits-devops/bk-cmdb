@@ -56,10 +56,10 @@ type RspNetcollectorSearch struct {
 }
 
 type Netcollector struct {
-	CloudID       int64              `json:"bk_cloud_id" bson:"bk_cloud_id"`
-	CloudName     string             `json:"bk_cloud_name" bson:"-"`
-	BizID         int64              `json:"bk_biz_id" bson:"bk_biz_id" bson:"bk_biz_id"`
-	InnerIP       string             `json:"bk_host_innerip" bson:"bk_host_innerip"`
+	CloudID       int64              `json:"cloud_id" bson:"cloud_id"`
+	CloudName     string             `json:"cloud_name" bson:"-"`
+	BizID         int64              `json:"biz_id" bson:"biz_id" bson:"biz_id"`
+	InnerIP       string             `json:"host_innerip" bson:"host_innerip"`
 	Status        NetcollectorStatus `json:"status" bson:"status"`
 	TaskID        int64              `json:"task_id" bson:"task_id"`
 	DeployTime    *time.Time         `json:"deploy_time" bson:"deploy_time"`
@@ -102,16 +102,16 @@ type ParamSearchNetcollectReport struct {
 	Action    string   `json:"action"`
 	ObjectID  string   `json:"bk_object_id"`
 	Query     string   `json:"query"`
-	CloudName string   `json:"bk_cloud_name"`
-	CloudID   int64    `json:"bk_cloud_id"`
-	InnerIP   string   `json:"bk_host_innerip"`
+	CloudName string   `json:"cloud_name"`
+	CloudID   int64    `json:"cloud_id"`
+	InnerIP   string   `json:"host_innerip"`
 	LastTime  []Time   `json:"last_time"`
 	Page      BasePage `json:"page"`
 }
 
 type NetcollectReportSummary struct {
-	CloudID    int64          `json:"bk_cloud_id"`
-	CloudName  string         `json:"bk_cloud_name"`
+	CloudID    int64          `json:"cloud_id"`
+	CloudName  string         `json:"cloud_name"`
 	LastTime   Time           `json:"last_time"`
 	Statistics map[string]int `json:"statistics"`
 }
@@ -131,15 +131,15 @@ type ParamNetcollectComfirm struct {
 
 type NetcollectReport struct {
 	Action        string `json:"action" bson:"action"`
-	CloudID       int64  `json:"bk_cloud_id" bson:"bk_cloud_id"`
-	CloudName     string `json:"bk_cloud_name" bson:"-"`
+	CloudID       int64  `json:"cloud_id" bson:"cloud_id"`
+	CloudName     string `json:"cloud_name" bson:"-"`
 	ObjectID      string `json:"obj_id" bson:"obj_id"`
 	ObjectName    string `json:"obj_name" bson:"-"`
-	InnerIP       string `json:"bk_host_innerip" bson:"bk_host_innerip"`
+	InnerIP       string `json:"host_innerip" bson:"host_innerip"`
 	Configuration string `json:"configuration" bson:"configuration"`
 	OwnerID       string `json:"org_id" bson:"org_id"`
 
-	InstID       int64                         `json:"bk_inst_id" bson:"bk_inst_id"`
+	InstID       int64                         `json:"inst_id" bson:"inst_id"`
 	InstKey      string                        `json:"bk_inst_key" bson:"bk_inst_key"`
 	LastTime     Time                          `json:"last_time" bson:"last_time"`
 	Attributes   []NetcollectReportAttribute   `json:"attributes" bson:"attributes"`

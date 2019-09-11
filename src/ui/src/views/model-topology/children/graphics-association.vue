@@ -156,7 +156,7 @@
             isViewMode () {
                 const edge = this.association.edge || {}
                 const data = edge.data || {}
-                return typeof data['bk_inst_id'] === 'number'
+                return typeof data['inst_id'] === 'number'
             }
         },
         watch: {
@@ -180,7 +180,7 @@
                 'deleteObjectAssociation'
             ]),
             async getAssociationInfo () {
-                const id = this.association.edge.data['bk_inst_id']
+                const id = this.association.edge.data['inst_id']
                 const [data] = await this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: { id }
@@ -221,7 +221,7 @@
                             bk_asst_inst_id: association.id,
                             bk_asst_name: association['bk_asst_name'],
                             bk_asst_type: '',
-                            bk_inst_id: data.id,
+                            inst_id: data.id,
                             obj_id: target,
                             label: (data.metadata || {}).label || {},
                             node_type: 'obj'
@@ -255,7 +255,7 @@
                     confirmFn: async () => {
                         try {
                             const edge = this.association.edge
-                            const associationId = edge.data['bk_inst_id']
+                            const associationId = edge.data['inst_id']
                             await this.deleteObjectAssociation({
                                 id: associationId
                             })

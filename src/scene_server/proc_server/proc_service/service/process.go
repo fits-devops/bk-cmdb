@@ -324,7 +324,7 @@ func (ps *ProcServer) BatchUpdateProcess(req *restful.Request, resp *restful.Res
 			curData[detail[common.BKPropertyIDField].(string)] = detail[common.BKPropertyValueField]
 		}
 
-		curData["bk_process_id"] = procID
+		curData["process_id"] = procID
 
 		// save proc info before modify
 		auditContentArr[index].CurData = curData

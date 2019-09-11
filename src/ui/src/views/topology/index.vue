@@ -21,7 +21,7 @@
                         <i class="topo-node-icon topo-node-icon-internal icon-cc-host-breakdown" v-else></i>
                     </template>
                     <i class="topo-node-icon topo-node-icon-text" v-else>{{node['obj_name'][0]}}</i>
-                    <span class="topo-node-text" :title="node['bk_inst_name']">{{node['bk_inst_name']}}</span>
+                    <span class="topo-node-text" :title="node['inst_name']">{{node['inst_name']}}</span>
                     <bk-button type="primary" class="topo-node-btn-create fr"
                         v-if="showCreate(node, state)"
                         @click.stop="handleCreate">
@@ -161,8 +161,8 @@
                 return `${this.userName}_$topology_${this.isAdminView ? 'adminView' : this.bizId}_table_columns`
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
+                const setProperties = this.properties.set.filter(property => ['set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['module_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...hostProperties]
             },
@@ -316,7 +316,7 @@
             getNodeInst () {
                 const selectedNode = this.tree.selectedNode
                 const objId = selectedNode['obj_id']
-                const instId = selectedNode['bk_inst_id']
+                const instId = selectedNode['inst_id']
                 const requestParams = {
                     page: { start: 0, limit: 1 },
                     fields: [],
@@ -327,25 +327,25 @@
                 }
                 let promise
                 if (objId === 'set') {
-                    requestParams.condition['bk_set_id'] = instId
+                    requestParams.condition['set_id'] = instId
                     promise = this.searchSet({
                         bizId: this.bizId,
                         params: requestParams,
                         config: requestConfig
                     })
                 } else if (objId === 'module') {
-                    requestParams.condition['bk_module_id'] = instId
+                    requestParams.condition['module_id'] = instId
                     requestParams.condition['org_id'] = this.supplierAccount
                     promise = this.searchModule({
                         bizId: this.bizId,
-                        setId: this.tree.selectedNodeState.parent.node['bk_inst_id'],
+                        setId: this.tree.selectedNodeState.parent.node['inst_id'],
                         params: requestParams,
                         config: requestConfig
                     })
                 } else {
                     requestParams.fields = {}
                     requestParams.condition[objId] = [{
-                        field: 'bk_inst_id',
+                        field: 'inst_id',
                         operator: '$eq',
                         value: instId
                     }]
@@ -390,11 +390,11 @@
                     const moduleModel = this.getModelByObjId('module')
                     const internalModule = (internalTopo.module || []).map(module => {
                         return {
-                            'default': ['空闲机', 'idle machine'].includes(module['bk_module_name']) ? 1 : 2,
+                            'default': ['空闲机', 'idle machine'].includes(module['module_name']) ? 1 : 2,
                             'obj_id': 'module',
                             'obj_name': moduleModel['obj_name'],
-                            'bk_inst_id': module['bk_module_id'],
-                            'bk_inst_name': module['bk_module_name']
+                            'inst_id': module['module_id'],
+                            'inst_name': module['module_name']
                         }
                     })
                     this.tree.internalModule = internalModule
@@ -410,7 +410,7 @@
                 return this.topoModel.find(model => model['obj_id'] === id)
             },
             getTopoNodeId (node) {
-                return `${node['obj_id']}-${node['bk_inst_id']}`
+                return `${node['obj_id']}-${node['inst_id']}`
             },
             handleNodeSelected (node, state) {
                 this.tree.selectedNode = node
@@ -448,7 +448,7 @@
                     ip: {
                         data: [],
                         exact: 0,
-                        flag: 'bk_host_innerip|bk_host_outerip'
+                        flag: 'host_innerip|host_outerip'
                     },
                     condition
                 }
@@ -481,15 +481,15 @@
                     objCondition.condition.push({
                         field: `bk_${selectedNodeObjId}_id`,
                         operator: '$eq',
-                        value: this.tree.selectedNode['bk_inst_id']
+                        value: this.tree.selectedNode['inst_id']
                     })
                 } else if (!necessaryObj.includes(selectedNodeObjId)) {
                     condition.push({
                         'obj_id': 'object',
                         condition: [{
-                            field: 'bk_inst_id',
+                            field: 'inst_id',
                             operator: '$eq',
-                            value: this.tree.selectedNode['bk_inst_id']
+                            value: this.tree.selectedNode['inst_id']
                         }],
                         fields: []
                     })
@@ -553,32 +553,32 @@
                 const nextObjId = selectedNodeModel['bk_next_obj']
                 const formData = this.$injectMetadata({
                     ...value,
-                    'bk_biz_id': this.bizId,
-                    'bk_parent_id': selectedNode['bk_inst_id']
+                    'biz_id': this.bizId,
+                    'bk_parent_id': selectedNode['inst_id']
                 })
                 let promise
                 let instIdKey
                 let instNameKey
                 if (nextObjId === 'set') {
                     formData['org_id'] = this.supplierAccount
-                    instIdKey = 'bk_set_id'
-                    instNameKey = 'bk_set_name'
+                    instIdKey = 'set_id'
+                    instNameKey = 'set_name'
                     promise = this.createSet({
                         bizId: this.bizId,
                         params: formData
                     })
                 } else if (nextObjId === 'module') {
                     formData['org_id'] = this.supplierAccount
-                    instIdKey = 'bk_module_id'
-                    instNameKey = 'bk_module_name'
+                    instIdKey = 'module_id'
+                    instNameKey = 'module_name'
                     promise = this.createModule({
                         bizId: this.bizId,
-                        setId: selectedNode['bk_inst_id'],
+                        setId: selectedNode['inst_id'],
                         params: formData
                     })
                 } else {
-                    instIdKey = 'bk_inst_id'
-                    instNameKey = 'bk_inst_name'
+                    instIdKey = 'inst_id'
+                    instNameKey = 'inst_name'
                     promise = this.createInst({
                         objId: nextObjId,
                         params: this.$injectMetadata(formData)
@@ -589,8 +589,8 @@
                     const newNode = {
                         default: 0,
                         child: [],
-                        'bk_inst_id': inst[instIdKey],
-                        'bk_inst_name': inst[instNameKey],
+                        'inst_id': inst[instIdKey],
+                        'inst_name': inst[instNameKey],
                         'obj_id': nextObjId,
                         'obj_name': selectedNodeModel['bk_next_name']
                     }
@@ -616,27 +616,27 @@
                     formData['org_id'] = this.supplierAccount
                     promise = this.updateSet({
                         bizId: this.bizId,
-                        setId: selectedNode['bk_inst_id'],
+                        setId: selectedNode['inst_id'],
                         params: formData
                     })
                 } else if (objId === 'module') {
                     formData['org_id'] = this.supplierAccount
                     promise = this.updateModule({
                         bizId: this.bizId,
-                        setId: this.tree.selectedNodeInst['bk_set_id'],
-                        moduleId: selectedNode['bk_inst_id'],
+                        setId: this.tree.selectedNodeInst['set_id'],
+                        moduleId: selectedNode['inst_id'],
                         params: formData
                     })
                 } else {
                     promise = this.updateInst({
                         objId: objId,
-                        instId: selectedNode['bk_inst_id'],
+                        instId: selectedNode['inst_id'],
                         params: formData
                     })
                 }
                 promise.then(() => {
-                    const instNameKey = ['set', 'module'].includes(objId) ? `bk_${objId}_name` : 'bk_inst_name'
-                    selectedNode['bk_inst_name'] = formData[instNameKey]
+                    const instNameKey = ['set', 'module'].includes(objId) ? `bk_${objId}_name` : 'inst_name'
+                    selectedNode['inst_name'] = formData[instNameKey]
                     this.tree.selectedNodeInst = {
                         ...this.tree.selectedNodeInst,
                         ...value
@@ -664,7 +664,7 @@
                 const objId = selectedNode['obj_id']
                 const config = { requestId: 'deleteNode', data: this.$injectMetadata({}) }
                 this.$bkInfo({
-                    title: `${this.$t('Common["确定删除"]')} ${selectedNode['bk_inst_name']}?`,
+                    title: `${this.$t('Common["确定删除"]')} ${selectedNode['inst_name']}?`,
                     content: objId === 'module'
                         ? this.$t('Common["请先转移其下所有的主机"]')
                         : this.$t('Common[\'下属层级都会被删除，请先转移其下所有的主机\']'),
@@ -673,20 +673,20 @@
                         if (objId === 'set') {
                             promise = this.deleteSet({
                                 bizId: this.bizId,
-                                setId: selectedNode['bk_inst_id'],
+                                setId: selectedNode['inst_id'],
                                 config
                             })
                         } else if (objId === 'module') {
                             promise = this.deleteModule({
                                 bizId: this.bizId,
-                                setId: parentNode['bk_inst_id'],
-                                moduleId: selectedNode['bk_inst_id'],
+                                setId: parentNode['inst_id'],
+                                moduleId: selectedNode['inst_id'],
                                 config
                             })
                         } else {
                             promise = this.deleteInst({
                                 objId,
-                                instId: selectedNode['bk_inst_id'],
+                                instId: selectedNode['inst_id'],
                                 config
                             })
                         }
@@ -701,7 +701,7 @@
             },
             showCreate (node, state) {
                 const selected = state.selected
-                const isBlueKing = this.tree.data[0]['bk_inst_name'] === '蓝鲸'
+                const isBlueKing = this.tree.data[0]['inst_name'] === '蓝鲸'
                 const isModule = node['obj_id'] === 'module'
                 return !this.isAdminView && selected && !isBlueKing && !isModule
             }

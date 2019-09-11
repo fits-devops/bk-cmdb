@@ -18,7 +18,7 @@
         <cmdb-hosts-table class="resource-main" ref="resourceTable"
             :columns-config-key="columnsConfigKey"
             :columns-config-properties="columnsConfigProperties"
-            :columns-config-disabled-columns="['bk_host_innerip', 'bk_cloud_id', 'bk_biz_name', 'bk_module_name']"
+            :columns-config-disabled-columns="['host_innerip', 'cloud_id', 'biz_name', 'module_name']"
             :edit-auth="$OPERATION.U_RESOURCE_HOST"
             :delete-auth="$OPERATION.D_RESOURCE_HOST"
             :save-auth="$OPERATION.U_RESOURCE_HOST"
@@ -43,8 +43,8 @@
                         :disabled="!table.checked.length"
                         :list="authorizedBusiness"
                         :auto-select="false"
-                        setting-key="bk_biz_id"
-                        display-key="bk_biz_name"
+                        setting-key="biz_id"
+                        display-key="biz_name"
                         v-model="assignBusiness"
                         @on-selected="handleAssignHosts">
                     </cmdb-selector>
@@ -178,9 +178,9 @@
                 return this.table.header.filter(header => header.type !== 'checkbox')
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
-                const businessProperties = this.properties.biz.filter(property => ['bk_biz_name'].includes(property['property_id']))
+                const setProperties = this.properties.set.filter(property => ['set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['module_name'].includes(property['property_id']))
+                const businessProperties = this.properties.biz.filter(property => ['biz_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...businessProperties, ...hostProperties]
             }
@@ -294,15 +294,15 @@
             },
             hasSelectAssignedHost () {
                 const allList = this.$refs.resourceTable.table.allList
-                const list = allList.filter(item => this.table.checked.includes(item['host']['bk_host_id']))
+                const list = allList.filter(item => this.table.checked.includes(item['host']['host_id']))
                 const existAssigned = list.some(item => item['biz'].some(biz => biz.default !== 1))
                 return existAssigned
             },
             assignHosts (business) {
                 this.transferResourcehostToIdleModule({
                     params: {
-                        'bk_biz_id': business['bk_biz_id'],
-                        'bk_host_id': this.table.checked
+                        'biz_id': business['biz_id'],
+                        'host_id': this.table.checked
                     }
                 }).then(() => {
                     this.$success(this.$t("HostResourcePool['分配成功']"))
@@ -325,7 +325,7 @@
                         render('span', ' Hosts Transfer to Idle machine under '),
                         render('span', {
                             style: { color: '#3c96ff' }
-                        }, business['bk_biz_name'])
+                        }, business['biz_name'])
                     ])
                 } else {
                     content = render('p', [
@@ -336,7 +336,7 @@
                         render('span', ' 个主机转移到 '),
                         render('span', {
                             style: { color: '#3c96ff' }
-                        }, business['bk_biz_name']),
+                        }, business['biz_name']),
                         render('span', ' 下的空闲机模块')
                     ])
                 }
@@ -372,7 +372,7 @@
                         this.deleteHost({
                             params: {
                                 data: {
-                                    'bk_host_id': this.table.checked.join(','),
+                                    'host_id': this.table.checked.join(','),
                                     'org_id': this.supplierAccount
                                 }
                             }
@@ -415,11 +415,11 @@
             },
             async exportField () {
                 const formData = new FormData()
-                formData.append('bk_host_id', this.table.checked)
+                formData.append('host_id', this.table.checked)
                 if (this.customColumns) {
                     formData.append('export_custom_fields', this.customColumns)
                 }
-                formData.append('bk_biz_id', '-1')
+                formData.append('biz_id', '-1')
                 const res = await this.exportHost({
                     params: formData,
                     config: {

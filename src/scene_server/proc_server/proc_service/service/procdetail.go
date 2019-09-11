@@ -117,9 +117,9 @@ type instNameAsst struct {
 	ID         string `json:"id"`
 	ObjID      string `json:"obj_id"`
 	ObjIcon    string `json:"obj_icon"`
-	InstID     int    `json:"bk_inst_id"`
+	InstID     int    `json:"inst_id"`
 	ObjectName string `json:"obj_name"`
-	InstName   string `json:"bk_inst_name"`
+	InstName   string `json:"inst_name"`
 }
 
 func (ps *ProcServer) getInstAsst(forward http.Header, ownerID, objID string, ids []string, page map[string]interface{}) ([]instNameAsst, int, int) {

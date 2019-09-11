@@ -69,7 +69,7 @@
         computed: {
             isWindows () {
                 const info = this.$store.state.hostDetails.info || {}
-                return info.bk_os_type === 'windows'
+                return info.os_type === 'windows'
             },
             id () {
                 return this.$route.params.id

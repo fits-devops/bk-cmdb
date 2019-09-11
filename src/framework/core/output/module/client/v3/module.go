@@ -67,7 +67,7 @@ func (cli *Module) CreateModule(bizID, setID int64, data types.MapStr) (int, err
 	}
 
 	// parse id
-	id := gs.Get("data.bk_module_id").Int()
+	id := gs.Get("data.module_id").Int()
 
 	return int(id), nil
 }

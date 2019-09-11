@@ -52,7 +52,7 @@
         computed: {
             topoPath () {
                 const path = this.getStatePath(this.state)
-                return path.map(state => state.node['bk_inst_name']).join('-')
+                return path.map(state => state.node['inst_name']).join('-')
             },
             sortedProperties () {
                 const sortedProperties = this.properties.filter(property => !['singleasst', 'multiasst'].includes(property['property_type']))

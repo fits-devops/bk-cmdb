@@ -354,7 +354,7 @@ func (lgc *Logics) QueryProcessOperateResult(ctx context.Context, taskID string)
 
 func (lgc *Logics) GetHostForGse(ctx context.Context, appID int64, hostIDArr []int64) ([]*metadata.GseHost, error) {
 	gseHosts := make([]*metadata.GseHost, 0)
-	// get bk_supplier_id from applicationbase
+	// get supplier_id from applicationbase
 	condition := make(map[string]interface{})
 	condition[common.BKAppIDField] = appID
 	reqParam := new(metadata.QueryCondition)

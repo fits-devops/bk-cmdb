@@ -294,7 +294,7 @@ data 字段说明
             "placeholder": "",
             "property_group": "default",
             "property_group_name": "基础信息",
-            "property_id": "bk_process_name",
+            "property_id": "process_name",
             "property_index": 0,
             "property_name": "进程名称",
             "property_type": "singlechar",
