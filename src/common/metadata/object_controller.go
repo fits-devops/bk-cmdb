@@ -61,20 +61,20 @@ type AttributeWrapper struct {
 	AssoType          int    `json:"bk_asst_type"`
 	AsstForward       string `json:"bk_asst_forward"`
 	AssociationID     string `json:"bk_asst_obj_id"`
-	PropertyGroupName string `json:"bk_property_group_name"`
+	PropertyGroupName string `json:"property_group_name"`
 }
 
 // UpdateGroupCondition update group condition struct
 type UpdateGroupCondition struct {
 	Condition struct {
 		ID      int64  `field:"id" json:"id,omitempty"`
-		GroupID string `field:"bk_group_id" json:"bk_group_id,omitempty"`
+		GroupID string `field:"group_id" json:"group_id,omitempty"`
 		ObjID   string `field:"obj_id" json:"obj_id,omitempty"`
 	} `json:"condition"`
 
 	Data struct {
-		Name  string `field:"bk_group_name" json:"bk_group_name,omitempty"`
-		Index int64  `field:"bk_group_index" json:"bk_group_index"`
+		Name  string `field:"group_name" json:"group_name,omitempty"`
+		Index int64  `field:"group_index" json:"group_index"`
 	} `json:"data"`
 }
 

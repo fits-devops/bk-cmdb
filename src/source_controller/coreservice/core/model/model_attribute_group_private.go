@@ -23,7 +23,7 @@ func (g *modelAttributeGroup) groupIDIsExists(ctx core.ContextParams, objID, gro
 
 	cond := mongo.NewCondition()
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldGroupID, Val: groupID})
-	cond.Element(&mongo.Eq{Key: metadata.GroupFieldSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.GroupFieldOwnerID, Val: ctx.SupplierAccount})
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldObjectID, Val: objID})
 	exist, bizID := meta.Label.Get(common.BKAppIDField)
 	if exist {
@@ -47,7 +47,7 @@ func (g *modelAttributeGroup) groupNameIsExists(ctx core.ContextParams, objID, g
 
 	cond := mongo.NewCondition()
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldGroupName, Val: groupName})
-	cond.Element(&mongo.Eq{Key: metadata.GroupFieldSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.GroupFieldOwnerID, Val: ctx.SupplierAccount})
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldObjectID, Val: objID})
 	exist, bizID := meta.Label.Get(common.BKAppIDField)
 	if exist {
@@ -71,7 +71,7 @@ func (g *modelAttributeGroup) hasAttributes(ctx core.ContextParams, objID string
 
 	cond := mongo.NewCondition()
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldObjectID, Val: objID})
-	cond.Element(&mongo.Eq{Key: metadata.GroupFieldSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.GroupFieldOwnerID, Val: ctx.SupplierAccount})
 	cond.Element(&mongo.In{Key: metadata.GroupFieldGroupID, Val: groupIDS})
 
 	attrs, err := g.model.SearchModelAttributes(ctx, objID, metadata.QueryCondition{

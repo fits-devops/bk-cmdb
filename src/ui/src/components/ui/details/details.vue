@@ -7,14 +7,14 @@
                     :key="groupIndex"
                     v-if="$groupedProperties[groupIndex].length">
                     <cmdb-collapse
-                        :label="group['bk_group_name']"
-                        :collapse.sync="collapseStatus[group['bk_group_id']]">
+                        :label="group['group_name']"
+                        :collapse.sync="collapseStatus[group['group_id']]">
                         <ul class="property-list clearfix">
                             <li class="property-item clearfix fl"
                                 v-for="(property, propertyIndex) in $groupedProperties[groupIndex]"
                                 :key="propertyIndex"
                                 :title="getTitle(inst, property)">
-                                <span class="property-name fl">{{property['bk_property_name']}}</span>
+                                <span class="property-name fl">{{property['property_name']}}</span>
                                 <span class="property-value clearfix fl" v-if="property.unit">
                                     <span class="property-value-text fl">{{getValue(property)}}</span>
                                     <span class="property-value-unit fl">{{property.unit}}</span>
@@ -127,15 +127,15 @@
                 this.scrollbar = $layout.scrollHeight !== $layout.offsetHeight
             },
             handleToggleGroup (group) {
-                const groupId = group['bk_group_id']
+                const groupId = group['group_id']
                 const collapse = !!this.collapseStatus[groupId]
                 this.$set(this.collapseStatus, groupId, !collapse)
             },
             getTitle (inst, property) {
-                return `${property['bk_property_name']}: ${inst[property['bk_property_id']] || '--'} ${property.unit}`
+                return `${property['property_name']}: ${inst[property['property_id']] || '--'} ${property.unit}`
             },
             getValue (property) {
-                const value = this.inst[property['bk_property_id']]
+                const value = this.inst[property['property_id']]
                 return String(value).length ? value : '--'
             },
             handleEdit () {

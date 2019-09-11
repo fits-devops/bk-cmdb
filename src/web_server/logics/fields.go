@@ -161,7 +161,7 @@ func (lgc *Logics) getObjectPrimaryFieldByObjID(objID string, header http.Header
 }
 
 func (lgc *Logics) getObjFieldIDs(objID string, header http.Header, meta *metadata.Metadata) ([]Property, error) {
-	sort := fmt.Sprintf("-%s,bk_property_index", common.BKIsRequiredField)
+	sort := fmt.Sprintf("-%s,property_index", common.BKIsRequiredField)
 	return lgc.getObjFieldIDsBySort(objID, sort, header, nil, meta)
 
 }

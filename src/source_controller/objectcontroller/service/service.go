@@ -121,9 +121,9 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.PUT("/privilege/group/detail/{org_id}/{group_id}").To(s.UpdateUserGroupPrivi))
 	api.Route(api.GET("/privilege/group/detail/{org_id}/{group_id}").To(s.GetUserGroupPrivi))
 
-	api.Route(api.POST("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.CreateRolePri))
-	api.Route(api.GET("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.GetRolePri))
-	api.Route(api.PUT("/role/{org_id}/{obj_id}/{bk_property_id}").To(s.UpdateRolePri))
+	api.Route(api.POST("/role/{org_id}/{obj_id}/{property_id}").To(s.CreateRolePri))
+	api.Route(api.GET("/role/{org_id}/{obj_id}/{property_id}").To(s.GetRolePri))
+	api.Route(api.PUT("/role/{org_id}/{obj_id}/{property_id}").To(s.UpdateRolePri))
 
 	api.Route(api.GET("/system/{flag}/{org_id}").To(s.GetSystemFlag))
 

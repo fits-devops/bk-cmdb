@@ -25,32 +25,32 @@
             </div>
             <div class="filter-group"
                 v-for="property in customFieldProperties"
-                :key="property['bk_property_id']">
+                :key="property['property_id']">
                 <label class="filter-label">{{getFilterLabel(property)}}</label>
                 <div class="filter-field clearfix">
                     <filter-field-operator class="filter-field-operator fl"
-                        v-show="!['date', 'time'].includes(property['bk_property_type'])"
+                        v-show="!['date', 'time'].includes(property['property_type'])"
                         :type="getOperatorType(property)"
-                        v-model="condition[property['obj_id']][property['bk_property_id']]['operator']">
+                        v-model="condition[property['obj_id']][property['property_id']]['operator']">
                     </filter-field-operator>
                     <cmdb-form-enum class="filter-field-value fr"
-                        v-if="property['bk_property_type'] === 'enum'"
+                        v-if="property['property_type'] === 'enum'"
                         :allow-clear="true"
                         :options="property.option || []"
-                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
+                        v-model="condition[property['obj_id']][property['property_id']]['value']">
                     </cmdb-form-enum>
                     <cmdb-form-bool-input class="filter-field-value filter-field-bool-input fr"
-                        v-else-if="property['bk_property_type'] === 'bool'"
-                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
+                        v-else-if="property['property_type'] === 'bool'"
+                        v-model="condition[property['obj_id']][property['property_id']]['value']">
                     </cmdb-form-bool-input>
                     <cmdb-form-associate-input class="filter-field-value filter-field-associate fr"
-                        v-else-if="['singleasst', 'multiasst'].includes(property['bk_property_type'])"
-                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
+                        v-else-if="['singleasst', 'multiasst'].includes(property['property_type'])"
+                        v-model="condition[property['obj_id']][property['property_id']]['value']">
                     </cmdb-form-associate-input>
-                    <component class="filter-field-value fr" :class="`filter-field-${property['bk_property_type']}`"
+                    <component class="filter-field-value fr" :class="`filter-field-${property['property_type']}`"
                         v-else
-                        :is="`cmdb-form-${property['bk_property_type']}`"
-                        v-model="condition[property['obj_id']][property['bk_property_id']]['value']">
+                        :is="`cmdb-form-${property['property_type']}`"
+                        v-model="condition[property['obj_id']][property['property_id']]['value']">
                     </component>
                 </div>
             </div>
@@ -187,7 +187,7 @@
                 const customFieldProperties = []
                 this.customFields.forEach(field => {
                     const objId = field['obj_id']
-                    const propertyId = field['bk_property_id']
+                    const propertyId = field['property_id']
                     const property = this.$tools.getProperty(this.properties[objId], propertyId)
                     if (property) {
                         customFieldProperties.push(property)
@@ -282,7 +282,7 @@
                     }
                 }).then(result => {
                     Object.keys(this.properties).forEach(objId => {
-                        this.properties[objId] = result[objId].filter(property => property['bk_property_type'] !== 'foreignkey')
+                        this.properties[objId] = result[objId].filter(property => property['property_type'] !== 'foreignkey')
                     })
                     return result
                 })
@@ -290,11 +290,11 @@
             getFilterLabel (property) {
                 const objId = property['obj_id']
                 const propertyModel = this.models.find(model => model['obj_id'] === objId)
-                return `${propertyModel['obj_name']} - ${property['bk_property_name']}`
+                return `${propertyModel['obj_name']} - ${property['property_name']}`
             },
             getOperatorType (property) {
-                const propertyType = property['bk_property_type']
-                const propertyId = property['bk_property_id']
+                const propertyType = property['property_type']
+                const propertyId = property['property_id']
                 if (['bk_set_name', 'bk_module_name'].includes(propertyId)) {
                     return 'name'
                 } else if (['singlechar', 'longchar'].includes(propertyType)) {
@@ -304,7 +304,7 @@
             },
             getConditionOperator (property) {
                 const fields = this.condition[property['obj_id']]
-                const target = fields.find(field => field.field === property['bk_property_id'])
+                const target = fields.find(field => field.field === property['property_id'])
                 return target.operator
             },
             getParams () {
@@ -318,7 +318,7 @@
                 }
                 // 填充必要模型查询参数
                 const requiredObj = ['biz', 'host', 'set', 'module']
-                const normalProperties = this.customFieldProperties.filter(property => !['singleasst', 'multiasst'].includes(property['bk_property_type']))
+                const normalProperties = this.customFieldProperties.filter(property => !['singleasst', 'multiasst'].includes(property['property_type']))
                 requiredObj.forEach(objId => {
                     const objParams = {
                         'obj_id': objId,
@@ -327,7 +327,7 @@
                     }
                     const objProperties = normalProperties.filter(property => property['obj_id'] === objId)
                     objProperties.forEach(property => {
-                        const propertyCondition = this.condition[objId][property['bk_property_id']]
+                        const propertyCondition = this.condition[objId][property['property_id']]
                         // 必要模型参数合法时，填充对应模型的condition
                         let value = propertyCondition.value
                         if (!['', null].includes(value)) {
@@ -344,10 +344,10 @@
                     params.condition.push(objParams)
                 })
                 // 关联属性额外填充模型查询参数
-                const associateProperties = this.customFieldProperties.filter(property => ['singleasst', 'multiasst'].includes(property['bk_property_type']))
+                const associateProperties = this.customFieldProperties.filter(property => ['singleasst', 'multiasst'].includes(property['property_type']))
                 associateProperties.forEach(property => {
                     const associateObjId = property['bk_asst_obj_id']
-                    const propertyCondition = this.condition[property['obj_id']][property['bk_property_id']]
+                    const propertyCondition = this.condition[property['obj_id']][property['property_id']]
                     // 关联模型存在且查询参数合法时，填充对应关联模型的condition
                     if (associateObjId && !['', null].includes(propertyCondition.value)) {
                         let objParams = params.condition.find(condition => condition['obj_id'] === associateObjId)
@@ -375,13 +375,13 @@
                     module: {}
                 }
                 this.customFieldProperties.forEach(property => {
-                    condition[property['obj_id']][property['bk_property_id']] = this.getPropertyCondition(property)
+                    condition[property['obj_id']][property['property_id']] = this.getPropertyCondition(property)
                 })
                 this.condition = condition
             },
             getPropertyCondition (property) {
                 const objId = property['obj_id']
-                const propertyId = property['bk_property_id']
+                const propertyId = property['property_id']
                 const condition = {
                     field: propertyId,
                     operator: '',
@@ -505,7 +505,7 @@
                 this.$store.dispatch('userCustom/saveUsercustom', {
                     [this.filterConfigKey]: properties.map(property => {
                         return {
-                            'bk_property_id': property['bk_property_id'],
+                            'property_id': property['property_id'],
                             'obj_id': property['obj_id']
                         }
                     })

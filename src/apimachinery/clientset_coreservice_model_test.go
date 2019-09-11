@@ -541,23 +541,23 @@ func getReadModelAttrResult() string {
 		"data": {
 			"count":1,
 			"info":[{
-				"bk_property_group" : "default",
+				"property_group" : "default",
 				"unit" : "",
 				"ispre" : true,
-				"bk_property_type" : "singlechar",
+				"property_type" : "singlechar",
 				"placeholder" : "",
 				"editable" : true,
 				"last_time" : "2018-11-19T08:10:20.554Z",
-				"bk_property_name" : "业务名",
+				"property_name" : "业务名",
 				"option" : "",
 				"description" : "",
-				"bk_isapi" : false,
+				"isapi" : false,
 				"creator" : "cc_system",
-				"bk_property_index" : 0,
+				"property_index" : 0,
 				"isrequired" : true,
 				"isreadonly" : false,
 				"isonly" : true,
-				"bk_issystem" : false,
+				"issystem" : false,
 				"create_time" : "2018-11-19T08:10:20.554Z"
 			}]
 		}
@@ -590,26 +590,26 @@ func getReadModelResult() string {
 						"creator" : "cc_system"
 					},
 					"attributes":[{
-						"bk_property_group" : "default",
+						"property_group" : "default",
 						"unit" : "",
 						"ispre" : true,
-						"bk_property_type" : "singlechar",
+						"property_type" : "singlechar",
 						"org_id" : "0",
-						"bk_property_id" : "bk_biz_name",
+						"property_id" : "bk_biz_name",
 						"placeholder" : "",
 						"editable" : true,
 						"last_time" : "2018-11-19T08:10:20.554Z",
-						"bk_property_name" : "业务名",
+						"property_name" : "业务名",
 						"option" : "",
 						"description" : "",
-						"bk_isapi" : false,
+						"isapi" : false,
 						"creator" : "cc_system",
 						"obj_id" : "biz",
-						"bk_property_index" : 0,
+						"property_index" : 0,
 						"isrequired" : true,
 						"isreadonly" : false,
 						"isonly" : true,
-						"bk_issystem" : false,
+						"issystem" : false,
 						"create_time" : "2018-11-19T08:10:20.554Z"
 					}]
 				}

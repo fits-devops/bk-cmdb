@@ -2,8 +2,8 @@
     <div class="property-filter clearfix">
         <cmdb-selector class="property-selector fl" style="width: 135px;"
             :list="filteredProperties"
-            setting-key="bk_property_id"
-            display-key="bk_property_name"
+            setting-key="property_id"
+            display-key="property_name"
             v-model="localSelected.id"
             @on-selected="handlePropertySelected">
         </cmdb-selector>
@@ -17,7 +17,7 @@
         <div class="property-value fl" style="width: 325px;"
             v-if="Object.keys(selectedProperty).length">
             <component
-                :is="`cmdb-form-${selectedProperty['bk_property_type']}`"
+                :is="`cmdb-form-${selectedProperty['property_type']}`"
                 :options="selectedProperty.option || []"
                 :placeholder="$t('Common[\'请输入关键字\']')"
                 v-model.trim="localSelected.value">
@@ -74,14 +74,14 @@
         computed: {
             ...mapGetters(['supplierAccount']),
             selectedProperty () {
-                return this.filteredProperties.find(({ bk_property_id: bkPropertyId }) => bkPropertyId === this.localSelected.id) || {}
+                return this.filteredProperties.find(({ property_id: bkPropertyId }) => bkPropertyId === this.localSelected.id) || {}
             },
             operatorOptions () {
                 if (this.selectedProperty) {
-                    if (['bk_host_innerip', 'bk_host_outerip'].includes(this.selectedProperty['bk_property_id']) || this.objId === 'biz') {
+                    if (['bk_host_innerip', 'bk_host_outerip'].includes(this.selectedProperty['property_id']) || this.objId === 'biz') {
                         return [{ label: this.operatorLabel['$regex'], value: '$regex' }]
                     } else {
-                        const propertyType = this.selectedProperty['bk_property_type']
+                        const propertyType = this.selectedProperty['property_type']
                         const propertyOperator = this.propertyOperator.hasOwnProperty(propertyType) ? this.propertyOperator[propertyType] : this.propertyOperator['default']
                         return propertyOperator.map(operator => {
                             return {
@@ -97,8 +97,8 @@
         watch: {
             filteredProperties (properties) {
                 if (properties.length) {
-                    this.localSelected.id = properties[0]['bk_property_id']
-                    this.$emit('on-property-selected', properties[0]['bk_property_id'], properties[0])
+                    this.localSelected.id = properties[0]['property_id']
+                    this.$emit('on-property-selected', properties[0]['property_id'], properties[0])
                 } else {
                     this.localSelected.id = ''
                     this.$emit('on-property-selected', '', null)
@@ -127,9 +127,9 @@
                 })
                 this.filteredProperties = properties.filter(property => {
                     const {
-                        bk_isapi: bkIsapi,
-                        bk_property_type: bkPropertyType,
-                        bk_property_id: bkPropertyId
+                        isapi: bkIsapi,
+                        property_type: bkPropertyType,
+                        property_id: bkPropertyId
                     } = property
                     return !bkIsapi && !this.excludeType.includes(bkPropertyType) && !this.excludeId.includes(bkPropertyId)
                 })

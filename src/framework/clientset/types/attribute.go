@@ -36,9 +36,9 @@ type Attribute struct {
 	Description   string        `json:"description,omitempty"`
 	UpdateAt      time.Time     `json:"last_time,omitempty"`
 	Tenancy       string        `json:"org_id,omitempty"`
-	Name          string        `json:"bk_property_name,omitempty"`
+	Name          string        `json:"property_name,omitempty"`
 	IsRequired    bool          `json:"isrequired,omitempty"`
-	Type          AttributeType `json:"bk_property_type,omitempty"`
+	Type          AttributeType `json:"property_type,omitempty"`
 	Option        string        `json:"option,omitempty"`
 	Creator       string        `json:"creator,omitempty"`
 	ID            int64         `json:"id,omitempty"`
@@ -48,10 +48,10 @@ type Attribute struct {
 	Unit          string        `json:"unit,omitempty"`
 	IsSystem      bool          `json:"is_system,omitempty"`
 	CreatedAt     time.Time     `json:"create_time,omitempty"`
-	IsAPI         bool          `json:"bk_isapi,omitempty"`
-	PropertyID    string        `json:"bk_property_id,omitempty"`
-	PropertyGroup string        `json:"bk_property_group,omitempty"`
-	PropertyIndex int64         `json:"bk_property_index,omitempty"`
+	IsAPI         bool          `json:"isapi,omitempty"`
+	PropertyID    string        `json:"property_id,omitempty"`
+	PropertyGroup string        `json:"property_group,omitempty"`
+	PropertyIndex int64         `json:"property_index,omitempty"`
 	IsPre         bool          `json:"ispre,omitempty"`
 }
 

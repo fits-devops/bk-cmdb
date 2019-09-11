@@ -349,13 +349,13 @@
                     objId: 'host'
                 }].concat(properties.map(property => {
                     return {
-                        id: property['bk_property_id'],
-                        name: property['bk_property_name'],
+                        id: property['property_id'],
+                        name: property['property_name'],
                         objId: property['obj_id'],
-                        sortable: property['obj_id'] === 'host' && !['foreignkey'].includes(property['bk_property_type'])
+                        sortable: property['obj_id'] === 'host' && !['foreignkey'].includes(property['property_type'])
                     }
                 }))
-                this.columnsConfig.selected = properties.map(property => property['bk_property_id'])
+                this.columnsConfig.selected = properties.map(property => property['property_id'])
             },
             setAllHostList (list) {
                 const newList = []
@@ -523,7 +523,7 @@
             },
             handleApplyColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.columnsConfigKey]: properties.map(property => property['bk_property_id'])
+                    [this.columnsConfigKey]: properties.map(property => property['property_id'])
                 })
                 this.columnsConfig.show = false
             },

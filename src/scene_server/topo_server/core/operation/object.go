@@ -81,7 +81,7 @@ func (o *object) IsValidObject(params types.ContextParams, objID string) error {
 
 	checkObjCond := condition.CreateCondition()
 	checkObjCond.Field(metadata.AttributeFieldObjectID).Eq(objID)
-	checkObjCond.Field(metadata.AttributeFieldSupplierAccount).Eq(params.SupplierAccount)
+	checkObjCond.Field(metadata.AttributeFieldOwnerID).Eq(params.SupplierAccount)
 
 	objItems, err := o.FindObject(params, checkObjCond)
 	if nil != err {
@@ -215,7 +215,7 @@ func (o *object) CreateObjectBatch(params types.ContextParams, data mapstr.MapSt
 				continue
 			}
 			attrCond := condition.CreateCondition()
-			attrCond.Field(metadata.AttributeFieldSupplierAccount).Eq(params.SupplierAccount)
+			attrCond.Field(metadata.AttributeFieldOwnerID).Eq(params.SupplierAccount)
 			attrCond.Field(metadata.AttributeFieldObjectID).Eq(objID)
 			attrCond.Field(metadata.AttributeFieldPropertyID).Eq(attrID)
 			attrs, err := o.attr.FindObjectAttribute(params, attrCond)

@@ -161,8 +161,8 @@
                 return `${this.userName}_$topology_${this.isAdminView ? 'adminView' : this.bizId}_table_columns`
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['bk_property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['bk_property_id']))
+                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...hostProperties]
             },
@@ -454,22 +454,22 @@
                 }
                 const quickSearch = this.table.quickSearch
                 if (quickSearch.property && quickSearch.value !== null && String(quickSearch.value).length) {
-                    const quickSearchType = quickSearch.property['bk_property_type']
+                    const quickSearchType = quickSearch.property['property_type']
                     const hostCondition = condition.find(condition => condition['obj_id'] === 'host')
                     if (['date', 'time'].includes(quickSearchType)) {
                         hostCondition.condition.push({
-                            field: quickSearch.property['bk_property_id'],
+                            field: quickSearch.property['property_id'],
                             operator: '$gte',
                             value: quickSearch.value[0]
                         })
                         hostCondition.condition.push({
-                            field: quickSearch.property['bk_property_id'],
+                            field: quickSearch.property['property_id'],
                             operator: '$lte',
                             value: quickSearch.value[1]
                         })
                     } else {
                         hostCondition.condition.push({
-                            field: quickSearch.property['bk_property_id'],
+                            field: quickSearch.property['property_id'],
                             operator: quickSearch.operator,
                             value: quickSearch.value
                         })

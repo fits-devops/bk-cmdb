@@ -52,8 +52,8 @@
                 return `${this.userName}_host_${this.isAdminView ? 'adminView' : this.bizId}_filter_fields`
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['bk_property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['bk_property_id']))
+                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...hostProperties]
             }

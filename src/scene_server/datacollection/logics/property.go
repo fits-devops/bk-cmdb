@@ -166,7 +166,7 @@ func (lgc *Logics) SearchProperty(pheader http.Header, params *meta.NetCollSearc
 		return &searchResult, nil
 	}
 
-	// field device_id and bk_property_id must be in params.Fields
+	// field device_id and property_id must be in params.Fields
 	// to help add value of fields from other tables into search result
 	if 0 != len(params.Fields) {
 		params.Fields = append(params.Fields, []string{common.BKDeviceIDField, common.BKPropertyIDField}...)
@@ -375,8 +375,8 @@ func (lgc *Logics) checkNetProperty(
 		return false, err
 	}
 
-	// check if bk_property_id is valid and from object of net device
-	// if bk_property_id is valid, propertyInfo will get bk_property_id of property
+	// check if property_id is valid and from object of net device
+	// if property_id is valid, propertyInfo will get property_id of property
 	netPropertyInfo.PropertyID, err = lgc.checkNetObjectProperty(
 		pheader, netPropertyInfo.ObjectID, netPropertyInfo.PropertyID, netPropertyInfo.PropertyName)
 	if nil != err {
@@ -470,7 +470,7 @@ func (lgc *Logics) checkNetPropertyExist(deviceID uint64, propertyID, ownerID st
 
 	if 0 != rowCount {
 		blog.V(5).Infof(
-			"[NetProperty] check if net deviceID and propertyID exist, device_id[%s] and bk_property_id[%s] device is exist",
+			"[NetProperty] check if net deviceID and propertyID exist, device_id[%s] and property_id[%s] device is exist",
 			deviceID, propertyID)
 		return true, nil
 	}
@@ -633,7 +633,7 @@ func (lgc *Logics) assembleDeviceShowFieldValue(deviceData []meta.NetcollectDevi
 	return deviceIDs, deviceIDMapDeviceShowFields
 }
 
-// get objectID, property ID list and get field to show by map (bk_property_id --> bk_property_name, ...)
+// get objectID, property ID list and get field to show by map (property_id --> property_name, ...)
 func (lgc *Logics) getPropertyIDsAndShowFields(
 	pheader http.Header, propertyCond map[string]interface{}) ([]string, []string, map[string]propertyShowField, error) {
 

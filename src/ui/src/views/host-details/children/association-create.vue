@@ -257,7 +257,7 @@
                 if (propertyId && propertyId !== this.instanceNameKey) {
                     header.splice(2, 0, {
                         id: propertyId,
-                        name: (this.getProperty(propertyId) || {})['bk_property_name']
+                        name: (this.getProperty(propertyId) || {})['property_name']
                     })
                 }
                 this.table.header = header
@@ -547,14 +547,14 @@
                 this.table.list = data.info.map(item => this.$tools.flatternItem(this.properties, item))
             },
             getProperty (propertyId) {
-                return this.properties.find(({ bk_property_id: bkPropertyId }) => bkPropertyId === propertyId)
+                return this.properties.find(({ property_id: bkPropertyId }) => bkPropertyId === propertyId)
             },
             handleCloseConfirm (event) {
                 // this.confirm.id = null
             },
             handlePropertySelected (value, data) {
-                this.filter.id = data['bk_property_id']
-                this.filter.name = data['bk_property_name']
+                this.filter.id = data['property_id']
+                this.filter.name = data['property_name']
             },
             handleOperatorSelected (value, data) {
                 this.filter.operator = value

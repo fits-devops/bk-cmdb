@@ -244,8 +244,8 @@
                 const headerMap = ['bk_process_name', 'bk_func_id', 'bind_ip', 'port', 'protocol', 'bk_func_name']
                 this.properties.map(property => {
                     const {
-                        'bk_property_id': propertyId,
-                        'bk_property_name': propertyName
+                        'property_id': propertyId,
+                        'property_name': propertyName
                     } = property
                     const index = headerMap.indexOf(propertyId)
                     if (index !== -1) {

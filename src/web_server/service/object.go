@@ -34,10 +34,10 @@ import (
 )
 
 var sortFields = []string{
-	"bk_property_id",
-	"bk_property_name",
-	"bk_property_type",
-	"bk_property_group_name",
+	"property_id",
+	"property_name",
+	"property_type",
+	"property_group_name",
 	"option",
 	"unit",
 	"description",

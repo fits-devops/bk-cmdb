@@ -68,8 +68,8 @@ func (lgc *Logics) checkNetObject(pheader http.Header, objID string, objName str
 	return objResult.Data.Info[0].Spec.ObjectID, objResult.Data.Info[0].Spec.ObjectName, nil
 }
 
-// by checking if bk_property_id and bk_property_name function parameter are valid net device object property or not
-// one of bk_property_id and bk_property_name can be empty and will return bk_property_id value if no error
+// by checking if property_id and property_name function parameter are valid net device object property or not
+// one of property_id and property_name can be empty and will return property_id value if no error
 func (lgc *Logics) checkNetObjectProperty(pheader http.Header, netDeviceObjID, propertyID, propertyName string) (string, error) {
 	defErr := lgc.Engine.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(pheader))
 
@@ -79,7 +79,7 @@ func (lgc *Logics) checkNetObjectProperty(pheader http.Header, netDeviceObjID, p
 	}
 
 	if "" == propertyName && "" == propertyID {
-		blog.Errorf("[NetCollect] check net device object, empty bk_property_id and bk_property_name")
+		blog.Errorf("[NetCollect] check net device object, empty property_id and property_name")
 		return "", defErr.Errorf(common.CCErrCommParamsNeedSet, common.BKPropertyIDField)
 	}
 

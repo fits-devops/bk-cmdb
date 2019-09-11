@@ -123,7 +123,7 @@ func (m *modelAttribute) SetModelAttributes(ctx core.ContextParams, objID string
 		attr.OwnerID = ctx.SupplierAccount
 		if exists {
 			cond := mongo.NewCondition()
-			cond.Element(&mongo.Eq{Key: metadata.AttributeFieldSupplierAccount, Val: ctx.SupplierAccount})
+			cond.Element(&mongo.Eq{Key: metadata.AttributeFieldOwnerID, Val: ctx.SupplierAccount})
 			cond.Element(&mongo.Eq{Key: metadata.AttributeFieldID, Val: existsAttr.ID})
 
 			_, err := m.update(ctx, mapstr.NewFromStruct(attr, "field"), cond)
@@ -206,7 +206,7 @@ func (m *modelAttribute) DeleteModelAttributes(ctx core.ContextParams, objID str
 		return &metadata.DeletedCount{}, err
 	}
 
-	cond.Element(&mongo.Eq{Key: metadata.AttributeFieldSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.AttributeFieldOwnerID, Val: ctx.SupplierAccount})
 	cnt, err := m.delete(ctx, cond)
 	return &metadata.DeletedCount{Count: cnt}, err
 }
@@ -228,7 +228,7 @@ func (m *modelAttribute) SearchModelAttributes(ctx core.ContextParams, objID str
 		return &metadata.QueryModelAttributeDataResult{}, err
 	}
 	attrArr := []string{ctx.SupplierAccount, common.BKDefaultOwnerID}
-	cond.Element(&mongo.In{Key: metadata.AttributeFieldSupplierAccount, Val: attrArr})
+	cond.Element(&mongo.In{Key: metadata.AttributeFieldOwnerID, Val: attrArr})
 	attrResult, err := m.search(ctx, cond)
 	if nil != err {
 		blog.Errorf("request(%s): it is failed to search the attributes of the model(%s), error info is %s", ctx.ReqID, objID, err.Error())
@@ -252,7 +252,7 @@ func (m *modelAttribute) SearchModelAttributesByCondition(ctx core.ContextParams
 		return &metadata.QueryModelAttributeDataResult{}, err
 	}
 	attrArr := []string{ctx.SupplierAccount, common.BKDefaultOwnerID}
-	cond.Element(&mongo.In{Key: metadata.AttributeFieldSupplierAccount, Val: attrArr})
+	cond.Element(&mongo.In{Key: metadata.AttributeFieldOwnerID, Val: attrArr})
 	attrResult, err := m.search(ctx, cond)
 	if nil != err {
 		blog.Errorf("request(%s): it is failed to search the attributes of the model(%+v), error info is %s", ctx.ReqID, cond, err.Error())

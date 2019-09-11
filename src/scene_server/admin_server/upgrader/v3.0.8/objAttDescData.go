@@ -608,11 +608,11 @@ type Attribute struct {
 	ID                int64       `field:"id" json:"id" bson:"id"`
 	OwnerID           string      `field:"org_id" json:"org_id" bson:"org_id"`
 	ObjectID          string      `field:"obj_id" json:"obj_id" bson:"obj_id"`
-	PropertyID        string      `field:"bk_property_id" json:"bk_property_id" bson:"bk_property_id"`
-	PropertyName      string      `field:"bk_property_name" json:"bk_property_name" bson:"bk_property_name"`
-	PropertyGroup     string      `field:"bk_property_group" json:"bk_property_group" bson:"bk_property_group"`
-	PropertyGroupName string      `field:"bk_property_group_name,ignoretomap" json:"bk_property_group_name" bson:"-"`
-	PropertyIndex     int64       `field:"bk_property_index" json:"bk_property_index" bson:"bk_property_index"`
+	PropertyID        string      `field:"property_id" json:"property_id" bson:"property_id"`
+	PropertyName      string      `field:"property_name" json:"property_name" bson:"property_name"`
+	PropertyGroup     string      `field:"property_group" json:"property_group" bson:"property_group"`
+	PropertyGroupName string      `field:"property_group_name,ignoretomap" json:"property_group_name" bson:"-"`
+	PropertyIndex     int64       `field:"property_index" json:"property_index" bson:"property_index"`
 	Unit              string      `field:"unit" json:"unit" bson:"unit"`
 	Placeholder       string      `field:"placeholder" json:"placeholder" bson:"placeholder"`
 	IsEditable        bool        `field:"editable" json:"editable" bson:"editable"`
@@ -620,9 +620,9 @@ type Attribute struct {
 	IsRequired        bool        `field:"isrequired" json:"isrequired" bson:"isrequired"`
 	IsReadOnly        bool        `field:"isreadonly" json:"isreadonly" bson:"isreadonly"`
 	IsOnly            bool        `field:"isonly" json:"isonly" bson:"isonly"`
-	IsSystem          bool        `field:"bk_issystem" json:"bk_issystem" bson:"bk_issystem"`
-	IsAPI             bool        `field:"bk_isapi" json:"bk_isapi" bson:"bk_isapi"`
-	PropertyType      string      `field:"bk_property_type" json:"bk_property_type" bson:"bk_property_type"`
+	IsSystem          bool        `field:"issystem" json:"issystem" bson:"issystem"`
+	IsAPI             bool        `field:"isapi" json:"isapi" bson:"isapi"`
+	PropertyType      string      `field:"property_type" json:"property_type" bson:"property_type"`
 	Option            interface{} `field:"option" json:"option" bson:"option"`
 	Description       string      `field:"description" json:"description" bson:"description"`
 	Creator           string      `field:"creator" json:"creator" bson:"creator"`

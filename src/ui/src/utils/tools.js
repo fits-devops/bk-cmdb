@@ -39,7 +39,7 @@ export function flatternList (properties, list) {
 export function flatternItem (properties, item) {
     const flatternedItem = clone(item)
     properties.forEach(property => {
-        flatternedItem[property['bk_property_id']] = getPropertyText(property, flatternedItem)
+        flatternedItem[property['property_id']] = getPropertyText(property, flatternedItem)
     })
     return flatternedItem
 }
@@ -52,8 +52,8 @@ export function flatternItem (properties, item) {
  */
 
 export function getPropertyText (property, item) {
-    const propertyId = property['bk_property_id']
-    const propertyType = property['bk_property_type']
+    const propertyId = property['property_id']
+    const propertyType = property['property_type']
     let propertyValue = item[propertyId]
     if (
         propertyValue === null
@@ -110,7 +110,7 @@ export function flatternHostItem (properties, item) {
         properties[objId].forEach(property => {
             const originalValue = item[objId] instanceof Array ? item[objId] : [item[objId]]
             originalValue.forEach(value => {
-                value[property['bk_property_id']] = getPropertyText(property, value)
+                value[property['property_id']] = getPropertyText(property, value)
             })
         })
     }
@@ -126,8 +126,8 @@ export function flatternHostItem (properties, item) {
 export function getInstFormValues (properties, inst = {}) {
     const values = {}
     properties.forEach(property => {
-        const propertyId = property['bk_property_id']
-        const propertyType = property['bk_property_type']
+        const propertyId = property['property_id']
+        const propertyType = property['property_type']
         if (['singleasst', 'multiasst', 'foreignkey'].includes(propertyType)) {
             // const validAsst = (inst[propertyId] || []).filter(asstInst => asstInst.id !== '')
             // values[propertyId] = validAsst.map(asstInst => asstInst['bk_inst_id']).join(',')
@@ -171,7 +171,7 @@ export function formatTime (originalTime, format = 'YYYY-MM-DD HH:mm:ss') {
  * @return {Object} 模型属性对象
  */
 export function getProperty (properties, id) {
-    return properties.find(property => property['bk_property_id'] === id)
+    return properties.find(property => property['property_id'] === id)
 }
 
 /**
@@ -221,7 +221,7 @@ export function getDefaultHeaderProperties (properties) {
 export function getCustomHeaderProperties (properties, customColumns) {
     const columnProperties = []
     customColumns.forEach(propertyId => {
-        const columnProperty = properties.find(property => property['bk_property_id'] === propertyId)
+        const columnProperty = properties.find(property => property['property_id'] === propertyId)
         if (columnProperty) {
             columnProperties.push(columnProperty)
         }
@@ -244,10 +244,10 @@ export function getHeaderProperties (properties, customColumns, fixedPropertyIds
         headerProperties = getDefaultHeaderProperties(properties)
     }
     if (fixedPropertyIds.length) {
-        headerProperties = headerProperties.filter(property => !fixedPropertyIds.includes(property['bk_property_id']))
+        headerProperties = headerProperties.filter(property => !fixedPropertyIds.includes(property['property_id']))
         const fixedProperties = []
         fixedPropertyIds.forEach(id => {
-            const property = properties.find(property => property['bk_property_id'] === id)
+            const property = properties.find(property => property['property_id'] === id)
             if (property) {
                 fixedProperties.push(property)
             }
@@ -281,7 +281,7 @@ export function getMetadataBiz (object = {}) {
 export function getValidateRules (property) {
     const rules = {}
     const {
-        bk_property_type: propertyType,
+        property_type: propertyType,
         option,
         isrequired
     } = property

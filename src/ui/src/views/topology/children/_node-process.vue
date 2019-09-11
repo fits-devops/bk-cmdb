@@ -94,10 +94,10 @@
                 ]
                 const header = []
                 this.properties.forEach(property => {
-                    if (headerKey.includes(property['bk_property_id'])) {
+                    if (headerKey.includes(property['property_id'])) {
                         header.push({
-                            id: property['bk_property_id'],
-                            name: property['bk_property_name']
+                            id: property['property_id'],
+                            name: property['property_name']
                         })
                     }
                 })

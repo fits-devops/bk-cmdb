@@ -91,12 +91,12 @@ ext_key 字段说明： 为根据ip的匹配搜索
                     },
                     "header":[
                         {
-                            "bk_property_id":"bk_host_innerip",
-                            "bk_property_name":"内网IP"
+                            "property_id":"bk_host_innerip",
+                            "property_name":"内网IP"
                         },
                         {
-                            "bk_property_id":"bk_host_outerip",
-                            "bk_property_name":"外网IP"
+                            "property_id":"bk_host_outerip",
+                            "property_name":"外网IP"
                         }
                     ],
                     "type":"map"

@@ -175,8 +175,8 @@ func (s *Service) initPrivilegeGroup() {
 }
 
 func (s *Service) initPrivilegeRole() {
-	s.addAction(http.MethodPost, "/topo/privilege/{org_id}/{obj_id}/{bk_property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
-	s.addAction(http.MethodGet, "/topo/privilege/{org_id}/{obj_id}/{bk_property_id}", s.GetPrivilege, nil)
+	s.addAction(http.MethodPost, "/topo/privilege/{org_id}/{obj_id}/{property_id}", s.CreatePrivilege, s.ParseCreateRolePrivilegeOriginData)
+	s.addAction(http.MethodGet, "/topo/privilege/{org_id}/{obj_id}/{property_id}", s.GetPrivilege, nil)
 }
 
 func (s *Service) initPrivilege() {

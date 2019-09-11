@@ -23,7 +23,7 @@ import (
 func (m *modelAttribute) isExists(ctx core.ContextParams, propertyID string, meta metadata.Metadata) (oneAttribute *metadata.Attribute, exists bool, err error) {
 
 	cond := mongo.NewCondition()
-	cond.Element(&mongo.Eq{Key: metadata.AttributeFieldSupplierAccount, Val: propertyID})
+	cond.Element(&mongo.Eq{Key: metadata.AttributeFieldOwnerID, Val: propertyID})
 	cond.Element(&mongo.Eq{Key: metadata.AttributeFieldPropertyID, Val: propertyID})
 
 	// ATTETION: Currently only business dimension isolation is done,

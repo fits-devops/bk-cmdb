@@ -9,7 +9,7 @@
                 <input type="text" class="cmdb-form-input"
                     name="fieldId"
                     :placeholder="$t('ModelManagement[\'下划线/数字/字母\']')"
-                    v-model.trim="fieldInfo['bk_property_id']"
+                    v-model.trim="fieldInfo['property_id']"
                     :disabled="isEditField"
                     v-validate="'required|fieldId'">
                 <p class="form-error">{{errors.first('fieldId')}}</p>
@@ -24,7 +24,7 @@
                 <input type="text" class="cmdb-form-input"
                     name="fieldName"
                     :placeholder="$t('ModelManagement[\'请输入字段名称\']')"
-                    v-model.trim="fieldInfo['bk_property_name']"
+                    v-model.trim="fieldInfo['property_name']"
                     :disabled="isReadOnly"
                     v-validate="'required|enumName'">
                 <p class="form-error">{{errors.first('fieldName')}}</p>
@@ -39,13 +39,13 @@
                 <bk-selector
                     :disabled="isEditField"
                     :list="fieldTypeList"
-                    :selected.sync="fieldInfo['bk_property_type']"
+                    :selected.sync="fieldInfo['property_type']"
                 ></bk-selector>
             </div>
         </div>
         <div class="field-detail">
             <the-config
-                :type="fieldInfo['bk_property_type']"
+                :type="fieldInfo['property_type']"
                 :is-read-only="isReadOnly"
                 :editable.sync="fieldInfo['editable']"
                 :isrequired.sync="fieldInfo['isrequired']"
@@ -146,11 +146,11 @@
                     name: 'bool'
                 }],
                 fieldInfo: {
-                    bk_property_name: '',
-                    bk_property_id: '',
+                    property_name: '',
+                    property_id: '',
                     unit: '',
                     placeholder: '',
-                    bk_property_type: 'singlechar',
+                    property_type: 'singlechar',
                     editable: true,
                     isrequired: false,
                     option: ''
@@ -167,7 +167,7 @@
             ]),
             fieldType () {
                 const {
-                    bk_property_type: type
+                    property_type: type
                 } = this.fieldInfo
                 if (this.charMap.indexOf(type) !== -1) {
                     return 'char'
@@ -175,11 +175,11 @@
                 return type
             },
             isComponentShow () {
-                return ['singlechar', 'longchar', 'enum', 'int', 'float'].indexOf(this.fieldInfo['bk_property_type']) !== -1
+                return ['singlechar', 'longchar', 'enum', 'int', 'float'].indexOf(this.fieldInfo['property_type']) !== -1
             }
         },
         watch: {
-            'fieldInfo.bk_property_type' (type) {
+            'fieldInfo.property_type' (type) {
                 if (!this.isEditField) {
                     switch (type) {
                         case 'int':
@@ -240,7 +240,7 @@
                 } else {
                     const otherParams = {
                         creator: this.userName,
-                        bk_property_group: (this.isPublicModel && !this.isAdminView) ? 'bizdefault' : 'default',
+                        property_group: (this.isPublicModel && !this.isAdminView) ? 'bizdefault' : 'default',
                         obj_id: this.activeModel['obj_id'],
                         org_id: this.supplierAccount
                     }

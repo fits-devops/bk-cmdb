@@ -326,7 +326,7 @@ func (m *modelManager) SearchModelWithAttribute(ctx core.ContextParams, inputPar
 
 		queryAttributeCond := mongo.NewCondition()
 		queryAttributeCond.Element(mongo.Field(metadata.AttributeFieldObjectID).Eq(modelItem.ObjectID))
-		queryAttributeCond.Element(mongo.Field(metadata.AttributeFieldSupplierAccount).Eq(modelItem.OwnerID))
+		queryAttributeCond.Element(mongo.Field(metadata.AttributeFieldOwnerID).Eq(modelItem.OwnerID))
 		attributeItems, err := m.modelAttribute.search(ctx, queryAttributeCond)
 		if nil != err {
 			blog.Errorf("request(%s):it is failed to search the object(%s)'s attributes, error info is %s", modelItem.ObjectID, err.Error())

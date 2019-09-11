@@ -38,7 +38,7 @@ func (cli *Service) GetRolePri(req *restful.Request, resp *restful.Response) {
 	defer req.Request.Body.Close()
 	pathParams := req.PathParameters()
 	objID := pathParams["obj_id"]
-	propertyID := pathParams["bk_property_id"]
+	propertyID := pathParams["property_id"]
 	cond := make(map[string]interface{})
 	cond[common.BKObjIDField] = objID
 	cond[common.BKPropertyIDField] = propertyID
@@ -87,7 +87,7 @@ func (cli *Service) CreateRolePri(req *restful.Request, resp *restful.Response) 
 
 	pathParams := req.PathParameters()
 	objID := pathParams["obj_id"]
-	propertyID := pathParams["bk_property_id"]
+	propertyID := pathParams["property_id"]
 	value, err := ioutil.ReadAll(req.Request.Body)
 	if err != nil {
 		blog.Errorf("read json data error :%v", err)
@@ -129,7 +129,7 @@ func (cli *Service) UpdateRolePri(req *restful.Request, resp *restful.Response) 
 
 	pathParams := req.PathParameters()
 	objID := pathParams["obj_id"]
-	propertyID := pathParams["bk_property_id"]
+	propertyID := pathParams["property_id"]
 	value, err := ioutil.ReadAll(req.Request.Body)
 	if err != nil {
 		blog.Errorf("read json data error :%v", err)

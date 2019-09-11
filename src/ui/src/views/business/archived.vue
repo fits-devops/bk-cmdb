@@ -88,8 +88,8 @@
                     name: 'ID'
                 }].concat(headerProperties.map(property => {
                     return {
-                        id: property['bk_property_id'],
-                        name: property['bk_property_name']
+                        id: property['property_id'],
+                        name: property['property_name']
                     }
                 })).concat([{
                     id: 'last_time',

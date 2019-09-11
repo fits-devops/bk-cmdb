@@ -12,7 +12,7 @@
                 </div>
                 <bk-selector
                     setting-key="id"
-                    display-key="bk_property_name"
+                    display-key="property_name"
                     ref="attrSelector"
                     :multi-select="true"
                     :selected.sync="verificationInfo.selected"
@@ -90,7 +90,7 @@
                 this.verificationInfo.selected.forEach(id => {
                     const attr = this.attribute.list.find(attr => attr.id === id)
                     if (attr) {
-                        nameList.push(attr['bk_property_name'])
+                        nameList.push(attr['property_name'])
                     }
                 })
                 return nameList.join(',')

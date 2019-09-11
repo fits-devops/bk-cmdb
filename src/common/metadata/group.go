@@ -1,15 +1,3 @@
-/*
- * Tencent is pleased to support the open source community by making 蓝鲸 available.
- * Copyright (C) 2017-2018 THL A29 Limited, a Tencent company. All rights reserved.
- * Licensed under the MIT License (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * http://opensource.org/licenses/MIT
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package metadata
 
 import (
@@ -17,14 +5,14 @@ import (
 )
 
 const (
-	GroupFieldID              = "id"
-	GroupFieldGroupID         = "bk_group_id"
-	GroupFieldGroupName       = "bk_group_name"
-	GroupFieldGroupIndex      = "bk_group_index"
-	GroupFieldObjectID        = "obj_id"
-	GroupFieldSupplierAccount = "org_id"
-	GroupFieldIsDefault       = "bk_isdefault"
-	GroupFieldIsPre           = "ispre"
+	GroupFieldID         = "id"
+	GroupFieldGroupID    = "group_id"
+	GroupFieldGroupName  = "group_name"
+	GroupFieldGroupIndex = "group_index"
+	GroupFieldObjectID   = "obj_id"
+	GroupFieldOwnerID    = "org_id"
+	GroupFieldIsDefault  = "isdefault"
+	GroupFieldIsPre      = "ispre"
 )
 
 // PropertyGroupObjectAtt uset to update or delete the property group object attribute
@@ -32,11 +20,11 @@ type PropertyGroupObjectAtt struct {
 	Condition struct {
 		OwnerID    string `field:"org_id" json:"org_id"`
 		ObjectID   string `field:"obj_id" json:"obj_id"`
-		PropertyID string `field:"bk_property_id" json:"bk_property_id"`
+		PropertyID string `field:"property_id" json:"property_id"`
 	} `json:"condition"`
 	Data struct {
-		PropertyGroupID string `field:"bk_property_group" json:"bk_property_group"`
-		PropertyIndex   int    `field:"bk_property_index" json:"bk_property_index"`
+		PropertyGroupID string `field:"property_group" json:"property_group"`
+		PropertyIndex   int    `field:"property_index" json:"property_index"`
 	} `json:"data"`
 }
 
@@ -44,12 +32,12 @@ type PropertyGroupObjectAtt struct {
 type Group struct {
 	Metadata   `field:"metadata" json:"metadata" bson:"metadata"`
 	ID         int64  `field:"id" json:"id" bson:"id"`
-	GroupID    string `field:"bk_group_id" json:"bk_group_id" bson:"bk_group_id"`
-	GroupName  string `field:"bk_group_name" json:"bk_group_name" bson:"bk_group_name"`
-	GroupIndex int64  `field:"bk_group_index" json:"bk_group_index" bson:"bk_group_index"`
+	GroupID    string `field:"group_id" json:"group_id" bson:"group_id"`
+	GroupName  string `field:"group_name" json:"group_name" bson:"group_name"`
+	GroupIndex int64  `field:"group_index" json:"group_index" bson:"group_index"`
 	ObjectID   string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	OwnerID    string `field:"org_id" json:"org_id" bson:"org_id"`
-	IsDefault  bool   `field:"bk_isdefault" json:"bk_isdefault" bson:"bk_isdefault"`
+	IsDefault  bool   `field:"isdefault" json:"isdefault" bson:"isdefault"`
 	IsPre      bool   `field:"ispre" json:"ispre" bson:"ispre"`
 }
 

@@ -27,8 +27,8 @@ type DeleteHostBatchOpt struct {
 }
 
 type HostInstanceProperties struct {
-	PropertyID    string      `json:"bk_property_id"`
-	PropertyName  string      `json:"bk_property_name"`
+	PropertyID    string      `json:"property_id"`
+	PropertyName  string      `json:"property_name"`
 	PropertyValue interface{} `json:"bk_property_value"`
 }
 

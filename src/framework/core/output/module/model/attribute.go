@@ -25,10 +25,10 @@ var _ Attribute = (*attribute)(nil)
 type attribute struct {
 	OwnerID       string      `field:"org_id"`
 	ObjectID      string      `field:"obj_id"`
-	PropertyID    string      `field:"bk_property_id"`
-	PropertyName  string      `field:"bk_property_name"`
-	PropertyGroup string      `field:"bk_property_group"`
-	PropertyIndex int         `field:"bk_property_index"`
+	PropertyID    string      `field:"property_id"`
+	PropertyName  string      `field:"property_name"`
+	PropertyGroup string      `field:"property_group"`
+	PropertyIndex int         `field:"property_index"`
 	Unit          string      `field:"unit"`
 	Placeholder   string      `field:"placeholder"`
 	IsEditable    bool        `field:"editable"`
@@ -36,9 +36,9 @@ type attribute struct {
 	IsRequired    bool        `field:"isrequired"`
 	IsReadOnly    bool        `field:"isreadonly"`
 	IsOnly        bool        `field:"isonly"`
-	IsSystem      bool        `field:"bk_issystem"`
-	IsAPI         bool        `field:"bk_isapi"`
-	PropertyType  string      `field:"bk_property_type"`
+	IsSystem      bool        `field:"issystem"`
+	IsAPI         bool        `field:"isapi"`
+	PropertyType  string      `field:"property_type"`
 	Option        interface{} `field:"option"`
 	Description   string      `field:"description"`
 	Creator       string      `field:"creator"`

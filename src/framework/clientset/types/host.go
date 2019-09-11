@@ -93,8 +93,8 @@ type GetHostResult struct {
 }
 
 type HostAttribute struct {
-	ID    string `json:"bk_property_id"`
-	Name  string `json:"bk_property_name"`
+	ID    string `json:"property_id"`
+	Name  string `json:"property_name"`
 	Value string `json:"bk_property_value"`
 }
 

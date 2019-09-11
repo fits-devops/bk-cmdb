@@ -104,7 +104,7 @@
             },
             tableHeader () {
                 const header = [{
-                    id: 'bk_property_name',
+                    id: 'property_name',
                     name: '',
                     width: 130
                 }]
@@ -128,13 +128,13 @@
             },
             tableList () {
                 const list = []
-                const attribute = (this.attribute || []).filter(({ bk_isapi: bkIsapi }) => !bkIsapi)
+                const attribute = (this.attribute || []).filter(({ isapi: bkIsapi }) => !bkIsapi)
                 if (this.details['op_type'] !== 100) {
                     attribute.forEach(property => {
                         const preData = this.getCellValue(property, 'pre_data')
                         const curData = this.getCellValue(property, 'cur_data')
                         list.push({
-                            'bk_property_name': property['bk_property_name'],
+                            'property_name': property['property_name'],
                             'pre_data': preData,
                             'cur_data': curData
                         })
@@ -156,7 +156,7 @@
                     const preData = pre.join('<br>')
                     const curData = cur.join('<br>')
                     list.push({
-                        'bk_property_name': this.$t('Hosts["关联关系"]'),
+                        'property_name': this.$t('Hosts["关联关系"]'),
                         'pre_data': preData,
                         'cur_data': curData
                     })
@@ -209,9 +209,9 @@
                 const data = this.details.content[type]
                 if (data) {
                     const {
-                        bk_property_id: bkPropertyId,
-                        bk_property_type: bkPropertyType,
-                        // bk_property_name: bkPropertyName,
+                        property_id: bkPropertyId,
+                        property_type: bkPropertyType,
+                        // property_name: bkPropertyName,
                         option
                     } = property
                     let value = data[bkPropertyId]

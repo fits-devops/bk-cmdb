@@ -417,7 +417,7 @@
                 return this.$store.dispatch('hostSearch/getHostBaseInfo', { hostId }).then(data => {
                     const inst = {}
                     data.forEach(field => {
-                        inst[field['bk_property_id']] = field['bk_property_value']
+                        inst[field['property_id']] = field['bk_property_value']
                     })
                     return inst
                 })

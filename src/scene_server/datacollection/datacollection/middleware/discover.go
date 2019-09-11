@@ -79,12 +79,12 @@ var MockMessage = `{
         },
         "fields": {
             "bk_inst_name":{
-                "bk_property_name": "实例名",
-                "bk_property_type":"longchar"
+                "property_name": "实例名",
+                "property_type":"longchar"
             },
             "bk_ip":{
-                "bk_property_name":"IP",
-                "bk_property_type": "longchar"
+                "property_name":"IP",
+                "property_type": "longchar"
             }
         }
     },

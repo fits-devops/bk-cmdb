@@ -145,7 +145,7 @@
                     if (key['key_kind'] === 'property') {
                         const attr = this.attributeList.find(({ id }) => id === key['key_id'])
                         if (attr) {
-                            name.push(attr['bk_property_name'])
+                            name.push(attr['property_name'])
                         }
                     }
                 })

@@ -96,7 +96,7 @@
             },
             getColumnProperty (propertyId, objId) {
                 return this.allProperties.find(property => {
-                    return property['bk_property_id'] === propertyId && property['obj_id'] === objId
+                    return property['property_id'] === propertyId && property['obj_id'] === objId
                 })
             },
             setTableHeader () {
@@ -124,12 +124,12 @@
                             name: this.$t("Common['业务']")
                         }
                     } else {
-                        const property = this.attribute.host.properties.find(property => propertyId === property['bk_property_id'])
+                        const property = this.attribute.host.properties.find(property => propertyId === property['property_id'])
                         if (property) {
                             header = {
                                 objId: 'host',
-                                id: property['bk_property_id'],
-                                name: property['bk_property_name']
+                                id: property['property_id'],
+                                name: property['property_name']
                             }
                         }
                     }

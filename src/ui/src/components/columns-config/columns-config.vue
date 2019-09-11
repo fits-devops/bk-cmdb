@@ -7,7 +7,7 @@
             </div>
             <ul class="property-list property-list-unselected">
                 <li ref="unselectedPropertyItem" class="property-item" v-for="(property, index) in unselectedProperties" :key="index" @click="selectProperty(property)">
-                    <span class="property-name">{{property['bk_property_name']}}</span>
+                    <span class="property-name">{{property['property_name']}}</span>
                     <i class="bk-icon icon-angle-right"></i>
                 </li>
             </ul>
@@ -20,7 +20,7 @@
                 <ul class="property-list property-list-selected">
                     <li class="property-item disabled"
                         v-for="(property, index) in undragbbleProperties" :key="index">
-                        <span class="property-name" :title="property['bk_property_name']">{{property['bk_property_name']}}</span>
+                        <span class="property-name" :title="property['property_name']">{{property['property_name']}}</span>
                     </li>
                 </ul>
                 <vue-draggable element="ul" class="property-list property-list-selected"
@@ -29,7 +29,7 @@
                     <li class="property-item"
                         v-for="(property, index) in drabbleProperties" :key="index">
                         <i class="icon-triple-dot"></i>
-                        <span class="property-name" :title="property['bk_property_name']">{{property['bk_property_name']}}</span>
+                        <span class="property-name" :title="property['property_name']">{{property['property_name']}}</span>
                         <i class="bk-icon icon-eye-slash-shape"
                             v-tooltip="$t('Common[\'隐藏\']')"
                             @click="unselectProperty(property)">
@@ -90,13 +90,13 @@
         computed: {
             sortedProperties () {
                 return [...this.properties].sort((propertyA, propertyB) => {
-                    return propertyA['bk_property_name'].localeCompare(propertyB['bk_property_name'], 'zh-Hans-CN', { sensitivity: 'accent' })
+                    return propertyA['property_name'].localeCompare(propertyB['property_name'], 'zh-Hans-CN', { sensitivity: 'accent' })
                 })
             },
             unselectedProperties () {
                 return this.sortedProperties.filter(property => {
-                    const unselected = !this.localSelected.includes(property['bk_property_id'])
-                    const includesFilter = property['bk_property_name'].toLowerCase().indexOf(this.filter.toLowerCase()) !== -1
+                    const unselected = !this.localSelected.includes(property['property_id'])
+                    const includesFilter = property['property_name'].toLowerCase().indexOf(this.filter.toLowerCase()) !== -1
                     return unselected && includesFilter
                 })
             },
@@ -104,7 +104,7 @@
                 const undragbbleProperties = []
                 this.localSelected.forEach(propertyId => {
                     if (this.disabledColumns.includes(propertyId)) {
-                        const property = this.properties.find(property => property['bk_property_id'] === propertyId)
+                        const property = this.properties.find(property => property['property_id'] === propertyId)
                         if (property) {
                             undragbbleProperties.push(property)
                         }
@@ -117,7 +117,7 @@
                     const drabbleProperties = []
                     this.localSelected.forEach(propertyId => {
                         if (!this.disabledColumns.includes(propertyId)) {
-                            const property = this.properties.find(property => property['bk_property_id'] === propertyId)
+                            const property = this.properties.find(property => property['property_id'] === propertyId)
                             if (property) {
                                 drabbleProperties.push(property)
                             }
@@ -126,7 +126,7 @@
                     return drabbleProperties
                 },
                 set (drabbleProperties) {
-                    this.localSelected = [...this.undragbbleProperties, ...drabbleProperties].map(property => property['bk_property_id'])
+                    this.localSelected = [...this.undragbbleProperties, ...drabbleProperties].map(property => property['property_id'])
                 }
             }
         },
@@ -140,24 +140,24 @@
         },
         methods: {
             initLocalSelected () {
-                this.localSelected = this.selected.filter(propertyId => this.properties.some(property => property['bk_property_id'] === propertyId))
+                this.localSelected = this.selected.filter(propertyId => this.properties.some(property => property['property_id'] === propertyId))
             },
             selectProperty (property) {
                 if (this.localSelected.length < this.max) {
-                    this.localSelected.push(property['bk_property_id'])
+                    this.localSelected.push(property['property_id'])
                 } else {
                     this.$info(this.$t('Common["最多选择N项"]', { n: this.max }))
                 }
             },
             unselectProperty (property) {
                 if (this.localSelected.length > this.min) {
-                    this.localSelected = this.localSelected.filter(propertyId => propertyId !== property['bk_property_id'])
+                    this.localSelected = this.localSelected.filter(propertyId => propertyId !== property['property_id'])
                 } else {
                     this.$info(this.$t('Common["至少选择N项"]', { n: this.min }))
                 }
             },
             checkDisabled (property) {
-                return this.disabledColumns.includes(property['bk_property_id'])
+                return this.disabledColumns.includes(property['property_id'])
             },
             handleApply () {
                 if (this.localSelected.length > this.max) {

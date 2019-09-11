@@ -247,13 +247,13 @@ info 字段说明:
   "error_msg": "", 
   "data": [
     {
-      "bk_property_id": "bk_host_name", 
-      "bk_property_name": "主机名", 
+      "property_id": "bk_host_name", 
+      "property_name": "主机名", 
       "bk_property_value": "centos7"
     }, 
     {
-      "bk_property_id": "bk_host_id", 
-      "bk_property_name": "主机ID", 
+      "property_id": "bk_host_id", 
+      "property_name": "主机ID", 
       "bk_property_value": "1007"
     }
   ]
@@ -273,8 +273,8 @@ data说明：
 
 | 名称  | 类型  | 说明 | Description|
 | ---  | ---  | --- | ---|
-| bk_property_id| string| 属性id | property ID |
-| bk_property_name| string| 属性名称 |property name |
+| property_id| string| 属性id | property ID |
+| property_name| string| 属性名称 |property name |
 | bk_property_value| string| 属性值 | property value |
 
 

@@ -22,12 +22,12 @@ import (
 var _ Group = (*group)(nil)
 
 type group struct {
-	GroupID    string `field:"bk_group_id"`
-	GroupName  string `field:"bk_group_name"`
-	GroupIndex int    `field:"bk_group_index"`
+	GroupID    string `field:"group_id"`
+	GroupName  string `field:"group_name"`
+	GroupIndex int    `field:"group_index"`
 	ObjectID   string `field:"obj_id"`
 	OwnerID    string `field:"org_id"`
-	IsDefault  bool   `field:"bk_isdefault"`
+	IsDefault  bool   `field:"isdefault"`
 	IsPre      bool   `field:"ispre"`
 	id         int
 }
@@ -71,7 +71,7 @@ func (cli *group) Update() error {
 	for _, item := range dataItems {
 		index, err := item.Int(GroupIndex)
 		if err != nil {
-			log.Errorf("get bk_group_index error %v ", err)
+			log.Errorf("get group_index error %v ", err)
 		}
 		if index > lastIndex {
 			lastIndex = index + 1

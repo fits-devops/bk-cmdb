@@ -42,8 +42,8 @@ type Content struct {
 }
 
 type Header struct {
-	PropertyID   string `json:"bk_property_id"`
-	PropertyName string `json:"bk_property_name"`
+	PropertyID   string `json:"property_id"`
+	PropertyName string `json:"property_name"`
 }
 
 type Ref struct {

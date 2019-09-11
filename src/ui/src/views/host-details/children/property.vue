@@ -5,19 +5,19 @@
         <div class="group"
             v-for="(group, index) in groupedProperties"
             :key="index">
-            <h2 class="group-name">{{group.bk_group_name}}</h2>
+            <h2 class="group-name">{{group.group_name}}</h2>
             <ul class="property-list clearfix">
                 <li class="property-item fl"
                     v-for="property in group.properties"
                     :key="property.id">
                     <span class="property-name"
-                        :title="property.bk_property_name">
-                        {{property.bk_property_name}}
+                        :title="property.property_name">
+                        {{property.property_name}}
                     </span>
                     <v-popover class="property-popover"
                         trigger="hover"
                         placement="bottom"
-                        :disabled="!tooltipState[property.bk_property_id]"
+                        :disabled="!tooltipState[property.property_id]"
                         :delay="300"
                         :offset="-5">
                         <span class="property-value"
@@ -44,19 +44,19 @@
                         </i>
                         <div class="property-form" v-if="property === editState.property">
                             <component class="form-component"
-                                :is="`cmdb-form-${property.bk_property_type}`"
-                                :class="{ error: errors.has(property.bk_property_id) }"
+                                :is="`cmdb-form-${property.property_type}`"
+                                :class="{ error: errors.has(property.property_id) }"
                                 :options="property.option || []"
-                                :data-vv-name="property.bk_property_id"
-                                :data-vv-as="property.bk_property_name"
+                                :data-vv-name="property.property_id"
+                                :data-vv-as="property.property_name"
                                 v-validate="$tools.getValidateRules(property)"
                                 v-model.trim="editState.value">
                             </component>
                             <i class="form-confirm bk-icon icon-check-1" @click="confirm"></i>
                             <i class="form-cancel bk-icon icon-close" @click="exitForm"></i>
                             <span class="form-error"
-                                v-if="errors.has(property.bk_property_id)">
-                                {{errors.first(property.bk_property_id)}}
+                                v-if="errors.has(property.property_id)">
+                                {{errors.first(property.property_id)}}
                             </span>
                         </div>
                     </template>
@@ -96,10 +96,10 @@
         },
         methods: {
             isPropertyEditable (property) {
-                return property.editable && !property.bk_isapi
+                return property.editable && !property.isapi
             },
             setEditState (property) {
-                const value = this.host[property.bk_property_id]
+                const value = this.host[property.property_id]
                 this.editState.value = value === null ? '' : value
                 this.editState.property = property
             },
@@ -112,7 +112,7 @@
                     const { property, value } = this.editState
                     await this.$store.dispatch('hostUpdate/updateHost', {
                         params: this.$injectMetadata({
-                            [property.bk_property_id]: value,
+                            [property.property_id]: value,
                             bk_host_id: this.host.bk_host_id
                         }),
                         config: {
@@ -120,7 +120,7 @@
                         }
                     })
                     this.$store.commit('hostDetails/updateInfo', {
-                        [property.bk_property_id]: value
+                        [property.property_id]: value
                     })
                     this.exitForm()
                 } catch (e) {
@@ -137,7 +137,7 @@
                 range.selectNode(target)
                 const rangeWidth = range.getBoundingClientRect().width
                 const threshold = Math.max(rangeWidth - target.offsetWidth, target.scrollWidth - target.offsetWidth)
-                this.$set(this.tooltipState, property.bk_property_id, threshold > 0.5)
+                this.$set(this.tooltipState, property.property_id, threshold > 0.5)
             }
         }
     }

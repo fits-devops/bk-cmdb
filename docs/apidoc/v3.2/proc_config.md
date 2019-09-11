@@ -182,13 +182,13 @@ info字段说明：
     "error_msg":"",
     "data":[
         {
-            "bk_property_id":"bk_process_name",
-            "bk_property_name":"进程名",
+            "property_id":"bk_process_name",
+            "property_name":"进程名",
             "bk_property_value":"nginx"
         },
         {
-            "bk_property_id":"bk_process_name",
-            "bk_property_name":"功能名",
+            "property_id":"bk_process_name",
+            "property_name":"功能名",
             "bk_property_value":"nginx"
         }
     ]

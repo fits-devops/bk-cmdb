@@ -204,7 +204,7 @@
         watch: {
             'filter.id' (id) {
                 this.filter.value = ''
-                this.filter.type = (this.$tools.getProperty(this.properties, id) || {})['bk_property_type']
+                this.filter.type = (this.$tools.getProperty(this.properties, id) || {})['property_type']
             },
             'slider.show' (show) {
                 if (!show) {
@@ -268,16 +268,16 @@
                     resolve(headerProperties)
                 }).then(properties => {
                     this.updateTableHeader(properties)
-                    this.columnsConfig.selected = properties.map(property => property['bk_property_id'])
+                    this.columnsConfig.selected = properties.map(property => property['property_id'])
                 })
             },
             setFilterOptions () {
                 this.filter.options = this.properties
-                    .filter(property => !['singleasst', 'multiasst'].includes(property['bk_property_type']))
+                    .filter(property => !['singleasst', 'multiasst'].includes(property['property_type']))
                     .map(property => {
                         return {
-                            id: property['bk_property_id'],
-                            name: property['bk_property_name']
+                            id: property['property_id'],
+                            name: property['property_name']
                         }
                     })
                 this.filter.id = this.filter.options.length ? this.filter.options[0]['id'] : ''
@@ -288,8 +288,8 @@
                     name: 'ID'
                 }].concat(properties.map(property => {
                     return {
-                        id: property['bk_property_id'],
-                        name: property['bk_property_name']
+                        id: property['property_id'],
+                        name: property['property_name']
                     }
                 }))
             },
@@ -415,7 +415,7 @@
             },
             handleApplayColumnsConfig (properties) {
                 this.$store.dispatch('userCustom/saveUsercustom', {
-                    [this.columnsConfigKey]: properties.map(property => property['bk_property_id'])
+                    [this.columnsConfigKey]: properties.map(property => property['property_id'])
                 })
                 this.columnsConfig.show = false
             },

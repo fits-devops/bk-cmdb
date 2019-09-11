@@ -121,7 +121,7 @@
                     isShowIgnore: true,
                     isShow: true,
                     header: [{
-                        id: 'bk_property_name',
+                        id: 'property_name',
                         name: this.$t('NetworkDiscovery["属性名"]')
                     }, {
                         id: 'isrequired',

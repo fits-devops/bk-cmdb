@@ -122,7 +122,7 @@ const MockMessage = `{
 			"last_time": "2018-10-03 17:09:00",
             "attributes": [
                 {
-                    "bk_property_id": "bk_inst_name",
+                    "property_id": "bk_inst_name",
                     "value": "huawei 5789#56-79-9a-ii"
                 }
             ],

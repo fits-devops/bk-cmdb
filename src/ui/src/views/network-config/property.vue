@@ -89,16 +89,16 @@
                         <span>{{$t('NetworkDiscovery["模型属性"]')}}<span class="color-danger">*</span></span>
                     </label>
                     <bk-selector
-                        search-key="bk_property_name"
-                        setting-key="bk_property_id"
-                        display-key="bk_property_name"
+                        search-key="property_name"
+                        setting-key="property_id"
+                        display-key="property_name"
                         :searchable="true"
                         :content-max-height="200"
                         :list="propertyDialog.attrList"
-                        :selected.sync="propertyDialog.data.bk_property_id"
+                        :selected.sync="propertyDialog.data.property_id"
                     ></bk-selector>
-                    <input type="text" hidden name="bk_property_id" v-model="propertyDialog.data['bk_property_id']" v-validate="'required'">
-                    <div v-show="errors.has('bk_property_id')" class="color-danger">{{ errors.first('bk_property_id') }}</div>
+                    <input type="text" hidden name="property_id" v-model="propertyDialog.data['property_id']" v-validate="'required'">
+                    <div v-show="errors.has('property_id')" class="color-danger">{{ errors.first('property_id') }}</div>
                 </div>
                 <div class="footer">
                     <bk-button type="primary" @click="saveProperty" :loading="$loading(['createNetcollectProperty', 'updateNetcollectProperty'])">
@@ -152,7 +152,7 @@
                         oid: '',
                         action: '',
                         device_id: '',
-                        bk_property_id: '',
+                        property_id: '',
                         netcollect_property_id: ''
                     }
                 },
@@ -164,7 +164,7 @@
                         id: 'obj_name',
                         name: this.$t('OperationAudit["模型"]')
                     }, {
-                        id: 'bk_property_name',
+                        id: 'property_name',
                         name: this.$t('NetworkDiscovery["模型属性"]')
                     }],
                     type: 'device_name',
@@ -190,7 +190,7 @@
                         id: 'obj_name',
                         name: this.$t('OperationAudit["模型"]')
                     }, {
-                        id: 'bk_property_name',
+                        id: 'property_name',
                         name: this.$t('NetworkDiscovery["模型属性"]')
                     }],
                     list: [],
@@ -258,7 +258,7 @@
                     this.propertyDialog.data['device_id'] = ''
                     this.propertyDialog.data['oid'] = ''
                     this.propertyDialog.data['action'] = ''
-                    this.propertyDialog.data['bk_property_id'] = ''
+                    this.propertyDialog.data['property_id'] = ''
                     this.propertyDialog.title = this.$t('NetworkDiscovery["新增属性"]')
                 } else {
                     this.propertyDialog.isEdit = true
@@ -284,7 +284,7 @@
                 }
                 const params = {
                     device_id: this.propertyDialog.data['device_id'],
-                    bk_property_id: this.propertyDialog.data['bk_property_id'],
+                    property_id: this.propertyDialog.data['property_id'],
                     oid: this.propertyDialog.data.oid,
                     action: this.propertyDialog.data.action
                 }
@@ -320,7 +320,7 @@
                 this.propertyDialog.data['device_id'] = item['device_id']
                 this.propertyDialog.data['oid'] = item['oid']
                 this.propertyDialog.data['action'] = item['action']
-                this.propertyDialog.data['bk_property_id'] = item['bk_property_id']
+                this.propertyDialog.data['property_id'] = item['property_id']
                 this.propertyDialog.data['netcollect_property_id'] = item['netcollect_property_id']
                 this.showPropertyDialog('update')
             },

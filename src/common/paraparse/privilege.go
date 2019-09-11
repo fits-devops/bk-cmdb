@@ -29,7 +29,7 @@ type SysConfigStruct struct {
 }
 
 type UserPrivilege struct {
-	GroupID     string                         `json:"bk_group_id"`
+	GroupID     string                         `json:"group_id"`
 	ModelConfig map[string]map[string][]string `json:"model_config"`
 	SysConfig   SysConfigStruct                `json:"sys_config"`
 }

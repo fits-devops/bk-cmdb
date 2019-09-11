@@ -5,7 +5,7 @@
             :key="index">
             <div class="group-header clearfix">
                 <div class="header-title fl">
-                    <template v-if="group.info['bk_group_id'] !== 'none' && group === groupInEditing">
+                    <template v-if="group.info['group_id'] !== 'none' && group === groupInEditing">
                         <input type="text" class="title-input cmdb-form-input"
                             ref="titleInput"
                             v-model.trim="groupNameInEditing">
@@ -13,10 +13,10 @@
                         <a class="title-input-button" href="javascript:void(0)" @click="handleCancelEditGroupName">{{$t('Common["取消"]')}}</a>
                     </template>
                     <template v-else>
-                        <span class="group-name">{{group.info['bk_group_name']}}</span>
+                        <span class="group-name">{{group.info['group_name']}}</span>
                         <span class="group-count">({{group.properties.length}})</span>
                         <i class="title-icon icon icon-cc-edit"
-                            v-if="updateAuth && group.info['bk_group_id'] !== 'none' && isEditable(group.info)"
+                            v-if="updateAuth && group.info['group_id'] !== 'none' && isEditable(group.info)"
                             @click="handleEditGroupName(group)">
                         </i>
                     </template>
@@ -42,7 +42,7 @@
                     </i>
                     <i class="options-icon bk-icon icon-delete"
                         v-tooltip="$t('ModelManagement[\'删除分组\']')"
-                        :class="{ disabled: ['none', 'default'].includes(group.info['bk_group_id']) }"
+                        :class="{ disabled: ['none', 'default'].includes(group.info['group_id']) }"
                         @click="handleDeleteGroup(group, index)">
                     </i>
                 </div>
@@ -65,8 +65,8 @@
                 <li class="property-item fl"
                     v-for="(property, _index) in group.properties"
                     :key="_index"
-                    :title="property['bk_property_name']">
-                    {{property['bk_property_name']}}
+                    :title="property['property_name']">
+                    {{property['property_name']}}
                 </li>
                 <template v-if="!group.properties.length">
                     <li class="property-empty" v-if="updateAuth && isEditable(group.info)"
@@ -116,9 +116,9 @@
                             :class="{
                                 checked: dialog.selectedProperties.includes(property)
                             }"
-                            :title="property['bk_property_name']"
+                            :title="property['property_name']"
                             @click="handleSelectProperty(property)">
-                            {{property['bk_property_name']}}
+                            {{property['property_name']}}
                         </label>
                     </li>
                 </ul>
@@ -172,7 +172,7 @@
             groupedPropertiesCount () {
                 const count = {}
                 this.groupedProperties.forEach(({ info, properties }) => {
-                    const groupId = info['bk_group_id']
+                    const groupId = info['group_id']
                     count[groupId] = properties.length
                 })
                 return count
@@ -215,14 +215,14 @@
             },
             canRiseGroup (index, group) {
                 if (this.isAdminView) {
-                    return index !== 0 && !['none'].includes(group.info['bk_group_id'])
+                    return index !== 0 && !['none'].includes(group.info['group_id'])
                 }
                 const metadataIndex = this.metadataGroupedProperties.indexOf(group)
                 return metadataIndex !== 0
             },
             canDropGroup (index, group) {
                 if (this.isAdminView) {
-                    return index !== (this.groupedProperties.length - 2) && !['none'].includes(group.info['bk_group_id'])
+                    return index !== (this.groupedProperties.length - 2) && !['none'].includes(group.info['group_id'])
                 }
                 const metadataIndex = this.metadataGroupedProperties.indexOf(group)
                 return metadataIndex !== (this.metadataGroupedProperties.length - 1)
@@ -231,14 +231,14 @@
                 properties = this.setPropertIndex(properties)
                 groups = this.separateMetadataGroups(groups)
                 groups = this.setGroupIndex(groups.concat({
-                    'bk_group_index': Infinity,
-                    'bk_group_id': 'none',
-                    'bk_group_name': this.$t('Common["更多属性"]')
+                    'group_index': Infinity,
+                    'group_id': 'none',
+                    'group_name': this.$t('Common["更多属性"]')
                 }))
                 const groupedProperties = groups.map(group => {
                     return {
                         info: group,
-                        properties: properties.filter(property => property['bk_property_group'] === group['bk_group_id'])
+                        properties: properties.filter(property => property['property_group'] === group['group_id'])
                     }
                 })
                 this.groupedProperties = groupedProperties
@@ -278,28 +278,28 @@
                     }
                 })
                 publicGroups.sort((groupA, groupB) => {
-                    return groupA['bk_group_index'] - groupB['bk_group_index']
+                    return groupA['group_index'] - groupB['group_index']
                 })
                 metadataGroups.sort((groupA, groupB) => {
-                    return groupA['bk_group_index'] - groupB['bk_group_index']
+                    return groupA['group_index'] - groupB['group_index']
                 })
                 return [...publicGroups, ...metadataGroups]
             },
             setGroupIndex (groups) {
                 groups.forEach((group, index) => {
-                    group['bk_group_index'] = index
+                    group['group_index'] = index
                 })
                 return groups
             },
             setPropertIndex (properties) {
-                properties.sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                properties.sort((propertyA, propertyB) => propertyA['property_index'] - propertyB['property_index'])
                 properties.forEach((property, index) => {
-                    property['bk_property_index'] = index
+                    property['property_index'] = index
                 })
                 return properties
             },
             handleEditGroupName (group) {
-                this.groupNameInEditing = group.info['bk_group_name']
+                this.groupNameInEditing = group.info['group_name']
                 this.groupInEditing = group
                 this.$nextTick(() => {
                     this.$refs.titleInput[0].focus()
@@ -309,7 +309,7 @@
                 this.groupInEditing = null
             },
             handleUpdateGroupName (group) {
-                const isExist = this.groupedProperties.some(originalGroup => originalGroup !== group && originalGroup.info['bk_group_name'] === this.groupNameInEditing)
+                const isExist = this.groupedProperties.some(originalGroup => originalGroup !== group && originalGroup.info['group_name'] === this.groupNameInEditing)
                 if (isExist) {
                     this.$error(this.$t('ModelManagement["该名字已经存在"]'))
                     return
@@ -320,7 +320,7 @@
                             id: this.groupInEditing.info.id
                         },
                         data: {
-                            'bk_group_name': this.groupNameInEditing
+                            'group_name': this.groupNameInEditing
                         }
                     }, { inject: this.isInjectable }),
                     config: {
@@ -328,15 +328,15 @@
                         cancelPrevious: true
                     }
                 })
-                group.info['bk_group_name'] = this.groupNameInEditing
+                group.info['group_name'] = this.groupNameInEditing
                 this.groupInEditing = null
             },
             handleRiseGroup (index, group) {
                 if (!this.canRiseGroup(index, group)) {
                     return false
                 }
-                this.groupedProperties[index - 1]['info']['bk_group_index'] = index
-                group['info']['bk_group_index'] = index - 1
+                this.groupedProperties[index - 1]['info']['group_index'] = index
+                group['info']['group_index'] = index - 1
                 this.updateGroupIndex()
                 this.resortGroups()
                 this.updatePropertyIndex()
@@ -345,8 +345,8 @@
                 if (!this.canDropGroup(index, group)) {
                     return false
                 }
-                this.groupedProperties[index + 1]['info']['bk_group_index'] = index
-                group.info['bk_group_index'] = index + 1
+                this.groupedProperties[index + 1]['info']['group_index'] = index
+                group.info['group_index'] = index + 1
                 this.updateGroupIndex()
                 this.resortGroups()
                 this.updatePropertyIndex()
@@ -380,7 +380,7 @@
                 const deletedIndex = deletedProperties.indexOf(property)
                 if (selectedIndex !== -1) {
                     selectedProperties.splice(selectedIndex, 1)
-                    const isDeleteFromGroup = property['bk_property_group'] === this.dialog.group.info['bk_group_id']
+                    const isDeleteFromGroup = property['property_group'] === this.dialog.group.info['group_id']
                     if (isDeleteFromGroup && deletedIndex === -1) {
                         deletedProperties.push(property)
                     }
@@ -389,7 +389,7 @@
                     }
                 } else {
                     selectedProperties.push(property)
-                    const isAddFromOtherGroup = property['bk_property_group'] !== this.dialog.group.info['bk_group_id']
+                    const isAddFromOtherGroup = property['property_group'] !== this.dialog.group.info['group_id']
                     if (isAddFromOtherGroup && addedIndex === -1) {
                         addedProperties.push(property)
                     }
@@ -407,14 +407,14 @@
                 if (addedProperties.length || deletedProperties.length) {
                     this.groupedProperties.forEach(group => {
                         if (group === this.dialog.group) {
-                            const resortedProperties = [...selectedProperties].sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                            const resortedProperties = [...selectedProperties].sort((propertyA, propertyB) => propertyA['property_index'] - propertyB['property_index'])
                             group.properties = resortedProperties
                         } else {
                             const resortedProperties = group.properties.filter(property => !addedProperties.includes(property))
-                            if (group.info['bk_group_id'] === 'none') {
+                            if (group.info['group_id'] === 'none') {
                                 Array.prototype.push.apply(resortedProperties, deletedProperties)
                             }
-                            resortedProperties.sort((propertyA, propertyB) => propertyA['bk_property_index'] - propertyB['bk_property_index'])
+                            resortedProperties.sort((propertyA, propertyB) => propertyA['property_index'] - propertyB['property_index'])
                             group.properties = resortedProperties
                         }
                     })
@@ -423,10 +423,10 @@
                 this.handleCancelAddProperty()
             },
             filter (property) {
-                return property['bk_property_name'].toLowerCase().indexOf(this.dialog.filter.toLowerCase()) !== -1
+                return property['property_name'].toLowerCase().indexOf(this.dialog.filter.toLowerCase()) !== -1
             },
             handleDeleteGroup (group, index) {
-                if (['default', 'none'].includes(group.info['bk_group_id'])) {
+                if (['default', 'none'].includes(group.info['group_id'])) {
                     return
                 }
                 if (group.properties.length) {
@@ -448,10 +448,10 @@
                 })
             },
             resortGroups () {
-                this.groupedProperties.sort((groupA, groupB) => groupA.info['bk_group_index'] - groupB.info['bk_group_index'])
+                this.groupedProperties.sort((groupA, groupB) => groupA.info['group_index'] - groupB.info['group_index'])
             },
             updateGroupIndex () {
-                const groupToUpdate = this.groupedProperties.filter((group, index) => group.info['bk_group_index'] !== index && group.info['bk_group_id'] !== 'none')
+                const groupToUpdate = this.groupedProperties.filter((group, index) => group.info['group_index'] !== index && group.info['group_id'] !== 'none')
                 groupToUpdate.forEach(group => {
                     this.updateGroup({
                         params: this.$injectMetadata({
@@ -459,7 +459,7 @@
                                 id: group.info.id
                             },
                             data: {
-                                'bk_group_index': group.info['bk_group_index']
+                                'group_index': group.info['group_index']
                             }
                         }, {
                             inject: this.isInjectable
@@ -490,9 +490,9 @@
                 let propertyIndex = 0
                 this.groupedProperties.forEach(group => {
                     group.properties.forEach(property => {
-                        if (property['bk_property_index'] !== propertyIndex || property['bk_property_group'] !== group.info['bk_group_id']) {
-                            property['bk_property_index'] = propertyIndex
-                            property['bk_property_group'] = group.info['bk_group_id']
+                        if (property['property_index'] !== propertyIndex || property['property_group'] !== group.info['group_id']) {
+                            property['property_index'] = propertyIndex
+                            property['property_group'] = group.info['group_id']
                             properties.push(property)
                         }
                         propertyIndex++
@@ -507,12 +507,12 @@
                             return {
                                 condition: {
                                     'obj_id': this.objId,
-                                    'bk_property_id': property['bk_property_id'],
+                                    'property_id': property['property_id'],
                                     'org_id': property['org_id']
                                 },
                                 data: {
-                                    'bk_property_group': property['bk_property_group'],
-                                    'bk_property_index': property['bk_property_index']
+                                    'property_group': property['property_group'],
+                                    'property_index': property['property_index']
                                 }
                             }
                         })
@@ -531,7 +531,7 @@
             },
             handleCreateGroup () {
                 const groupedProperties = this.groupedProperties
-                const isExist = groupedProperties.some(group => group.info['bk_group_name'] === this.newGroupName)
+                const isExist = groupedProperties.some(group => group.info['group_name'] === this.newGroupName)
                 if (isExist) {
                     this.$error(this.$t('ModelManagement["该名字已经存在"]'))
                     return
@@ -539,9 +539,9 @@
                 const groupId = Date.now().toString()
                 this.createGroup({
                     params: this.$injectMetadata({
-                        'bk_group_id': groupId,
-                        'bk_group_index': groupedProperties.length - 1,
-                        'bk_group_name': this.newGroupName,
+                        'group_id': groupId,
+                        'group_index': groupedProperties.length - 1,
+                        'group_name': this.newGroupName,
                         'obj_id': this.objId,
                         'org_id': this.supplierAccount
                     }, {

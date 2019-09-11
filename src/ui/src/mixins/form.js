@@ -26,28 +26,28 @@ export default {
                     publicGroups.push(group)
                 }
             })
-            const sortKey = 'bk_group_index'
+            const sortKey = 'group_index'
             publicGroups.sort((groupA, groupB) => groupA[sortKey] - groupB[sortKey])
             metadataGroups.sort((groupA, groupB) => groupA[sortKey] - groupB[sortKey])
             const allGroups = [
                 ...publicGroups,
                 ...metadataGroups,
                 {
-                    'bk_group_id': 'none',
-                    'bk_group_name': this.$t('Common["更多属性"]')
+                    'group_id': 'none',
+                    'group_name': this.$t('Common["更多属性"]')
                 }
             ]
             allGroups.forEach((group, index) => {
-                group['bk_group_index'] = index
+                group['group_index'] = index
             })
             return allGroups
         },
         $sortedProperties () {
             const unique = this.objectUnique.find(unique => unique.must_check) || {}
             const uniqueKeys = unique.keys || []
-            const sortKey = 'bk_property_index'
+            const sortKey = 'property_index'
             const properties = this.properties.filter(property => {
-                return !property['bk_isapi']
+                return !property['isapi']
                     && !uniqueKeys.some(key => key.key_id === property.id)
             })
             return properties.sort((propertyA, propertyB) => propertyA[sortKey] - propertyB[sortKey])
@@ -55,8 +55,8 @@ export default {
         $groupedProperties () {
             return this.$sortedGroups.map(group => {
                 return this.$sortedProperties.filter(property => {
-                    const inGroup = property['bk_property_group'] === group['bk_group_id']
-                    const isAsst = ['singleasst', 'multiasst'].includes(property['bk_property_type'])
+                    const inGroup = property['property_group'] === group['group_id']
+                    const isAsst = ['singleasst', 'multiasst'].includes(property['property_type'])
                     return inGroup && !isAsst
                 })
             })

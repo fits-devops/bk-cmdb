@@ -246,8 +246,8 @@ func (cli *Service) UpdatePropertyGroupObjectAtt(req *restful.Request, resp *res
 		}
 
 		objectAttValue := map[string]interface{}{
-			"bk_property_index": objAtt.Data.PropertyIndex,
-			"bk_property_group": objAtt.Data.PropertyGroupID,
+			"property_index": objAtt.Data.PropertyIndex,
+			"property_group": objAtt.Data.PropertyGroupID,
 		}
 
 		objectAttSelector = util.SetModOwner(objectAttSelector, ownerID)
@@ -283,7 +283,7 @@ func (cli *Service) DeletePropertyGroupObjectAtt(req *restful.Request, resp *res
 	}
 
 	objectAttValue := map[string]interface{}{
-		"bk_property_index":         -1,
+		"property_index":            -1,
 		common.BKPropertyGroupField: "default",
 	}
 	objectAttSelector = util.SetModOwner(objectAttSelector, ownerID)
@@ -334,7 +334,7 @@ func (cli *Service) SelectPropertyGroupByObjectID(req *restful.Request, resp *re
 
 	page := meta.ParsePage(groupSelector["page"])
 	if page.Sort == "" {
-		page.Sort = "bk_group_name"
+		page.Sort = "group_name"
 	}
 	delete(groupSelector, "page")
 	groupSelector = util.SetQueryOwner(groupSelector, ownerID)

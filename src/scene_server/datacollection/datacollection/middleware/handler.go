@@ -49,11 +49,11 @@ type Attr struct {
 	ID            int    `json:"id"`
 	OwnerID       string `json:"org_id"`
 	ObjID         string `json:"obj_id"`
-	PropertyGroup string `json:"bk_property_group"`
+	PropertyGroup string `json:"property_group"`
 
-	PropertyID    string `json:"bk_property_id"`
-	PropertyName  string `json:"bk_property_name"`
-	PropertyType  string `json:"bk_property_type"`
+	PropertyID    string `json:"property_id"`
+	PropertyName  string `json:"property_name"`
+	PropertyType  string `json:"property_type"`
 	AssociationID string `json:"bk_asst_obj_id"`
 
 	Option  interface{} `json:"option"`

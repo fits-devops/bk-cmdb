@@ -178,9 +178,9 @@
                 return this.table.header.filter(header => header.type !== 'checkbox')
             },
             columnsConfigProperties () {
-                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['bk_property_id']))
-                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['bk_property_id']))
-                const businessProperties = this.properties.biz.filter(property => ['bk_biz_name'].includes(property['bk_property_id']))
+                const setProperties = this.properties.set.filter(property => ['bk_set_name'].includes(property['property_id']))
+                const moduleProperties = this.properties.module.filter(property => ['bk_module_name'].includes(property['property_id']))
+                const businessProperties = this.properties.biz.filter(property => ['bk_biz_name'].includes(property['property_id']))
                 const hostProperties = this.properties.host
                 return [...setProperties, ...moduleProperties, ...businessProperties, ...hostProperties]
             }

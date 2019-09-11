@@ -30,8 +30,8 @@ type NetcollectDevice struct {
 
 type NetcollectProperty struct {
 	NetcollectPropertyID uint64     `json:"netcollect_property_id,omitempty" bson:"netcollect_property_id,omitempty"`
-	PropertyID           string     `json:"bk_property_id" bson:"bk_property_id,omitempty"`
-	PropertyName         string     `json:"bk_property_name" bson:"-"`
+	PropertyID           string     `json:"property_id" bson:"property_id,omitempty"`
+	PropertyName         string     `json:"property_name" bson:"-"`
 	DeviceID             uint64     `json:"device_id" bson:"device_id,omitempty"`
 	DeviceName           string     `json:"device_name" bson:"-"`
 	ObjectID             string     `json:"obj_id,omitempty" bson:"-"`
@@ -152,8 +152,8 @@ type NetcollectHistory struct {
 }
 
 type NetcollectReportAttribute struct {
-	PropertyID   string      `json:"bk_property_id" bson:"bk_property_id"`
-	PropertyName string      `json:"bk_property_name" bson:"-"`
+	PropertyID   string      `json:"property_id" bson:"property_id"`
+	PropertyName string      `json:"property_name" bson:"-"`
 	IsRequired   bool        `json:"isrequired" bson:"-"`
 	CurValue     interface{} `json:"value" bson:"value"`
 	PreValue     interface{} `json:"pre_value" bson:"-"`
@@ -175,8 +175,8 @@ type NetcollectReportAssociation struct {
 }
 
 type NetcollectReportAsstCond struct {
-	PropertyID   string      `json:"bk_property_id" bson:"bk_property_id"`
-	PropertyName string      `json:"bk_property_name" bson:"bk_property_name"`
+	PropertyID   string      `json:"property_id" bson:"property_id"`
+	PropertyName string      `json:"property_name" bson:"property_name"`
 	Value        interface{} `json:"value" bson:"value"`
 }
 

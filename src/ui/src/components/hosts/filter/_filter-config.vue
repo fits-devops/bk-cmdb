@@ -7,7 +7,7 @@
             </div>
             <ul class="property-list">
                 <li ref="unselectedPropertyItem" class="property-item" v-for="(property, index) in unselectedProperties" :key="index" @click="selectProperty(property)">
-                    <span>{{property['bk_property_name']}}</span>
+                    <span>{{property['property_name']}}</span>
                     <i class="bk-icon icon-angle-right"></i>
                 </li>
             </ul>
@@ -19,7 +19,7 @@
             <vue-draggable element="ul" class="property-list property-list-selected" v-model="selectedProperties" :options="{ animation: 150 }">
                 <li class="property-item" v-for="(property, index) in selectedProperties" :key="index">
                     <i class="icon-triple-dot"></i>
-                    <span>{{property['bk_property_name']}}</span>
+                    <span>{{property['property_name']}}</span>
                     <i class="bk-icon icon-eye-slash-shape" @click="unselectProperty(property)" v-tooltip="$t('Common[\'隐藏\']')"></i>
                 </li>
             </vue-draggable>
@@ -82,24 +82,24 @@
             sortedProperties () {
                 const properties = this.properties[this.selectedModel] || []
                 return [...properties].sort((propertyA, propertyB) => {
-                    return propertyA['bk_property_name'].localeCompare(propertyB['bk_property_name'], 'zh-Hans-CN', { sensitivity: 'accent' })
+                    return propertyA['property_name'].localeCompare(propertyB['property_name'], 'zh-Hans-CN', { sensitivity: 'accent' })
                 })
             },
             unselectedProperties () {
                 return this.sortedProperties.filter(property => {
-                    return this.checkAvaliable(property) && !this.localSelcted.some(meta => meta['bk_property_id'] === property['bk_property_id'])
+                    return this.checkAvaliable(property) && !this.localSelcted.some(meta => meta['property_id'] === property['property_id'])
                 })
             },
             selectedProperties: {
                 get () {
                     return this.localSelcted.map(meta => {
-                        return this.properties[meta['obj_id']].find(property => property['bk_property_id'] === meta['bk_property_id'])
+                        return this.properties[meta['obj_id']].find(property => property['property_id'] === meta['property_id'])
                     })
                 },
                 set (properties) {
                     this.localSelcted = properties.map(property => {
                         return {
-                            'bk_property_id': property['bk_property_id'],
+                            'property_id': property['property_id'],
                             'obj_id': property['obj_id']
                         }
                     })
@@ -112,7 +112,7 @@
             },
             filter (filter) {
                 this.unselectedProperties.forEach((property, index) => {
-                    if (property['bk_property_name'].toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
+                    if (property['property_name'].toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
                         this.$refs.unselectedPropertyItem[index].style.display = 'block'
                     } else {
                         this.$refs.unselectedPropertyItem[index].style.display = 'none'
@@ -127,16 +127,16 @@
             initLocalSelected () {
                 this.localSelcted = this.selected.filter(selected => {
                     const properties = this.properties[selected['obj_id']] || []
-                    return properties.some(property => property['bk_property_id'] === selected['bk_property_id'] && this.checkAvaliable(property))
+                    return properties.some(property => property['property_id'] === selected['property_id'] && this.checkAvaliable(property))
                 })
             },
             checkAvaliable (property) {
-                return !(['bk_host_innerip', 'bk_host_outerip'].includes(property['bk_property_id']) || property['bk_isapi'])
+                return !(['bk_host_innerip', 'bk_host_outerip'].includes(property['property_id']) || property['isapi'])
             },
             selectProperty (property) {
                 if (this.localSelcted.length < this.max) {
                     this.localSelcted.push({
-                        'bk_property_id': property['bk_property_id'],
+                        'property_id': property['property_id'],
                         'obj_id': property['obj_id']
                     })
                 } else {
@@ -145,7 +145,7 @@
             },
             unselectProperty (property) {
                 if (this.localSelcted.length > this.min) {
-                    this.localSelcted = this.localSelcted.filter(selected => selected['bk_property_id'] !== property['bk_property_id'])
+                    this.localSelcted = this.localSelcted.filter(selected => selected['property_id'] !== property['property_id'])
                 } else {
                     this.$info(this.$t('Common["至少选择N项"]', { n: this.min }))
                 }

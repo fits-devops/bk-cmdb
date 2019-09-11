@@ -11,7 +11,7 @@
 
 ### 获取角色绑定权限
 * API:
-GET /api/{version}/topo/privilege/{org_id}/{obj_id}/{bk_property_id}
+GET /api/{version}/topo/privilege/{org_id}/{obj_id}/{property_id}
 * API名称： get_role_privilege
 * 功能说明：
 	* 中文：获取角色绑定权限
@@ -24,7 +24,7 @@ GET /api/{version}/topo/privilege/{org_id}/{obj_id}/{bk_property_id}
 | ---  | ---  | --- |---|---| ---|
 | org_id| string| 是|无|开发商账号 |supplier account code |
 | obj_id| string| 是|无| 模型ID |  object ID |
-| bk_property_id| string| 是| 无|模型对应用户角色属性ID| object property id|
+| property_id| string| 是| 无|模型对应用户角色属性ID| object property id|
 
 
 * output:
@@ -68,7 +68,7 @@ data 字段说明：
 
 
 ###  绑定角色权限
-* API: POST /api/{version}/topo/privilege/{org_id}/{obj_id}/{bk_property_id}
+* API: POST /api/{version}/topo/privilege/{org_id}/{obj_id}/{property_id}
 * API名称： bind_role_privilege
 * 功能说明：
 	* 中文：绑定角色绑定权限
@@ -262,7 +262,7 @@ data object 说明：
 
 
 ###  删除用户分组
-* API: DELETE  /api/{version}/topo/privilege/group/{org_id}/{bk_group_id}
+* API: DELETE  /api/{version}/topo/privilege/group/{org_id}/{group_id}
 * API名称： delete_user_group
 * 功能说明：
 	* 中文：删除用户分组
@@ -415,7 +415,7 @@ model_config字段说明：
     "error_msg":"",
     "data":
         {
-            "bk_group_id":1,
+            "group_id":1,
             "sys_config":{
                 "global_busi":[
                     "resource"

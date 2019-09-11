@@ -9,16 +9,16 @@
                 <label :class="['form-label', {
                     required: property['isrequired']
                 }]">
-                    {{property['bk_property_name']}}
+                    {{property['property_name']}}
                 </label>
-                <component :is="`cmdb-form-${property['bk_property_type']}`"
-                    :data-vv-name="property['bk_property_id']"
-                    :data-vv-as="property['bk_property_name']"
+                <component :is="`cmdb-form-${property['property_type']}`"
+                    :data-vv-name="property['property_id']"
+                    :data-vv-as="property['property_name']"
                     :options="property.option || []"
                     v-validate="getValidateRules(property)"
-                    v-model.trim="values[property['bk_property_id']]">
+                    v-model.trim="values[property['property_id']]">
                 </component>
-                <span class="form-error">{{errors.first(property['bk_property_id'])}}</span>
+                <span class="form-error">{{errors.first(property['property_id'])}}</span>
             </div>
         </div>
         <div class="node-create-options">
@@ -55,7 +55,7 @@
                 return path.map(state => state.node['bk_inst_name']).join('-')
             },
             sortedProperties () {
-                const sortedProperties = this.properties.filter(property => !['singleasst', 'multiasst'].includes(property['bk_property_type']))
+                const sortedProperties = this.properties.filter(property => !['singleasst', 'multiasst'].includes(property['property_type']))
                 sortedProperties.sort((propertyA, propertyB) => {
                     return this.$tools.getPropertyPriority(propertyA) - this.$tools.getPropertyPriority(propertyB)
                 })
@@ -86,7 +86,7 @@
             getValidateRules (property) {
                 const rules = {}
                 const {
-                    bk_property_type: propertyType,
+                    property_type: propertyType,
                     option,
                     isrequired
                 } = property

@@ -20,7 +20,7 @@ const getters = {
     groupedProperties: state => {
         const groupedProperties = []
         state.propertyGroups.forEach(group => {
-            const properties = state.properties.filter(property => property.bk_property_group === group.bk_group_id)
+            const properties = state.properties.filter(property => property.property_group === group.group_id)
             if (properties.length) {
                 groupedProperties.push({
                     ...group,
@@ -35,7 +35,7 @@ const getters = {
                 (prevMetadata && nextMetadata)
                 || (!prevMetadata && !nextMetadata)
             ) {
-                return prev.bk_group_index - next.bk_group_index
+                return prev.group_index - next.group_index
             } else if (prevMetadata) {
                 return 1
             } else {

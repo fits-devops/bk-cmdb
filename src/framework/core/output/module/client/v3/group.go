@@ -51,8 +51,8 @@ func newGroup(cli *Client) *Group {
 // CreateGroup create a group
 func (g *Group) CreateGroup(data types.MapStr) (int, error) {
 	data.Set("org_id", g.cli.GetSupplierAccount())
-	if !data.Exists("bk_group_name") {
-		return 0, errors.New("bk_group_name must set")
+	if !data.Exists("group_name") {
+		return 0, errors.New("group_name must set")
 	}
 	targetURL := fmt.Sprintf("%s/api/v3/objectatt/group/new", g.cli.GetAddress())
 

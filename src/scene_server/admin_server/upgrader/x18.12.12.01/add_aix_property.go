@@ -27,11 +27,11 @@ type Attribute struct {
 	ID                int64       `json:"id" bson:"id"`
 	OwnerID           string      `json:"org_id" bson:"org_id"`
 	ObjectID          string      `json:"obj_id" bson:"obj_id"`
-	PropertyID        string      `json:"bk_property_id" bson:"bk_property_id"`
-	PropertyName      string      `json:"bk_property_name" bson:"bk_property_name"`
-	PropertyGroup     string      `json:"bk_property_group" bson:"bk_property_group"`
-	PropertyGroupName string      `json:"bk_property_group_name" bson:"-"`
-	PropertyIndex     int64       `json:"bk_property_index" bson:"bk_property_index"`
+	PropertyID        string      `json:"property_id" bson:"property_id"`
+	PropertyName      string      `json:"property_name" bson:"property_name"`
+	PropertyGroup     string      `json:"property_group" bson:"property_group"`
+	PropertyGroupName string      `json:"property_group_name" bson:"-"`
+	PropertyIndex     int64       `json:"property_index" bson:"property_index"`
 	Unit              string      `json:"unit" bson:"unit"`
 	Placeholder       string      `json:"placeholder" bson:"placeholder"`
 	IsEditable        bool        `json:"editable" bson:"editable"`
@@ -39,9 +39,9 @@ type Attribute struct {
 	IsRequired        bool        `json:"isrequired" bson:"isrequired"`
 	IsReadOnly        bool        `json:"isreadonly" bson:"isreadonly"`
 	IsOnly            bool        `json:"isonly" bson:"isonly"`
-	IsSystem          bool        `json:"bk_issystem" bson:"bk_issystem"`
-	IsAPI             bool        `json:"bk_isapi" bson:"bk_isapi"`
-	PropertyType      string      `json:"bk_property_type" bson:"bk_property_type"`
+	IsSystem          bool        `json:"issystem" bson:"issystem"`
+	IsAPI             bool        `json:"isapi" bson:"isapi"`
+	PropertyType      string      `json:"property_type" bson:"property_type"`
 	Option            interface{} `json:"option" bson:"option"`
 	Description       string      `json:"description" bson:"description"`
 	Creator           string      `json:"creator" bson:"creator"`

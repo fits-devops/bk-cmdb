@@ -118,7 +118,7 @@ func (m *modelAttribute) update(ctx core.ContextParams, data mapstr.MapStr, cond
 	}
 
 	data.Remove(metadata.AttributeFieldPropertyID)
-	data.Remove(metadata.AttributeFieldSupplierAccount)
+	data.Remove(metadata.AttributeFieldOwnerID)
 	data.Set(metadata.AttributeFieldLastTime, time.Now())
 
 	attribute := metadata.Attribute{}

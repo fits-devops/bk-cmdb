@@ -47,11 +47,11 @@ func (s *Service) CreatePrivilege(params types.ContextParams, pathParams, queryP
 		blog.Infof("CreatePrivilege param invalide type : %#v", val)
 	}
 
-	err := s.Core.PermissionOperation().Role(params).CreatePermission(params.SupplierAccount, pathParams("obj_id"), pathParams("bk_property_id"), datas)
+	err := s.Core.PermissionOperation().Role(params).CreatePermission(params.SupplierAccount, pathParams("obj_id"), pathParams("property_id"), datas)
 	return nil, err
 }
 
 // GetPrivilege search user goup
 func (s *Service) GetPrivilege(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	return s.Core.PermissionOperation().Role(params).GetPermission(params.SupplierAccount, pathParams("obj_id"), pathParams("bk_property_id"))
+	return s.Core.PermissionOperation().Role(params).GetPermission(params.SupplierAccount, pathParams("obj_id"), pathParams("property_id"))
 }

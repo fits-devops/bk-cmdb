@@ -359,15 +359,15 @@ const (
 	BKFileNameField = "file_name"
 
 	// BKPropertyIDField the propety id field
-	BKPropertyIDField = "bk_property_id"
+	BKPropertyIDField = "property_id"
 
 	// BKPropertyNameField the property name field
-	BKPropertyNameField = "bk_property_name"
+	BKPropertyNameField = "property_name"
 
 	// BKPropertyTypeField the property type field
-	BKPropertyTypeField = "bk_property_type"
+	BKPropertyTypeField = "property_type"
 
-	BKPropertyGroupField = "bk_property_group"
+	BKPropertyGroupField = "property_group"
 
 	// BKPropertyValueField the property value field
 	BKPropertyValueField = "bk_property_value"
@@ -385,13 +385,13 @@ const (
 	BKClassificationIconField = "classification_icon"
 
 	// BKPropertyGroupIDField the property group id field
-	BKPropertyGroupIDField = "bk_group_id"
+	BKPropertyGroupIDField = "group_id"
 
 	// BKPropertyGroupNameField the property group name field
-	BKPropertyGroupNameField = "bk_group_name"
+	BKPropertyGroupNameField = "group_name"
 
 	// BKPropertyGroupIndexField the property group index field
-	BKPropertyGroupIndexField = "bk_group_index"
+	BKPropertyGroupIndexField = "group_index"
 
 	// BKAsstObjIDField the property obj id field
 	BKAsstObjIDField = "bk_asst_obj_id"

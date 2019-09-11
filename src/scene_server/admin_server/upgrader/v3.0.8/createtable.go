@@ -103,7 +103,7 @@ var tables = map[string][]dal.Index{
 	"cc_PropertyGroup": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_group_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"group_id": 1}, Background: true},
 	},
 	"cc_SetBase": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"bk_set_id": 1}, Background: true},

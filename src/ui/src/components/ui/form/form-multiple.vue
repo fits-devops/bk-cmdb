@@ -6,21 +6,21 @@
                     :key="groupIndex"
                     v-if="groupedProperties[groupIndex].length">
                     <cmdb-collapse
-                        :label="group['bk_group_name']"
-                        :collapse.sync="groupState[group['bk_group_id']]">
+                        :label="group['group_name']"
+                        :collapse.sync="groupState[group['group_id']]">
                         <ul class="property-list clearfix">
                             <li class="property-item fl"
                                 v-for="(property, propertyIndex) in groupedProperties[groupIndex]"
                                 :key="propertyIndex">
                                 <div class="property-name">
                                     <cmdb-form-bool class="property-name-checkbox"
-                                        :id="`property-name-${property['bk_property_id']}`"
-                                        v-model="editable[property['bk_property_id']]">
+                                        :id="`property-name-${property['property_id']}`"
+                                        v-model="editable[property['property_id']]">
                                     </cmdb-form-bool>
                                     <label class="property-name-text"
-                                        :for="`property-name-${property['bk_property_id']}`"
+                                        :for="`property-name-${property['property_id']}`"
                                         :class="{ required: property['isrequired'] }">
-                                        {{property['bk_property_name']}}
+                                        {{property['property_name']}}
                                     </label>
                                     <i class="property-name-tooltips icon icon-cc-tips"
                                         v-if="property['placeholder']"
@@ -29,15 +29,15 @@
                                 </div>
                                 <div class="property-value">
                                     <component class="form-component"
-                                        :is="`cmdb-form-${property['bk_property_type']}`"
-                                        :class="{ error: errors.has(property['bk_property_id']) }"
-                                        :disabled="!editable[property['bk_property_id']]"
+                                        :is="`cmdb-form-${property['property_type']}`"
+                                        :class="{ error: errors.has(property['property_id']) }"
+                                        :disabled="!editable[property['property_id']]"
                                         :options="property.option || []"
-                                        :data-vv-name="property['bk_property_id']"
+                                        :data-vv-name="property['property_id']"
                                         v-validate="getValidateRules(property)"
-                                        v-model.trim="values[property['bk_property_id']]">
+                                        v-model.trim="values[property['property_id']]">
                                     </component>
-                                    <span class="form-error">{{errors.first(property['bk_property_id'])}}</span>
+                                    <span class="form-error">{{errors.first(property['property_id'])}}</span>
                                 </div>
                             </li>
                         </ul>
@@ -96,7 +96,7 @@
                 for (const propertyId in this.values) {
                     const property = this.getProperty(propertyId)
                     if (
-                        ['bool'].includes(property['bk_property_type'])
+                        ['bool'].includes(property['property_type'])
                         || this.values[propertyId] !== this.refrenceValues[propertyId]
                     ) {
                         changedValues[propertyId] = this.values[propertyId]
@@ -118,9 +118,9 @@
                 return this.$groupedProperties.map(properties => {
                     return properties.filter(property => {
                         const editable = property.editable
-                        const isapi = property['bk_isapi']
+                        const isapi = property['isapi']
                         const isonly = property.isonly
-                        const isAsst = ['singleasst', 'multiasst'].includes(property['bk_property_type'])
+                        const isAsst = ['singleasst', 'multiasst'].includes(property['property_type'])
                         return editable && !isapi && !isonly && !isAsst
                     })
                 })
@@ -160,7 +160,7 @@
                 const editable = {}
                 this.groupedProperties.forEach(properties => {
                     properties.forEach(property => {
-                        editable[property['bk_property_id']] = false
+                        editable[property['property_id']] = false
                     })
                 })
                 this.editable = editable
@@ -173,12 +173,12 @@
                 return output
             },
             getProperty (id) {
-                return this.properties.find(property => property['bk_property_id'] === id)
+                return this.properties.find(property => property['property_id'] === id)
             },
             getValidateRules (property) {
                 const rules = {}
                 const {
-                    bk_property_type: propertyType,
+                    property_type: propertyType,
                     option,
                     isrequired
                 } = property
@@ -225,8 +225,8 @@
             },
             uncollapseGroup () {
                 this.errors.items.forEach(item => {
-                    const property = this.properties.find(property => property['bk_property_id'] === item.field)
-                    const group = property['bk_property_group']
+                    const property = this.properties.find(property => property['property_id'] === item.field)
+                    const group = property['property_group']
                     this.groupState[group] = false
                 })
             },

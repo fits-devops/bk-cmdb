@@ -453,7 +453,7 @@ type Custom struct {
 	DeviceModel string `yaml:"device_model,omitempty"`
 	ObjectID    string `yaml:"obj_id,omitempty"`
 	BkVendor    string `yaml:"bk_vendor,omitempty"`
-	PropertyID  string `json:"bk_property_id" bson:"bk_property_id,omitempty"`
+	PropertyID  string `json:"property_id" bson:"property_id,omitempty"`
 
 	Method string `yaml:"method,omitempty"`
 	Period string `yaml:"period,omitempty"`

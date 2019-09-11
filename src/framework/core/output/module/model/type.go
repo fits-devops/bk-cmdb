@@ -18,13 +18,13 @@ import (
 
 const (
 	// PropertyID the property identifier for a object
-	PropertyID = "bk_property_id"
+	PropertyID = "property_id"
 	// PropertyName the property name for a object
-	PropertyName = "bk_property_name"
+	PropertyName = "property_name"
 	// PropertyGroup the property group for a object
-	PropertyGroup = "bk_property_group"
+	PropertyGroup = "property_group"
 	// PropertyIndex the property index for a object
-	PropertyIndex = "bk_property_index"
+	PropertyIndex = "property_index"
 	// Unit the unit for a object
 	Unit = "unit"
 	// PlaceHolder the placeholder for the property
@@ -38,22 +38,22 @@ const (
 	// IsOnly mark the property is a key
 	IsOnly = "isonly"
 	// IsSystem mark the property is the system inner used
-	IsSystem = "bk_issystem"
+	IsSystem = "issystem"
 	// IsApi mark the property is the api param
-	IsApi = "bk_isapi"
+	IsApi = "isapi"
 	// PropertyType the property type definition
-	PropertyType = "bk_property_type"
+	PropertyType = "property_type"
 	// Option the field configuration information
 	Option = "option"
 
 	// GroupID the group identifier
-	GroupID = "bk_group_id"
+	GroupID = "group_id"
 	// GroupName the group name
-	GroupName = "bk_group_name"
+	GroupName = "group_name"
 	// GroupIndex the group index
-	GroupIndex = "bk_group_index"
+	GroupIndex = "group_index"
 	// IsDefault true is default group
-	IsDefault = "bk_isdefault"
+	IsDefault = "isdefault"
 
 	// ObjectIcon the icon name for the object
 	ObjectIcon = "obj_icon"

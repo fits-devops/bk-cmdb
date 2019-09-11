@@ -5,35 +5,35 @@
             <i class="bk-icon icon-angle-up"></i>
         </div>
         <cmdb-selector class="filter-selector"
-            setting-key="bk_property_id"
-            display-key="bk_property_name"
+            setting-key="property_id"
+            display-key="property_name"
             :list="filteredProperties"
             v-model="propertyId"
             @on-selected="handleSelect">
         </cmdb-selector>
         <div v-if="property" class="filter-value-container">
             <cmdb-form-enum class="filter-value fl"
-                v-if="property['bk_property_type'] === 'enum'"
+                v-if="property['property_type'] === 'enum'"
                 :options="property.option || []"
                 :allow-clear="true"
                 v-model.trim="value">
             </cmdb-form-enum>
             <cmdb-form-int class="filter-value fl"
-                v-else-if="property['bk_property_type'] === 'int'"
+                v-else-if="property['property_type'] === 'int'"
                 v-model="value">
             </cmdb-form-int>
             <cmdb-form-bool-input class="filter-value fl"
-                v-else-if="property['bk_property_type'] === 'bool'"
+                v-else-if="property['property_type'] === 'bool'"
                 v-model.trim="value">
             </cmdb-form-bool-input>
             <cmdb-form-date-range class="filter-value fl"
-                v-else-if="['date', 'time'].includes(property['bk_property_type'])"
-                :timer="property['bk_property_type'] === 'time'"
+                v-else-if="['date', 'time'].includes(property['property_type'])"
+                :timer="property['property_type'] === 'time'"
                 v-model="value">
             </cmdb-form-date-range>
             <comonent class="filter-value"
                 v-else
-                :is="`cmdb-form-${property['bk_property_type']}`"
+                :is="`cmdb-form-${property['property_type']}`"
                 v-model.trim="value">
             </comonent>
         </div>
@@ -62,10 +62,10 @@
         },
         computed: {
             filteredProperties () {
-                return this.properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property['bk_property_type']))
+                return this.properties.filter(property => !['singleasst', 'multiasst', 'foreignkey'].includes(property['property_type']))
             },
             type () {
-                return this.property ? this.property['bk_property_type'] : ''
+                return this.property ? this.property['property_type'] : ''
             },
             searchValue () {
                 if (['objuser'].includes(this.type)) {
@@ -103,7 +103,7 @@
         methods: {
             setDefaultSelected () {
                 if (this.filteredProperties.length) {
-                    this.selected = this.filteredProperties[0]['bk_property_id']
+                    this.selected = this.filteredProperties[0]['property_id']
                 } else {
                     this.selected = null
                 }

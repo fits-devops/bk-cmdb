@@ -395,8 +395,8 @@
                         item.attributes.forEach(attr => {
                             if (attr.method === 'accept') {
                                 detail.attributes.push({
-                                    bk_property_id: attr['bk_property_id'],
-                                    bk_property_name: attr['bk_property_name'],
+                                    property_id: attr['property_id'],
+                                    property_name: attr['property_name'],
                                     value: attr['value'],
                                     method: 'accept'
                                 })

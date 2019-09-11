@@ -171,7 +171,7 @@ func (a *attribute) FindObjectAttributeWithDetail(params types.ContextParams, co
 		attribute := attr.Attribute()
 		grpCond := condition.CreateCondition()
 		grpCond.Field(metadata.GroupFieldGroupID).Eq(attribute.PropertyGroup)
-		grpCond.Field(metadata.GroupFieldSupplierAccount).Eq(attribute.OwnerID)
+		grpCond.Field(metadata.GroupFieldOwnerID).Eq(attribute.OwnerID)
 		grpCond.Field(metadata.GroupFieldObjectID).Eq(attribute.ObjectID)
 		grps, err := a.grp.FindObjectGroup(params, grpCond)
 		if nil != err {

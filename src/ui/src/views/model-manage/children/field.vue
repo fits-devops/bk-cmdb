@@ -20,16 +20,16 @@
             :list="table.list"
             :wrapper-minus-height="300"
             @handleSortChange="handleSortChange">
-            <template slot="bk_property_id" slot-scope="{ item }">
+            <template slot="property_id" slot-scope="{ item }">
                 <span
                     v-if="item['ispre']"
                     :class="['field-pre', $i18n.locale]">
                     {{$t('ModelManagement["内置"]')}}
                 </span>
-                <span class="field-id">{{item['bk_property_id']}}</span>
+                <span class="field-id">{{item['property_id']}}</span>
             </template>
-            <template slot="bk_property_type" slot-scope="{ item }">
-                <span>{{fieldTypeMap[item['bk_property_type']]}}</span>
+            <template slot="property_type" slot-scope="{ item }">
+                <span>{{fieldTypeMap[item['property_type']]}}</span>
             </template>
             <template slot="isrequired" slot-scope="{ item }">
                 <i class="field-required-icon bk-icon icon-check-1" v-if="item.isrequired"></i>
@@ -100,14 +100,14 @@
                         id: 'isrequired',
                         name: this.$t('ModelManagement["必填"]')
                     }, {
-                        id: 'bk_property_id',
+                        id: 'property_id',
                         name: this.$t('ModelManagement["唯一标识"]'),
                         minWidth: 110
                     }, {
-                        id: 'bk_property_name',
+                        id: 'property_name',
                         name: this.$t('ModelManagement["名称"]')
                     }, {
-                        id: 'bk_property_type',
+                        id: 'property_type',
                         name: this.$t('ModelManagement["字段类型"]')
                     }, {
                         id: 'create_time',
@@ -193,7 +193,7 @@
             },
             deleteField (field) {
                 this.$bkInfo({
-                    title: this.$tc('ModelManagement["确定删除字段？"]', field['bk_property_name'], { name: field['bk_property_name'] }),
+                    title: this.$tc('ModelManagement["确定删除字段？"]', field['property_name'], { name: field['property_name'] }),
                     confirmFn: async () => {
                         await this.deleteObjectAttribute({
                             id: field.id,

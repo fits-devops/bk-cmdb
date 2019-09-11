@@ -175,7 +175,7 @@ func (g *group) DeleteObjectAttributeGroup(params types.ContextParams, objID, pr
 			Field(common.BKPropertyIDField).Eq(propertyID).
 			Field(common.BKPropertyGroupField).Eq(groupID).ToMapStr(),
 		Data: mapstr.MapStr{
-			"bk_property_index":         -1,
+			"property_index":            -1,
 			common.BKPropertyGroupField: "default",
 		},
 	}

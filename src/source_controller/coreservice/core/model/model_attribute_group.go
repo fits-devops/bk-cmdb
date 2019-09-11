@@ -118,7 +118,7 @@ func (g *modelAttributeGroup) SetModelAttributeGroup(ctx core.ContextParams, obj
 
 	cond := mongo.NewCondition()
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldGroupID, Val: inputParam.Data.GroupID})
-	cond.Element(&mongo.Eq{Key: metadata.GroupFieldSupplierAccount, Val: ctx.SupplierAccount})
+	cond.Element(&mongo.Eq{Key: metadata.GroupFieldOwnerID, Val: ctx.SupplierAccount})
 	cond.Element(&mongo.Eq{Key: metadata.GroupFieldID, Val: existsGroup.ID})
 
 	cnt, err := g.update(ctx, mapstr.NewFromStruct(inputParam.Data, "field"), cond)
@@ -151,7 +151,7 @@ func (g *modelAttributeGroup) UpdateModelAttributeGroup(ctx core.ContextParams, 
 
 	inputParam.Data.Remove(metadata.GroupFieldGroupID)
 	inputParam.Data.Remove(metadata.GroupFieldObjectID)
-	inputParam.Data.Remove(metadata.GroupFieldSupplierAccount)
+	inputParam.Data.Remove(metadata.GroupFieldOwnerID)
 	inputParam.Data.Remove(metadata.GroupFieldIsPre)
 
 	cnt, err := g.update(ctx, inputParam.Data, cond)
@@ -173,7 +173,7 @@ func (g *modelAttributeGroup) UpdateModelAttributeGroupByCondition(ctx core.Cont
 
 	inputParam.Data.Remove(metadata.GroupFieldGroupID)
 	inputParam.Data.Remove(metadata.GroupFieldObjectID)
-	inputParam.Data.Remove(metadata.GroupFieldSupplierAccount)
+	inputParam.Data.Remove(metadata.GroupFieldOwnerID)
 	inputParam.Data.Remove(metadata.GroupFieldIsPre)
 
 	cnt, err := g.update(ctx, inputParam.Data, cond)

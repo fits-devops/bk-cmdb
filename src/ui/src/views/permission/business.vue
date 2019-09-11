@@ -104,10 +104,10 @@
                 })
                 const roles = []
                 res.map(role => {
-                    if (role['bk_property_type'] === 'objuser') {
+                    if (role['property_type'] === 'objuser') {
                         roles.push({
-                            id: role['bk_property_id'],
-                            name: role['bk_property_name'],
+                            id: role['property_id'],
+                            name: role['property_name'],
                             selectedAuthorities: []
                         })
                     }

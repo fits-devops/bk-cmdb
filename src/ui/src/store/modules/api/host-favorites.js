@@ -31,7 +31,7 @@ const getters = {
                 if (!ignore.includes(param['obj_id'])) {
                     properties.push({
                         'obj_id': param['obj_id'],
-                        'bk_property_id': param.field
+                        'property_id': param.field
                     })
                 }
             })

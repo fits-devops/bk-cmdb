@@ -106,10 +106,10 @@ func TestMgCondition(t *testing.T) {
 func TestIssue1708(t *testing.T) {
 	testData := metadata.QueryCondition{
 		Condition: mapstr.MapStr{
-			"bk_group_id": "default",
-			"obj_id":      "1",
-			"id":          mapstr.MapStr{"$nin": []int{0}},
-			"metadata":    mapstr.MapStr{"label": nil},
+			"group_id": "default",
+			"obj_id":   "1",
+			"id":       mapstr.MapStr{"$nin": []int{0}},
+			"metadata": mapstr.MapStr{"label": nil},
 		},
 	}
 

@@ -10,9 +10,9 @@
 ``` json
 
 {
-    "bk_group_id":"3jbvwqbhq75",
-    "bk_group_name":"未命名",
-    "bk_group_index":5,
+    "group_id":"3jbvwqbhq75",
+    "group_name":"未命名",
+    "group_index":5,
     "obj_id":"process",
     "org_id":"0"
 }
@@ -25,9 +25,9 @@
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---| ---|
-|bk_group_id|string| 是|无|分组ID，纯英文字符序列，不允许修改|the group identifier|
-|bk_group_name|string|是|无|分组名字，用于展示|the group name|
-|bk_group_index| int|是|0|分组排序|the group index|
+|group_id|string| 是|无|分组ID，纯英文字符序列，不允许修改|the group identifier|
+|group_name|string|是|无|分组名字，用于展示|the group name|
+|group_index| int|是|0|分组排序|the group index|
 |obj_id|string|是|无|模型ID，用于指明该分组的所属|the object identifier|
 |org_id|string|是|无|开发商账号|supplier account code|
 
@@ -90,10 +90,10 @@ data 说明
     "message": null,
     "data": [
         {
-            "bk_group_id": "default",
-            "bk_group_index": 1,
-            "bk_group_name": "基础信息",
-            "bk_isdefault": true,
+            "group_id": "default",
+            "group_index": 1,
+            "group_name": "基础信息",
+            "isdefault": true,
             "obj_id": "host",
             "org_id": "0",
             "id": 5,
@@ -118,10 +118,10 @@ data 说明
 
 | 名称  | 类型  | 说明 |Description|
 |---|---|---|---|
-|bk_group_id|string|分组标识|the group identifier|
-|bk_group_index|int|分组排序|the group sort index|
-|bk_group_name|string|分组名|the group name|
-|bk_isdefault|bool|true-默认分组,false-普通分组|true - the defualt group, false - the common group|
+|group_id|string|分组标识|the group identifier|
+|group_index|int|分组排序|the group sort index|
+|group_name|string|分组名|the group name|
+|isdefault|bool|true-默认分组,false-普通分组|true - the defualt group, false - the common group|
 |obj_id|string|模型标识|the object identifier|
 |org_id|string|开发商账号|supplier account code|
 |id|int|数据记录ID|the data record id|
@@ -138,7 +138,7 @@ data 说明
         "id":10
     },
     "data":{
-        "bk_group_name":"GSEkit 进程管理信息2"
+        "group_name":"GSEkit 进程管理信息2"
     }
 }
 ```
@@ -163,8 +163,8 @@ data 字段说明：
 
 |字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_group_name|string|否|无|分组名字，用于展示|the group name|
-|bk_group_index| int|否|0|分组排序|the group index|
+|group_name|string|否|无|分组名字，用于展示|the group name|
+|group_index| int|否|0|分组排序|the group index|
 
 
 - output
@@ -233,7 +233,7 @@ data 字段说明：
 
 
 ### 删除模型属性分组
-- API: DELETE  /api/{version}/objectatt/group/owner/{org_id}/object/{obj_id}/propertyids/{bk_property_id}/groupids/{bk_group_id}
+- API: DELETE  /api/{version}/objectatt/group/owner/{org_id}/object/{obj_id}/propertyids/{property_id}/groupids/{group_id}
 - API 名称：delete_object_property_group
 - 功能说明：
 	- 中文：删除模型属性分组
@@ -247,8 +247,8 @@ data 字段说明：
 
 | 字段|类型|必填|默认值|说明|Description|
 |---|---|---|---|---|---|
-|bk_group_id|string|是|无|分组ID|the group record  id|
-|bk_property_id|string|是|无|属性ID|the property identifier|
+|group_id|string|是|无|分组ID|the group record  id|
+|property_id|string|是|无|属性ID|the property identifier|
 |obj_id|string|是|无|模型ID|the object identifier|
 |org_id|string|是|无|开发商账号|supplier account code|
 

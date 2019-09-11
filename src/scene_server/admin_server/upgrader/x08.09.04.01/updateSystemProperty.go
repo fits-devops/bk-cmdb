@@ -39,11 +39,11 @@ func updateSystemProperty(ctx context.Context, db dal.RDB, conf *upgrader.Config
 
 	tablename := common.BKTableNameObjAttDes
 	condition = map[string]interface{}{
-		"bk_property_id": map[string]interface{}{"$in": []string{common.BKChildStr, common.BKInstParentStr}},
-		"obj_id":         map[string]interface{}{"$in": objIDs},
+		"property_id": map[string]interface{}{"$in": []string{common.BKChildStr, common.BKInstParentStr}},
+		"obj_id":      map[string]interface{}{"$in": objIDs},
 	}
 	data := map[string]interface{}{
-		"bk_issystem": true,
+		"issystem": true,
 	}
 
 	return db.Table(tablename).Update(ctx, condition, data)
