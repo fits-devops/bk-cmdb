@@ -156,7 +156,7 @@
                         fromCache: true
                     }
                 })
-                this.relationList = data.info.map(({ asst_id: asstId, bk_asst_name: asstName }) => {
+                this.relationList = data.info.map(({ asst_id: asstId, asst_name: asstName }) => {
                     if (asstName.length) {
                         return {
                             id: asstId,

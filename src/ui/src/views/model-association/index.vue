@@ -33,8 +33,8 @@
             @handlePageChange="handlePageChange"
             @handleSizeChange="handleSizeChange"
             @handleSortChange="handleSortChange">
-            <template slot="bk_asst_name" slot-scope="{ item }">
-                {{item['bk_asst_name'] || '--'}}
+            <template slot="asst_name" slot-scope="{ item }">
+                {{item['asst_name'] || '--'}}
             </template>
             <template slot="operation" slot-scope="{ item }">
                 <span class="text-primary disabled mr10"
@@ -106,7 +106,7 @@
                         id: 'asst_id',
                         name: this.$t('ModelManagement["唯一标识"]')
                     }, {
-                        id: 'bk_asst_name',
+                        id: 'asst_name',
                         name: this.$t('Hosts["名称"]')
                     }, {
                         id: 'src_des',
@@ -148,7 +148,7 @@
                 if (this.sendSearchText.length) {
                     Object.assign(params, {
                         condition: {
-                            bk_asst_name: {
+                            asst_name: {
                                 '$regex': this.sendSearchText
                             }
                         }
@@ -217,7 +217,7 @@
             },
             deleteRelation (relation) {
                 this.$bkInfo({
-                    title: this.$tc('ModelManagement["确定删除关联类型？"]', relation['bk_asst_name'], { name: relation['bk_asst_name'] }),
+                    title: this.$tc('ModelManagement["确定删除关联类型？"]', relation['asst_name'], { name: relation['asst_name'] }),
                     confirmFn: async () => {
                         await this.deleteAssociationType({
                             id: relation.id,

@@ -669,8 +669,8 @@
             getAssociationName (asstId) {
                 const asst = this.associationList.find(asst => asst.id === asstId)
                 if (asst) {
-                    if (asst['bk_asst_name'].length) {
-                        return asst['bk_asst_name']
+                    if (asst['asst_name'].length) {
+                        return asst['asst_name']
                     }
                     return asst['asst_id']
                 }

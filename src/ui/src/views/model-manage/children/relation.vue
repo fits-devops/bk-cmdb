@@ -27,7 +27,7 @@
                 </span>
                 <span class="relation-id">{{item['obj_asst_id']}}</span>
             </template>
-            <template slot="bk_asst_name" slot-scope="{ item }">
+            <template slot="asst_name" slot-scope="{ item }">
                 {{getRelationName(item['asst_id'])}}
             </template>
             <template slot="mapping" slot-scope="{ item }">
@@ -91,7 +91,7 @@
                         id: 'obj_asst_id',
                         name: this.$t('ModelManagement["唯一标识"]')
                     }, {
-                        id: 'bk_asst_name',
+                        id: 'asst_name',
                         name: this.$t('ModelManagement["关联类型"]')
                     }, {
                         id: 'mapping',
@@ -175,7 +175,7 @@
                         fromCache: true
                     }
                 })
-                this.relationList = data.info.map(({ asst_id: asstId, bk_asst_name: asstName }) => {
+                this.relationList = data.info.map(({ asst_id: asstId, asst_name: asstName }) => {
                     if (asstName.length) {
                         return {
                             id: asstId,

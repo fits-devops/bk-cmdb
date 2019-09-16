@@ -154,8 +154,8 @@
                 if (asstModel) {
                     const association = this.associationList.find(({ id }) => id === asst['asst_inst_id'])
                     if (association) {
-                        if (association['bk_asst_name'].length) {
-                            return `${association['bk_asst_name']}->${asstModel['obj_name']}`
+                        if (association['asst_name'].length) {
+                            return `${association['asst_name']}->${asstModel['obj_name']}`
                         }
                         return `${association['asst_id']}->${asstModel['obj_name']}`
                     }

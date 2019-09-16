@@ -25,7 +25,7 @@ type GraphAsst struct {
 	ObjID                 string            `json:"obj_id"`
 	InstID                int64             `json:"inst_id"`
 	AssociationKindInstID int64             `json:"asst_inst_id"`
-	AsstName              string            `json:"bk_asst_name"`
+	AsstName              string            `json:"asst_name"`
 	Label                 map[string]string `json:"label"`
 }
 

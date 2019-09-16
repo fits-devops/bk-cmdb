@@ -219,7 +219,7 @@
                         })
                         const createdAssociation = {
                             asst_inst_id: association.id,
-                            bk_asst_name: association['bk_asst_name'],
+                            asst_name: association['asst_name'],
                             bk_asst_type: '',
                             inst_id: data.id,
                             obj_id: target,
@@ -284,14 +284,14 @@
             },
             getTitle (asstId) {
                 const data = this.localAssociationList.find(data => data['asst_id'] === asstId) || {}
-                return data['bk_asst_name']
+                return data['asst_name']
             },
             getModelName (modelId) {
                 const model = this.models.find(model => model['obj_id'] === modelId) || {}
                 return model['obj_name']
             },
             getAssociationItemName (association) {
-                return `${association['bk_asst_name']}(${association['asst_id']})`
+                return `${association['asst_name']}(${association['asst_id']})`
             }
         }
     }

@@ -42,7 +42,7 @@
             "obj_asst_id": "bk_switch_belong_bk_host",
             "obj_asst_name": "",
             "asst_id": "belong",
-            "bk_asst_name": "属于",
+            "asst_name": "属于",
             "obj_id": "bk_switch",
             "obj_name": "交换机",
             "asst_obj_id": "bk_host",
@@ -72,7 +72,7 @@
 |obj_asst_id|串|唯一标识，自动生成。规则：源模型英文ID +关联类型英文标识+目标模型英文ID。由前端生成传入，后端只做唯一校验||
 |obj_asst_name|串|别名||
 |asst_id|串|关联类型||
-|bk_asst_name|串|显示的名称||
+|asst_name|串|显示的名称||
 |obj_id|串|源模型ID||
 |obj_name|串|源模型ID||
 |asst_obj_id|串|目标模型名称||
@@ -155,7 +155,7 @@
 * 输入体
 ```
 {
-    "bk_asst_name": "属于",
+    "asst_name": "属于",
     "asst_id":"belong",
     "on_delete":""// 具体枚举值见上。
     "metadata":{
@@ -170,7 +170,7 @@
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  | --- |---  |
 |ID|INT|是|无|自增ID|自动递增ID|
-|bk_asst_name|串|否|无|显示的名称|协会的名称|
+|asst_name|串|否|无|显示的名称|协会的名称|
 |asst_id|串|否|无|关联类型|
 |on_delete|串|否|无|删除时的动作|
 

@@ -132,7 +132,7 @@
             },
             getEdgeLable (association) {
                 const data = this.associationList.find(data => data.id === association['asst_inst_id']) || {}
-                return data['bk_asst_name'] || data['asst_id']
+                return data['asst_name'] || data['asst_id']
             },
             createNodeImages () {
                 const data = this.topologyData

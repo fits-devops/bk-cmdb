@@ -230,7 +230,7 @@
                             const edge = {
                                 to: type === 'next' ? currentNode.id : node.id,
                                 from: type === 'next' ? node.id : currentNode.id,
-                                label: node.data['bk_asst_name']
+                                label: node.data['asst_name']
                             }
                             const legend = relationLegends.find(legend => legend.id === obj['obj_id'])
                             if (legend) {

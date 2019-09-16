@@ -982,7 +982,7 @@ const (
 const (
 	// the id of the association kind
 	AssociationKindIDField    = "asst_id"
-	AssociationKindNameField  = "bk_asst_name"
+	AssociationKindNameField  = "asst_name"
 	AssociationObjAsstIDField = "obj_asst_id"
 	AssociatedObjectIDField   = "asst_obj_id"
 )

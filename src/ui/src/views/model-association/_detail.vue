@@ -27,7 +27,7 @@
                         name="asstName"
                         :disabled="isEdit && relation.ispre"
                         v-validate="'required|singlechar'"
-                        v-model.trim="relationInfo['bk_asst_name']"
+                        v-model.trim="relationInfo['asst_name']"
                         :placeholder="$t('ModelManagement[\'请输入名称\']')">
                     <p class="form-error">{{errors.first('asstName')}}</p>
                 </div>
@@ -124,7 +124,7 @@
                 relationInfo: {
                     id: null,
                     asst_id: '',
-                    bk_asst_name: '',
+                    asst_name: '',
                     src_des: '',
                     dest_des: '',
                     direction: 'src_to_dest' // none, src_to_dest, bidirectional

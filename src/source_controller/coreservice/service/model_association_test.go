@@ -29,7 +29,7 @@ func createAssociationKind(t *testing.T, client *httpclient.HttpClient, asstKind
 	data := `{
 		"data":{
 				"asst_id": "` + asstKindID + `",
-				"bk_asst_name": "` + "name_" + asstKindID + `",
+				"asst_name": "` + "name_" + asstKindID + `",
 				"src_des": "属于",
 				"dest_des": "被属于",
 				"direction": "none",

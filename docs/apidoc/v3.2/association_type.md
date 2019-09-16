@@ -16,7 +16,7 @@
         "sort":"asst_id"
     },
     "condition":{
-        "bk_asst_name": {
+        "asst_name": {
             "$eq": "belong"
         }
     }
@@ -36,7 +36,7 @@ page参数说明：
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  | --- | ---|
 |asst_id|串|是|无|唯一标识|独特的识别|
-|bk_asst_name|串|是|无|显示的名称|协会的名称|
+|asst_name|串|是|无|显示的名称|协会的名称|
 |src_des|串|是|无|“源 - >目标” 描述|从源到目的地的描述|
 |dest_des|串|是|无|“目标 - >源” 描述|从目的地到来源的描述|
 |方向|枚举|否|无|连线的方向，默认无。枚举值：[none，src_to_dest，dest_to_src，bidirectional（双向）]|该线的方向|
@@ -52,7 +52,7 @@ page参数说明：
         "info":[{
             "id": 1,
             "asst_id": "belong",
-            "bk_asst_name": "属于",
+            "asst_name": "属于",
             "src_des": "属于",
             "dest_des": "被属于",
             "direction": "none",
@@ -84,7 +84,7 @@ page参数说明：
 | ---  | ---  | --- |---  |
 |ID|INT|自增ID|自动递增ID|
 |asst_id|串|唯一标识|独特的识别|
-|bk_asst_name|串|显示的名称|协会的名称|
+|asst_name|串|显示的名称|协会的名称|
 |src_des|串|“源 - >目标” 描述|从源到目的地的描述|
 |dest_des|串|“目标 - >源” 描述|从目的地到来源的描述|
 |方向|枚举|连线的方向，默认无。枚举值：[none，src_to_dest，dest_to_src，bidirectional（双向）]|该线的方向|
@@ -101,7 +101,7 @@ page参数说明：
 ```
 {
     "asst_id": "belong",
-    "bk_asst_name": "属于",
+    "asst_name": "属于",
     "src_des": "属于",
     "dest_des": "被属于",
     "direction": "none",
@@ -112,7 +112,7 @@ page参数说明：
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  |--- |---  |
 |asst_id|串|是|无|唯一标识|独特的识别|
-|bk_asst_name|串|是|无|显示的名称|协会的名称|
+|asst_name|串|是|无|显示的名称|协会的名称|
 |src_des|串|是|无|“源 - >目标” 描述|从源到目的地的描述|
 |dest_des|串|是|无|“目标 - >源” 描述|从目的地到来源的描述|
 |方向|枚举|否|无|连线的方向，默认无。枚举值：[none，src_to_dest，dest_to_src，bidirectional（双向）]|该线的方向|
@@ -153,7 +153,7 @@ page参数说明：
 * 输入体
 ```
 {
-    "bk_asst_name": "属于",
+    "asst_name": "属于",
     "src_des": "属于",
     "dest_des": "被属于",
     "direction": "none",
@@ -164,7 +164,7 @@ page参数说明：
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  |--- |---  |
 |ID|INT|是|无|自增ID|自动递增ID|
-|bk_asst_name|串|是|无|显示的名称|协会的名称|
+|asst_name|串|是|无|显示的名称|协会的名称|
 |src_des|串|是|无|“源 - >目标” 描述|从源到目的地的描述|
 |dest_des|串|是|无|“目标 - >源” 描述|从目的地到来源的描述|
 |方向|枚举|否|无|连线的方向，默认无。枚举值：[none，src_to_dest，dest_to_src，bidirectional（双向）]|该线的方向|

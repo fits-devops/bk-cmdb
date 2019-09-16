@@ -163,7 +163,7 @@ type Association struct {
 	OwnerID          string `field:"org_id" json:"org_id" bson:"org_id"`
 	AsstForward      string `field:"bk_asst_forward" json:"bk_asst_forward" bson:"bk_asst_forward"`
 	AsstObjID        string `field:"asst_obj_id" json:"asst_obj_id" bson:"asst_obj_id"`
-	AsstName         string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
+	AsstName         string `field:"asst_name" json:"asst_name" bson:"asst_name"`
 	ObjectAttID      string `field:"bk_object_att_id" json:"bk_object_att_id" bson:"bk_object_att_id"`
 	ClassificationID string `field:"classification_id" bson:"-"`
 	ObjectIcon       string `field:"obj_icon" bson:"-"`

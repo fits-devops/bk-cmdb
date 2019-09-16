@@ -30,7 +30,7 @@ const (
 	// AssociationFieldAssociationObjectID the association data field definition
 	AssociationFieldAssociationObjectID = "asst_obj_id"
 	// AssociationFieldAssociationName the association data field definition
-	// AssociationFieldAssociationName = "bk_asst_name"
+	// AssociationFieldAssociationName = "asst_name"
 	// AssociationFieldAssociationId auto incr id
 	AssociationFieldAssociationId   = "id"
 	AssociationFieldAssociationKind = "asst_id"
@@ -55,7 +55,7 @@ type CreateAssociationTypeResult struct {
 }
 
 type UpdateAssociationTypeRequest struct {
-	AsstName  string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
+	AsstName  string `field:"asst_name" json:"asst_name" bson:"asst_name"`
 	SrcDes    string `field:"src_des" json:"src_des" bson:"src_des"`
 	DestDes   string `field:"dest_des" json:"dest_des" bson:"dest_des"`
 	Direction string `field:"direction" json:"direction" bson:"direction"`
@@ -86,7 +86,7 @@ type CreateAssociationObjectResult struct {
 }
 
 type UpdateAssociationObjectRequest struct {
-	AsstName string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
+	AsstName string `field:"asst_name" json:"asst_name" bson:"asst_name"`
 }
 
 type UpdateAssociationObjectResult struct {
@@ -173,7 +173,7 @@ type AssociationKind struct {
 	// a unique association id created by user.
 	AssociationKindID string `field:"asst_id" json:"asst_id" bson:"asst_id"`
 	// a memorable name for this association kind, could be a chinese name, a english name etc.
-	AssociationKindName string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
+	AssociationKindName string `field:"asst_name" json:"asst_name" bson:"asst_name"`
 	// the owner that this association type belongs to.
 	OwnerID string `field:"org_id" json:"org_id" bson:"org_id"`
 	// the describe for the relationship from source object to the target(destination) object, which will be displayed
@@ -345,7 +345,7 @@ type InstNameAsst struct {
 	ObjectName string `json:"obj_name"`
 	InstName   string `json:"inst_name"`
 	AssoID     int64  `json:"asso_id"`
-	// AsstName   string                 `json:"bk_asst_name"`
+	// AsstName   string                 `json:"asst_name"`
 	// AsstID   string                 `json:"asst_id"`
 	InstInfo map[string]interface{} `json:"inst_info,omitempty"`
 }
