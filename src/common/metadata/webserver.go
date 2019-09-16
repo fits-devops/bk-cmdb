@@ -115,7 +115,7 @@ const (
 )
 
 type ExcelAssocation struct {
-	ObjectAsstID string                 `json:"bk_obj_asst_id"`
+	ObjectAsstID string                 `json:"obj_asst_id"`
 	Operate      ExcelAssocationOperate `json:"operate"`
 	SrcPrimary   string                 `json:"src_primary_key"`
 	DstPrimary   string                 `json:"dst_primary_key"`

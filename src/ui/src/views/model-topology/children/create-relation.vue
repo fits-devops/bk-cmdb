@@ -15,7 +15,7 @@
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item">
-                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['bk_asst_obj_id'])">
+                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['asst_obj_id'])">
             </div>
             <span class="exchange-icon" @click="exchangeObjAsst">
                 <i class="bk-icon icon-sort"></i>
@@ -27,10 +27,10 @@
                 <span class="color-danger">*</span>
             </span>
             <ul class="relation-label cmdb-form-item clearfix" :class="{ 'is-error': errors.has('asstId') }">
-                <li :class="{ 'active': relationInfo['bk_asst_id'] === relation.id }"
+                <li :class="{ 'active': relationInfo['asst_id'] === relation.id }"
                     v-for="(relation, relationIndex) in relationList"
                     :key="relationIndex"
-                    @click="relationInfo['bk_asst_id'] = relation.id">
+                    @click="relationInfo['asst_id'] = relation.id">
                     {{relation.name}}
                 </li>
             </ul>
@@ -44,7 +44,7 @@
                 <input type="text" class="cmdb-form-input"
                     name="asstName"
                     v-validate="'required|singlechar'"
-                    v-model.trim="relationInfo['bk_obj_asst_name']"
+                    v-model.trim="relationInfo['obj_asst_name']"
                     :placeholder="$t('ModelManagement[\'请输入关联描述\']')">
                 <p class="form-error">{{errors.first('asstName')}}</p>
             </div>
@@ -106,9 +106,9 @@
                 }],
                 relationInfo: {
                     obj_id: this.fromObjId,
-                    bk_asst_obj_id: this.toObjId,
-                    bk_asst_id: '',
-                    bk_obj_asst_name: '',
+                    asst_obj_id: this.toObjId,
+                    asst_id: '',
+                    obj_asst_name: '',
                     mapping: ''
                 }
             }
@@ -119,8 +119,8 @@
                 const {
                     relationInfo
                 } = this
-                if (relationInfo['obj_id'].length && relationInfo['bk_asst_id'].length && relationInfo['bk_asst_obj_id'].length) {
-                    return `${relationInfo['obj_id']}_${relationInfo['bk_asst_id']}_${relationInfo['bk_asst_obj_id']}`
+                if (relationInfo['obj_id'].length && relationInfo['asst_id'].length && relationInfo['asst_obj_id'].length) {
+                    return `${relationInfo['obj_id']}_${relationInfo['asst_id']}_${relationInfo['asst_obj_id']}`
                 }
                 return ''
             }
@@ -146,7 +146,7 @@
                 const {
                     relationInfo
                 } = this;
-                [relationInfo['obj_id'], relationInfo['bk_asst_obj_id']] = [relationInfo['bk_asst_obj_id'], relationInfo['obj_id']]
+                [relationInfo['obj_id'], relationInfo['asst_obj_id']] = [relationInfo['asst_obj_id'], relationInfo['obj_id']]
             },
             async initRelationList () {
                 const data = await this.searchAssociationType({
@@ -156,7 +156,7 @@
                         fromCache: true
                     }
                 })
-                this.relationList = data.info.map(({ bk_asst_id: asstId, bk_asst_name: asstName }) => {
+                this.relationList = data.info.map(({ asst_id: asstId, bk_asst_name: asstName }) => {
                     if (asstName.length) {
                         return {
                             id: asstId,
@@ -170,7 +170,7 @@
                 }).filter(relation => {
                     return relation.id !== 'bk_mainline'
                 })
-                this.relationInfo['bk_asst_id'] = this.relationList[0].id
+                this.relationInfo['asst_id'] = this.relationList[0].id
             },
             async searchModelRelationList () {
                 const [source, dest] = await Promise.all([this.searchAsSource(), this.searchAsDest()])
@@ -189,7 +189,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_asst_obj_id': this.relationInfo['obj_id']
+                            'asst_obj_id': this.relationInfo['obj_id']
                         }
                     })
                 })
@@ -201,7 +201,7 @@
                 const params = {
                     ...this.relationInfo,
                     ...{
-                        bk_obj_asst_id: this.objAsstId
+                        obj_asst_id: this.objAsstId
                     }
                 }
                 const res = await this.createObjectAssociation({

@@ -19,7 +19,7 @@
                     name="asstName"
                     :placeholder="$t('ModelManagement[\'请输入关联描述\']')"
                     :disabled="relationInfo.ispre || isReadOnly"
-                    v-model.trim="relationInfo['bk_obj_asst_name']"
+                    v-model.trim="relationInfo['obj_asst_name']"
                     v-validate="'singlechar'">
                 <p class="form-error">{{errors.first('asstName')}}</p>
             </div>
@@ -57,7 +57,7 @@
                     :list="asstList"
                     v-validate="'required'"
                     name="asstObjId"
-                    v-model="relationInfo['bk_asst_obj_id']"
+                    v-model="relationInfo['asst_obj_id']"
                 ></cmdb-selector>
                 <p class="form-error">{{errors.first('asstObjId')}}</p>
             </div>
@@ -74,7 +74,7 @@
                     :list="usefulRelationList"
                     v-validate="'required'"
                     name="asstId"
-                    v-model="relationInfo['bk_asst_id']"
+                    v-model="relationInfo['asst_id']"
                 ></cmdb-selector>
                 <p class="form-error">{{errors.first('asstId')}}</p>
             </div>
@@ -142,11 +142,11 @@
                 relationInfo: {
                     ispre: false,
                     id: 0,
-                    bk_obj_asst_id: '',
-                    bk_obj_asst_name: '',
+                    obj_asst_id: '',
+                    obj_asst_name: '',
                     obj_id: '',
-                    bk_asst_obj_id: '',
-                    bk_asst_id: '',
+                    asst_obj_id: '',
+                    asst_id: '',
                     mapping: ''
                 },
                 specialModel: ['process', 'plat']
@@ -165,28 +165,28 @@
             },
             objAsstId () {
                 if (this.isEdit) {
-                    return this.relation.bk_obj_asst_id
+                    return this.relation.obj_asst_id
                 }
                 const relationInfo = this.relationInfo
-                if (relationInfo['obj_id'].length && relationInfo['bk_asst_id'].length && relationInfo['bk_asst_obj_id'].length) {
-                    return `${relationInfo['obj_id']}_${relationInfo['bk_asst_id']}_${relationInfo['bk_asst_obj_id']}`
+                if (relationInfo['obj_id'].length && relationInfo['asst_id'].length && relationInfo['asst_obj_id'].length) {
+                    return `${relationInfo['obj_id']}_${relationInfo['asst_id']}_${relationInfo['asst_obj_id']}`
                 }
                 return ''
             },
             createParams () {
                 return {
-                    bk_obj_asst_id: this.objAsstId,
-                    bk_obj_asst_name: this.relationInfo['bk_obj_asst_name'],
+                    obj_asst_id: this.objAsstId,
+                    obj_asst_name: this.relationInfo['obj_asst_name'],
                     obj_id: this.relationInfo['obj_id'],
-                    bk_asst_obj_id: this.relationInfo['bk_asst_obj_id'],
-                    bk_asst_id: this.relationInfo['bk_asst_id'],
+                    asst_obj_id: this.relationInfo['asst_obj_id'],
+                    asst_id: this.relationInfo['asst_id'],
                     mapping: this.relationInfo.mapping
                 }
             },
             updateParams () {
                 return {
-                    bk_obj_asst_name: this.relationInfo['bk_obj_asst_name'],
-                    bk_asst_id: this.relationInfo['bk_asst_id']
+                    obj_asst_name: this.relationInfo['obj_asst_name'],
+                    asst_id: this.relationInfo['asst_id']
                 }
             },
             asstList () {
@@ -216,10 +216,10 @@
         watch: {
             'relationInfo.obj_id' (val) {
                 if (val !== this.activeModel['obj_id']) {
-                    this.relationInfo['bk_asst_obj_id'] = this.activeModel['obj_id']
+                    this.relationInfo['asst_obj_id'] = this.activeModel['obj_id']
                 }
             },
-            'relationInfo.bk_asst_obj_id' (val) {
+            'relationInfo.asst_obj_id' (val) {
                 if (val !== this.activeModel['obj_id']) {
                     this.relationInfo['obj_id'] = this.activeModel['obj_id']
                 }

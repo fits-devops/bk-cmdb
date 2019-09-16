@@ -28,8 +28,8 @@ func fixedHostPlatAssocateRelation(ctx context.Context, db dal.RDB, conf *upgrad
 		ID           int64     `bson:"id"`
 		InstID       int64     `bson:"inst_id"`
 		ObjectID     string    `bson:"obj_id"`
-		AsstInstID   int64     `bson:"bk_asst_inst_id"`
-		AsstObjectID string    `bson:"bk_asst_obj_id"`
+		AsstInstID   int64     `bson:"asst_inst_id"`
+		AsstObjectID string    `bson:"asst_obj_id"`
 		OwnerID      string    `bson:"org_id"`
 		CreateTime   time.Time `bson:"create_time"`
 		LastTime     time.Time `bson:"last_time"`

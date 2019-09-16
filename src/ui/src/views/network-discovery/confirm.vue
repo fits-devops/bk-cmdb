@@ -406,9 +406,9 @@
                             if (asst.method === 'accept') {
                                 detail.associations.push({
                                     bk_asst_inst_name: asst['bk_asst_inst_name'],
-                                    bk_asst_obj_id: asst['bk_asst_obj_id'],
+                                    asst_obj_id: asst['asst_obj_id'],
                                     bk_asst_obj_name: asst['bk_asst_obj_name'],
-                                    bk_obj_asst_id: asst['bk_obj_asst_id'],
+                                    obj_asst_id: asst['obj_asst_id'],
                                     bk_asst_property_id: asst['bk_asst_property_id'],
                                     method: 'accept'
                                 })

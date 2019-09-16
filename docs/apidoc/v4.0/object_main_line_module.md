@@ -14,7 +14,7 @@
 	"obj_id": "cc_test",
 	"obj_name": "cc_test",
 	"org_id": "0",
-	"bk_asst_obj_id": "id-XXX",
+	"asst_obj_id": "id-XXX",
 	"obj_icon": "icon-XXX"
 }
 ```
@@ -31,7 +31,7 @@
 | obj_id |string|是|无|对象模型的ID，只能用英文字母序列命名|the object identifier|
 | obj_name |string|是|无|对象模型的名字，用于展示，可以使用人类可以阅读的任何语言|the object name|
 |org_id|string|是|无|开发商账号|supplier account code|
-| bk_asst_obj_id |string|是|无|主线模型关联的父对象模型的ID（obj_id）|the association object identifier|
+| asst_obj_id |string|是|无|主线模型关联的父对象模型的ID（obj_id）|the association object identifier|
 | obj_icon|string|是|无|模型的图标|the icon of the object|
 
 - output

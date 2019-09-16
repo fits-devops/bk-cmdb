@@ -200,12 +200,12 @@
                 this.$set(this.collapseStatus, id, !previousState)
             },
             getAssociationDesc (association) {
-                const associationData = this.associationList.find(data => data.id === association['bk_asst_inst_id'])
+                const associationData = this.associationList.find(data => data.id === association['asst_inst_id'])
                 const associationModel = this.models.find(data => data['obj_id'] === association['obj_id'])
                 if (associationData['bk_asst_name']) {
                     return `${associationData['bk_asst_name']} -> ${associationModel['obj_name']}`
                 }
-                return `${associationData['bk_asst_id']} -> ${associationModel['obj_name']}`
+                return `${associationData['asst_id']} -> ${associationModel['obj_name']}`
             },
             hideAssociation () {
                 Object.keys(this.collapseStatus).forEach(modelId => {

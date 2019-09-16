@@ -44,8 +44,8 @@ func addAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	blog.Errorf("add data for  %s table ", tablename)
 	rows := getAddAsstData(conf.OwnerID)
 	for _, row := range rows {
-		// topo mainline could be changed,so need to ignore bk_asst_obj_id
-		_, _, err := upgrader.Upsert(ctx, db, tablename, row, "id", []string{common.BKObjIDField, common.BKObjAttIDField, common.BKOwnerIDField}, []string{"id", "bk_asst_obj_id"})
+		// topo mainline could be changed,so need to ignore asst_obj_id
+		_, _, err := upgrader.Upsert(ctx, db, tablename, row, "id", []string{common.BKObjIDField, common.BKObjAttIDField, common.BKOwnerIDField}, []string{"id", "asst_obj_id"})
 		if nil != err {
 			blog.Errorf("add data for  %s table error  %s", tablename, err)
 			return err
@@ -162,7 +162,7 @@ type Association struct {
 	ObjectID         string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	OwnerID          string `field:"org_id" json:"org_id" bson:"org_id"`
 	AsstForward      string `field:"bk_asst_forward" json:"bk_asst_forward" bson:"bk_asst_forward"`
-	AsstObjID        string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
+	AsstObjID        string `field:"asst_obj_id" json:"asst_obj_id" bson:"asst_obj_id"`
 	AsstName         string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
 	ObjectAttID      string `field:"bk_object_att_id" json:"bk_object_att_id" bson:"bk_object_att_id"`
 	ClassificationID string `field:"classification_id" bson:"-"`

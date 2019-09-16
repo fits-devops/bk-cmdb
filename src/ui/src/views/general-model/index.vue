@@ -490,7 +490,7 @@
                             value: filterValue
                         })
                     } else if (['singleasst', 'multiasst'].includes(filterType)) {
-                        const asstObjId = (this.$tools.getProperty(this.properties, this.filter.id) || {})['bk_asst_obj_id']
+                        const asstObjId = (this.$tools.getProperty(this.properties, this.filter.id) || {})['asst_obj_id']
                         if (asstObjId) {
                             const fieldMap = {
                                 'host': 'host_innerip',

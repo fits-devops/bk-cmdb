@@ -169,7 +169,7 @@ var tableKeysCache = map[string]*tableKey{
 	"cc_PropertyGroup":     {keys: []string{"obj_id", "group_id"}, ignores: []string{}},
 	"cc_SetBase":           {keys: []string{"set_name", "biz_id"}, ignores: []string{"set_id"}},
 	"cc_OperationLog":      {keys: []string{"op_type", "inst_id"}, ignores: []string{"op_time"}},
-	"cc_ObjAsst":           {keys: []string{"obj_id", "bk_object_att_id", "bk_asst_obj_id"}, ignores: []string{"id"}},
+	"cc_ObjAsst":           {keys: []string{"obj_id", "bk_object_att_id", "asst_obj_id"}, ignores: []string{"id"}},
 }
 
 func tableKeys(tableName string) *tableKey {

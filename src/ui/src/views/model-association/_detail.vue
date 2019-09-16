@@ -10,7 +10,7 @@
                     <input type="text" class="cmdb-form-input"
                         name="asstId"
                         :disabled="isEdit"
-                        v-model.trim="relationInfo['bk_asst_id']"
+                        v-model.trim="relationInfo['asst_id']"
                         v-validate="'required|associationId'"
                         :placeholder="$t('ModelManagement[\'请输入英文标识\']')">
                     <p class="form-error">{{errors.first('asstId')}}</p>
@@ -123,7 +123,7 @@
             return {
                 relationInfo: {
                     id: null,
-                    bk_asst_id: '',
+                    asst_id: '',
                     bk_asst_name: '',
                     src_des: '',
                     dest_des: '',
@@ -139,7 +139,7 @@
             },
             updateParams () {
                 const updateParams = { ...this.relationInfo }
-                delete updateParams['bk_asst_id']
+                delete updateParams['asst_id']
                 return updateParams
             }
         },

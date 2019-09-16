@@ -394,10 +394,10 @@ const (
 	BKPropertyGroupIndexField = "group_index"
 
 	// BKAsstObjIDField the property obj id field
-	BKAsstObjIDField = "bk_asst_obj_id"
+	BKAsstObjIDField = "asst_obj_id"
 
 	// BKAsstInstIDField the property inst id field
-	BKAsstInstIDField = "bk_asst_inst_id"
+	BKAsstInstIDField = "asst_inst_id"
 
 	// BKOptionField the option field
 	BKOptionField = "option"
@@ -981,10 +981,10 @@ const (
 // association fields
 const (
 	// the id of the association kind
-	AssociationKindIDField    = "bk_asst_id"
+	AssociationKindIDField    = "asst_id"
 	AssociationKindNameField  = "bk_asst_name"
-	AssociationObjAsstIDField = "bk_obj_asst_id"
-	AssociatedObjectIDField   = "bk_asst_obj_id"
+	AssociationObjAsstIDField = "obj_asst_id"
+	AssociatedObjectIDField   = "asst_obj_id"
 )
 
 // association

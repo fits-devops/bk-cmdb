@@ -121,7 +121,7 @@
                 try {
                     await this.createMainlineObject({
                         params: this.$injectMetadata({
-                            'bk_asst_obj_id': this.addLevel.parent['obj_id'],
+                            'asst_obj_id': this.addLevel.parent['obj_id'],
                             'classification_id': 'bk_biz_topo',
                             'obj_icon': data['obj_icon'],
                             'obj_id': data['obj_id'],

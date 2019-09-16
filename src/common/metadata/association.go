@@ -19,8 +19,8 @@ import (
 const (
 	// AssociationFieldObjectID the association data field definition
 	AssociationFieldObjectID = "obj_id"
-	// AssociationFieldAsstID the association data field bk_obj_asst_id
-	AssociationFieldAsstID = "bk_obj_asst_id"
+	// AssociationFieldAsstID the association data field obj_asst_id
+	AssociationFieldAsstID = "obj_asst_id"
 	// AssociationFieldObjectAttributeID the association data field definition
 	//AssociationFieldObjectAttributeID = "bk_object_att_id"
 	// AssociationFieldSupplierAccount the association data field definition
@@ -28,12 +28,12 @@ const (
 	// AssociationFieldAssociationForward the association data field definition
 	// AssociationFieldAssociationForward = "bk_asst_forward"
 	// AssociationFieldAssociationObjectID the association data field definition
-	AssociationFieldAssociationObjectID = "bk_asst_obj_id"
+	AssociationFieldAssociationObjectID = "asst_obj_id"
 	// AssociationFieldAssociationName the association data field definition
 	// AssociationFieldAssociationName = "bk_asst_name"
 	// AssociationFieldAssociationId auto incr id
 	AssociationFieldAssociationId   = "id"
-	AssociationFieldAssociationKind = "bk_asst_id"
+	AssociationFieldAssociationKind = "asst_id"
 )
 
 type SearchAssociationTypeRequest struct {
@@ -100,12 +100,12 @@ type DeleteAssociationObjectResult struct {
 }
 
 type SearchAssociationInstRequestCond struct {
-	ObjectAsstID string  `field:"bk_obj_asst_id" json:"bk_obj_asst_id,omitempty" bson:"bk_obj_asst_id,omitempty"`
-	AsstID       string  `field:"bk_asst_id" json:"bk_asst_id,omitempty" bson:"bk_asst_id,omitempty"`
+	ObjectAsstID string  `field:"obj_asst_id" json:"obj_asst_id,omitempty" bson:"obj_asst_id,omitempty"`
+	AsstID       string  `field:"asst_id" json:"asst_id,omitempty" bson:"asst_id,omitempty"`
 	ObjectID     string  `field:"obj_id" json:"obj_id,omitempty" bson:"obj_id,omitempty"`
-	AsstObjID    string  `field:"bk_asst_obj_id" json:"bk_asst_obj_id,omitempty" bson:"bk_asst_obj_id,omitempty"`
+	AsstObjID    string  `field:"asst_obj_id" json:"asst_obj_id,omitempty" bson:"asst_obj_id,omitempty"`
 	InstID       []int64 `field:"inst_id" json:"inst_id,omitempty" bson:"inst_id,omitempty"`
-	AsstInstID   []int64 `field:"bk_asst_inst_id" json:"bk_asst_inst_id,omitempty" bson:"bk_asst_inst_id,omitempty"`
+	AsstInstID   []int64 `field:"asst_inst_id" json:"asst_inst_id,omitempty" bson:"asst_inst_id,omitempty"`
 	BothObjectID string  `field:"both_obj_id" json:"both_obj_id" bson:"both_obj_id"`
 	BothInstID   []int64 `field:"both_inst_id" json:"both_inst_id" bson:"both_inst_id"`
 }
@@ -120,9 +120,9 @@ type SearchAssociationInstResult struct {
 }
 
 type CreateAssociationInstRequest struct {
-	ObjectAsstID string `field:"bk_obj_asst_id" json:"bk_obj_asst_id,omitempty" bson:"bk_obj_asst_id,omitempty"`
+	ObjectAsstID string `field:"obj_asst_id" json:"obj_asst_id,omitempty" bson:"obj_asst_id,omitempty"`
 	InstID       int64  `field:"inst_id" json:"inst_id,omitempty" bson:"inst_id,omitempty"`
-	AsstInstID   int64  `field:"bk_asst_inst_id" json:"bk_asst_inst_id,omitempty" bson:"bk_asst_inst_id,omitempty"`
+	AsstInstID   int64  `field:"asst_inst_id" json:"asst_inst_id,omitempty" bson:"asst_inst_id,omitempty"`
 }
 type CreateAssociationInstResult struct {
 	BaseResp `json:",inline"`
@@ -154,7 +154,7 @@ type AssociationList struct {
 
 type AssociationDetail struct {
 	// the ID of the association kind.
-	AssociationKindID string        `json:"bk_asst_id"`
+	AssociationKindID string        `json:"asst_id"`
 	Associations      []Association `json:"assts"`
 }
 
@@ -171,7 +171,7 @@ const (
 type AssociationKind struct {
 	ID int64 `field:"id" json:"id" bson:"id"`
 	// a unique association id created by user.
-	AssociationKindID string `field:"bk_asst_id" json:"bk_asst_id" bson:"bk_asst_id"`
+	AssociationKindID string `field:"asst_id" json:"asst_id" bson:"asst_id"`
 	// a memorable name for this association kind, could be a chinese name, a english name etc.
 	AssociationKindName string `field:"bk_asst_name" json:"bk_asst_name" bson:"bk_asst_name"`
 	// the owner that this association type belongs to.
@@ -226,16 +226,16 @@ type Association struct {
 
 	// the unique id belongs to  this association, should be generated with rules as follows:
 	// "$ObjectID"_"$AsstID"_"$AsstObjID"
-	AssociationName string `field:"bk_obj_asst_id" json:"bk_obj_asst_id" bson:"bk_obj_asst_id"`
+	AssociationName string `field:"obj_asst_id" json:"obj_asst_id" bson:"obj_asst_id"`
 	// the alias name of this association, which is a substitute name in the association kind $AsstKindID
-	AssociationAliasName string `field:"bk_obj_asst_name" json:"bk_obj_asst_name" bson:"bk_obj_asst_name"`
+	AssociationAliasName string `field:"obj_asst_name" json:"obj_asst_name" bson:"obj_asst_name"`
 
 	// describe which object this association is defined for.
 	ObjectID string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	// describe where the Object associate with.
-	AsstObjID string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
+	AsstObjID string `field:"asst_obj_id" json:"asst_obj_id" bson:"asst_obj_id"`
 	// the association kind used by this association.
-	AsstKindID string `field:"bk_asst_id" json:"bk_asst_id" bson:"bk_asst_id"`
+	AsstKindID string `field:"asst_id" json:"asst_id" bson:"asst_id"`
 
 	// defined which kind of association can be used between the source object and destination object.
 	Mapping AssociationMapping `field:"mapping" json:"mapping" bson:"mapping"`
@@ -264,7 +264,7 @@ func (a *Association) CanUpdate() (field string, can bool) {
 	}
 
 	if len(a.AssociationName) != 0 {
-		return "bk_obj_asst_id", false
+		return "obj_asst_id", false
 	}
 
 	if len(a.ObjectID) != 0 {
@@ -272,7 +272,7 @@ func (a *Association) CanUpdate() (field string, can bool) {
 	}
 
 	if len(a.AsstObjID) != 0 {
-		return "bk_asst_obj_id", false
+		return "asst_obj_id", false
 	}
 
 	if len(a.Mapping) != 0 {
@@ -312,15 +312,15 @@ type InstAsst struct {
 	// association source ObjectID
 	ObjectID string `field:"obj_id" json:"obj_id" bson:"obj_id"`
 	// inst id associate to AsstObjectID
-	AsstInstID int64 `field:"bk_asst_inst_id" json:"bk_asst_inst_id"  bson:"bk_asst_inst_id"`
+	AsstInstID int64 `field:"asst_inst_id" json:"asst_inst_id"  bson:"asst_inst_id"`
 	// association target ObjectID
-	AsstObjectID string `field:"bk_asst_obj_id" json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
+	AsstObjectID string `field:"asst_obj_id" json:"asst_obj_id" bson:"asst_obj_id"`
 	// org_id
 	OwnerID string `field:"org_id" json:"org_id" bson:"org_id"`
 	// association id between two object
-	ObjectAsstID string `field:"bk_obj_asst_id" json:"bk_obj_asst_id" bson:"bk_obj_asst_id"`
+	ObjectAsstID string `field:"obj_asst_id" json:"obj_asst_id" bson:"obj_asst_id"`
 	// association kind id
-	AssociationKindID string `field:"bk_asst_id" json:"bk_asst_id" bson:"bk_asst_id"`
+	AssociationKindID string `field:"asst_id" json:"asst_id" bson:"asst_id"`
 
 	//	define the metadata of assocication kind
 	Metadata `field:"metadata" json:"metadata" bson:"metadata"`
@@ -346,7 +346,7 @@ type InstNameAsst struct {
 	InstName   string `json:"inst_name"`
 	AssoID     int64  `json:"asso_id"`
 	// AsstName   string                 `json:"bk_asst_name"`
-	// AsstID   string                 `json:"bk_asst_id"`
+	// AsstID   string                 `json:"asst_id"`
 	InstInfo map[string]interface{} `json:"inst_info,omitempty"`
 }
 

@@ -11,9 +11,9 @@
 ```
 {
     "condition": {
-        "bk_asst_id": "belong",
+        "asst_id": "belong",
         "obj_id": "bk_switch",
-        "bk_asst_obj_id": "bk_host"
+        "asst_obj_id": "bk_host"
     },
     "metadata":{
         "label":{
@@ -26,9 +26,9 @@
 
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  | --- | ---|
-|bk_asst_id|串|否|无|关联类型的唯一标识|
+|asst_id|串|否|无|关联类型的唯一标识|
 |obj_id|串|否|无|源模型ID|
-|bk_asst_obj_id|串|否|无|目标模型ID|
+|asst_obj_id|串|否|无|目标模型ID|
 
 * 产量
 ```
@@ -39,13 +39,13 @@
     "data": [
         {
             "id": 1,
-            "bk_obj_asst_id": "bk_switch_belong_bk_host",
-            "bk_obj_asst_name": "",
-            "bk_asst_id": "belong",
+            "obj_asst_id": "bk_switch_belong_bk_host",
+            "obj_asst_name": "",
+            "asst_id": "belong",
             "bk_asst_name": "属于",
             "obj_id": "bk_switch",
             "obj_name": "交换机",
-            "bk_asst_obj_id": "bk_host",
+            "asst_obj_id": "bk_host",
             "bk_asst_obj_name": "主机",
             "mapping": "1:n",
             "on_delete": "none"
@@ -69,13 +69,13 @@
 |字段|类型|说明|描述|
 | ---  | ---  | --- |---  |
 |ID|INT|自增ID|自动递增ID|
-|bk_obj_asst_id|串|唯一标识，自动生成。规则：源模型英文ID +关联类型英文标识+目标模型英文ID。由前端生成传入，后端只做唯一校验||
-|bk_obj_asst_name|串|别名||
-|bk_asst_id|串|关联类型||
+|obj_asst_id|串|唯一标识，自动生成。规则：源模型英文ID +关联类型英文标识+目标模型英文ID。由前端生成传入，后端只做唯一校验||
+|obj_asst_name|串|别名||
+|asst_id|串|关联类型||
 |bk_asst_name|串|显示的名称||
 |obj_id|串|源模型ID||
 |obj_name|串|源模型ID||
-|bk_asst_obj_id|串|目标模型名称||
+|asst_obj_id|串|目标模型名称||
 |bk_asst_obj_name|串|源模型名称||
 |制图|枚举|关联映射，任选：[1：1,1：n，n：n]||
 |on_delete|枚举|删除时对实例的动作，可选none，delete_src，delete_dest，分别表示不处理，删除源实例，删除目标实||
@@ -92,11 +92,11 @@
 
 ```
 {
-    "bk_obj_asst_id": "bk_switch_belong_bk_host",
-    "bk_obj_asst_name": "",
-    "bk_asst_id": "belong",
+    "obj_asst_id": "bk_switch_belong_bk_host",
+    "obj_asst_name": "",
+    "asst_id": "belong",
     "obj_id": "bk_switch",
-    "bk_asst_obj_id": "bk_host",
+    "asst_obj_id": "bk_host",
     "mapping": "1:n",
     "on_delete": "none",
     "metadata":{
@@ -110,11 +110,11 @@
 
 |字段名|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  |---  |---  |
-|bk_obj_asst_id|串|是|无|唯一标识，自动生成。规则：源模型英文ID +关联类型英文标识+目标模型英文ID。由前端生成传入，后端只做唯一校验||
-|bk_obj_asst_name|串|否|无|别名||
-|bk_asst_id|串|是|无|关联类型||
+|obj_asst_id|串|是|无|唯一标识，自动生成。规则：源模型英文ID +关联类型英文标识+目标模型英文ID。由前端生成传入，后端只做唯一校验||
+|obj_asst_name|串|否|无|别名||
+|asst_id|串|是|无|关联类型||
 |obj_id|串|是|无|源模型ID||
-|bk_asst_obj_id|串|是|无|目标模型ID||
+|asst_obj_id|串|是|无|目标模型ID||
 |制图|枚举|是|无|关联映射，任选：[1：1,1：n，n：n]||
 |on_delete|枚举|否|没有|删除时的动作，可选无，delete_src，delete_dest||
 
@@ -156,7 +156,7 @@
 ```
 {
     "bk_asst_name": "属于",
-    "bk_asst_id":"belong",
+    "asst_id":"belong",
     "on_delete":""// 具体枚举值见上。
     "metadata":{
         "label":{
@@ -171,7 +171,7 @@
 | ---  | ---  | --- |---  | --- |---  |
 |ID|INT|是|无|自增ID|自动递增ID|
 |bk_asst_name|串|否|无|显示的名称|协会的名称|
-|bk_asst_id|串|否|无|关联类型|
+|asst_id|串|否|无|关联类型|
 |on_delete|串|否|无|删除时的动作|
 
 * 产量
@@ -250,7 +250,7 @@
 
 |名称|类型|必填|默认值|说明|描述|
 | ---  | ---  | --- |---  |--- |---  |
-|asst_ids|字符串数组|是|无|要查询的关联类型bk_asst_id列表||
+|asst_ids|字符串数组|是|无|要查询的关联类型asst_id列表||
 
 * 产量
 ```
@@ -261,16 +261,16 @@
 "data": {
   "associations": [
     {
-      "bk_asst_id": "run",
+      "asst_id": "run",
       "assts": [
         {
           "id": 8,
           "org_id": "0",
-          "bk_obj_asst_id": "set_default_nation",
-          "bk_obj_asst_name": "test",
+          "obj_asst_id": "set_default_nation",
+          "obj_asst_name": "test",
           "obj_id": "set",
-          "bk_asst_obj_id": "nation",
-          "bk_asst_id": "group",
+          "asst_obj_id": "nation",
+          "asst_id": "group",
           "mapping": "1:1",
           "on_delete": "none",
           "ispre": false
@@ -278,16 +278,16 @@
       ]
     },
     {
-      "bk_asst_id": "group",
+      "asst_id": "group",
       "assts": [
         {
           "id": 20,
           "org_id": "0",
-          "bk_obj_asst_id": "moduel_default_nation",
-          "bk_obj_asst_name": "test",
+          "obj_asst_id": "moduel_default_nation",
+          "obj_asst_name": "test",
           "obj_id": "moduel",
-          "bk_asst_obj_id": "nation",
-          "bk_asst_id": "default",
+          "asst_obj_id": "nation",
+          "asst_id": "default",
           "mapping": "1:1",
           "on_delete": "none",
           "ispre": false
@@ -301,5 +301,5 @@
 
 * 输出说明
   * data.association中包含了所有查到的每个关联类型所包含的模型关联关系的信息。
-  * bk_asst_id：查询时所用的关联关系id名称。
+  * asst_id：查询时所用的关联关系id名称。
   * assts：使用关联类型的所有关联关系列表。

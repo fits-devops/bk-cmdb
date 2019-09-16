@@ -875,11 +875,11 @@ func (c *commonInst) FindInstByAssociationInst(params types.ContextParams, obj m
 
 		query := &metadata.QueryInput{}
 		query.Condition = map[string]interface{}{
-			"bk_asst_inst_id": map[string]interface{}{
+			"asst_inst_id": map[string]interface{}{
 				common.BKDBIN: asstInstIDS,
 			},
-			"bk_asst_obj_id": keyObjID,
-			"obj_id":         object.ObjectID,
+			"asst_obj_id": keyObjID,
+			"obj_id":      object.ObjectID,
 		}
 
 		asstInst, err := c.asst.SearchInstAssociation(params, query)

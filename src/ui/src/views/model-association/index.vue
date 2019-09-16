@@ -103,7 +103,7 @@
                 searchText: '',
                 table: {
                     header: [{
-                        id: 'bk_asst_id',
+                        id: 'asst_id',
                         name: this.$t('ModelManagement["唯一标识"]')
                     }, {
                         id: 'bk_asst_name',
@@ -190,14 +190,14 @@
             },
             async searchUsageCount () {
                 const asstIds = []
-                this.table.list.forEach(({ bk_asst_id: asstId }) => asstIds.push(asstId))
+                this.table.list.forEach(({ asst_id: asstId }) => asstIds.push(asstId))
                 const res = await this.searchAssociationListWithAssociationKindList({
                     params: {
                         asst_ids: asstIds
                     }
                 })
                 this.table.list.forEach(item => {
-                    const asst = res.associations.find(({ bk_asst_id: asstId }) => asstId === item['bk_asst_id'])
+                    const asst = res.associations.find(({ asst_id: asstId }) => asstId === item['asst_id'])
                     if (asst) {
                         this.$set(item, 'count', asst.assts.length)
                     }

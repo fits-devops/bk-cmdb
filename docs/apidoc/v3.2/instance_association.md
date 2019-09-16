@@ -12,10 +12,10 @@
 ```
 {
     "condition": {
-        "bk_obj_asst_id": "bk_switch_belong_bk_host",
-        "bk_asst_id": "",
+        "obj_asst_id": "bk_switch_belong_bk_host",
+        "asst_id": "",
         "bk_object_id": "",
-        "bk_asst_obj_id": ""
+        "asst_obj_id": ""
     },
     "metadata":{
         "label":{
@@ -28,10 +28,10 @@
 
 |字段名|类型|必填|说明|
 | ---  | ---  | --- |---  |
-|bk_obj_asst_id|串|否|关联唯一标识|
-|bk_asst_id|串|否|关联类型|
+|obj_asst_id|串|否|关联唯一标识|
+|asst_id|串|否|关联类型|
 |bk_object_id|串|否|源模型ID|
-|bk_asst_obj_id|串|否|目标实例ID|
+|asst_obj_id|串|否|目标实例ID|
 
 * 产量
 ```
@@ -40,11 +40,11 @@
     "error_code": 0,
     "error_msg": null,
     "data": [{
-        "bk_obj_asst_id": "",
+        "obj_asst_id": "",
         "obj_id":"",
-        "bk_asst_obj_id":"",
+        "asst_obj_id":"",
         "inst_id":0,
-        "bk_asst_inst_id":0,
+        "asst_inst_id":0,
         "org_id":""
     }]
 }
@@ -64,11 +64,11 @@
 
 |字段|类型|说明|描述|
 | ---  | ---  | --- |---  |
-|bk_obj_asst_id|串|模型关联唯一标识|对象关联唯一标识|
+|obj_asst_id|串|模型关联唯一标识|对象关联唯一标识|
 |obj_id|串|源模型ID，冗余字段|源对象ID|
-|bk_asst_obj_id|串|目标模型ID|目标对象ID|
+|asst_obj_id|串|目标模型ID|目标对象ID|
 |inst_id|INT|源实例ID|source inst id|
-|bk_asst_inst_id|INT|目标实例ID|target inst id|
+|asst_inst_id|INT|目标实例ID|target inst id|
 |org_id|串|开发商账号|供应商帐户代码|
 
 ### 添加实例关联
@@ -81,9 +81,9 @@
 * 输入体
 ```
 {
-    "bk_obj_asst_id": "bk_switch_belong_bk_host",
+    "obj_asst_id": "bk_switch_belong_bk_host",
     "inst_id": 1,
-    "bk_asst_inst_id": 2,
+    "asst_inst_id": 2,
     "metadata":{
         "label":{
             "biz_id":"1"
@@ -95,9 +95,9 @@
 
 |字段名|类型|必填|说明|
 | ---  | ---  | --- |---  |
-|bk_obj_asst_id|串|是|唯一标识|
+|obj_asst_id|串|是|唯一标识|
 |inst_id|INT|是|源实例ID|
-|bk_asst_inst_id|INT|是|目标实例ID|
+|asst_inst_id|INT|是|目标实例ID|
 
 
 * 产量

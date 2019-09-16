@@ -45,7 +45,7 @@
 |property_id|string|是|无|模型的属性ID|attribute identifier|
 |property_name|string|是|无|模型属性名，用于展示|the attribute name|
 |property_type|string|是|无|定义的属性字段用于存储数据的数据类型,可取值范围（singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool）|the data type（singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|
-|bk_asst_obj_id|string|否|无|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
+|asst_obj_id|string|否|无|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
 
 **property_type 取值**
 
@@ -160,7 +160,7 @@ data 字段说明
     "option":"{"min":"1","max":"4"}",
     "property_name":"aaa",
     "property_type":"int",
-    "bk_asst_obj_id":""
+    "asst_obj_id":""
 }
 ```
 
@@ -181,7 +181,7 @@ data 字段说明
 |property_type|string|否|无|定义的属性字段用于存储数据的数据类型（singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|the data type （singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|
 |unit|string|否|无|单位|the unit|
 |placeholder|string|否|无|占位符|the place holder|
-|bk_asst_obj_id|string|否|无|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
+|asst_obj_id|string|否|无|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
 
 
 **property_type 取值**
@@ -276,7 +276,7 @@ data 字段说明
     "error_msg": null,
     "data": [
         {
-            "bk_asst_obj_id": "",
+            "asst_obj_id": "",
             "bk_asst_type": 0,
             "create_time": "2018-03-08T11:30:27.898+08:00",
             "creator": "cc_system",
@@ -337,7 +337,7 @@ data字段说明
 |property_id|string|模型的属性ID|attribute identifier|
 |property_name|string|模型属性名，用于展示|the attribute name|
 |property_type|string|定义的属性字段用于存储数据的数据类型 （singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|the data type （singlechar,longchar,int,enum,date,time,objuser,singleasst,multiasst,timezone,bool)|
-|bk_asst_obj_id|string|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
+|asst_obj_id|string|如果有关联其它的模型，那么就必需设置此字段，否则就不需要设置|the object identifier|
 
 **property_type 取值**
 

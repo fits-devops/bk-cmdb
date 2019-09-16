@@ -362,8 +362,8 @@
                     Object.assign(fromNode, { assts: [] })
                 }
                 fromNode.assts.push({
-                    bk_asst_inst_id: this.associationList.find(asst => asst['bk_asst_id'] === params['bk_asst_id']).id,
-                    obj_id: params['bk_asst_obj_id'],
+                    asst_inst_id: this.associationList.find(asst => asst['asst_id'] === params['asst_id']).id,
+                    obj_id: params['asst_obj_id'],
                     inst_id: params.id,
                     checked: true,
                     asstInfo: params
@@ -378,7 +378,7 @@
                                 if (asst['inst_id'] !== '') {
                                     return asst['inst_id'] === data.params.id
                                 } else {
-                                    return asst.asstInfo['obj_id'] === data.params['obj_id'] && asst.asstInfo['bk_asst_id'] === data.params['bk_asst_id'] && asst.asstInfo['bk_asst_obj_id'] === data.params['bk_asst_obj_id']
+                                    return asst.asstInfo['obj_id'] === data.params['obj_id'] && asst.asstInfo['asst_id'] === data.params['asst_id'] && asst.asstInfo['asst_obj_id'] === data.params['asst_obj_id']
                                 }
                             })
                             if (index > -1) {
@@ -672,7 +672,7 @@
                     if (asst['bk_asst_name'].length) {
                         return asst['bk_asst_name']
                     }
-                    return asst['bk_asst_id']
+                    return asst['asst_id']
                 }
             },
             getAssociationType () {
@@ -833,7 +833,7 @@
                                 if (edge) { // 已存在主动关联
                                     this.updateEdgeArrows(edge, this.getEdgeArrows(asst))
                                     edge.labelList.push({
-                                        text: this.getAssociationName(asst['bk_asst_inst_id']),
+                                        text: this.getAssociationName(asst['asst_inst_id']),
                                         objId: node['obj_id'],
                                         asst
                                     })
@@ -843,7 +843,7 @@
                                 } else if (twoWayAsst) { // 被关联
                                     this.updateEdgeArrows(twoWayAsst, this.getEdgeArrows(asst))
                                     twoWayAsst.labelList.push({
-                                        text: this.getAssociationName(asst['bk_asst_inst_id']),
+                                        text: this.getAssociationName(asst['asst_inst_id']),
                                         objId: node['obj_id'],
                                         asst
                                     })
@@ -856,13 +856,13 @@
                                         to: asst['obj_id'],
                                         arrows: this.getEdgeArrows(asst),
                                         labelList: [{
-                                            text: this.getAssociationName(asst['bk_asst_inst_id']),
+                                            text: this.getAssociationName(asst['asst_inst_id']),
                                             objId: node['obj_id'],
                                             asst
                                         }]
                                     }
                                     if (this.displayConfig.isShowModelAsst) {
-                                        edge.label = this.getAssociationName(asst['bk_asst_inst_id'])
+                                        edge.label = this.getAssociationName(asst['asst_inst_id'])
                                     }
                                     edges.push(edge)
                                 }
@@ -881,7 +881,7 @@
                 }
             },
             getEdgeArrows (asst) {
-                const asstType = this.associationList.find(({ id }) => id === asst['bk_asst_inst_id'])['direction']
+                const asstType = this.associationList.find(({ id }) => id === asst['asst_inst_id'])['direction']
                 let arrows = ''
                 switch (asstType) {
                     case 'bidirectional':

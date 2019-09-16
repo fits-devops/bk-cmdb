@@ -158,7 +158,7 @@ func (o *Object) ToMapStr() mapstr.MapStr {
 // MainLineObject main line object definition
 type MainLineObject struct {
 	Object        `json:",inline"`
-	AssociationID string `json:"bk_asst_obj_id"`
+	AssociationID string `json:"asst_obj_id"`
 }
 
 type ObjectClsDes struct {

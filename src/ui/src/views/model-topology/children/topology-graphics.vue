@@ -131,8 +131,8 @@
                 return edges
             },
             getEdgeLable (association) {
-                const data = this.associationList.find(data => data.id === association['bk_asst_inst_id']) || {}
-                return data['bk_asst_name'] || data['bk_asst_id']
+                const data = this.associationList.find(data => data.id === association['asst_inst_id']) || {}
+                return data['bk_asst_name'] || data['asst_id']
             },
             createNodeImages () {
                 const data = this.topologyData
@@ -246,7 +246,7 @@
                 })
             },
             getEdgeArrows (data) {
-                const associationId = data['bk_asst_inst_id']
+                const associationId = data['asst_inst_id']
                 const association = this.associationList.find(association => association.id === associationId)
                 return {
                     from: association.direction === 'bidirectional',

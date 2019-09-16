@@ -60,7 +60,7 @@ type AttributeWrapper struct {
 	Attribute         `json:",inline"`
 	AssoType          int    `json:"bk_asst_type"`
 	AsstForward       string `json:"bk_asst_forward"`
-	AssociationID     string `json:"bk_asst_obj_id"`
+	AssociationID     string `json:"asst_obj_id"`
 	PropertyGroupName string `json:"property_group_name"`
 }
 

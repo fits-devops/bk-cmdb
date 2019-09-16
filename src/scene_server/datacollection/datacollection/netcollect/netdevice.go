@@ -129,7 +129,7 @@ const MockMessage = `{
             "associations": [
 				{
 					"bk_asst_inst_name": "192.168.1.1",
-                    "bk_asst_obj_id": "bk_host",
+                    "asst_obj_id": "bk_host",
                     "bk_asst_obj_name": "主机",
                     "bk_asst_property_id": "host_id"
 				}

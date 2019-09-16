@@ -54,7 +54,7 @@ type Attr struct {
 	PropertyID    string `json:"property_id"`
 	PropertyName  string `json:"property_name"`
 	PropertyType  string `json:"property_type"`
-	AssociationID string `json:"bk_asst_obj_id"`
+	AssociationID string `json:"asst_obj_id"`
 
 	Option  interface{} `json:"option"`
 	Creator string      `json:"creator"`

@@ -50,7 +50,7 @@
                     const associations = [...this.source, ...this.target]
                     associations.forEach((association, index) => {
                         const isSource = index < this.source.length
-                        const modelId = isSource ? association.bk_asst_obj_id : association.obj_id
+                        const modelId = isSource ? association.asst_obj_id : association.obj_id
                         const item = list.find(item => {
                             return isSource ? item.source === 'host' : item.target === 'host'
                         })
@@ -60,7 +60,7 @@
                             list.push({
                                 type: isSource ? 'source' : 'target',
                                 id: modelId,
-                                associationType: this.associationTypes.find(target => target.bk_asst_id === association.bk_asst_id),
+                                associationType: this.associationTypes.find(target => target.asst_id === association.asst_id),
                                 associations: [association]
                             })
                         }
@@ -101,7 +101,7 @@
                 try {
                     const [source, target, mainLine, associationTypes, root] = await Promise.all([
                         this.getAssociation({ obj_id: 'host' }),
-                        this.getAssociation({ bk_asst_obj_id: 'host' }),
+                        this.getAssociation({ asst_obj_id: 'host' }),
                         this.getMainLine(),
                         this.getAssociationType(),
                         this.getInstRelation()
@@ -175,7 +175,7 @@
             getAvailableAssociation (data, reference = [], mainLine = []) {
                 return data.filter(association => {
                     const sourceId = association.obj_id
-                    const targetId = association.bk_asst_obj_id
+                    const targetId = association.asst_obj_id
                     const isMainLine = mainLine.some(model => [sourceId, targetId].includes(model.obj_id))
                     const isExist = reference.some(target => target.id === association.id)
                     return !isMainLine && !isExist

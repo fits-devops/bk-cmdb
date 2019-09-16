@@ -152,12 +152,12 @@
                     return model['obj_id'] === asst['obj_id']
                 })
                 if (asstModel) {
-                    const association = this.associationList.find(({ id }) => id === asst['bk_asst_inst_id'])
+                    const association = this.associationList.find(({ id }) => id === asst['asst_inst_id'])
                     if (association) {
                         if (association['bk_asst_name'].length) {
                             return `${association['bk_asst_name']}->${asstModel['obj_name']}`
                         }
-                        return `${association['bk_asst_id']}->${asstModel['obj_name']}`
+                        return `${association['asst_id']}->${asstModel['obj_name']}`
                     }
                 }
             },

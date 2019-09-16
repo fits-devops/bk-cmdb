@@ -80,7 +80,7 @@ func (m *associationModel) createModelAssociation(ctx core.ContextParams, inputP
 	} else {
 		// AsstKindID could only be bk_mainline
 		if asstKindID != common.AssociationKindMainline {
-			blog.Errorf("use CreateMainlineObjectAssociation method but bk_asst_id is: %s", asstKindID)
+			blog.Errorf("use CreateMainlineObjectAssociation method but asst_id is: %s", asstKindID)
 			return &metadata.CreateOneDataResult{}, ctx.Error.Errorf(common.CCErrorTopoAssociationKindInconsistent, asstKindID)
 		}
 	}
@@ -102,7 +102,7 @@ func (m *associationModel) SetModelAssociation(ctx core.ContextParams, inputPara
 
 func (m *associationModel) UpdateModelAssociation(ctx core.ContextParams, inputParam metadata.UpdateOption) (*metadata.UpdatedCount, error) {
 
-	// ATTENTION: only to update the fields except bk_obj_asst_id, obj_id, bk_asst_obj_id
+	// ATTENTION: only to update the fields except obj_asst_id, obj_id, asst_obj_id
 	inputParam.Data.Remove(metadata.AssociationFieldObjectID)
 	inputParam.Data.Remove(metadata.AssociationFieldAssociationObjectID)
 	inputParam.Data.Remove(metadata.AssociationFieldSupplierAccount)
@@ -115,8 +115,8 @@ func (m *associationModel) UpdateModelAssociation(ctx core.ContextParams, inputP
 	}
 
 	// only field in white list could be update
-	// bk_asst_obj_id is allowed for add business model level
-	validFields := []string{"bk_obj_asst_name", "bk_asst_obj_id"}
+	// asst_obj_id is allowed for add business model level
+	validFields := []string{"obj_asst_name", "asst_obj_id"}
 	validData := map[string]interface{}{}
 	filterOutFields := []string{}
 	for key, val := range inputParam.Data {

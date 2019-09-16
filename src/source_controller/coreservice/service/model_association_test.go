@@ -28,7 +28,7 @@ import (
 func createAssociationKind(t *testing.T, client *httpclient.HttpClient, asstKindID string) {
 	data := `{
 		"data":{
-				"bk_asst_id": "` + asstKindID + `",
+				"asst_id": "` + asstKindID + `",
 				"bk_asst_name": "` + "name_" + asstKindID + `",
 				"src_des": "属于",
 				"dest_des": "被属于",
@@ -164,7 +164,7 @@ func updateModelAssociation(t *testing.T, client *httpclient.HttpClient, modelID
 	cond.Element(mongo.Field(metadata.AssociationFieldAsstID).Eq(modelAssociationID))
 	modelItems := metadata.UpdateOption{
 		Data: mapstr.MapStr{
-			"bk_obj_asst_name": "update_" + modelID,
+			"obj_asst_name": "update_" + modelID,
 		},
 		Condition: cond.ToMapStr(),
 	}

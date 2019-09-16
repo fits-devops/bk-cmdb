@@ -59,7 +59,7 @@ var tables = map[string][]dal.Index{
 	},
 	"cc_ObjAsst": []dal.Index{
 		dal.Index{Name: "", Keys: map[string]int32{"obj_id": 1}, Background: true},
-		dal.Index{Name: "", Keys: map[string]int32{"bk_asst_obj_id": 1}, Background: true},
+		dal.Index{Name: "", Keys: map[string]int32{"asst_obj_id": 1}, Background: true},
 		dal.Index{Name: "", Keys: map[string]int32{"org_id": 1}, Background: true},
 	},
 	"cc_ObjAttDes": []dal.Index{

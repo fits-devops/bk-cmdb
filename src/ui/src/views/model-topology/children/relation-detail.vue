@@ -15,7 +15,7 @@
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item">
-                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['bk_asst_obj_id'])">
+                <input type="text" class="cmdb-form-input" disabled :value="getModelName(relationInfo['asst_obj_id'])">
             </div>
         </label>
         <label class="form-label">
@@ -27,7 +27,7 @@
                 <input type="text" class="cmdb-form-input"
                     name="asstName"
                     :disabled="relationInfo.ispre || !isEdit"
-                    v-model.trim="relationInfo['bk_obj_asst_name']"
+                    v-model.trim="relationInfo['obj_asst_name']"
                     v-validate="'required|singlechar'">
                 <p class="form-error">{{errors.first('asstName')}}</p>
             </div>
@@ -48,7 +48,7 @@
                 <p class="form-error">{{errors.first('asstId')}}</p>
             </div>
         </label>
-        <div class="btn-group" v-if="isEdit && relationInfo.bk_asst_id !== 'bk_mainline'">
+        <div class="btn-group" v-if="isEdit && relationInfo.asst_id !== 'bk_mainline'">
             <bk-button type="primary" :loading="$loading('updateObjectAssociation')" @click="saveRelation">
                 {{$t('Common["确定"]')}}
             </bk-button>
@@ -92,11 +92,11 @@
                 relationInfo: {
                     ispre: false,
                     id: 0,
-                    bk_obj_asst_id: '',
-                    bk_obj_asst_name: '',
+                    obj_asst_id: '',
+                    obj_asst_name: '',
                     obj_id: '',
-                    bk_asst_obj_id: '',
-                    bk_asst_id: '',
+                    asst_obj_id: '',
+                    asst_id: '',
                     mapping: '',
                     on_delete: []
                 }
@@ -137,7 +137,7 @@
                 await this.updateObjectAssociation({
                     id: this.relationInfo.id,
                     params: this.$injectMetadata({
-                        bk_obj_asst_name: this.relationInfo['bk_obj_asst_name']
+                        obj_asst_name: this.relationInfo['obj_asst_name']
                     }),
                     config: {
                         requestId: 'updateObjectAssociation'

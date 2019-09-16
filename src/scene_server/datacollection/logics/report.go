@@ -327,8 +327,8 @@ func (lgc *Logics) findInstAssociation(header http.Header, objectID string, inst
 		"obj_id":  objectID,
 	})
 	or.Item(mapstr.MapStr{
-		"bk_asst_inst_id": instID,
-		"bk_asst_obj_id":  objectID,
+		"asst_inst_id": instID,
+		"asst_obj_id":  objectID,
 	})
 
 	resp, err := lgc.CoreAPI.TopoServer().Association().SearchInst(context.Background(), header, &metadata.SearchAssociationInstRequest{cond.ToMapStr()})

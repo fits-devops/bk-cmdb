@@ -105,8 +105,8 @@ func (cli *Service) CreateAssociationType(req *restful.Request, resp *restful.Re
 		return
 	}
 
-	// check uniq bk_asst_id
-	cond := map[string]interface{}{"bk_asst_id": request.AssociationKindID}
+	// check uniq asst_id
+	cond := map[string]interface{}{"asst_id": request.AssociationKindID}
 	cond = util.SetModOwner(cond, ownerID)
 
 	cnt, err := db.Table(common.BKTableNameAsstDes).Find(cond).Count(ctx)
@@ -117,7 +117,7 @@ func (cli *Service) CreateAssociationType(req *restful.Request, resp *restful.Re
 	}
 
 	if cnt > 0 {
-		msg := fmt.Sprintf("failed to create association, bk_asst_id %s exist", request.AssociationKindID)
+		msg := fmt.Sprintf("failed to create association, asst_id %s exist", request.AssociationKindID)
 		blog.Errorf(msg)
 		resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.New(common.CCErrCommDBInsertFailed, msg)})
 		return

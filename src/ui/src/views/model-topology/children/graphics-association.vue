@@ -139,7 +139,7 @@
             localAssociationList () {
                 const filterFlag = ['bk_mainline']
                 return this.associationList.filter(association => {
-                    return !filterFlag.includes(association['bk_asst_id'])
+                    return !filterFlag.includes(association['asst_id'])
                 })
             },
             isShow: {
@@ -188,12 +188,12 @@
                 })
                 this.info = {
                     source: data['obj_id'],
-                    target: data['bk_asst_obj_id'],
-                    description: data['bk_obj_asst_name'],
+                    target: data['asst_obj_id'],
+                    description: data['obj_asst_name'],
                     constraint: data['mapping'],
                     ispre: data['ispre']
                 }
-                this.title = this.getTitle(data['bk_asst_id'])
+                this.title = this.getTitle(data['asst_id'])
             },
             setCreateInfo () {
                 const edge = this.association.edge
@@ -210,15 +210,15 @@
                         const data = await this.createObjectAssociation({
                             params: this.$injectMetadata({
                                 'obj_id': source,
-                                'bk_asst_obj_id': target,
-                                'bk_asst_id': association['bk_asst_id'],
-                                'bk_obj_asst_id': `${source}_${association['bk_asst_id']}_${target}`,
-                                'bk_obj_asst_name': description,
+                                'asst_obj_id': target,
+                                'asst_id': association['asst_id'],
+                                'obj_asst_id': `${source}_${association['asst_id']}_${target}`,
+                                'obj_asst_name': description,
                                 'mapping': constraint
                             })
                         })
                         const createdAssociation = {
-                            bk_asst_inst_id: association.id,
+                            asst_inst_id: association.id,
                             bk_asst_name: association['bk_asst_name'],
                             bk_asst_type: '',
                             inst_id: data.id,
@@ -283,7 +283,7 @@
                 this.info = { ...DEFAULT_INFO }
             },
             getTitle (asstId) {
-                const data = this.localAssociationList.find(data => data['bk_asst_id'] === asstId) || {}
+                const data = this.localAssociationList.find(data => data['asst_id'] === asstId) || {}
                 return data['bk_asst_name']
             },
             getModelName (modelId) {
@@ -291,7 +291,7 @@
                 return model['obj_name']
             },
             getAssociationItemName (association) {
-                return `${association['bk_asst_name']}(${association['bk_asst_id']})`
+                return `${association['bk_asst_name']}(${association['asst_id']})`
             }
         }
     }

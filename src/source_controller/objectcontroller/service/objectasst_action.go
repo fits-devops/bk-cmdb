@@ -82,7 +82,7 @@ func (cli *Service) createObjectAssociation(req *restful.Request, resp *restful.
 	} else {
 		// AsstKindID could only be bk_mainline
 		if obj.AsstKindID != common.AssociationKindMainline {
-			blog.Errorf("use CreateMainlineObjectAssociation method but bk_asst_id is: %s", obj.AsstKindID)
+			blog.Errorf("use CreateMainlineObjectAssociation method but asst_id is: %s", obj.AsstKindID)
 			resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.Errorf(common.CCErrorTopoAssociationKindInconsistent, obj.AsstKindID)})
 			return
 		}
@@ -204,8 +204,8 @@ func (cli *Service) UpdateObjectAssociation(req *restful.Request, resp *restful.
 	}
 
 	// only field in white list could be update
-	// bk_asst_obj_id is allowed for add business model level
-	validFields := []string{"bk_obj_asst_name", "bk_asst_obj_id"}
+	// asst_obj_id is allowed for add business model level
+	validFields := []string{"obj_asst_name", "asst_obj_id"}
 	validData := map[string]interface{}{}
 	filterOutFields := []string{}
 	for key, val := range data {

@@ -132,7 +132,7 @@ func TestCreateModelAssociationMaintaince(t *testing.T) {
 	// update
 	updateResult, err := assoMgr.UpdateModelAssociation(defaultCtx, metadata.UpdateOption{
 		Data: mapstr.MapStr{
-			"bk_obj_asst_name": "test_name_update",
+			"obj_asst_name": "test_name_update",
 		},
 	})
 	require.NoError(t, err)

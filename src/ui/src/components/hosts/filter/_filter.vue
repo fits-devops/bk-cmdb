@@ -346,7 +346,7 @@
                 // 关联属性额外填充模型查询参数
                 const associateProperties = this.customFieldProperties.filter(property => ['singleasst', 'multiasst'].includes(property['property_type']))
                 associateProperties.forEach(property => {
-                    const associateObjId = property['bk_asst_obj_id']
+                    const associateObjId = property['asst_obj_id']
                     const propertyCondition = this.condition[property['obj_id']][property['property_id']]
                     // 关联模型存在且查询参数合法时，填充对应关联模型的condition
                     if (associateObjId && !['', null].includes(propertyCondition.value)) {

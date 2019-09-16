@@ -167,10 +167,10 @@ type NetcollectReportAssociation struct {
 	Action       string `json:"action" bson:"-"`
 	AsstInstName string `json:"bk_asst_inst_name" bson:"bk_asst_inst_name"`
 	// AsstPropertyID string `json:"bk_asst_property_id" bson:"bk_asst_property_id"`
-	AsstObjectID   string `json:"bk_asst_obj_id" bson:"bk_asst_obj_id"`
+	AsstObjectID   string `json:"asst_obj_id" bson:"asst_obj_id"`
 	AsstObjectName string `json:"bk_asst_obj_name" bson:"bk_asst_obj_name"`
 
-	ObjectAsstID  string `json:"bk_obj_asst_id" bson:"bk_obj_asst_id"`
+	ObjectAsstID  string `json:"obj_asst_id" bson:"obj_asst_id"`
 	Configuration string `json:"configuration" bson:"configuration"`
 }
 

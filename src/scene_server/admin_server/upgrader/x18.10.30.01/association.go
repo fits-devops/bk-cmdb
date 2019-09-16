@@ -102,7 +102,7 @@ func addPresetAssociationType(ctx context.Context, db dal.RDB, conf *upgrader.Co
 	}
 
 	for _, asstType := range asstTypes {
-		_, _, err := upgrader.Upsert(ctx, db, tablename, asstType, "id", []string{"bk_asst_id"}, []string{"id"})
+		_, _, err := upgrader.Upsert(ctx, db, tablename, asstType, "id", []string{"asst_id"}, []string{"id"})
 		if err != nil {
 			return err
 		}
@@ -161,8 +161,8 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 
 			// update InstAsst
 			updateInst := mapstr.New()
-			updateInst.Set("bk_obj_asst_id", asst.AssociationName)
-			updateInst.Set("bk_asst_id", asst.AsstKindID)
+			updateInst.Set("obj_asst_id", asst.AssociationName)
+			updateInst.Set("asst_id", asst.AsstKindID)
 			updateInst.Set("last_time", time.Now())
 			err = db.Table(common.BKTableNameInstAsst).Update(ctx, updateCond.ToMapStr(), updateInst)
 			if err != nil {
@@ -201,7 +201,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 
 			instCond := condition.CreateCondition()
 			instCond.Field("obj_id").Eq(asst.AsstObjID)
-			instCond.Field("bk_asst_obj_id").Eq(asst.ObjectID)
+			instCond.Field("asst_obj_id").Eq(asst.ObjectID)
 			instCond.Field(flag).NotEq(true)
 
 			if err = db.Table(common.BKTableNameInstAsst).Find(instCond.ToMapStr()).All(ctx, &instAssts); err != nil {
@@ -209,14 +209,14 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 			}
 			for _, instAsst := range instAssts {
 				updateInst := mapstr.New()
-				updateInst.Set("bk_obj_asst_id", asst.AssociationName)
-				updateInst.Set("bk_asst_id", asst.AsstKindID)
+				updateInst.Set("obj_asst_id", asst.AssociationName)
+				updateInst.Set("asst_id", asst.AsstKindID)
 
 				// 交换 源<->目标
 				updateInst.Set("obj_id", instAsst.AsstObjectID)
-				updateInst.Set("bk_asst_obj_id", instAsst.ObjectID)
+				updateInst.Set("asst_obj_id", instAsst.ObjectID)
 				updateInst.Set("inst_id", instAsst.AsstInstID)
-				updateInst.Set("bk_asst_inst_id", instAsst.InstID)
+				updateInst.Set("asst_inst_id", instAsst.InstID)
 
 				updateInst.Set(flag, true)
 
@@ -247,7 +247,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 	}
 	deleteHostCloudAssociation := condition.CreateCondition()
 	deleteHostCloudAssociation.Field("obj_id").Eq(common.BKInnerObjIDHost)
-	deleteHostCloudAssociation.Field("bk_asst_obj_id").Eq(common.BKInnerObjIDPlat)
+	deleteHostCloudAssociation.Field("asst_obj_id").Eq(common.BKInnerObjIDPlat)
 	err = db.Table(common.BKTableNameObjAsst).Delete(ctx, deleteHostCloudAssociation.ToMapStr())
 	if err != nil {
 		return err

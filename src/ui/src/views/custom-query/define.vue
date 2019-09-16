@@ -481,7 +481,7 @@
                                     'propertyType': originalProperty['property_type'],
                                     'propertyName': originalProperty['property_name'],
                                     'propertyId': originalProperty['property_id'],
-                                    'asstObjId': originalProperty['bk_asst_obj_id'],
+                                    'asstObjId': originalProperty['asst_obj_id'],
                                     'operator': property.operator,
                                     'value': this.getUserPropertyValue(property, originalProperty)
                                 })
@@ -694,7 +694,7 @@
                     'property_id': propertyId,
                     'property_name': propertyName,
                     'property_type': propertyType,
-                    'bk_asst_obj_id': asstObjId,
+                    'asst_obj_id': asstObjId,
                     'obj_id': objId
                 } = property
                 this.userProperties.push({

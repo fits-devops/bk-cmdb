@@ -19,16 +19,16 @@
             :pagination.sync="table.pagination"
             :wrapper-minus-height="220"
             @handleSortChange="handleSortChange">
-            <template slot="bk_obj_asst_id" slot-scope="{ item }">
+            <template slot="obj_asst_id" slot-scope="{ item }">
                 <span
                     v-if="item.ispre"
                     :class="['relation-pre', $i18n.locale]">
                     {{$t('ModelManagement["内置"]')}}
                 </span>
-                <span class="relation-id">{{item['bk_obj_asst_id']}}</span>
+                <span class="relation-id">{{item['obj_asst_id']}}</span>
             </template>
             <template slot="bk_asst_name" slot-scope="{ item }">
-                {{getRelationName(item['bk_asst_id'])}}
+                {{getRelationName(item['asst_id'])}}
             </template>
             <template slot="mapping" slot-scope="{ item }">
                 {{mappingMap[item.mapping]}}
@@ -37,7 +37,7 @@
                 {{getModelName(item['obj_id'])}}
             </template>
             <template slot="bk_asst_obj_name" slot-scope="{ item }">
-                {{getModelName(item['bk_asst_obj_id'])}}
+                {{getModelName(item['asst_obj_id'])}}
             </template>
             <template slot="operation" slot-scope="{ item }">
                 <button class="text-primary mr10"
@@ -88,7 +88,7 @@
                 relationList: [],
                 table: {
                     header: [{
-                        id: 'bk_obj_asst_id',
+                        id: 'obj_asst_id',
                         name: this.$t('ModelManagement["唯一标识"]')
                     }, {
                         id: 'bk_asst_name',
@@ -153,7 +153,7 @@
                 'searchAssociationType'
             ]),
             isEditable (item) {
-                if (item.ispre || item['bk_asst_id'] === 'bk_mainline' || this.isReadOnly) {
+                if (item.ispre || item['asst_id'] === 'bk_mainline' || this.isReadOnly) {
                     return false
                 }
                 if (!this.isAdminView) {
@@ -175,7 +175,7 @@
                         fromCache: true
                     }
                 })
-                this.relationList = data.info.map(({ bk_asst_id: asstId, bk_asst_name: asstName }) => {
+                this.relationList = data.info.map(({ asst_id: asstId, bk_asst_name: asstName }) => {
                     if (asstName.length) {
                         return {
                             id: asstId,
@@ -245,7 +245,7 @@
                 return this.searchObjectAssociation({
                     params: this.$injectMetadata({
                         condition: {
-                            'bk_asst_obj_id': this.activeModel['obj_id']
+                            'asst_obj_id': this.activeModel['obj_id']
                         }
                     }, {
                         inject: this.isInjectable
