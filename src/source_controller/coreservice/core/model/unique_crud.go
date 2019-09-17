@@ -133,11 +133,11 @@ func (m *modelAttrUnique) updateModelAttrUnique(ctx core.ContextParams, objID st
 		}
 	}
 
-	err := m.recheckUniqueForExistsInsts(ctx, objID, unique.Keys, unique.MustCheck, unique.Metadata)
-	if nil != err {
-		blog.Errorf("[UpdateObjectUnique] recheckUniqueForExistsInsts for %s with %#v error: %#v", objID, unique, err)
-		return ctx.Error.Errorf(common.CCErrCommDuplicateItem, "instance")
-	}
+	//err := m.recheckUniqueForExistsInsts(ctx, objID, unique.Keys, unique.MustCheck, unique.Metadata)
+	//if nil != err {
+	//	blog.Errorf("[UpdateObjectUnique] recheckUniqueForExistsInsts for %s with %#v error: %#v", objID, unique, err)
+	//	return ctx.Error.Errorf(common.CCErrCommDuplicateItem, "instance")
+	//}
 
 	cond := condition.CreateCondition()
 	cond.Field("id").Eq(id)
@@ -148,7 +148,7 @@ func (m *modelAttrUnique) updateModelAttrUnique(ctx core.ContextParams, objID st
 	}
 
 	oldunique := metadata.ObjectUnique{}
-	err = m.dbProxy.Table(common.BKTableNameObjUnique).Find(cond.ToMapStr()).One(ctx, &oldunique)
+	err := m.dbProxy.Table(common.BKTableNameObjUnique).Find(cond.ToMapStr()).One(ctx, &oldunique)
 	if nil != err {
 		blog.Errorf("[UpdateObjectUnique] find error: %s, raw: %#v", err, cond.ToMapStr())
 		return ctx.Error.Error(common.CCErrObjectDBOpErrno)
