@@ -47,7 +47,7 @@ func (s *Service) initBusinessObjectAttribute() {
 func (s *Service) initBusinessObjectUnique() {
 	s.addAction(http.MethodPost, "/create/objectunique/object/{obj_id}", s.CreateObjectUnique, nil)
 	s.addAction(http.MethodPut, "/update/objectunique/object/{obj_id}/unique/{id}", s.UpdateObjectUnique, nil)
-	s.addAction(http.MethodPost, "/delete/objectunique/object/{obj_id}/unique/{id}", s.DeleteObjectUnique, nil)
+	s.addAction(http.MethodDelete, "/delete/objectunique/object/{obj_id}/unique/{id}", s.DeleteObjectUnique, nil)
 	s.addAction(http.MethodPost, "/find/objectunique/object/{obj_id}", s.SearchObjectUnique, nil)
 }
 

@@ -69,11 +69,11 @@ func (m *modelAttrUnique) createModelAttrUnique(ctx core.ContextParams, objID st
 		}
 	}
 
-	err := m.recheckUniqueForExistsInsts(ctx, objID, inputParam.Data.Keys, inputParam.Data.MustCheck, inputParam.Data.Metadata)
-	if nil != err {
-		blog.Errorf("[CreateObjectUnique] recheckUniqueForExistsInsts for %s with %#v error: %#v", objID, inputParam, err)
-		return 0, ctx.Error.Errorf(common.CCErrCommDuplicateItem, "instance")
-	}
+	//err := m.recheckUniqueForExistsInsts(ctx, objID, inputParam.Data.Keys, inputParam.Data.MustCheck, inputParam.Data.Metadata)
+	//if nil != err {
+	//	blog.Errorf("[CreateObjectUnique] recheckUniqueForExistsInsts for %s with %#v error: %#v", objID, inputParam, err)
+	//	return 0, ctx.Error.Errorf(common.CCErrCommDuplicateItem, "instance")
+	//}
 
 	id, err := m.dbProxy.NextSequence(ctx, common.BKTableNameObjUnique)
 	if nil != err {
