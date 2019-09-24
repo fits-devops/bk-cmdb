@@ -52,8 +52,8 @@ func (s *Service) initAssociation() {
 	s.addAction(http.MethodDelete, "/inst/association/{association_id}/action/delete", s.DeleteAssociationInst, nil)
 
 	// topo search methods
-	s.addAction(http.MethodPost, "/inst/association/search/owner/{owner_id}/object/{obj_id}", s.SearchInstByAssociation, nil)
-	s.addAction(http.MethodPost, "/inst/association/topo/search/owner/{owner_id}/object/{obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
+	s.addAction(http.MethodPost, "/inst/association/search/object/{obj_id}", s.SearchInstByAssociation, nil)
+	s.addAction(http.MethodPost, "/inst/association/topo/search/object/{obj_id}/inst/{inst_id}", s.SearchInstTopo, nil)
 
 	// ATTENTION: the following methods is not recommended
 	s.addAction(http.MethodPost, "/inst/search/topo/owner/{owner_id}/object/{bk_object_id}/inst/{inst_id}", s.SearchInstChildTopo, nil)
@@ -114,11 +114,11 @@ func (s *Service) initSet() {
 }
 
 func (s *Service) initInst() {
-	s.addAction(http.MethodPost, "/inst/{owner_id}/{obj_id}", s.CreateInst, nil)
-	s.addAction(http.MethodDelete, "/inst/{owner_id}/{obj_id}/{inst_id}", s.DeleteInst, nil)
-	s.addAction(http.MethodDelete, "/inst/{owner_id}/{obj_id}/batch", s.DeleteInsts, nil)
-	s.addAction(http.MethodPut, "/inst/{owner_id}/{obj_id}/{inst_id}", s.UpdateInst, nil)
-	s.addAction(http.MethodPut, "/inst/{owner_id}/{obj_id}/batch/update", s.UpdateInsts, nil)
+	s.addAction(http.MethodPost, "/inst/{obj_id}", s.CreateInst, nil)
+	s.addAction(http.MethodDelete, "/inst/{obj_id}/{inst_id}", s.DeleteInst, nil)
+	s.addAction(http.MethodDelete, "/inst/{obj_id}/batch", s.DeleteInsts, nil)
+	s.addAction(http.MethodPut, "/inst/{obj_id}/{inst_id}", s.UpdateInst, nil)
+	s.addAction(http.MethodPut, "/inst/{obj_id}/batch/update", s.UpdateInsts, nil)
 	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{obj_id}", s.SearchInsts, nil)
 	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}/detail", s.SearchInstAndAssociationDetail, nil)
 	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}", s.SearchInstByObject, nil)
