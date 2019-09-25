@@ -13,24 +13,27 @@ import (
 )
 
 func addPresetObjects(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
+	//初始化模型分类基础数据
 	err = addClassifications(ctx, db, conf)
 	if err != nil {
 		return err
 	}
+	//初始化属性分组基础数据
 	err = addPropertyGroupData(ctx, db, conf)
 	if err != nil {
 		return err
 	}
+	//初始化模型基础数据
 	err = addObjDesData(ctx, db, conf)
 	if err != nil {
 		return err
 	}
-
+	//初始化模型字段基础数据
 	err = addObjAttDescData(ctx, db, conf)
 	if err != nil {
 		return err
 	}
-
+	//初始化模型关联基础数据
 	err = addAsstData(ctx, db, conf)
 	if err != nil {
 		return err
@@ -138,6 +141,8 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":-500,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
+
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":-500,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":-350,"y":-50}}`},
@@ -196,6 +201,7 @@ func getObjAttDescData(ownerID string) []*Attribute {
 	dataRows = append(dataRows, WeblogicRow()...)
 	dataRows = append(dataRows, ApacheRow()...)
 	dataRows = append(dataRows, TomcatRow()...)
+	dataRows = append(dataRows, IdcRow()...)
 
 	t := new(time.Time)
 	*t = time.Now()

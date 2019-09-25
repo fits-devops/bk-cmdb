@@ -120,6 +120,9 @@ const (
 	BKInnerObjIDTomcat = "bk_tomcat"
 	// BKInnerObjIDApache the inner object
 	BKInnerObjIDApache = "bk_apache"
+
+	// BKInnerObjIDIDC the inner object
+	BKInnerObjIDIdc = "_idc"
 )
 
 // Revision
