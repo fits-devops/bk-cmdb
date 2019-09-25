@@ -49,7 +49,7 @@ func (s *Service) initAssociation() {
 	// inst association methods
 	s.addAction(http.MethodPost, "/inst/association/action/search", s.SearchAssociationInst, nil)
 	s.addAction(http.MethodPost, "/inst/association/action/create", s.CreateAssociationInst, nil)
-	s.addAction(http.MethodDelete, "/inst/association/{association_id}/action/delete", s.DeleteAssociationInst, nil)
+	s.addAction(http.MethodDelete, "/inst/association/action/delete/{association_id}", s.DeleteAssociationInst, nil)
 
 	// topo search methods
 	s.addAction(http.MethodPost, "/inst/association/search/object/{obj_id}", s.SearchInstByAssociation, nil)
@@ -118,7 +118,7 @@ func (s *Service) initInst() {
 	s.addAction(http.MethodDelete, "/inst/{obj_id}/{inst_id}", s.DeleteInst, nil)
 	s.addAction(http.MethodDelete, "/inst/{obj_id}/batch", s.DeleteInsts, nil)
 	s.addAction(http.MethodPut, "/inst/{obj_id}/{inst_id}", s.UpdateInst, nil)
-	s.addAction(http.MethodPut, "/inst/{obj_id}/batch/update", s.UpdateInsts, nil)
+	s.addAction(http.MethodPut, "/inst/{obj_id}/batch", s.UpdateInsts, nil)
 	s.addAction(http.MethodPost, "/inst/search/{owner_id}/{obj_id}", s.SearchInsts, nil)
 	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}/detail", s.SearchInstAndAssociationDetail, nil)
 	s.addAction(http.MethodPost, "/inst/search/owner/{owner_id}/object/{obj_id}", s.SearchInstByObject, nil)
