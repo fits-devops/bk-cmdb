@@ -109,7 +109,7 @@ const (
 	// BKInnerObjIDSwitch the inner object
 	BKInnerObjIDSwitch = "_switch"
 	// BKInnerObjIDRouter the inner object
-	BKInnerObjIDRouter = "bk_router"
+	BKInnerObjIDRouter = "_router"
 	// BKInnerObjIDBlance the inner object
 	BKInnerObjIDBlance = "bk_load_balance"
 	// BKInnerObjIDFirewall the inner object
