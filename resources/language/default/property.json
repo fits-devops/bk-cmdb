@@ -33,7 +33,7 @@
     "host_property_host_outerip": "外网IP",
     "host_property_operator": "主要维护人",
     "host_property_bk_bak_operator": "备份维护人",
-    "host_property_bk_asset_id": "固资编号",
+    "host_property_asset_id": "固资编号",
     "host_property_bk_sn": "设备SN",
     "host_property_bk_comment": "备注",
     "host_property_cloud_id": "云区域",
@@ -79,7 +79,7 @@
     "process_property_auto_time_gap": "拉起间隔",
     "process_property_start_param_regex": "启动参数匹配规则",
 
-    "bk_switch_property_bk_asset_id":"固资编号",
+    "bk_switch_property_asset_id":"固资编号",
     "bk_switch_property_bk_sn":"SN",
     "bk_switch_property_bk_name":"名称",
     "bk_switch_property_bk_func":"用途",
@@ -92,7 +92,7 @@
     "bk_switch_property_bk_biz_status":"运营状态",
 
     
-    "bk_router_property_bk_asset_id":"固资编号",
+    "bk_router_property_asset_id":"固资编号",
     "bk_router_property_bk_sn":"SN",
     "bk_router_property_bk_name":"名称",
     "bk_router_property_bk_func":"用途",
@@ -105,7 +105,7 @@
     "bk_router_property_bk_biz_status":"运营状态",
 
     
-    "bk_load_balance_property_bk_asset_id":"固资编号",
+    "bk_load_balance_property_asset_id":"固资编号",
     "bk_load_balance_property_bk_sn":"SN",
     "bk_load_balance_property_bk_name":"名称",
     "bk_load_balance_property_bk_func":"用途",
@@ -117,7 +117,7 @@
     "bk_load_balance_property_bk_detail":"详细描述",
     "bk_load_balance_property_bk_biz_status":"运营状态",
     
-    "bk_firewall_property_bk_asset_id":"固资编号",
+    "bk_firewall_property_asset_id":"固资编号",
     "bk_firewall_property_bk_sn":"SN",
   "bk_firewall_property_inst_name": "名称",
     "bk_firewall_property_bk_func":"用途",

@@ -69,7 +69,7 @@ const (
 	fieldDisk         = "disk"
 	fieldHostID       = "host_id"
 	fieldHostOuterIP  = "host_outerip"
-	fieldAssetID      = "bk_asset_id"
+	fieldAssetID      = "asset_id"
 	fieldMac          = "bk_mac"
 	fieldProvinceName = "bk_provinceName"
 	fieldSN           = "bk_sn"

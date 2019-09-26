@@ -75,7 +75,7 @@ func TestCreateManyAssociationKind(t *testing.T) {
 	asstKind2.SourceToDestinationNote = "test"
 	inputParams.Datas = append(inputParams.Datas, asstKind2)
 
-	// create a new association kind without bk_asset_id
+	// create a new association kind without asset_id
 	dataResult, err := asstMgr.CreateManyAssociationKind(defaultCtx, inputParams)
 	require.Nil(t, err)
 	require.Equal(t, 1, len(dataResult.Created))

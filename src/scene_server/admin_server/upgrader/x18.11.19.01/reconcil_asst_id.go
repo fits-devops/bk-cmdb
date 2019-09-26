@@ -17,7 +17,7 @@ package x18_11_19_01
 
 // 	type HostInst struct {
 // 		HostID  uint64 `bson:"host_id"`
-// 		AssetID string `bson:"bk_asset_id"`
+// 		AssetID string `bson:"asset_id"`
 // 		OwnerID string `bson:"org_id"`
 // 	}
 

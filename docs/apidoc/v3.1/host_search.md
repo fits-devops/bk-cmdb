@@ -131,7 +131,7 @@ page 参数说明：
                     }
                 ],
                 "host":{
-                    "bk_asset_id":"DKUXHBUH189",
+                    "asset_id":"DKUXHBUH189",
                     "bk_bak_operator":"admin",
                     "cloud_id":[
                         {

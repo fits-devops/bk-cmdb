@@ -222,7 +222,7 @@ const (
 	BKIPArr = "ipArr"
 
 	// BKAssetIDField  the asset id field
-	BKAssetIDField = "bk_asset_id"
+	BKAssetIDField = "asset_id"
 
 	// BKHostInnerIPField the host innerip field
 	BKHostInnerIPField = "host_innerip"

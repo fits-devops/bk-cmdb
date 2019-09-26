@@ -31,7 +31,7 @@ func TestCreateOneInstance(t *testing.T) {
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 
-	// create a new bk_switch instance without bk_asset_id
+	// create a new bk_switch instance without asset_id
 	dataResult, err := instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.NotNil(t, err)
 	require.NotNil(t, dataResult)
@@ -74,7 +74,7 @@ func TestCreateManyInstance(t *testing.T) {
 		common.BKAssetIDField:  xid.New().String(),
 	})
 
-	// create two new bk_switch instance without bk_asset_id
+	// create two new bk_switch instance without asset_id
 	dataResult, err := instMgr.CreateManyModelInstance(defaultCtx, objID, inputParams)
 
 	require.Nil(t, err)

@@ -422,7 +422,7 @@ func (lgc *Logics) confirmAttributes(header http.Header, report *metadata.Netcol
 		if len(insts) > 0 {
 			assetID, err = insts[0].String(common.BKAssetIDField)
 			if err != nil {
-				blog.Warnf("[NetDevice][ConfirmReport] find inst failed, bk_asset_id not found from %+v", insts[0])
+				blog.Warnf("[NetDevice][ConfirmReport] find inst failed, asset_id not found from %+v", insts[0])
 			}
 		}
 		if assetID == "" {

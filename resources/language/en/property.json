@@ -36,7 +36,7 @@
     "host_property_host_outerip": "outer ip",
     "host_property_operator": "main operator",
     "host_property_bk_bak_operator": "backup operator",
-    "host_property_bk_asset_id": "asset id",
+    "host_property_asset_id": "asset id",
     "host_property_bk_sn": "device sn",
     "host_property_bk_comment": "comment",
     "host_property_cloud_id": "cloud area",
@@ -83,7 +83,7 @@
     "process_property_auto_time_gap": "autostart period",
     "process_property_start_param_regex": "Startup parameter REGEX",
 
-    "bk_switch_property_bk_asset_id":"asset id",
+    "bk_switch_property_asset_id":"asset id",
     "bk_switch_property_bk_sn":"SN",
     "bk_switch_property_inst_name":"middleware",
     "bk_switch_property_bk_inst_key": "name",
@@ -97,7 +97,7 @@
     "bk_switch_property_bk_biz_status":"business status",
 
     
-    "bk_router_property_bk_asset_id":"asset id",
+    "bk_router_property_asset_id":"asset id",
     "bk_router_property_bk_sn":"SN",
     "bk_router_property_inst_name":"middleware",
     "bk_router_property_bk_inst_key": "name",
@@ -111,7 +111,7 @@
     "bk_router_property_bk_biz_status":"business status",
 
     
-    "bk_load_balance_property_bk_asset_id":"asset id",
+    "bk_load_balance_property_asset_id":"asset id",
     "bk_load_balance_property_bk_sn":"SN",
     "bk_load_balance_property_inst_name":"middleware",
     "bk_load_balance_property_bk_inst_key": "name",
@@ -124,7 +124,7 @@
     "bk_load_balance_property_bk_detail":"detail",
     "bk_load_balance_property_bk_biz_status":"business status",
     
-    "bk_firewall_property_bk_asset_id":"asset id",
+    "bk_firewall_property_asset_id":"asset id",
     "bk_firewall_property_bk_sn":"SN",
   "bk_firewall_property_inst_name": "name",
     "bk_firewall_property_bk_func":"purpose",
