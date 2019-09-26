@@ -561,7 +561,7 @@ const (
 	BKDeviceIDField    = "device_id"
 	BKDeviceNameField  = "device_name"
 	BKDeviceModelField = "device_model"
-	BKVendorField      = "bk_vendor"
+	BKVendorField      = "vendor"
 
 	// for net collect property of device
 	BKNetcollectPropertyIDField = "netcollect_property_id"

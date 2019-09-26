@@ -128,7 +128,7 @@ condition 参数说明：condition 参数为进程的属性
                 "port":8080,
                 "bind_ip":"1",
                 "protocol":"1",
-                "bk_funcName":"nginx",
+                "funcName":"nginx",
                 "work_path":"/data/cc/running",
                 "bk_user":"cc"
             }

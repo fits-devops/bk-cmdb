@@ -452,7 +452,7 @@ type Report struct {
 type Custom struct {
 	DeviceModel string `yaml:"device_model,omitempty"`
 	ObjectID    string `yaml:"obj_id,omitempty"`
-	BkVendor    string `yaml:"bk_vendor,omitempty"`
+	BkVendor    string `yaml:"vendor,omitempty"`
 	PropertyID  string `json:"property_id" bson:"property_id,omitempty"`
 
 	Method string `yaml:"method,omitempty"`

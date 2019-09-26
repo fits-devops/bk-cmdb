@@ -42,7 +42,7 @@ const (
 	fieldModuleName  = "module_name"
 	fieldBakOperator = "bk_bak_operator"
 	fieldModuleTYpe  = "bk_module_type"
-	fieldOperator    = "bk_operator"
+	fieldOperator    = "operator"
 )
 
 // business fields
@@ -72,7 +72,7 @@ const (
 	fieldAssetID      = "asset_id"
 	fieldMac          = "bk_mac"
 	fieldProvinceName = "bk_provinceName"
-	fieldSN           = "bk_sn"
+	fieldSN           = "sn"
 	fieldCPUModule    = "cpu_module"
 	fieldHostName     = "host_name"
 	fieldISPName      = "bk_isp_name"

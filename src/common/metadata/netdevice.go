@@ -22,7 +22,7 @@ type NetcollectDevice struct {
 	DeviceModel string     `json:"device_model,omitempty" bson:"device_model,omitempty"`
 	ObjectID    string     `json:"obj_id" bson:"obj_id,omitempty"`
 	ObjectName  string     `json:"obj_name,omitempty" bson:"-"`
-	BkVendor    string     `json:"bk_vendor,omitempty" bson:"bk_vendor,omitempty"`
+	BkVendor    string     `json:"vendor,omitempty" bson:"vendor,omitempty"`
 	OwnerID     string     `json:"-" bson:"org_id,omitempty"`
 	CreateTime  *time.Time `field:"create_time,omitempty" json:"create_time,omitempty" bson:"create_time,omitempty"`
 	LastTime    *time.Time `field:"last_time" json:"last_time,omitempty" bson:"last_time,omitempty"`

@@ -42,7 +42,7 @@ func TestCreateOneInstance(t *testing.T) {
 
 	// create a valid model  instance with valid params
 	inputParams.Data.Set(common.BKAssetIDField, xid.New().String())
-	inputParams.Data.Set("bk_sn", "cmdb_sn")
+	inputParams.Data.Set("sn", "cmdb_sn")
 	dataResult, err = instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.Nil(t, err)
 	require.NotEqual(t, uint64(0), dataResult.Created.ID)
@@ -92,7 +92,7 @@ func TestUpdateOneInstance(t *testing.T) {
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 	inputParams.Data.Set(common.BKAssetIDField, xid.New().String())
-	inputParams.Data.Set("bk_sn", "cmdb_sn")
+	inputParams.Data.Set("sn", "cmdb_sn")
 	dataResult, err := instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.Nil(t, err)
 	require.NotNil(t, dataResult)
@@ -100,8 +100,8 @@ func TestUpdateOneInstance(t *testing.T) {
 
 	//update one _switch instance by condition
 	updateParams := metadata.UpdateOption{}
-	updateParams.Condition = mapstr.MapStr{"bk_sn": "cmdb_sn"}
-	updateParams.Data = mapstr.MapStr{"bk_operator": "test"}
+	updateParams.Condition = mapstr.MapStr{"sn": "cmdb_sn"}
+	updateParams.Data = mapstr.MapStr{"operator": "test"}
 	updateResult, err := instMgr.UpdateModelInstance(defaultCtx, objID, updateParams)
 
 	require.Nil(t, err)
@@ -118,7 +118,7 @@ func TestSearchAndDeleteInstance(t *testing.T) {
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, "test_sw1")
 	inputParams.Data.Set(common.BKAssetIDField, "test_sw_001")
-	inputParams.Data.Set("bk_sn", "cmdb_sn")
+	inputParams.Data.Set("sn", "cmdb_sn")
 	dataResult, err := instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.Nil(t, err)
 	require.NotNil(t, dataResult)
@@ -126,7 +126,7 @@ func TestSearchAndDeleteInstance(t *testing.T) {
 
 	//search  this instance
 	searchCond := metadata.QueryCondition{}
-	searchCond.Condition.Set("bk_sn", "cmdb_sn")
+	searchCond.Condition.Set("sn", "cmdb_sn")
 	searchResult, err := instMgr.SearchModelInstance(defaultCtx, objID, searchCond)
 	require.Nil(t, err)
 	require.NotNil(t, searchResult)
@@ -135,7 +135,7 @@ func TestSearchAndDeleteInstance(t *testing.T) {
 
 	//delete   this instance
 	deleteCond := metadata.DeleteOption{}
-	deleteCond.Condition.Set("bk_sn", "cmdb_sn")
+	deleteCond.Condition.Set("sn", "cmdb_sn")
 	deleteResult, err := instMgr.DeleteModelInstance(defaultCtx, objID, deleteCond)
 	require.Nil(t, err)
 	require.NotNil(t, deleteResult)
@@ -150,7 +150,7 @@ func TestCascadeDeleteInstance(t *testing.T) {
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 	inputParams.Data.Set(common.BKAssetIDField, xid.New().String())
-	inputParams.Data.Set("bk_sn", "cmdb_sn")
+	inputParams.Data.Set("sn", "cmdb_sn")
 	dataResult, err := instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.Nil(t, err)
 	require.NotNil(t, dataResult)
@@ -158,7 +158,7 @@ func TestCascadeDeleteInstance(t *testing.T) {
 
 	//delete   this instance
 	deleteCond := metadata.DeleteOption{}
-	deleteCond.Condition.Set("bk_sn", "cmdb_sn")
+	deleteCond.Condition.Set("sn", "cmdb_sn")
 	deleteResult, err := instMgr.CascadeDeleteModelInstance(defaultCtx, objID, deleteCond)
 	require.Nil(t, err)
 	require.NotNil(t, deleteResult)

@@ -79,8 +79,8 @@
                     <label class="label">
                         <span>{{$t('NetworkDiscovery["厂商"]')}}<span class="color-danger">*</span></span>
                     </label>
-                    <input type="text" class="cmdb-form-input" name="bk_vendor" v-model.trim="deviceDialog.data['bk_vendor']" v-validate="'required|singlechar'">
-                    <div v-show="errors.has('bk_vendor')" class="color-danger">{{ errors.first('bk_vendor') }}</div>
+                    <input type="text" class="cmdb-form-input" name="vendor" v-model.trim="deviceDialog.data['vendor']" v-validate="'required|singlechar'">
+                    <div v-show="errors.has('vendor')" class="color-danger">{{ errors.first('vendor') }}</div>
                 </div>
                 <div class="footer">
                     <bk-button type="primary" @click="saveDevice" :loading="$loading(['createDevice', 'updateDevice'])">
@@ -122,7 +122,7 @@
                         device_model: '',
                         device_name: '',
                         obj_id: '',
-                        bk_vendor: '',
+                        vendor: '',
                         device_id: ''
                     }
                 },
@@ -147,7 +147,7 @@
                         id: 'obj_id',
                         name: this.$t('NetworkDiscovery["对应模型"]')
                     }, {
-                        id: 'bk_vendor',
+                        id: 'vendor',
                         name: this.$t('NetworkDiscovery["厂商"]')
                     }],
                     checked: [],
@@ -214,7 +214,7 @@
                     this.deviceDialog.data.device_model = ''
                     this.deviceDialog.data.device_name = ''
                     this.deviceDialog.data.obj_id = ''
-                    this.deviceDialog.data.bk_vendor = ''
+                    this.deviceDialog.data.vendor = ''
                     this.deviceDialog.title = this.$t('NetworkDiscovery["新增设备"]')
                 } else {
                     this.deviceDialog.isEdit = true
@@ -240,7 +240,7 @@
                     device_model: this.deviceDialog.data['device_model'],
                     device_name: this.deviceDialog.data['device_name'],
                     obj_id: this.deviceDialog.data['obj_id'],
-                    bk_vendor: this.deviceDialog.data['bk_vendor']
+                    vendor: this.deviceDialog.data['vendor']
                 }
                 if (this.deviceDialog.isEdit) {
                     await this.updateDevice({
@@ -271,7 +271,7 @@
                 this.deviceDialog.data['device_model'] = item['device_model']
                 this.deviceDialog.data['device_name'] = item['device_name']
                 this.deviceDialog.data['obj_id'] = item['obj_id']
-                this.deviceDialog.data['bk_vendor'] = item['bk_vendor']
+                this.deviceDialog.data['vendor'] = item['vendor']
                 this.deviceDialog.data['device_id'] = item['device_id']
                 this.showDeviceDialog('update')
             },

@@ -1289,7 +1289,7 @@ func getFieldsMap(objType string) map[string]string {
 		common.BKHostIDField:      "HostID",
 		common.BKHostNameField:    "HostName",
 		"bk_assetId":              "AssetID",
-		"bk_sn":                   "SN",
+		"sn":                      "SN",
 		common.BKCloudIDField:     "Source",
 		"os_type":                 "osType",
 		"os_name":                 "OSName",
