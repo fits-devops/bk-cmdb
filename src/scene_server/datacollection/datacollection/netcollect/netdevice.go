@@ -115,7 +115,7 @@ const MockMessage = `{
     },
     "data": [
         {
-            "obj_id": "bk_switch",
+            "obj_id": "_switch",
             "bk_inst_key": "huawei 5789#56-79-9a-ii",
             "host_innerip": "192.168.1.1",
 			"cloud_id": 0,

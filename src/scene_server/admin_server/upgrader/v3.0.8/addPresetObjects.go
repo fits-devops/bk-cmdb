@@ -73,9 +73,9 @@ func addObjAttDescData(ctx context.Context, db dal.RDB, conf *upgrader.Config) e
 	selector := map[string]interface{}{
 		common.BKObjIDField: map[string]interface{}{
 			common.BKDBIN: []string{"_switch",
-				"bk_router",
-				"bk_load_balance",
-				"bk_firewall",
+				"_router",
+				"_load_balance",
+				"_firewall",
 				"bk_weblogic",
 				"bk_tomcat",
 				"bk_apache",
@@ -259,13 +259,13 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		//plat
 		&metadata.Group{ObjectID: common.BKInnerObjIDPlat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 
-		//bk_switch
+		//_switch
 		&metadata.Group{ObjectID: common.BKInnerObjIDSwitch, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_router
+		//_router
 		&metadata.Group{ObjectID: common.BKInnerObjIDRouter, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//bk_blance
 		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_firewall
+		//_firewall
 		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//bk_weblogic
 		&metadata.Group{ObjectID: common.BKInnerObjIDWeblogic, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},

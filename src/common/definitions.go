@@ -111,9 +111,9 @@ const (
 	// BKInnerObjIDRouter the inner object
 	BKInnerObjIDRouter = "_router"
 	// BKInnerObjIDBlance the inner object
-	BKInnerObjIDBlance = "bk_load_balance"
+	BKInnerObjIDBlance = "_load_balance"
 	// BKInnerObjIDFirewall the inner object
-	BKInnerObjIDFirewall = "bk_firewall"
+	BKInnerObjIDFirewall = "_firewall"
 	// BKInnerObjIDWeblogic the inner object
 	BKInnerObjIDWeblogic = "bk_weblogic"
 	// BKInnerObjIDTomcat the inner object
