@@ -256,7 +256,7 @@ func FirewallRow() []*Attribute {
 func IdcRow() []*Attribute {
 	objID := common.BKInnerObjIDIdc
 	dataRows := []*Attribute{
-		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "名称", IsRequired: true, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "shortname", PropertyName: "简称", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "telphone", PropertyName: "值班电话", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "address", PropertyName: "地址", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},

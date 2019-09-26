@@ -261,18 +261,20 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 
 		//bk_switch
 		&metadata.Group{ObjectID: common.BKInnerObjIDSwitch, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_router
 		&metadata.Group{ObjectID: common.BKInnerObjIDRouter, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_blance
 		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_firewall
 		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_weblogic
 		&metadata.Group{ObjectID: common.BKInnerObjIDWeblogic, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_tomcat
 		&metadata.Group{ObjectID: common.BKInnerObjIDTomcat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//plat
+		//bk_apache
 		&metadata.Group{ObjectID: common.BKInnerObjIDApache, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//_idc
+		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 	}
 	for objID, kv := range objectIDs {
 		index := int64(1)
