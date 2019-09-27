@@ -381,9 +381,9 @@ GET /api/{version}/userapi/data/{biz_id}/{id}/{start}/{limit}
                     "create_time":"2017-12-20T14:45:22.04+08:00",
                     "default":0,
                     "last_time":"2017-12-20T14:45:22.04+08:00",
-                    "bk_biz_maintainer":"tt",
+                    "biz_maintainer":"tt",
                     "org_id":"0",
-                    "bk_biz_productor":"tt",
+                    "biz_productor":"tt",
                     "dg":""
                 },
                 "host":{

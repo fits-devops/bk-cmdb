@@ -85,7 +85,7 @@
                         id: 'obj_name',
                         name: this.$t('ModelManagement["类型"]')
                     }, {
-                        id: 'bk_inst_key',
+                        id: 'inst_key',
                         name: this.$t('NetworkDiscovery["唯一标识"]')
                     }, {
                         id: 'host_innerip',

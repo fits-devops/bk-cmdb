@@ -13,8 +13,8 @@
     "set_property_set_env_enum_2": "experience",
     "set_property_set_env_enum_3": "formal",
 
-    "module_property_bk_module_type_enum_1": "normal",
-    "module_property_bk_module_type_enum_2": "database",
+    "module_property_module_type_enum_1": "normal",
+    "module_property_module_type_enum_2": "database",
 
     "host_property_bk_sla_enum_1": "L1",
     "host_property_bk_sla_enum_2": "L2",

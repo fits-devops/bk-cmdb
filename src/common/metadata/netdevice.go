@@ -140,7 +140,7 @@ type NetcollectReport struct {
 	OwnerID       string `json:"org_id" bson:"org_id"`
 
 	InstID       int64                         `json:"inst_id" bson:"inst_id"`
-	InstKey      string                        `json:"bk_inst_key" bson:"bk_inst_key"`
+	InstKey      string                        `json:"inst_key" bson:"inst_key"`
 	LastTime     Time                          `json:"last_time" bson:"last_time"`
 	Attributes   []NetcollectReportAttribute   `json:"attributes" bson:"attributes"`
 	Associations []NetcollectReportAssociation `json:"associations" bson:"associations"`

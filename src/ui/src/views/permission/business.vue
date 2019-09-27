@@ -67,7 +67,7 @@
         },
         computed: {
             isMaintainers () {
-                return this.selectedBusinessRole === 'bk_biz_maintainer'
+                return this.selectedBusinessRole === 'biz_maintainer'
             }
         },
         watch: {

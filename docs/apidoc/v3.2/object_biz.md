@@ -11,10 +11,10 @@
 ``` json
 	{
 		"biz_name": "cc_app_test",
-		"bk_biz_maintainer": "admin",
-		"bk_biz_productor": "admin",
-		"bk_biz_developer": "admin",
-		"bk_biz_tester": "admin",
+		"biz_maintainer": "admin",
+		"biz_productor": "admin",
+		"biz_developer": "admin",
+		"biz_tester": "admin",
     }
 ```
 
@@ -26,9 +26,9 @@
 |---|---|---|---|---|---|
 |org_id|string|是|无|开发商账号|supplier account code|
 |biz_name|string|是|无|业务名|the business name|
-|bk_biz_maintainer|string|否|无|运维人员|operation staff|
-|bk_biz_developer|string|否|无|开发人员|the developer|
-|bk_biz_tester|string|否|无|测试人员|the tester|
+|biz_maintainer|string|否|无|运维人员|operation staff|
+|biz_developer|string|否|无|开发人员|the developer|
+|biz_tester|string|否|无|测试人员|the tester|
 **注：此处的输入参数仅对必填以及系统内置的参数做了说明，其余需要填写的参数取决于用户自己定义的属性字段。**
 
 ### 删除业务
@@ -135,11 +135,11 @@
 
 ``` json
 {
-    "bk_biz_developer": "",
-    "bk_biz_maintainer": "admin,jobdevelop,cmdbdevelop",
+    "biz_developer": "",
+    "biz_maintainer": "admin,jobdevelop,cmdbdevelop",
     "biz_name": "example_biz",
-    "bk_biz_productor": "admin",
-    "bk_biz_tester": "",
+    "biz_productor": "admin",
+    "biz_tester": "",
 }
 ```
 
@@ -152,10 +152,10 @@
 |biz_id|int|是|无|业务id|the business id|
 |org_id|string|是|无|开发商账号|supplier account code|
 |biz_name|string|否|无|业务名称|the business name|
-|bk_biz_developer|string|否|无|开发人员|the developer|
-|bk_biz_maintainer|string|否|无|运维人员|the maintainers|
-|bk_biz_productor|string|否|无|产品人员|the productor|
-|bk_biz_tester|string|否|无|测试人员|the tester|
+|biz_developer|string|否|无|开发人员|the developer|
+|biz_maintainer|string|否|无|运维人员|the maintainers|
+|biz_productor|string|否|无|产品人员|the productor|
+|biz_tester|string|否|无|测试人员|the tester|
 
 **注：此处的输入参数仅对必填以及系统内置的参数做了说明，其余需要填写的参数取决于用户自己定义的属性字段。**
 

@@ -13,9 +13,9 @@
     "switch_property_group_default": "基础信息",
     "_router_property_group_default": "基础信息",
     "_load_balance_property_group_default": "基础信息",
-    "bk_weblogic_property_group_default": "基础信息",
-    "bk_apache_property_group_default": "基础信息",
-    "bk_tomcat_property_group_default": "基础信息",
+    "weblogic_service_property_group_default": "基础信息",
+    "apache_service_property_group_default": "基础信息",
+    "tomcat_service_property_group_default": "基础信息",
     "_firewall_property_group_default": "基础信息",
 	
 	"biz_property_group_bizdefault": "业务基础信息",
@@ -27,9 +27,9 @@
     "switch_property_group_bizdefault": "业务基础信息",
     "_router_property_group_bizdefault": "业务基础信息",
     "_load_balance_property_group_bizdefault": "业务基础信息",
-    "bk_weblogic_property_group_bizdefault": "业务基础信息",
-    "bk_apache_property_group_bizdefault": "业务基础信息",
-    "bk_tomcat_property_group_bizdefault": "业务基础信息",
+    "weblogic_service_property_group_bizdefault": "业务基础信息",
+    "apache_service_property_group_bizdefault": "业务基础信息",
+    "tomcat_service_property_group_bizdefault": "业务基础信息",
     "_firewall_property_group_bizdefault": "业务基础信息",
 	"": ""
 }

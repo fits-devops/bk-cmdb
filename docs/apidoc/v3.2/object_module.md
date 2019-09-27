@@ -25,9 +25,9 @@
 |bk_parent_id|int|是|无|父实例节点的ID，当前实例节点的上一级实例节点，在拓扑结构中对于Module一般指的是Set的set_id|the parent inst id|
 |module_name|string|是|无|模块名|the module name|
 |org_id|string|否|无|开发商账号|supplier account code|
-|bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
+|module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
-|bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
+|bak_operator|string|否|无|备份维护人|the backup maintainer|
 
 
 - output:
@@ -126,9 +126,9 @@ data 字段说明
 |module_id|string|是|无|模块标识|the module indentifier|
 |module_name|string|否|无|模块名|the module name|
 |org_id|string|否|无|开发商账号|supplier account code|
-|bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
+|module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
-|bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
+|bak_operator|string|否|无|备份维护人|the backup maintainer|
 
 **注：以上字段仅为内置或必填参数，用户自定义的模块字段也可以作为输入参数。**
 
@@ -210,9 +210,9 @@ fields参数说明：
 |module_id|string|否|无|模块标识|the module indentifier|
 |module_name|string|否|无|模块名|the module name|
 |org_id|string|否|无|开发商账号|supplier account code|
-|bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
+|module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
-|bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
+|bak_operator|string|否|无|备份维护人|the backup maintainer|
 
 condition 说明
 
@@ -224,9 +224,9 @@ condition 说明
 |module_id|string|否|无|模块标识|the module indentifier|
 |module_name|string|否|无|模块名|the module name|
 |org_id|string|否|无|开发商账号|supplier account code|
-|bk_module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
+|module_type|enum|否|普通|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|否|无|主要维护人|the main maintainer|
-|bk_bak_operator|string|否|无|备份维护人|the backup maintainer|
+|bak_operator|string|否|无|备份维护人|the backup maintainer|
 
 - output
 ``` json
@@ -277,8 +277,8 @@ info 字段说明
 |module_id|string|模块标识|the module indentifier|
 |module_name|string|模块名|the module name|
 |org_id|string|开发商账号|supplier account code|
-|bk_module_type|enum|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
+|module_type|enum|模块类型：1/2 (1:普通, 2:数据库)|the module type: 1/2 (1:common, 2:database)|
 |operator|string|主要维护人|the main maintainer|
-|bk_bak_operator|string|备份维护人|the backup maintainer|
+|bak_operator|string|备份维护人|the backup maintainer|
 
 **注:以上 字段仅为预置字段，不包含用户自定义字段。**

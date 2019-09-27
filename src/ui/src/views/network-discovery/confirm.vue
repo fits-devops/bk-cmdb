@@ -54,7 +54,7 @@
                     v-if="header.id === 'id'"
                     @click.stop>
                     <input type="checkbox"
-                        :value="item['bk_inst_key']"
+                        :value="item['inst_key']"
                         v-model="table.checked">
                 </label>
                 <template v-else-if="header.id === 'operation'">
@@ -230,7 +230,7 @@
                         id: 'obj_name',
                         name: this.$t('ModelManagement["类型"]')
                     }, {
-                        id: 'bk_inst_key',
+                        id: 'inst_key',
                         name: this.$t('NetworkDiscovery["唯一标识"]')
                     }, {
                         id: 'host_innerip',
@@ -290,7 +290,7 @@
                 })
             },
             detailPage () {
-                const index = this.tableList.findIndex(({ bk_inst_key: instKey }) => instKey === this.activeItem['bk_inst_key'])
+                const index = this.tableList.findIndex(({ inst_key: instKey }) => instKey === this.activeItem['inst_key'])
                 return {
                     prev: index === 0,
                     next: index === this.tableList.length - 1
@@ -331,7 +331,7 @@
                 'confirmNetcollectChange'
             ]),
             updateView (type) {
-                const index = this.tableList.findIndex(({ bk_inst_key: instKey }) => instKey === this.activeItem['bk_inst_key'])
+                const index = this.tableList.findIndex(({ inst_key: instKey }) => instKey === this.activeItem['inst_key'])
                 if (type === 'prev') {
                     this.activeItem = this.tableList[index - 1]
                 } else {
@@ -345,7 +345,7 @@
             },
             toggleIgnore (ignore) {
                 this.table.checked.map(instKey => {
-                    const item = this.table.list.find(({ bk_inst_key: bkInstKey }) => bkInstKey === instKey)
+                    const item = this.table.list.find(({ inst_key: bkInstKey }) => bkInstKey === instKey)
                     if (item) {
                         item.ignore = ignore
                     }
@@ -384,7 +384,7 @@
                         const detail = {
                             cloud_id: item['cloud_id'],
                             obj_id: item['obj_id'],
-                            bk_inst_key: item['bk_inst_key'],
+                            inst_key: item['inst_key'],
                             action: item['action'],
                             configuration: item['configuration'],
                             host_innerip: item['host_innerip'],
@@ -458,7 +458,7 @@
                 }
             },
             handleCheckAll () {
-                this.table.checked = this.table.list.map(item => item['bk_inst_key'])
+                this.table.checked = this.table.list.map(item => item['inst_key'])
             }
         }
     }

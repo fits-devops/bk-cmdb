@@ -28,7 +28,7 @@ func TestValidSysConfigPrivi(t *testing.T) {
 func TestValidAppConfigPrivi(t *testing.T) {
 	method := "post"
 	appID := "2"
-	userPriviAppStr := "{\"2\":[\"bk_biz_productor\",\"bk_biz_maintainer\"]}"
+	userPriviAppStr := "{\"2\":[\"biz_productor\",\"biz_maintainer\"]}"
 	rolePrivilege := "{\"2\":[\"resource\",\"hostupdate\"]}"
 	pathStr := "/api/v3/host/search"
 	result := validAppConfigPrivi(method, appID, userPriviAppStr, rolePrivilege, pathStr)

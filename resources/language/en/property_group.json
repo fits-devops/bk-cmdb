@@ -13,9 +13,9 @@
     "switch_property_group_default": "default",
     "_router_property_group_default": "default",
     "_load_balance_property_group_default": "default",
-    "bk_weblogic_property_group_default": "default",
-    "bk_apache_property_group_default": "default",
-    "bk_tomcat_property_group_default": "default",
+    "weblogic_service_property_group_default": "default",
+    "apache_service_property_group_default": "default",
+    "tomcat_service_property_group_default": "default",
     "_firewall_property_group_default": "default",
 	
 	"biz_property_group_bizdefault": "bizdefault",
@@ -27,9 +27,9 @@
     "switch_property_group_bizdefault": "bizdefault",
     "_router_property_group_bizdefault": "bizdefault",
     "_load_balance_property_group_bizdefault": "bizdefault",
-    "bk_weblogic_property_group_bizdefault": "bizdefault",
-    "bk_apache_property_group_bizdefault": "bizdefault",
-    "bk_tomcat_property_group_bizdefault": "bizdefault",
+    "weblogic_service_property_group_bizdefault": "bizdefault",
+    "apache_service_property_group_bizdefault": "bizdefault",
+    "tomcat_service_property_group_bizdefault": "bizdefault",
     "_firewall_property_group_bizdefault": "bizdefault",
     "": ""
 }

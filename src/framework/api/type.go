@@ -28,9 +28,9 @@ const (
 	fieldSupplierAccount = "org_id"
 	fieldSupplierID      = "supplier_id"
 	fieldBusinessID      = "biz_id"
-	fieldCapacity        = "bk_capacity"
+	fieldCapacity        = "capacity"
 	fieldServiceStatus   = "service_status"
-	fieldSetDesc         = "bk_set_desc"
+	fieldSetDesc         = "set_desc"
 	fieldSetEnv          = "set_env"
 	fieldObjID           = "obj_id"
 	fieldDescription     = "description"
@@ -40,19 +40,19 @@ const (
 const (
 	fieldModuleID    = "module_id"
 	fieldModuleName  = "module_name"
-	fieldBakOperator = "bk_bak_operator"
-	fieldModuleTYpe  = "bk_module_type"
+	fieldBakOperator = "bak_operator"
+	fieldModuleTYpe  = "module_type"
 	fieldOperator    = "operator"
 )
 
 // business fields
 const (
-	fieldBizDeveloper  = "bk_biz_developer"
+	fieldBizDeveloper  = "biz_developer"
 	fieldBizID         = "biz_id"
-	fieldBizMaintainer = "bk_biz_maintainer"
+	fieldBizMaintainer = "biz_maintainer"
 	fieldBizName       = "biz_name"
-	fieldBizProductor  = "bk_biz_productor"
-	fieldBizTester     = "bk_biz_tester"
+	fieldBizProductor  = "biz_productor"
+	fieldBizTester     = "biz_tester"
 	fieldLifeCycle     = "life_cycle"
 	fieldBizOperator   = "operator"
 )

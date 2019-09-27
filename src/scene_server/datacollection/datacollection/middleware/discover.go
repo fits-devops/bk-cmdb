@@ -73,7 +73,7 @@ var MockMessage = `{
     "meta": {
         "model": {
             "classification_id": "middelware",
-            "obj_id": "bk_apache",
+            "obj_id": "apache_service",
             "obj_name": "apache",
             "org_id": "0"
         },
@@ -82,7 +82,7 @@ var MockMessage = `{
                 "property_name": "实例名",
                 "property_type":"longchar"
             },
-            "bk_ip":{
+            "ip":{
                 "property_name":"IP",
                 "property_type": "longchar"
             }
@@ -90,6 +90,6 @@ var MockMessage = `{
     },
     "data": {
         "inst_name": "apache",
-        "bk_ip": "192.168.0.1"
+        "ip": "192.168.0.1"
     }
 }`

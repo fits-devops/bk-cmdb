@@ -1268,10 +1268,10 @@ func getFieldsMap(objType string) map[string]string {
 		"life_cycle":          "LifeCycle",
 		"language":            "Language",
 		"time_zone":           "TimeZone",
-		"bk_biz_developer":    "Developer",
-		"bk_biz_tester":       "Tester",
-		"bk_biz_maintainer":   "Maintainers",
-		"bk_biz_productor":    "ProductPm",
+		"biz_developer":       "Developer",
+		"biz_tester":          "Tester",
+		"biz_maintainer":      "Maintainers",
+		"biz_productor":       "ProductPm",
 		common.BKOwnerIDField: "Owner",
 		"creator":             "Creator",
 
@@ -1280,11 +1280,11 @@ func getFieldsMap(objType string) map[string]string {
 		"set_env":             "SetEnv",
 		"service_status":      "ServiceStatus",
 		"description":         "Description",
-		"bk_capacity":         "Capacity",
+		"capacity":            "Capacity",
 
 		common.BKModuleIDField:   "ModuleID",
 		common.BKModuleNameField: "ModuleName",
-		"bk_module_type":         "ModuleType",
+		"module_type":            "ModuleType",
 
 		common.BKHostIDField:      "HostID",
 		common.BKHostNameField:    "HostName",
@@ -1299,7 +1299,7 @@ func getFieldsMap(objType string) map[string]string {
 		common.BKHostOuterIPField: "OuterIP",
 
 		"operator":             "BakOperator",
-		"bk_bak_operator":      "Operator",
+		"bak_operator":         "Operator",
 		common.BKDefaultField:  "Default",
 		common.CreateTimeField: "LastTime",
 		common.LastTimeField:   "CreateTime",

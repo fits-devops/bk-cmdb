@@ -16,7 +16,7 @@ import (
 	"regexp"
 )
 
-const BK_CC_MAINTAINERS string = "bk_biz_maintainer"
+const BK_CC_MAINTAINERS string = "biz_maintainer"
 
 const (
 	BK_CC_EVENT    string = "event"

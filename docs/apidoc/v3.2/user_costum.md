@@ -10,8 +10,8 @@
 {
     "host_query_column":"["host_innerip", "host_name"]",
     "host_display_column":"["host_innerip", "host_name"]",
-    "biz_query_column":"["biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
-    "biz_display_column":"{"biz_name", "bk_biz_productor", "bk_biz_maintainer"}",
+    "biz_query_column":"["biz_name", "biz_productor", "biz_maintainer"}",
+    "biz_display_column":"{"biz_name", "biz_productor", "biz_maintainer"}",
     "biz_id":123
 }
 ```
@@ -67,8 +67,8 @@
         "biz_id":123,
         "host_query_column":"{"host_innerip", "host_name"}",
         "host_display_column":"{"host_innerip", "host_name"}",
-        "biz_query_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
-        "biz_display_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "biz_query_column":"{"biz_name", "bk_bus_productor", "biz_maintainer"}",
+        "biz_display_column":"{"biz_name", "bk_bus_productor", "biz_maintainer"}",
         "id":"b81ervtmjrcduf67mm9g",
         "user":"test default"
     }
@@ -116,8 +116,8 @@ data字段说明：
     "data":{
         "host_query_column":"{"host_innerip", "host_name"}",
         "host_display_column":"{"host_innerip", "host_name"}",
-        "biz_query_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
-        "biz_display_column":"{"biz_name", "bk_bus_productor", "bk_biz_maintainer"}",
+        "biz_query_column":"{"biz_name", "bk_bus_productor", "biz_maintainer"}",
+        "biz_display_column":"{"biz_name", "bk_bus_productor", "biz_maintainer"}",
         "id":"b81ervtmjrcduf67mm9g",
         "user":"test default",
         "is_default":1,

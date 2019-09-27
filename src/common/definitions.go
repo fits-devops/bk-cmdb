@@ -115,11 +115,11 @@ const (
 	// BKInnerObjIDFirewall the inner object
 	BKInnerObjIDFirewall = "_firewall"
 	// BKInnerObjIDWeblogic the inner object
-	BKInnerObjIDWeblogic = "bk_weblogic"
+	BKInnerObjIDWeblogic = "weblogic_service"
 	// BKInnerObjIDTomcat the inner object
-	BKInnerObjIDTomcat = "bk_tomcat"
+	BKInnerObjIDTomcat = "tomcat_service"
 	// BKInnerObjIDApache the inner object
-	BKInnerObjIDApache = "bk_apache"
+	BKInnerObjIDApache = "apache_service"
 
 	// BKInnerObjIDIDC the inner object
 	BKInnerObjIDIdc = "_idc"
@@ -439,10 +439,10 @@ const (
 	BKSetStatusField = "service_status"
 
 	// BKSetDescField the set desc field
-	BKSetDescField = "bk_set_desc"
+	BKSetDescField = "set_desc"
 
 	// BKSetCapacityField the set capacity field
-	BKSetCapacityField = "bk_capacity"
+	BKSetCapacityField = "capacity"
 
 	// BKPort the port
 	BKPort = "port"
@@ -496,13 +496,13 @@ const (
 	BKProcField = "bk_process"
 
 	// BKMaintainersField the maintainers field
-	BKMaintainersField = "bk_biz_maintainer"
+	BKMaintainersField = "biz_maintainer"
 
 	// BKProductPMField the product pm field
-	BKProductPMField = "bk_biz_productor"
+	BKProductPMField = "biz_productor"
 
 	// BKTesterField the tester field
-	BKTesterField = "bk_biz_tester"
+	BKTesterField = "biz_tester"
 
 	// BKOperatorField the operator field
 	BKOperatorField = "operator" // the operator of app of module, is means a job position
@@ -511,13 +511,13 @@ const (
 	BKLifeCycleField = "life_cycle"
 
 	// BKDeveloperField the developer field
-	BKDeveloperField = "bk_biz_developer"
+	BKDeveloperField = "biz_developer"
 
 	// BKLanguageField the language field
 	BKLanguageField = "language"
 
 	// BKBakOperatorField the bak operator field
-	BKBakOperatorField = "bk_bak_operator"
+	BKBakOperatorField = "bak_operator"
 
 	// BKTimeZoneField the time zone field
 	BKTimeZoneField = "time_zone"
@@ -526,7 +526,7 @@ const (
 	BKIsRequiredField = "isrequired"
 
 	// BKModuleTypeField the module type field
-	BKModuleTypeField = "bk_module_type"
+	BKModuleTypeField = "module_type"
 
 	// BKOrgIPField the org ip field
 	BKOrgIPField = "bk_org_ip"
@@ -555,7 +555,7 @@ const (
 	BKProcInstNum      = "proc_num"
 
 	// BKInstKeyField the inst key field for metric discover
-	BKInstKeyField = "bk_inst_key"
+	BKInstKeyField = "inst_key"
 
 	// for net collect device
 	BKDeviceIDField    = "device_id"
@@ -632,7 +632,7 @@ const DefaultAppName string = "资源池"
 
 const DefaultCloudName string = "default area"
 
-const DefaultInstName string = "实例名"
+const DefaultInstName string = "实例名称"
 
 // BKAppName the default app name
 const BKAppName string = "蓝鲸"

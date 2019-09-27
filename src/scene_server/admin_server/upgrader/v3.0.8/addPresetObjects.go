@@ -76,9 +76,9 @@ func addObjAttDescData(ctx context.Context, db dal.RDB, conf *upgrader.Config) e
 				"_router",
 				"_load_balance",
 				"_firewall",
-				"bk_weblogic",
-				"bk_tomcat",
-				"bk_apache",
+				"weblogic_service",
+				"tomcat_service",
+				"apache_service",
 			},
 		},
 		common.BKPropertyIDField: "bk_name",
@@ -267,11 +267,11 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//_firewall
 		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_weblogic
+		//weblogic_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDWeblogic, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_tomcat
+		//tomcat_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDTomcat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_apache
+		//apache_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDApache, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//_idc
 		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},

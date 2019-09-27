@@ -124,15 +124,15 @@ page 参数说明：
             {
                 "biz":[
                     {
-                        "bk_biz_developer":"",
+                        "biz_developer":"",
                         "biz_id":2,
-                        "bk_biz_maintainer":"admin",
+                        "biz_maintainer":"admin",
                         "biz_name":"蓝鲸"
                     }
                 ],
                 "host":{
                     "asset_id":"DKUXHBUH189",
-                    "bk_bak_operator":"admin",
+                    "bak_operator":"admin",
                     "cloud_id":[
                         {
                             "id":"0",
@@ -160,11 +160,11 @@ page 参数说明：
                 "module":[
                     {
                         "TopModuleName":"蓝鲸##公共组件##consul",
-                        "bk_bak_operator":"",
+                        "bak_operator":"",
                         "biz_id":2,
                         "module_id":35,
                         "module_name":"consul",
-                        "bk_module_type":"1",
+                        "module_type":"1",
                         "bk_parent_id":8,
                         "set_id":8,
                         "org_id":"0",
@@ -178,10 +178,10 @@ page 参数说明：
                     {
                         "TopSetName":"蓝鲸##公共组件",
                         "biz_id":2,
-                        "bk_capacity":null,
+                        "capacity":null,
                         "bk_parent_id":3,
                         "service_status":"1",
-                        "bk_set_desc":"111",
+                        "set_desc":"111",
                         "set_env":"3",
                         "set_id":8,
                         "set_name":"公共组件",
