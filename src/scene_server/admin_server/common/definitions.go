@@ -29,7 +29,7 @@ const (
 // host group info
 const (
 	HostAutoFields     = "auto"
-	HostAutoFieldsName = "自动发现信息（需要安装agent）"
+	HostAutoFieldsName = "自动发现信息"
 )
 
 // process group info

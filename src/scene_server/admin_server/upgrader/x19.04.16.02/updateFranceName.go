@@ -15,7 +15,7 @@ import (
 func updateFranceName(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	cond := condition.CreateCondition()
 	cond.Field(common.BKObjIDField).Eq(common.BKInnerObjIDHost)
-	cond.Field(common.BKPropertyIDField).Eq("bk_state_name")
+	cond.Field(common.BKPropertyIDField).Eq("state_name")
 	state := metadata.Attribute{}
 	err := db.Table(common.BKTableNameObjAttDes).Find(cond.ToMapStr()).One(ctx, &state)
 	if err != nil {

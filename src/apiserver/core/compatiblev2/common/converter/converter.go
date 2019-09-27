@@ -709,14 +709,14 @@ func convHostHardInfo(hostID int64, innerIP string, host mapstr.MapStr) (hostHar
 		hostHardInfo.Set("PlatformOS", osVersion)
 	}
 	network := mapstr.New()
-	innerMac, ok := host.Get("bk_mac")
+	innerMac, ok := host.Get("mac")
 	if ok {
 		network.Set(innerIP, innerMac)
 	}
 	outerIP, err := host.String(common.BKHostOuterIPField)
 	if nil == err {
 		if 0 < len(outerIP) {
-			outerMac, err := host.String("bk_outer_mac")
+			outerMac, err := host.String("outer_mac")
 			if nil == err {
 				network.Set(outerIP, outerMac)
 			}

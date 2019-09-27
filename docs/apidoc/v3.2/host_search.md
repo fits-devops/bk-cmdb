@@ -143,7 +143,7 @@ page 参数说明：
                             "inst_name":"default area"
                         }
                     ],
-                    "bk_comment":"",
+                    "comment":"",
                     "cpu":8,
                     "cpu_mhz":2609,
                     "cpu_module":"E5-2620",
@@ -152,10 +152,10 @@ page 参数说明：
                     "host_innerip":"192.168.1.1",
                     "host_name":"nginx-1",
                     "host_outerip":"",
-                    "bk_isp_name":null,
-                    "bk_mac":"",
+                    "isp_name":null,
+                    "mac":"",
                     "mem":32000,
-                    "bk_os_bit":""
+                    "os_bit":""
                 },
                 "module":[
                     {

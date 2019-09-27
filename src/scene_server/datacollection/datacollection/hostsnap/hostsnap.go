@@ -175,11 +175,11 @@ func parseSetter(val *gjson.Result, innerIP, outerIP string) map[string]interfac
 		"mem":                               mem / 1024 / 1024,
 		"os_type":                           ostype,
 		"os_name":                           osname,
-		"bk_os_version":                     version,
+		"os_version":                        version,
 		"host_name":                         hostname,
-		"bk_outer_mac":                      OuterMAC,
-		"bk_mac":                            InnerMAC,
-		"bk_os_bit":                         osbit,
+		"outer_mac":                         OuterMAC,
+		"mac":                               InnerMAC,
+		"os_bit":                            osbit,
 		common.HostFieldDockerClientVersion: dockerClientVersion,
 		common.HostFieldDockerServerVersion: dockerServerVersion,
 	}
@@ -206,16 +206,16 @@ func parseSetter(val *gjson.Result, innerIP, outerIP string) map[string]interfac
 		blog.Infof("os_name not found in message for %s", innerIP)
 	}
 	if version == "" {
-		blog.Infof("bk_os_version not found in message for %s", innerIP)
+		blog.Infof("os_version not found in message for %s", innerIP)
 	}
 	if hostname == "" {
 		blog.Infof("host_name not found in message for %s", innerIP)
 	}
 	if outerIP != "" && OuterMAC == "" {
-		blog.Infof("bk_outer_mac not found in message for %s", innerIP)
+		blog.Infof("outer_mac not found in message for %s", innerIP)
 	}
 	if InnerMAC == "" {
-		blog.Infof("bk_mac not found in message for %s", innerIP)
+		blog.Infof("mac not found in message for %s", innerIP)
 	}
 
 	return setter

@@ -388,7 +388,7 @@ GET /api/{version}/userapi/data/{biz_id}/{id}/{start}/{limit}
                 },
                 "host":{
                     "bk_host_assetid":"",
-                    "bk_comment":"准备下架设备",
+                    "comment":"准备下架设备",
                     "create_time":"2018-01-04T14:41:17.376+08:00",
                     "host_id":187,
                     "host_name":"nginx.27",
