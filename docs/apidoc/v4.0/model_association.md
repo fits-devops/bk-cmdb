@@ -12,7 +12,7 @@
 {
     "condition": {
         "asst_id": "belong",
-        "obj_id": "_switch",
+        "obj_id": "switch",
         "asst_obj_id": "bk_host"
     },
     "metadata":{
@@ -39,11 +39,11 @@
     "data": [
         {
             "id": 1,
-            "obj_asst_id": "_switch_belong_bk_host",
+            "obj_asst_id": "switch_belong_bk_host",
             "obj_asst_name": "",
             "asst_id": "belong",
             "asst_name": "属于",
-            "obj_id": "_switch",
+            "obj_id": "switch",
             "obj_name": "交换机",
             "asst_obj_id": "bk_host",
             "bk_asst_obj_name": "主机",
@@ -92,10 +92,10 @@
 
 ```
 {
-    "obj_asst_id": "_switch_belong_bk_host",
+    "obj_asst_id": "switch_belong_bk_host",
     "obj_asst_name": "",
     "asst_id": "belong",
-    "obj_id": "_switch",
+    "obj_id": "switch",
     "asst_obj_id": "bk_host",
     "mapping": "1:n",
     "on_delete": "none",

@@ -12,7 +12,7 @@
 ```
 {
     "condition": {
-        "obj_asst_id": "_switch_belong_bk_host",
+        "obj_asst_id": "switch_belong_bk_host",
         "asst_id": "",
         "bk_object_id": "",
         "asst_obj_id": ""
@@ -81,7 +81,7 @@
 * 输入体
 ```
 {
-    "obj_asst_id": "_switch_belong_bk_host",
+    "obj_asst_id": "switch_belong_bk_host",
     "inst_id": 1,
     "asst_inst_id": 2,
     "metadata":{

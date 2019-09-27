@@ -27,11 +27,11 @@ import (
 func TestCreateOneInstance(t *testing.T) {
 
 	instMgr := newInstances(t)
-	objID := "_switch"
+	objID := "switch"
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 
-	// create a new _switch instance without asset_id
+	// create a new switch instance without asset_id
 	dataResult, err := instMgr.CreateModelInstance(defaultCtx, objID, inputParams)
 	require.NotNil(t, err)
 	require.NotNil(t, dataResult)
@@ -52,7 +52,7 @@ func TestCreateOneInstance(t *testing.T) {
 func TestCreateManyInstance(t *testing.T) {
 
 	instMgr := newInstances(t)
-	objID := "_switch"
+	objID := "switch"
 	inputParams := metadata.CreateManyModelInstance{}
 	inputParams.Datas = append(inputParams.Datas, mapstr.MapStr{
 		common.BKInstNameField: xid.New().String(),
@@ -74,7 +74,7 @@ func TestCreateManyInstance(t *testing.T) {
 		common.BKAssetIDField:  xid.New().String(),
 	})
 
-	// create two new _switch instance without asset_id
+	// create two new switch instance without asset_id
 	dataResult, err := instMgr.CreateManyModelInstance(defaultCtx, objID, inputParams)
 
 	require.Nil(t, err)
@@ -86,9 +86,9 @@ func TestCreateManyInstance(t *testing.T) {
 func TestUpdateOneInstance(t *testing.T) {
 
 	instMgr := newInstances(t)
-	objID := "_switch"
+	objID := "switch"
 
-	//create one _switch instance data
+	//create one switch instance data
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 	inputParams.Data.Set(common.BKAssetIDField, xid.New().String())
@@ -98,7 +98,7 @@ func TestUpdateOneInstance(t *testing.T) {
 	require.NotNil(t, dataResult)
 	require.Equal(t, uint64(0), dataResult.Created.ID)
 
-	//update one _switch instance by condition
+	//update one switch instance by condition
 	updateParams := metadata.UpdateOption{}
 	updateParams.Condition = mapstr.MapStr{"sn": "cmdb_sn"}
 	updateParams.Data = mapstr.MapStr{"operator": "test"}
@@ -112,9 +112,9 @@ func TestUpdateOneInstance(t *testing.T) {
 
 func TestSearchAndDeleteInstance(t *testing.T) {
 	instMgr := newInstances(t)
-	objID := "_switch"
+	objID := "switch"
 
-	//create one _switch instance data
+	//create one switch instance data
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, "test_sw1")
 	inputParams.Data.Set(common.BKAssetIDField, "test_sw_001")
@@ -144,9 +144,9 @@ func TestSearchAndDeleteInstance(t *testing.T) {
 
 func TestCascadeDeleteInstance(t *testing.T) {
 	instMgr := newInstances(t)
-	objID := "_switch"
+	objID := "switch"
 
-	//create one _switch instance data
+	//create one switch instance data
 	inputParams := metadata.CreateModelInstance{}
 	inputParams.Data.Set(common.BKInstNameField, xid.New().String())
 	inputParams.Data.Set(common.BKAssetIDField, xid.New().String())

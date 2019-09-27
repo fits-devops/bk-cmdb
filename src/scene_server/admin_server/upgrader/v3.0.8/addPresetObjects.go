@@ -72,10 +72,10 @@ func addObjAttDescData(ctx context.Context, db dal.RDB, conf *upgrader.Config) e
 	}
 	selector := map[string]interface{}{
 		common.BKObjIDField: map[string]interface{}{
-			common.BKDBIN: []string{"_switch",
-				"_router",
-				"_load_balance",
-				"_firewall",
+			common.BKDBIN: []string{"switch",
+				"router",
+				"load_balance",
+				"firewall",
 				"weblogic_service",
 				"tomcat_service",
 				"apache_service",
@@ -130,22 +130,24 @@ func addPropertyGroupData(ctx context.Context, db dal.RDB, conf *upgrader.Config
 func getObjectDesData(ownerID string) []*metadata.Object {
 
 	dataRows := []*metadata.Object{
+		//bk_iaas
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDSwitch, ObjectName: "交换机", IsPre: true, ObjIcon: "icon-cc-switch2", Position: `{"bk_iaas":{"x":-200,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", IsPre: true, ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", IsPre: true, ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":-500,"y":-50}}`},
+
+		//bk_paas
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_paas":{"x":-600,"y":-500}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDSwitch, ObjectName: "交换机", ObjIcon: "icon-cc-switch2", Position: `{"bk_iaas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":-500,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
-
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
-
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":-500,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":-350,"y":-50}}`},
+		//bk_saas
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
@@ -259,13 +261,13 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		//plat
 		&metadata.Group{ObjectID: common.BKInnerObjIDPlat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 
-		//_switch
+		//switch
 		&metadata.Group{ObjectID: common.BKInnerObjIDSwitch, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//_router
+		//router
 		&metadata.Group{ObjectID: common.BKInnerObjIDRouter, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//bk_blance
 		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//_firewall
+		//firewall
 		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//weblogic_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDWeblogic, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
@@ -273,7 +275,7 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		&metadata.Group{ObjectID: common.BKInnerObjIDTomcat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//apache_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDApache, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//_idc
+		//idc
 		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 	}
 	for objID, kv := range objectIDs {

@@ -107,13 +107,13 @@ const (
 	BKInnerObjIDPlat = "plat"
 
 	// BKInnerObjIDSwitch the inner object
-	BKInnerObjIDSwitch = "_switch"
+	BKInnerObjIDSwitch = "switch"
 	// BKInnerObjIDRouter the inner object
-	BKInnerObjIDRouter = "_router"
+	BKInnerObjIDRouter = "router"
 	// BKInnerObjIDBlance the inner object
-	BKInnerObjIDBlance = "_load_balance"
+	BKInnerObjIDBlance = "load_balance"
 	// BKInnerObjIDFirewall the inner object
-	BKInnerObjIDFirewall = "_firewall"
+	BKInnerObjIDFirewall = "firewall"
 	// BKInnerObjIDWeblogic the inner object
 	BKInnerObjIDWeblogic = "weblogic_service"
 	// BKInnerObjIDTomcat the inner object
@@ -122,7 +122,7 @@ const (
 	BKInnerObjIDApache = "apache_service"
 
 	// BKInnerObjIDIDC the inner object
-	BKInnerObjIDIdc = "_idc"
+	BKInnerObjIDIdc = "idc"
 )
 
 // Revision
