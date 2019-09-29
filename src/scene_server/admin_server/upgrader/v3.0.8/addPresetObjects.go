@@ -132,6 +132,7 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 	dataRows := []*metadata.Object{
 		//bk_iaas
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdcRack, ObjectName: "机柜", IsPre: true, ObjIcon: "icon-cc-cabinet", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
