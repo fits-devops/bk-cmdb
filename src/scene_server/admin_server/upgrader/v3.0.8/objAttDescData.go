@@ -268,6 +268,18 @@ func IdcRow() []*Attribute {
 	return dataRows
 }
 
+// IDCRack proc structure
+func IDCRackRow() []*Attribute {
+	objID := common.BKInnerObjIDIdcRack
+	dataRows := []*Attribute{
+		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "status", PropertyName: "状态", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "使用中", Type: "text"}, {ID: "2", Name: "未使用", Type: "text"}}},
+		&Attribute{ObjectID: objID, PropertyID: "unum", PropertyName: "机柜U数", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeInt, Option: common.PatternInt},
+		&Attribute{ObjectID: objID, PropertyID: "comment", PropertyName: "备注", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+	}
+	return dataRows
+}
+
 // WeblogicRow proc structure
 func WeblogicRow() []*Attribute {
 	objID := common.BKInnerObjIDWeblogic

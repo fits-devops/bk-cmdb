@@ -204,6 +204,7 @@ func getObjAttDescData(ownerID string) []*Attribute {
 	dataRows = append(dataRows, ApacheRow()...)
 	dataRows = append(dataRows, TomcatRow()...)
 	dataRows = append(dataRows, IdcRow()...)
+	dataRows = append(dataRows, IDCRackRow()...)
 
 	t := new(time.Time)
 	*t = time.Now()

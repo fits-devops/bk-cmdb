@@ -123,6 +123,8 @@ const (
 
 	// BKInnerObjIDIDC the inner object
 	BKInnerObjIDIdc = "idc"
+	// BKInnerObjIDIDCRack the inner object
+	BKInnerObjIDIdcRack = "idcrack"
 )
 
 // Revision
