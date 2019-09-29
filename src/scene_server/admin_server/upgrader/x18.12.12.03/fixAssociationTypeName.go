@@ -13,13 +13,13 @@ import (
 func fixAssociationTypeName(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 
 	nameKV := map[string]string{
-		"run":         "运行",
-		"group":       "组成",
-		"default":     "默认关联",
-		"cover":       "覆盖",
-		"connect":     "上联",
-		"bk_mainline": "拓扑组成",
-		"belong":      "属于",
+		"run":      "运行",
+		"group":    "组成",
+		"default":  "默认关联",
+		"cover":    "覆盖",
+		"connect":  "上联",
+		"mainline": "拓扑组成",
+		"belong":   "属于",
 	}
 
 	for id, name := range nameKV {

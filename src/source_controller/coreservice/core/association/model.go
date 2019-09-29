@@ -31,7 +31,7 @@ func (m *associationModel) CreateModelAssociation(ctx core.ContextParams, inputP
 	return m.createModelAssociation(ctx, inputParam, enableMainlineAssociationType)
 }
 
-// CreateMainlineModelAssociation used for create association of type bk_mainline, as it can only create by special method,
+// CreateMainlineModelAssociation used for create association of type mainline, as it can only create by special method,
 // for example add a level to business modle
 func (m *associationModel) CreateMainlineModelAssociation(ctx core.ContextParams, inputParam metadata.CreateModelAssociation) (*metadata.CreateOneDataResult, error) {
 	enableMainlineAssociationType := true
@@ -40,8 +40,8 @@ func (m *associationModel) CreateMainlineModelAssociation(ctx core.ContextParams
 
 func (m *associationModel) createModelAssociation(ctx core.ContextParams, inputParam metadata.CreateModelAssociation, enableMainlineAssociationType bool) (*metadata.CreateOneDataResult, error) {
 	// enableMainlineAssociationType used for distinguish two creation mode
-	// when enableMainlineAssociationType enabled, only bk_mainline type could be create
-	// when enableMainlineAssociationType disabled, all type except bk_mainline could be create
+	// when enableMainlineAssociationType enabled, only mainline type could be create
+	// when enableMainlineAssociationType disabled, all type except mainline could be create
 
 	inputParam.Spec.OwnerID = ctx.SupplierAccount
 	if err := m.isValid(ctx, inputParam); nil != err {
@@ -72,13 +72,13 @@ func (m *associationModel) createModelAssociation(ctx core.ContextParams, inputP
 
 	asstKindID := inputParam.Spec.AsstKindID
 	if enableMainlineAssociationType == false {
-		// AsstKindID shouldn't be use bk_mainline
+		// AsstKindID shouldn't be use mainline
 		if asstKindID == common.AssociationKindMainline {
 			blog.Errorf("use inner association type: %v is forbidden", common.AssociationKindMainline)
 			return &metadata.CreateOneDataResult{}, ctx.Error.Errorf(common.CCErrorTopoAssociationKindMainlineUnavailable, asstKindID)
 		}
 	} else {
-		// AsstKindID could only be bk_mainline
+		// AsstKindID could only be mainline
 		if asstKindID != common.AssociationKindMainline {
 			blog.Errorf("use CreateMainlineObjectAssociation method but asst_id is: %s", asstKindID)
 			return &metadata.CreateOneDataResult{}, ctx.Error.Errorf(common.CCErrorTopoAssociationKindInconsistent, asstKindID)

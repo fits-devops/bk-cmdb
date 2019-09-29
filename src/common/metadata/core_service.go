@@ -137,7 +137,7 @@ type SearchTopoModelNodeResult struct {
 }
 
 // LeftestObjectIDList extrac leftest node's id of each level, arrange as a list
-// it's useful in model mainline topo case, as bk_mainline relationship degenerate to a list.
+// it's useful in model mainline topo case, as mainline relationship degenerate to a list.
 func (tn *TopoModelNode) LeftestObjectIDList() []string {
 	objectIDs := make([]string, 0)
 	node := tn

@@ -168,7 +168,7 @@
                         name: asstId
                     }
                 }).filter(relation => {
-                    return relation.id !== 'bk_mainline'
+                    return relation.id !== 'mainline'
                 })
                 this.relationInfo['asst_id'] = this.relationList[0].id
             },

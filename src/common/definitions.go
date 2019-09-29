@@ -992,7 +992,7 @@ const (
 
 // association
 const (
-	AssociationKindMainline = "bk_mainline"
+	AssociationKindMainline = "mainline"
 	AssociationTypeBelong   = "belong"
 	AssociationTypeGroup    = "group"
 	AssociationTypeRun      = "run"

@@ -161,7 +161,7 @@
                 'isInjectable'
             ]),
             usefulRelationList () {
-                return this.relationList.filter(relation => relation.id !== 'bk_mainline')
+                return this.relationList.filter(relation => relation.id !== 'mainline')
             },
             objAsstId () {
                 if (this.isEdit) {

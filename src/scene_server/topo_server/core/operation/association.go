@@ -209,7 +209,7 @@ func (a *association) SearchInstAssociation(params types.ContextParams, query *m
 	return rsp.Data.Info, nil
 }
 
-// CreateCommonAssociation create a common association, in topo model scene, which doesn't include bk_mainline association type
+// CreateCommonAssociation create a common association, in topo model scene, which doesn't include mainline association type
 func (a *association) CreateCommonAssociation(params types.ContextParams, data *metadata.Association) (*metadata.Association, error) {
 	if data.AsstKindID == common.AssociationKindMainline {
 		return nil, params.Err.Error(common.CCErrorTopoAssociationKindMainlineUnavailable)

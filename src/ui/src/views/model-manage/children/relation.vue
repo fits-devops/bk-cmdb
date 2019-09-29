@@ -153,7 +153,7 @@
                 'searchAssociationType'
             ]),
             isEditable (item) {
-                if (item.ispre || item['asst_id'] === 'bk_mainline' || this.isReadOnly) {
+                if (item.ispre || item['asst_id'] === 'mainline' || this.isReadOnly) {
                     return false
                 }
                 if (!this.isAdminView) {

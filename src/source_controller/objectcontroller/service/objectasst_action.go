@@ -30,11 +30,11 @@ import (
 	"github.com/emicklei/go-restful"
 )
 
-// CreateMainlineObjectAssociation used for create association of type bk_mainline, as it can only create by special method,
+// CreateMainlineObjectAssociation used for create association of type mainline, as it can only create by special method,
 // for example add a level to business model
 func (cli *Service) CreateMainlineObjectAssociation(req *restful.Request, resp *restful.Response) {
 	// bk_maineline is a inner association type that can only create in special case,
-	// so we separate bk_mainline association type creation with a independent method,
+	// so we separate mainline association type creation with a independent method,
 	enableMainlineAssociationType := true
 	cli.createObjectAssociation(req, resp, enableMainlineAssociationType)
 }
@@ -47,8 +47,8 @@ func (cli *Service) CreateObjectAssociation(req *restful.Request, resp *restful.
 
 func (cli *Service) createObjectAssociation(req *restful.Request, resp *restful.Response, enableMainlineAssociationType bool) {
 	// enableMainlineAssociationType used for distinguish two creation mode
-	// when enableMainlineAssociationType enabled, only bk_mainline type could be create
-	// when enableMainlineAssociationType disabled, all type except bk_mainline could be create
+	// when enableMainlineAssociationType enabled, only mainline type could be create
+	// when enableMainlineAssociationType disabled, all type except mainline could be create
 
 	// get the language
 	language := util.GetLanguage(req.Request.Header)
@@ -73,14 +73,14 @@ func (cli *Service) createObjectAssociation(req *restful.Request, resp *restful.
 	}
 
 	if enableMainlineAssociationType == false {
-		// AsstKindID shouldn't be use bk_mainline
+		// AsstKindID shouldn't be use mainline
 		if obj.AsstKindID == common.AssociationKindMainline {
 			blog.Errorf("use inner association type: %v is forbidden", common.AssociationKindMainline)
 			resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.Errorf(common.CCErrorTopoAssociationKindMainlineUnavailable, obj.AsstKindID)})
 			return
 		}
 	} else {
-		// AsstKindID could only be bk_mainline
+		// AsstKindID could only be mainline
 		if obj.AsstKindID != common.AssociationKindMainline {
 			blog.Errorf("use CreateMainlineObjectAssociation method but asst_id is: %s", obj.AsstKindID)
 			resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: defErr.Errorf(common.CCErrorTopoAssociationKindInconsistent, obj.AsstKindID)})

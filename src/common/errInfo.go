@@ -376,7 +376,7 @@ const (
 	CCErrTopoDeleteAssoKindFailed       = 1101078
 	CCErrTopoMulueIDNotfoundFailed      = 1101080
 	CCErrTopoBkAppNotAllowedDelete      = 1101081
-	// CCErrorTopoAssociationKindMainlineUnavailable can't use bk_mainline in this case
+	// CCErrorTopoAssociationKindMainlineUnavailable can't use mainline in this case
 	CCErrorTopoAssociationKindMainlineUnavailable = 1101082
 	// CCErrorTopoAssociationKindInconsistent means AssociationKind parameter Inconsistent with caller method
 	CCErrorTopoAssociationKindInconsistent = 1101083

@@ -137,7 +137,7 @@
                 'isEditMode'
             ]),
             localAssociationList () {
-                const filterFlag = ['bk_mainline']
+                const filterFlag = ['mainline']
                 return this.associationList.filter(association => {
                     return !filterFlag.includes(association['asst_id'])
                 })
