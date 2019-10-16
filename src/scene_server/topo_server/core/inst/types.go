@@ -13,6 +13,7 @@
 package inst
 
 import (
+	"configcenter/src/common/metadata"
 	"configcenter/src/scene_server/topo_server/core/model"
 	"configcenter/src/scene_server/topo_server/core/types"
 )
@@ -24,6 +25,7 @@ type Factory interface {
 
 // ObjectWithInsts the object with insts
 type ObjectWithInsts struct {
-	Object model.Object
-	Insts  []Inst
+	Object      model.Object
+	Insts       []Inst
+	Association metadata.Association
 }

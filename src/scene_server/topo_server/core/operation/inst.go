@@ -631,6 +631,8 @@ func (c *commonInst) FindInstChildTopo(params types.ContextParams, obj model.Obj
 				commonInst.ObjectName = object.ObjectName
 				commonInst.ObjIcon = object.ObjIcon
 				commonInst.ObjID = object.ObjectID
+				commonInst.AsstID = child.Association.AsstKindID
+				commonInst.ObjAsstID = child.Association.AssociationName
 				commonInst.Children = []metadata.InstNameAsst{}
 				tmpResults[object.ObjectID] = commonInst
 			}
@@ -657,6 +659,8 @@ func (c *commonInst) FindInstChildTopo(params types.ContextParams, obj model.Obj
 				instAsst.ObjIcon = object.ObjIcon
 				instAsst.ObjID = object.ObjectID
 				instAsst.AssoID = childInst.GetAssoID()
+				instAsst.ObjAsstID = child.Association.AsstKindID
+				instAsst.AsstID = child.Association.AssociationName
 
 				tmpResults[object.ObjectID].Children = append(tmpResults[object.ObjectID].Children, instAsst)
 			}
@@ -701,6 +705,8 @@ func (c *commonInst) FindInstParentTopo(params types.ContextParams, obj model.Ob
 				commonInst.ObjectName = object.ObjectName
 				commonInst.ObjIcon = object.ObjIcon
 				commonInst.ObjID = object.ObjectID
+				commonInst.AsstID = parent.Association.AsstKindID
+				commonInst.ObjAsstID = parent.Association.AssociationName
 				commonInst.Children = []metadata.InstNameAsst{}
 				tmpResults[object.ObjectID] = commonInst
 			}
@@ -725,6 +731,8 @@ func (c *commonInst) FindInstParentTopo(params types.ContextParams, obj model.Ob
 				instAsst.ObjIcon = object.ObjIcon
 				instAsst.ObjID = object.ObjectID
 				instAsst.AssoID = parentInst.GetAssoID()
+				instAsst.ObjAsstID = parent.Association.AssociationName
+				instAsst.AsstID = parent.Association.AsstKindID
 
 				tmpResults[object.ObjectID].Children = append(tmpResults[object.ObjectID].Children, instAsst)
 			}

@@ -176,7 +176,10 @@ func (cli *inst) GetParentObjectWithInsts() ([]*ObjectWithInsts, error) {
 
 	for _, objPair := range objPairs {
 
-		rstObj := &ObjectWithInsts{Object: objPair.Object}
+		rstObj := &ObjectWithInsts{
+			Object:      objPair.Object,
+			Association: objPair.Association,
+		}
 		cond := condition.CreateCondition()
 		cond.Field(common.BKAsstInstIDField).Eq(currInstID)
 		cond.Field(common.BKObjIDField).Eq(objPair.Object.Object().ObjectID)
@@ -254,7 +257,10 @@ func (cli *inst) GetChildObjectWithInsts() ([]*ObjectWithInsts, error) {
 
 	for _, objPair := range objPairs {
 
-		rstObj := &ObjectWithInsts{Object: objPair.Object}
+		rstObj := &ObjectWithInsts{
+			Object:      objPair.Object,
+			Association: objPair.Association,
+		}
 		cond := condition.CreateCondition()
 		cond.Field(common.BKInstIDField).Eq(currInstID)
 		cond.Field(common.BKObjIDField).Eq(cli.target.Object().ObjectID)

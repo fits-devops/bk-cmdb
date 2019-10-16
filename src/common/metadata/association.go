@@ -338,16 +338,16 @@ func (asst InstAsst) GetInstID(objID string) (instID int64, ok bool) {
 }
 
 type InstNameAsst struct {
-	ID         string `json:"id"`
-	ObjID      string `json:"obj_id"`
-	ObjIcon    string `json:"obj_icon"`
-	InstID     int64  `json:"inst_id"`
-	ObjectName string `json:"obj_name"`
-	InstName   string `json:"inst_name"`
-	AssoID     int64  `json:"asso_id"`
-	// AsstName   string                 `json:"asst_name"`
-	// AsstID   string                 `json:"asst_id"`
-	InstInfo map[string]interface{} `json:"inst_info,omitempty"`
+	ID         string                 `json:"id"`
+	ObjID      string                 `json:"obj_id"`
+	ObjIcon    string                 `json:"obj_icon"`
+	InstID     int64                  `json:"inst_id"`
+	ObjectName string                 `json:"obj_name"`
+	InstName   string                 `json:"inst_name"`
+	AssoID     int64                  `json:"asso_id"`
+	ObjAsstID  string                 `json:"obj_asst_id"`
+	AsstID     string                 `json:"asst_id"`
+	InstInfo   map[string]interface{} `json:"inst_info,omitempty"`
 }
 
 // Parse load the data from mapstr attribute into attribute instance
