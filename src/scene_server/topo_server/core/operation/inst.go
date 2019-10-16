@@ -659,8 +659,8 @@ func (c *commonInst) FindInstChildTopo(params types.ContextParams, obj model.Obj
 				instAsst.ObjIcon = object.ObjIcon
 				instAsst.ObjID = object.ObjectID
 				instAsst.AssoID = childInst.GetAssoID()
-				instAsst.ObjAsstID = child.Association.AsstKindID
-				instAsst.AsstID = child.Association.AssociationName
+				instAsst.ObjAsstID = child.Association.AssociationName
+				instAsst.AsstID = child.Association.AsstKindID
 
 				tmpResults[object.ObjectID].Children = append(tmpResults[object.ObjectID].Children, instAsst)
 			}
