@@ -134,7 +134,6 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdcRack, ObjectName: "机柜", IsPre: true, ObjIcon: "icon-cc-cabinet", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDSwitch, ObjectName: "交换机", IsPre: true, ObjIcon: "icon-cc-switch2", Position: `{"bk_iaas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", IsPre: true, ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
@@ -149,6 +148,7 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
