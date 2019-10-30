@@ -101,7 +101,7 @@ func HostRow() []*Attribute {
 	dataRows := []*Attribute{
 		//基本信息分组
 		&Attribute{ObjectID: objID, PropertyID: "hostname", PropertyName: "主机名称", IsRequired: true, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "asset_id", PropertyName: "资产编号", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "asset_id", PropertyName: "资产编号", IsRequired: false, IsOnly: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "sn", PropertyName: "设备SN", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "agentVersion", PropertyName: "agent版本", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "agentStatus", PropertyName: "agent状态", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "未安装", Type: "text"}, {ID: "2", Name: "异常", Type: "text"}, {ID: "3", Name: "正常", Type: "text"}}},
@@ -122,7 +122,7 @@ func HostRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "os_bit", PropertyName: "操作系统位数", IsRequired: false, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "32bit", Type: "text"}, {ID: "2", Name: "64bit", Type: "text"}}},
 		&Attribute{ObjectID: objID, PropertyID: "service_term", PropertyName: "质保年限", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeInt, Option: validator.MinMaxOption{Min: "1", Max: "10"}},
 		&Attribute{ObjectID: objID, PropertyID: "sla", PropertyName: "SLA级别", IsRequired: false, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "L1", Type: "text"}, {ID: "2", Name: "L2", Type: "text"}, {ID: "3", Name: "L3", Type: "text"}}},
-		&Attribute{ObjectID: objID, PropertyID: common.BKCloudIDField, PropertyName: "云区域", IsRequired: false, IsOnly: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleAsst, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: common.BKCloudIDField, PropertyName: "云区域", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleAsst, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "state_name", PropertyName: "所在国家", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: stateEnum},
 		&Attribute{ObjectID: objID, PropertyID: "province_name", PropertyName: "所在省份", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: provincesEnum},
 		&Attribute{ObjectID: objID, PropertyID: "isp_name", PropertyName: "所属运营商", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: ispNameEnum},

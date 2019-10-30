@@ -71,9 +71,10 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 		propertyIDToProperty[keyfunc(oldAttr.ObjectID, oldAttr.PropertyID)] = oldAttr
 	}
 
-	shouldCheck := []string{keyfunc(common.BKInnerObjIDHost, common.BKAssetIDField),
-		keyfunc(common.BKInnerObjIDHost, common.BKCloudIDField),
-		keyfunc(common.BKInnerObjIDHost, common.BKHostInnerIPField),
+	shouldCheck := []string{
+		keyfunc(common.BKInnerObjIDHost, common.BKAssetIDField),
+		//keyfunc(common.BKInnerObjIDHost, common.BKCloudIDField),
+		//keyfunc(common.BKInnerObjIDHost, common.BKHostInnerIPField),
 		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
 		keyfunc(common.BKInnerObjIDProc, common.BKProcNameField),
 		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
@@ -92,36 +93,36 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 	uniques := []metadata.ObjectUnique{
 		// host
 		// 产品调整，回撤
-		// {
-		// 	ObjID:     common.BKInnerObjIDHost,
-		// 	MustCheck: true,
-		// 	Keys: []metadata.UniqueKey{
-		// 		{
-		// 			Kind: metadata.UniqueKeyKindProperty,
-		// 			ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKAssetIDField)].ID),
-		// 		},
-		// 	},
-		// 	Ispre:    true,
-		// 	OwnerID:  conf.OwnerID,
-		// 	LastTime: metadata.Now(),
-		// },
 		{
 			ObjID:     common.BKInnerObjIDHost,
 			MustCheck: true,
 			Keys: []metadata.UniqueKey{
 				{
 					Kind: metadata.UniqueKeyKindProperty,
-					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKCloudIDField)].ID),
-				},
-				{
-					Kind: metadata.UniqueKeyKindProperty,
-					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKHostInnerIPField)].ID),
+					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKAssetIDField)].ID),
 				},
 			},
 			Ispre:    true,
 			OwnerID:  conf.OwnerID,
 			LastTime: metadata.Now(),
 		},
+		//{
+		//	ObjID:     common.BKInnerObjIDHost,
+		//	MustCheck: true,
+		//	Keys: []metadata.UniqueKey{
+		//		{
+		//			Kind: metadata.UniqueKeyKindProperty,
+		//			ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKCloudIDField)].ID),
+		//		},
+		//		{
+		//			Kind: metadata.UniqueKeyKindProperty,
+		//			ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDHost, common.BKHostInnerIPField)].ID),
+		//		},
+		//	},
+		//	Ispre:    true,
+		//	OwnerID:  conf.OwnerID,
+		//	LastTime: metadata.Now(),
+		//},
 		// process
 		{
 			ObjID:     common.BKInnerObjIDProc,
