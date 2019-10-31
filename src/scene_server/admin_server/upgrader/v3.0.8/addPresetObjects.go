@@ -153,7 +153,7 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 
 		//bk_organization (组织信息)
 		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-department", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
