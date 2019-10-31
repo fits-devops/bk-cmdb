@@ -132,6 +132,7 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 	dataRows := []*metadata.Object{
 		//bk_iaas（基础设施）
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDStorage, ObjectName: "存储", IsPre: true, ObjIcon: "icon-cc-storage", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdcRack, ObjectName: "机柜", IsPre: true, ObjIcon: "icon-cc-cabinet", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
@@ -213,6 +214,7 @@ func getObjAttDescData(ownerID string) []*Attribute {
 	dataRows = append(dataRows, IDCRackRow()...)
 	dataRows = append(dataRows, UserRow()...)
 	dataRows = append(dataRows, UserGroupRow()...)
+	dataRows = append(dataRows, StorageRow()...)
 
 	t := new(time.Time)
 	*t = time.Now()
@@ -291,7 +293,10 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 
 		//user
 		&metadata.Group{ObjectID: common.BKInnerObjIDUser, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//usergroup
 		&metadata.Group{ObjectID: common.BKInnerObjIDUserGroup, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//storage
+		&metadata.Group{ObjectID: common.BKInnerObjIDStorage, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 	}
 	for objID, kv := range objectIDs {
 		index := int64(1)

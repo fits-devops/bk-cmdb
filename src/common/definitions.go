@@ -91,6 +91,9 @@ const (
 	// BKInnerObjIDHost the inner object
 	BKInnerObjIDHost = "host"
 
+	// BKInnerObjIDStorage the inner object
+	BKInnerObjIDStorage = "storage"
+
 	// BKInnerObjIDObject the inner object
 	BKInnerObjIDObject = "object"
 

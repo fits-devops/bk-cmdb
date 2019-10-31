@@ -35,6 +35,15 @@ func addPresetAssociationType(ctx context.Context, db dal.RDB, conf *upgrader.Co
 
 	asstTypes := []metadata.AssociationKind{
 		{
+			AssociationKindID:       "default",
+			AssociationKindName:     "默认关联",
+			OwnerID:                 conf.OwnerID,
+			SourceToDestinationNote: "关联",
+			DestinationToSourceNote: "被关联",
+			Direction:               metadata.SourceToDestination,
+			IsPre:                   ptrue(),
+		},
+		{
 			AssociationKindID:       "contain",
 			AssociationKindName:     "包含关系",
 			OwnerID:                 conf.OwnerID,
@@ -58,15 +67,6 @@ func addPresetAssociationType(ctx context.Context, db dal.RDB, conf *upgrader.Co
 			OwnerID:                 conf.OwnerID,
 			SourceToDestinationNote: "上联",
 			DestinationToSourceNote: "下联",
-			Direction:               metadata.SourceToDestination,
-			IsPre:                   ptrue(),
-		},
-		{
-			AssociationKindID:       "default",
-			AssociationKindName:     "默认关联",
-			OwnerID:                 conf.OwnerID,
-			SourceToDestinationNote: "关联",
-			DestinationToSourceNote: "被关联",
 			Direction:               metadata.SourceToDestination,
 			IsPre:                   ptrue(),
 		},

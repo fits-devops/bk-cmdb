@@ -369,6 +369,16 @@ func UserGroupRow() []*Attribute {
 	return dataRows
 }
 
+// Storage proc structure
+func StorageRow() []*Attribute {
+	objID := common.BKInnerObjIDStorage
+	dataRows := []*Attribute{
+		&Attribute{ObjectID: objID, PropertyID: "name", PropertyName: "名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "model", PropertyName: "型号", IsRequired: true, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+	}
+	return dataRows
+}
+
 var stateEnum = []validator.EnumVal{
 	{ID: "CN", Name: "中国", Type: "text"},
 	{ID: "JP", Name: "日本", Type: "text"},

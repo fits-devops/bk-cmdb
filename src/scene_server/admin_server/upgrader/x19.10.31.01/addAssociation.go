@@ -10,20 +10,36 @@ import (
 
 func addAssociation(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	falseVar := false
-	Asst := metadata.Association{
-		OwnerID:         conf.OwnerID,
-		AsstKindID:      "contain",
-		ObjectID:        "user_group",
-		AsstObjID:       "user",
-		AssociationName: "user_group_contain_user",
-		Mapping:         metadata.OneToManyMapping,
-		OnDelete:        metadata.NoAction,
-		IsPre:           &falseVar,
+	Assts := []metadata.Association{
+		{
+			OwnerID:              conf.OwnerID,
+			AsstKindID:           "contain",
+			AssociationAliasName: "关联用户",
+			ObjectID:             "user_group",
+			AsstObjID:            "user",
+			AssociationName:      "user_group_contain_user",
+			Mapping:              metadata.OneToManyMapping,
+			OnDelete:             metadata.NoAction,
+			IsPre:                &falseVar,
+		},
+		{
+			OwnerID:              conf.OwnerID,
+			AsstKindID:           "default",
+			AssociationAliasName: "所属机柜",
+			ObjectID:             "storage",
+			AsstObjID:            "idcrack",
+			AssociationName:      "storage_default_idcrack",
+			Mapping:              metadata.ManyToManyMapping,
+			OnDelete:             metadata.NoAction,
+			IsPre:                &falseVar,
+		},
 	}
 
-	_, _, err := upgrader.Upsert(ctx, db, common.BKTableNameObjAsst, Asst, "id", []string{"obj_id", "asst_obj_id"}, []string{"id"})
-	if err != nil {
-		return err
+	for _, Asst := range Assts {
+		_, _, err := upgrader.Upsert(ctx, db, common.BKTableNameObjAsst, Asst, "id", []string{"obj_id", "asst_obj_id"}, []string{"id"})
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
