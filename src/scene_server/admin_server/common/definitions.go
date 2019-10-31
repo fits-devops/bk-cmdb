@@ -20,6 +20,11 @@ const (
 	GroupNone = "none"
 )
 
+const (
+	MoreInfo     = "more"
+	MoreInfoName = "更多信息"
+)
+
 // app group info
 const (
 	AppRole     = "role"

@@ -252,7 +252,7 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 
 		//host
 		&metadata.Group{ObjectID: common.BKInnerObjIDHost, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		&metadata.Group{ObjectID: common.BKInnerObjIDHost, GroupID: mCommon.HostAutoFields, GroupName: mCommon.HostAutoFieldsName, GroupIndex: 3, OwnerID: ownerID, IsDefault: true},
+		&metadata.Group{ObjectID: common.BKInnerObjIDHost, GroupID: mCommon.MoreInfo, GroupName: mCommon.MoreInfoName, GroupIndex: 3, OwnerID: ownerID, IsDefault: true},
 
 		//proc
 		&metadata.Group{ObjectID: common.BKInnerObjIDProc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
