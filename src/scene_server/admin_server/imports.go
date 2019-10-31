@@ -33,4 +33,5 @@ import (
 	_ "configcenter/src/scene_server/admin_server/upgrader/x19.04.16.03"
 	// 4.0.x
 	_ "configcenter/src/scene_server/admin_server/upgrader/x19.09.29.01"
+	_ "configcenter/src/scene_server/admin_server/upgrader/x19.10.31.01"
 )

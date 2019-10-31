@@ -163,8 +163,8 @@ type AssociationDirection string
 
 const (
 	NoneDirection       AssociationDirection = "none"
-	DestinationToSource AssociationDirection = "src_to_dest"
-	SourceToDestination AssociationDirection = "dest_to_src"
+	DestinationToSource AssociationDirection = "dest_to_src"
+	SourceToDestination AssociationDirection = "src_to_dest"
 	Bidirectional       AssociationDirection = "bidirectional"
 )
 

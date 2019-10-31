@@ -144,11 +144,16 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":-500,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":-350,"y":-50}}`},
+
 		//bk_saas（应用资源）
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+
+		//bk_organization (组织信息)
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
@@ -206,6 +211,8 @@ func getObjAttDescData(ownerID string) []*Attribute {
 	dataRows = append(dataRows, TomcatRow()...)
 	dataRows = append(dataRows, IdcRow()...)
 	dataRows = append(dataRows, IDCRackRow()...)
+	dataRows = append(dataRows, UserRow()...)
+	dataRows = append(dataRows, UserGroupRow()...)
 
 	t := new(time.Time)
 	*t = time.Now()
@@ -281,6 +288,10 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//idcrack
 		&metadata.Group{ObjectID: common.BKInnerObjIDIdcRack, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+
+		//user
+		&metadata.Group{ObjectID: common.BKInnerObjIDUser, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		&metadata.Group{ObjectID: common.BKInnerObjIDUserGroup, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 	}
 	for objID, kv := range objectIDs {
 		index := int64(1)

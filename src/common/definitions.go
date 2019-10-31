@@ -125,6 +125,11 @@ const (
 	BKInnerObjIDIdc = "idc"
 	// BKInnerObjIDIDCRack the inner object
 	BKInnerObjIDIdcRack = "idcrack"
+
+	// BKInnerObjIDUser the inner object
+	BKInnerObjIDUser = "user"
+	// BKInnerObjIDUserGroup the inner object
+	BKInnerObjIDUserGroup = "user_group"
 )
 
 // Revision

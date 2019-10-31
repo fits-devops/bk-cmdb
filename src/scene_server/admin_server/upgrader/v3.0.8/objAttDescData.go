@@ -343,6 +343,32 @@ func ApacheRow() []*Attribute {
 	return dataRows
 }
 
+// User proc structure
+func UserRow() []*Attribute {
+	objID := common.BKInnerObjIDUser
+	dataRows := []*Attribute{
+		&Attribute{ObjectID: objID, PropertyID: "name", PropertyName: "用户名", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternName},
+		&Attribute{ObjectID: objID, PropertyID: "nickname", PropertyName: "用户昵称", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "user_email", PropertyName: "邮箱地址", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "user_tel", PropertyName: "联系电话", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "wework_userid", PropertyName: "企业微信账号", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "state", PropertyName: "状态", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "valid", Type: "text"}, {ID: "2", Name: "invalid", Type: "text"}}},
+		&Attribute{ObjectID: objID, PropertyID: "user_memo", PropertyName: "备注", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "is_auto_discovery", PropertyName: "自动发现用户", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "true", Type: "text"}, {ID: "2", Name: "false", Type: "text"}}},
+	}
+	return dataRows
+}
+
+// UserGroup proc structure
+func UserGroupRow() []*Attribute {
+	objID := common.BKInnerObjIDUserGroup
+	dataRows := []*Attribute{
+		&Attribute{ObjectID: objID, PropertyID: "name", PropertyName: "组名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "description", PropertyName: "组描述", IsRequired: false, IsOnly: false, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+	}
+	return dataRows
+}
+
 var stateEnum = []validator.EnumVal{
 	{ID: "CN", Name: "中国", Type: "text"},
 	{ID: "JP", Name: "日本", Type: "text"},
