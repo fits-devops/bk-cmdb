@@ -123,6 +123,7 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 		if asst.ObjectAttID == common.BKChildStr {
 			asst.AsstKindID = common.AssociationKindMainline
 			asst.AssociationName = buildObjAsstID(asst)
+			asst.AssociationAliasName = "拓扑组成"
 			asst.Mapping = metadata.OneToOneMapping
 			asst.OnDelete = metadata.NoAction
 			if (asst.ObjectID == common.BKInnerObjIDModule && asst.AsstObjID == common.BKInnerObjIDSet) ||
