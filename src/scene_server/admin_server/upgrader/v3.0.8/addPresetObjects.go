@@ -152,9 +152,9 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		//bk_saas（应用资源）
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务系统", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
-		//&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "服务节点", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_saas":{"x":-450,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_saas":{"x":-600,"y":-500}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_saas":{"x":-600,"y":-500}}`},
 
 		//bk_organization (组织信息)
 		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_organization":{"x":-450,"y":-650}}`},

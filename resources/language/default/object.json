@@ -1,16 +1,16 @@
 {
     "object_host": "主机",
-    "object_biz": "业务",
+    "object_biz": "业务系统",
     "object_set": "集群",
     "object_module": "模块",
-    "object_process": "进程",
-    "object_plat": "子网区域",
+    "object_process": "服务节点",
+    "object_plat": "云区域",
     "object_switch": "交换机",
     "object_router": "路由器",
     "object_load_balance": "负载均衡",
     "object_firewall": "防火墙",
-    "object_weblogic_service": "weblogic",
-    "object_tomcat_service": "tomcat",
-    "object_apache_service": "apache",
+    "object_weblogic_service": "weblogic服务",
+    "object_tomcat_service": "tomcat服务",
+    "object_apache_service": "apache服务",
     "": ""
 }
