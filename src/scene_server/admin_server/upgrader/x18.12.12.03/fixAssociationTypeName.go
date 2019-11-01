@@ -17,9 +17,9 @@ func fixAssociationTypeName(ctx context.Context, db dal.RDB, conf *upgrader.Conf
 		"group":    "组成",
 		"default":  "默认关联",
 		"cover":    "覆盖",
-		"connect":  "上联",
+		"connect":  "连接关系",
 		"mainline": "拓扑组成",
-		"belong":   "属于",
+		"belong":   "属于关系",
 	}
 
 	for id, name := range nameKV {
