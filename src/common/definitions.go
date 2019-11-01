@@ -653,7 +653,7 @@ const DefaultCloudName string = "default area"
 const DefaultInstName string = "实例名称"
 
 // BKAppName the default app name
-const BKAppName string = "蓝鲸"
+const BKAppName string = "iCenter系统"
 
 const BKMainLine = "mainline"
 

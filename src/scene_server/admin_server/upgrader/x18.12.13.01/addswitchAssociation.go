@@ -12,22 +12,55 @@ import (
 
 func addswitchAssociation(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	falseVar := false
-	switchAsst := metadata.Association{
-		OwnerID:         conf.OwnerID,
-		AsstKindID:      "connect",
-		ObjectID:        "host",
-		AsstObjID:       "switch",
-		AssociationName: "host_connect_switch",
-		Mapping:         metadata.ManyToManyMapping,
-		OnDelete:        metadata.NoAction,
-		IsPre:           &falseVar,
+	Assts := []metadata.Association{
+		{
+			OwnerID:         conf.OwnerID,
+			AsstKindID:      "belong",
+			ObjectID:        "switch",
+			AsstObjID:       "idcrack",
+			AssociationName: "switch_belong_idcrack",
+			Mapping:         metadata.ManyToManyMapping,
+			OnDelete:        metadata.NoAction,
+			IsPre:           &falseVar,
+		},
+		{
+			OwnerID:         conf.OwnerID,
+			AsstKindID:      "belong",
+			ObjectID:        "router",
+			AsstObjID:       "idcrack",
+			AssociationName: "route_belong_idcrack",
+			Mapping:         metadata.ManyToManyMapping,
+			OnDelete:        metadata.NoAction,
+			IsPre:           &falseVar,
+		},
+		{
+			OwnerID:         conf.OwnerID,
+			AsstKindID:      "belong",
+			ObjectID:        "firewall",
+			AsstObjID:       "idcrack",
+			AssociationName: "firewall_belong_idcrack",
+			Mapping:         metadata.ManyToManyMapping,
+			OnDelete:        metadata.NoAction,
+			IsPre:           &falseVar,
+		},
+		{
+			OwnerID:         conf.OwnerID,
+			AsstKindID:      "belong",
+			ObjectID:        "load_balance",
+			AsstObjID:       "idcrack",
+			AssociationName: "load_balance_belong_idcrack",
+			Mapping:         metadata.ManyToManyMapping,
+			OnDelete:        metadata.NoAction,
+			IsPre:           &falseVar,
+		},
 	}
 
-	_, _, err := upgrader.Upsert(ctx, db, common.BKTableNameObjAsst, switchAsst, "id", []string{"obj_id", "asst_obj_id"}, []string{"id"})
-	if err != nil {
-		return err
+	for _ , Asst := range Assts {
+		_, _, err := upgrader.Upsert(ctx, db, common.BKTableNameObjAsst, Asst, "id", []string{"obj_id", "asst_obj_id"}, []string{"id"})
+		if err != nil {
+			return err
+		}
 	}
-
 	return nil
 }
 

@@ -53,6 +53,15 @@ func addPresetAssociationType(ctx context.Context, db dal.RDB, conf *upgrader.Co
 			IsPre:                   ptrue(),
 		},
 		{
+			AssociationKindID:       "belong",
+			AssociationKindName:     "属于关系",
+			OwnerID:                 conf.OwnerID,
+			SourceToDestinationNote: "属于",
+			DestinationToSourceNote: "包含",
+			Direction:               metadata.SourceToDestination,
+			IsPre:                   ptrue(),
+		},
+		{
 			AssociationKindID:       "mainline",
 			AssociationKindName:     "拓扑组成",
 			OwnerID:                 conf.OwnerID,
