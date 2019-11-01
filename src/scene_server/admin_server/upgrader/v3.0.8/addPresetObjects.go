@@ -131,34 +131,34 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 
 	dataRows := []*metadata.Object{
 		//bk_iaas（基础设施）
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDStorage, ObjectName: "存储", IsPre: true, ObjIcon: "icon-cc-storage", Position: `{"bk_iaas":{"x":-600,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdcRack, ObjectName: "机柜", IsPre: true, ObjIcon: "icon-cc-cabinet", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":-350,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDSwitch, ObjectName: "交换机", IsPre: true, ObjIcon: "icon-cc-switch2", Position: `{"bk_iaas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", IsPre: true, ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":-650,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", IsPre: true, ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":-500,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDHost, ObjectName: "主机", IsPre: true, ObjIcon: "icon-cc-host", Position: `{"bk_iaas":{"x":-188,"y":18}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDStorage, ObjectName: "存储", IsPre: true, ObjIcon: "icon-cc-storage", Position: `{"bk_iaas":{"x":123,"y":-95}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdc, ObjectName: "机房", IsPre: true, ObjIcon: "icon-cc-engine-room", Position: `{"bk_iaas":{"x":-180,"y":417}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDIdcRack, ObjectName: "机柜", IsPre: true, ObjIcon: "icon-cc-cabinet", Position: `{"bk_iaas":{"x":-184,"y":211}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDRouter, ObjectName: "路由器", IsPre: true, ObjIcon: "icon-cc-router", Position: `{"bk_iaas":{"x":127,"y":27}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDSwitch, ObjectName: "交换机", IsPre: true, ObjIcon: "icon-cc-switch2", Position: `{"bk_iaas":{"x":133,"y":150}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDFirewall, ObjectName: "防火墙", IsPre: true, ObjIcon: "icon-cc-firewall", Position: `{"bk_iaas":{"x":137,"y":269}}`},
+		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", IsPre: true, ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":141,"y":401}}`},
 
 		//bk_paas（平台资源）
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDNginx, ObjectName: "Nginx服务", ObjIcon: "icon-cc-nginx", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDZookeeper, ObjectName: "Zookeeper服务", ObjIcon: "icon-cc-kafka", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMysql, ObjectName: "Mysql服务", ObjIcon: "icon-cc-mysql", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMongo, ObjectName: "Mongo服务", ObjIcon: "icon-cc-mongodb", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":-500,"y":-50}}`},
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":-350,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDNginx, ObjectName: "Nginx服务", ObjIcon: "icon-cc-nginx", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDZookeeper, ObjectName: "Zookeeper服务", ObjIcon: "icon-cc-kafka", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMysql, ObjectName: "Mysql服务", ObjIcon: "icon-cc-mysql", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMongo, ObjectName: "Mongo服务", ObjIcon: "icon-cc-mongodb", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":0,"y":0}}`},
 
 		//bk_saas（应用资源）
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务系统", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "服务节点", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_saas":{"x":-450,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_saas":{"x":-600,"y":-500}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务系统", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-782,"y":-191}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: `{"bk_saas":{"x":-472,"y":-191}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: `{"bk_saas":{"x":-470,"y":17}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程服务", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_saas":{"x":0,"y":0}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_saas":{"x":-190,"y":-193}}`},
 
 		//bk_organization (组织信息)
-		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_organization":{"x":-450,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-department", Position: `{"bk_organization":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_organization":{"x":-470,"y":209}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-department", Position: `{"bk_organization":{"x":-780,"y":204}}`},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
