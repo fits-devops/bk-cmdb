@@ -141,20 +141,24 @@ func getObjectDesData(ownerID string) []*metadata.Object {
 		&metadata.Object{ObjCls: "bk_iaas", ObjectID: common.BKInnerObjIDBlance, ObjectName: "负载均衡", IsPre: true, ObjIcon: "icon-cc-balance", Position: `{"bk_iaas":{"x":-500,"y":-50}}`},
 
 		//bk_paas（平台资源）
-		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_paas":{"x":-600,"y":-500}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDNginx, ObjectName: "Nginx服务", ObjIcon: "icon-cc-nginx", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDZookeeper, ObjectName: "Zookeeper服务", ObjIcon: "icon-cc-kafka", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMysql, ObjectName: "Mysql服务", ObjIcon: "icon-cc-mysql", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDMongo, ObjectName: "Mongo服务", ObjIcon: "icon-cc-mongodb", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDWeblogic, ObjectName: "weblogic", ObjIcon: "icon-cc-weblogic", Position: `{"bk_paas":{"x":-200,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDApache, ObjectName: "apache", ObjIcon: "icon-cc-apache", Position: `{"bk_paas":{"x":-500,"y":-50}}`},
 		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDTomcat, ObjectName: "tomcat", ObjIcon: "icon-cc-tomcat", Position: `{"bk_paas":{"x":-350,"y":-50}}`},
 
 		//bk_saas（应用资源）
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDApp, ObjectName: "业务系统", IsPre: true, ObjIcon: "icon-cc-business", Position: `{"bk_saas":{"x":-100,"y":-100}}`},
 		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDSet, ObjectName: "集群", IsPre: true, ObjIcon: "icon-cc-set", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
-		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "进程", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+		//&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDModule, ObjectName: "模块", IsPre: true, ObjIcon: "icon-cc-module", Position: ``},
+		&metadata.Object{ObjCls: "bk_saas", ObjectID: common.BKInnerObjIDProc, ObjectName: "服务节点", IsPre: true, ObjIcon: "icon-cc-process", Position: `{"bk_saas":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_paas", ObjectID: common.BKInnerObjIDPlat, ObjectName: "云区域", IsPre: true, ObjIcon: "icon-cc-subnet", Position: `{"bk_saas":{"x":-600,"y":-500}}`},
 
 		//bk_organization (组织信息)
-		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
-		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-department", Position: `{"bk_iaas":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUser, ObjectName: "用户", IsPre: true, ObjIcon: "icon-cc-group", Position: `{"bk_organization":{"x":-450,"y":-650}}`},
+		&metadata.Object{ObjCls: "bk_organization", ObjectID: common.BKInnerObjIDUserGroup, ObjectName: "用户组", IsPre: true, ObjIcon: "icon-cc-department", Position: `{"bk_organization":{"x":-450,"y":-650}}`},
 	}
 	t := metadata.Now()
 	for _, r := range dataRows {
@@ -207,20 +211,26 @@ func getObjAttDescData(ownerID string) []*Attribute {
 	dataRows = append(dataRows, RouterRow()...)
 	dataRows = append(dataRows, LoadBalanceRow()...)
 	dataRows = append(dataRows, FirewallRow()...)
+	dataRows = append(dataRows, StorageRow()...)
+	dataRows = append(dataRows, IdcRow()...)
+	dataRows = append(dataRows, IDCRackRow()...)
+
+	dataRows = append(dataRows, NginxRow()...)
+	dataRows = append(dataRows, ZookeeperRow()...)
+	dataRows = append(dataRows, MysqlRow()...)
+	dataRows = append(dataRows, MongoRow()...)
 	dataRows = append(dataRows, WeblogicRow()...)
 	dataRows = append(dataRows, ApacheRow()...)
 	dataRows = append(dataRows, TomcatRow()...)
-	dataRows = append(dataRows, IdcRow()...)
-	dataRows = append(dataRows, IDCRackRow()...)
+
 	dataRows = append(dataRows, UserRow()...)
 	dataRows = append(dataRows, UserGroupRow()...)
-	dataRows = append(dataRows, StorageRow()...)
 
 	t := new(time.Time)
 	*t = time.Now()
 	for _, r := range predataRows {
 		r.OwnerID = ownerID
-		r.IsPre = true
+		//r.IsPre = true
 		if false != r.IsEditable {
 			r.IsEditable = true
 		}
@@ -262,6 +272,20 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		//host
 		&metadata.Group{ObjectID: common.BKInnerObjIDHost, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		&metadata.Group{ObjectID: common.BKInnerObjIDHost, GroupID: mCommon.MoreInfo, GroupName: mCommon.MoreInfoName, GroupIndex: 3, OwnerID: ownerID, IsDefault: true},
+		//storage
+		&metadata.Group{ObjectID: common.BKInnerObjIDStorage, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//idc
+		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//idcrack
+		&metadata.Group{ObjectID: common.BKInnerObjIDIdcRack, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//router
+		&metadata.Group{ObjectID: common.BKInnerObjIDRouter, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//switch
+		&metadata.Group{ObjectID: common.BKInnerObjIDSwitch, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//firewall
+		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//bk_blance
+		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 
 		//proc
 		&metadata.Group{ObjectID: common.BKInnerObjIDProc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
@@ -272,31 +296,25 @@ func getPropertyGroupData(ownerID string) []*metadata.Group {
 		//plat
 		&metadata.Group{ObjectID: common.BKInnerObjIDPlat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 
-		//switch
-		&metadata.Group{ObjectID: common.BKInnerObjIDSwitch, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//router
-		&metadata.Group{ObjectID: common.BKInnerObjIDRouter, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//bk_blance
-		&metadata.Group{ObjectID: common.BKInnerObjIDBlance, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//firewall
-		&metadata.Group{ObjectID: common.BKInnerObjIDFirewall, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//nginx_service
+		&metadata.Group{ObjectID: common.BKInnerObjIDNginx, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//zookeeper_service
+		&metadata.Group{ObjectID: common.BKInnerObjIDZookeeper, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//mysql_service
+		&metadata.Group{ObjectID: common.BKInnerObjIDMysql, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
+		//mongo_service
+		&metadata.Group{ObjectID: common.BKInnerObjIDMongo, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//weblogic_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDWeblogic, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//tomcat_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDTomcat, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//apache_service
 		&metadata.Group{ObjectID: common.BKInnerObjIDApache, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//idc
-		&metadata.Group{ObjectID: common.BKInnerObjIDIdc, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//idcrack
-		&metadata.Group{ObjectID: common.BKInnerObjIDIdcRack, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 
 		//user
 		&metadata.Group{ObjectID: common.BKInnerObjIDUser, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 		//usergroup
 		&metadata.Group{ObjectID: common.BKInnerObjIDUserGroup, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
-		//storage
-		&metadata.Group{ObjectID: common.BKInnerObjIDStorage, GroupID: mCommon.BaseInfo, GroupName: mCommon.BaseInfoName, GroupIndex: 1, OwnerID: ownerID, IsDefault: true},
 	}
 	for objID, kv := range objectIDs {
 		index := int64(1)

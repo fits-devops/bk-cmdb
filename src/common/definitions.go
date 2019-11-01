@@ -123,6 +123,14 @@ const (
 	BKInnerObjIDTomcat = "tomcat_service"
 	// BKInnerObjIDApache the inner object
 	BKInnerObjIDApache = "apache_service"
+	// BKInnerObjIDNginx the inner object
+	BKInnerObjIDNginx = "nginx_service"
+	// BKInnerObjIDZookeeper the inner object
+	BKInnerObjIDZookeeper = "zookeeper_service"
+	// BKInnerObjIDMysql the inner object
+	BKInnerObjIDMysql = "mysql_service"
+	// BKInnerObjIDMongo the inner object
+	BKInnerObjIDMongo = "mongo_service"
 
 	// BKInnerObjIDIDC the inner object
 	BKInnerObjIDIdc = "idc"
