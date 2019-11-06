@@ -17,7 +17,7 @@ func addPlatData(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 		map[string]interface{}{
 			common.BKCloudNameField: "default area",
 			common.BKOwnerIDField:   common.BKDefaultOwnerID,
-			common.BKCloudIDField:   common.BKDefaultDirSubArea,
+			common.BKCloudIDField:   int64(1),
 			common.CreateTimeField:  time.Now(),
 			common.LastTimeField:    time.Now(),
 		},
