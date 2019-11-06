@@ -35,7 +35,14 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 		blog.Errorf("failed to search the inst, %s", err.Error())
 		return nil, err
 	}
-
+	// 处理提交过来需要关联的数据
+	asstList := make(map[string]interface {})
+	for index,val := range data {
+		if index == "asst_id"{
+			asstList["asst_data"] = val
+			break
+		}
+	}
 	if data.Exists("BatchInfo") {
 		/*
 		   BatchInfo data format:
@@ -81,7 +88,6 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 
 		return setInst, nil
 	}
-
 	setInst, err := s.Core.InstOperation().CreateInst(params, obj, data)
 	if nil != err {
 		blog.Errorf("failed to create a new %s, %s", objID, err.Error())
@@ -93,12 +99,60 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 		blog.Errorf("create instance failed, unexpected error, create instance success, but get id failed, instance: %+v, err: %+v", setInst, err)
 		return nil, err
 	}
-
 	// auth: register instances to iam
 	if err := s.AuthManager.RegisterInstancesByID(params.Context, params.Header, objID, instanceID); err != nil {
 		blog.Errorf("create instance success, but register instance to iam failed, instance: %d, err: %+v", instanceID, err)
 		return nil, params.Err.Error(common.CCErrCommRegistResourceToIAMFailed)
 	}
+	// 创建关联关系 数据处理
+	associationIds := make([]int64,1)
+	request := &metadata.CreateAssociationInstRequest{}
+	for objAsstIdKey, value1 := range asstList["asst_data"].(map[string]interface{}) {
+		for key2, idsValue := range value1.(map[string]interface{}) {
+			if key2 == "id" {
+				// id 可能存在多个
+				for _,idString := range idsValue.([]interface{}) {
+					asstData :=  mapstr.MapStr{}   //数据类型为map
+					paramId := mapstr.MapStr{}
+					paramId.Set("id", idString)
+					id, err := paramId.Int64("id")
+					if nil != err {
+						blog.Errorf("[api-att] failed to parse the path params id(%s), error info is %s ", pathParams("id"), err.Error())
+						return nil, err
+					}
+
+
+					asstData["inst_id"] = id
+					asstData["asst_inst_id"] = instanceID
+					asstData["obj_asst_id"] = objAsstIdKey
+
+					if err := asstData.MarshalJSONInto(request); err != nil {
+						return nil, params.Err.New(common.CCErrCommParamsInvalid, err.Error())
+					}
+					// 创建实例关联 交给 关联操作的方法去处理 ret.Data.ID =4
+					ret, err := s.Core.AssociationOperation().CreateInst(params, request)
+					if err != nil {
+						// 删除关联的id
+						for _,associationId:=range associationIds {
+							if associationId > 0 {
+								// 删除已关联的id
+								s.Core.AssociationOperation().DeleteInst(params, associationId)
+							}
+
+						}
+						// 删除实例ID
+						s.Core.InstOperation().DeleteInstByInstID(params, obj, []int64{instanceID}, true)
+
+						blog.Errorf("create instance association failed, do coreservice create failed, err: %+v, rid: %s", err, params.ReqID)
+						return nil, err
+					}
+					associationIds = append(associationIds, ret.Data.ID)
+				}
+			}
+		}
+	}
+
+
 	return setInst.ToMapStr(), nil
 }
 

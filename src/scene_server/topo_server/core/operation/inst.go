@@ -248,7 +248,7 @@ func (c *commonInst) isValidInstID(params types.ContextParams, obj metadata.Obje
 
 func (c *commonInst) CreateInst(params types.ContextParams, obj model.Object, data mapstr.MapStr) (inst.Inst, error) {
 
-	// create new insts
+	// todo create new insts
 	item := c.instFactory.CreateInst(params, obj)
 	item.SetValues(data)
 
@@ -256,10 +256,11 @@ func (c *commonInst) CreateInst(params types.ContextParams, obj model.Object, da
 	if obj.Object().ObjectID == "plat" {
 		iData["org_id"] = params.SupplierAccount
 	}
-	// if err := NewSupplementary().Validator(c).ValidatorCreate(params, obj, iData); nil != err {
-	// 	blog.Errorf("[operation-inst] valid is bad, the data is (%#v)  err: %s", iData, err.Error())
-	// 	return nil, err
-	// }
+	// 遍历时删除 关联的元素 得ID
+	x := [1] string {"asst_id"}
+	for _,v := range x {
+		delete(iData, v)
+	}
 
 	if err := item.Create(); nil != err {
 		blog.Errorf("[operation-inst] failed to save the object(%s) inst data (%#v), err: %s", obj.Object().ObjectID, data, err.Error())
