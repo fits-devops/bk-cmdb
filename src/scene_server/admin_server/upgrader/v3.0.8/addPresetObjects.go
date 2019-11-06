@@ -39,8 +39,30 @@ func addPresetObjects(ctx context.Context, db dal.RDB, conf *upgrader.Config) (e
 		return err
 	}
 
+	//初始化模型拓扑基础数据
+	err = addModeTopoData(ctx, db, conf)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
+
+
+func addModeTopoData(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
+	tablename := common.BKTableNameTopoGraphics
+	blog.Errorf("add data for  %s table ", tablename)
+	rows := getModeTopoData(conf.OwnerID)
+	for _, row := range rows {
+		if _, _, err := upgrader.Upsert(ctx, db, tablename, row, "", []string{common.BKObjIDField},[]string{}); err != nil {
+			blog.Errorf("add data for  %s table error  %s", tablename, err)
+			return err
+		}
+	}
+
+	return nil
+}
+
 
 func addAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	tablename := common.BKTableNameObjAsst
@@ -335,4 +357,46 @@ var classificationRows = []*metadata.Classification{
 	&metadata.Classification{ClassificationID: "bk_paas", ClassificationName: "平台资源", ClassificationType: "inner", ClassificationIcon: "icon-cc-paas"},
 	&metadata.Classification{ClassificationID: "bk_saas", ClassificationName: "应用资源", ClassificationType: "inner", ClassificationIcon: "icon-cc-saas"},
 	&metadata.Classification{ClassificationID: "bk_organization", ClassificationName: "组织信息", ClassificationType: "inner", ClassificationIcon: "icon-cc-organization"},
+}
+
+
+func getModeTopoData(ownerID string) []*metadata.TopoGraphics {
+
+	create := func(num int64) *int64 {
+		return &num;
+	}
+
+	dataRows := []*metadata.TopoGraphics{
+		//bk_iaas（基础设施）
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDHost,Position: metadata.Position{X:create(23),Y:create(46)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDStorage,Position:metadata.Position{X:create(-280),Y:create(435)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDIdc,Position:metadata.Position{X:create(38),Y:create(423)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDIdcRack,Position:metadata.Position{X:create(27),Y:create(228)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDRouter,Position:metadata.Position{X:create(343),Y:create(-61)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDSwitch,Position:metadata.Position{X:create(349),Y:create(406)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDFirewall,Position:metadata.Position{X:create(342),Y:create(236)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDBlance,Position:metadata.Position{X:create(345),Y:create(98)}},
+		//bk_saas（应用资源）
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDSet,Position:metadata.Position{X:create(-304),Y:create(-143)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDModule,Position:metadata.Position{X:create(-296),Y:create(45)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDPlat,Position:metadata.Position{X:create(23),Y:create(-144)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDApp,Position:metadata.Position{X:create(-637),Y:create(-145)}},
+
+		//bk_organization (组织信息)
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDUserGroup,Position:metadata.Position{X:create(-630),Y:create(243)}},
+		&metadata.TopoGraphics{ObjID: common.BKInnerObjIDUser,Position:metadata.Position{X:create(-300),Y:create(238)}},
+
+	}
+
+	for _, r := range dataRows {
+		r.ScopeType = "global"
+		r.ScopeID = "0"
+		r.NodeType = "obj"
+		r.IsPre = false
+		r.InstID = 0
+		r.SupplierAccount = ownerID
+		r.Assts = []metadata.GraphAsst{}
+	}
+
+	return dataRows
 }
