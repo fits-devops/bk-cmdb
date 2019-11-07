@@ -38,7 +38,7 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 	// 处理提交过来需要关联的数据
 	asstList := make(map[string]interface {})
 	for index,val := range data {
-		if index == "asst_id"{
+		if index == "assts"{
 			asstList["asst_data"] = val
 			break
 		}

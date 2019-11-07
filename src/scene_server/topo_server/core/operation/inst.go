@@ -257,7 +257,7 @@ func (c *commonInst) CreateInst(params types.ContextParams, obj model.Object, da
 		iData["org_id"] = params.SupplierAccount
 	}
 	// 遍历时删除 关联的元素 得ID
-	x := [1] string {"asst_id"}
+	x := [1] string {"assts"}
 	for _,v := range x {
 		delete(iData, v)
 	}
