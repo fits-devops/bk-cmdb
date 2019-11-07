@@ -84,7 +84,7 @@ func (o *Object) GetInstNameFieldName() string {
 	case common.BKInnerObjIDModule:
 		return common.BKModuleNameField
 	case common.BKInnerObjIDHost:
-		return common.BKHostInnerIPField
+		return common.BKInstNameField
 	case common.BKInnerObjIDProc:
 		return common.BKProcNameField
 	case common.BKInnerObjIDPlat:
