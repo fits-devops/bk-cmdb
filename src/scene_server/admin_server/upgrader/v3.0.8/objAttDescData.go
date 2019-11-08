@@ -40,7 +40,7 @@ func AppRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "biz_developer", PropertyName: "开发人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: common.BKOperatorField, PropertyName: "操作人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
 
-		&Attribute{ObjectID: objID, PropertyID: "time_zone", PropertyName: "时区", IsRequired: true, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeTimeZone, Option: "", IsReadOnly: true},
+		&Attribute{ObjectID: objID, PropertyID: "time_zone", PropertyName: "时区", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeTimeZone, Option: "", IsReadOnly: true},
 		&Attribute{ObjectID: objID, PropertyID: "language", PropertyName: "语言", IsRequired: true, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: languageOption, IsReadOnly: true},
 	}
 
@@ -165,6 +165,7 @@ func StorageRow() []*Attribute {
 	dataRows := []*Attribute{
 		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "model", PropertyName: "型号", IsRequired: true, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "管理IP", IsRequired:true, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup:groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 	}
 	return dataRows
 }
@@ -200,7 +201,7 @@ func RouterRow() []*Attribute {
 	objID := common.BKInnerObjIDRouter
 	dataRows := []*Attribute{
 		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "设备名称", IsRequired: true, IsOnly: true, IsPre: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "admin_ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
+		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 		&Attribute{ObjectID: objID, PropertyID: "status", PropertyName: "状态", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "使用中", Type: "text"}, {ID: "2", Name: "未使用", Type: "text"}}},
 		&Attribute{ObjectID: objID, PropertyID: "asset_id", PropertyName: "资产编号", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "startU", PropertyName: "起始U位", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeInt, Option: ""},
@@ -227,7 +228,7 @@ func SwitchRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "func", PropertyName: "设备用途", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "vendor", PropertyName: "设备厂商", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "model", PropertyName: "设备型号", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "admin_ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
+		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 		&Attribute{ObjectID: objID, PropertyID: "operator", PropertyName: "维护人", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "os_detail", PropertyName: "操作系统详情", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "comment", PropertyName: "备注", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeLongChar, Option: ""},
@@ -246,7 +247,7 @@ func FirewallRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "func", PropertyName: "设备用途", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "vendor", PropertyName: "设备厂商", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "model", PropertyName: "设备型号", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "admin_ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
+		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 		&Attribute{ObjectID: objID, PropertyID: "operator", PropertyName: "维护人", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "os_detail", PropertyName: "操作系统详情", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "comment", PropertyName: "备注", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeLongChar, Option: ""},
@@ -265,7 +266,7 @@ func LoadBalanceRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "func", PropertyName: "设备用途", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "vendor", PropertyName: "设备厂商", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "model", PropertyName: "设备型号", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "admin_ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
+		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "管理IP", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 		&Attribute{ObjectID: objID, PropertyID: "operator", PropertyName: "维护人", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "os_detail", PropertyName: "操作系统详情", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "comment", PropertyName: "备注", IsRequired: false, IsOnly: false, IsPre: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeLongChar, Option: ""},
@@ -415,6 +416,7 @@ var stateEnum = []validator.EnumVal{
 }
 
 var provincesEnum = []validator.EnumVal{
+	{ID: "440000", Name: "广东省", Type: "text"},
 	{ID: "110000", Name: "北京市", Type: "text"},
 	{ID: "120000", Name: "天津市", Type: "text"},
 	{ID: "130000", Name: "河北省", Type: "text"},
@@ -433,7 +435,6 @@ var provincesEnum = []validator.EnumVal{
 	{ID: "410000", Name: "河南省", Type: "text"},
 	{ID: "420000", Name: "湖北省", Type: "text"},
 	{ID: "430000", Name: "湖南省", Type: "text"},
-	{ID: "440000", Name: "广东省", Type: "text"},
 	{ID: "450000", Name: "广西壮族自治区", Type: "text"},
 	{ID: "460000", Name: "海南省", Type: "text"},
 	{ID: "500000", Name: "重庆市", Type: "text"},
