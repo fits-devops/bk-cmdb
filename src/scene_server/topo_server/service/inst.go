@@ -105,10 +105,23 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 		return nil, params.Err.Error(common.CCErrCommRegistResourceToIAMFailed)
 	}
 	// 创建关联关系 数据处理
+	isSourceModel := int64(1)
 	if  _, ok := asstList["asst_data"]; ok {
 		associationIds := make([]int64,1)
 		request := &metadata.CreateAssociationInstRequest{}
 		for objAsstIdKey, value1 := range asstList["asst_data"].(map[string]interface{}) {
+			for sourceKey, sourceValue := range value1.(map[string]interface{}) {
+				if sourceKey == "source_model" {
+					paramSourceModel := mapstr.MapStr{}
+					paramSourceModel.Set("ids", sourceValue)
+					ids, err := paramSourceModel.Int64("ids")
+					if nil != err {
+						blog.Errorf("[api-att] failed to parse the path params id(%s), error info is %s ", pathParams("id"), err.Error())
+						return nil, err
+					}
+					isSourceModel = ids
+				}
+			}
 			for key2, idsValue := range value1.(map[string]interface{}) {
 				if key2 == "id" {
 					// id 可能存在多个
@@ -121,10 +134,13 @@ func (s *Service) CreateInst(params types.ContextParams, pathParams, queryParams
 							blog.Errorf("[api-att] failed to parse the path params id(%s), error info is %s ", pathParams("id"), err.Error())
 							return nil, err
 						}
-
-
 						asstData["inst_id"] = id
 						asstData["asst_inst_id"] = instanceID
+
+						if isSourceModel == 0 {
+							asstData["inst_id"] = instanceID
+							asstData["asst_inst_id"] = id
+						}
 						asstData["obj_asst_id"] = objAsstIdKey
 
 						if err := asstData.MarshalJSONInto(request); err != nil {
