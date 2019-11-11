@@ -31,7 +31,8 @@ func AppRow() []*Attribute {
 	dataRows := []*Attribute{
 		&Attribute{ObjectID: objID, PropertyID: "biz_name", PropertyName: "业务名", IsRequired: true, IsOnly: true, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "life_cycle", PropertyName: "生命周期", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: lifeCycleOption},
-
+		&Attribute{ObjectID: objID, PropertyID: "time_zone", PropertyName: "时区", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeTimeZone, Option: "", IsReadOnly: true},
+		&Attribute{ObjectID: objID, PropertyID: "language", PropertyName: "语言", IsRequired: true, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: languageOption, IsReadOnly: true},
 		//role
 		&Attribute{ObjectID: objID, PropertyID: common.BKMaintainersField, PropertyName: "运维人员", IsRequired: true, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: common.BKProductPMField, PropertyName: "产品人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
@@ -39,9 +40,6 @@ func AppRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: common.BKTesterField, PropertyName: "测试人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "biz_developer", PropertyName: "开发人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: common.BKOperatorField, PropertyName: "操作人员", IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupAppRole, PropertyType: common.FieldTypeUser, Option: ""},
-
-		&Attribute{ObjectID: objID, PropertyID: "time_zone", PropertyName: "时区", IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeTimeZone, Option: "", IsReadOnly: true},
-		&Attribute{ObjectID: objID, PropertyID: "language", PropertyName: "语言", IsRequired: true, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: languageOption, IsReadOnly: true},
 	}
 
 	return dataRows
