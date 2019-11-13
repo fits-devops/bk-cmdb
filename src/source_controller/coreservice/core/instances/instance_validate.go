@@ -43,7 +43,7 @@ var createIgnoreKeys = []string{
 
 func FetchBizIDFromInstance(objID string, instanceData mapstr.MapStr) (int64, error) {
 	switch objID {
-	case common.BKInnerObjIDApp, common.BKInnerObjIDSet, common.BKInnerObjIDProc:
+	case common.BKInnerObjIDApp:  //暂时取消对set、module、process的biz_id字段校验
 		biz, exist := instanceData[common.BKAppIDField]
 		if exist == false {
 			return 0, nil
