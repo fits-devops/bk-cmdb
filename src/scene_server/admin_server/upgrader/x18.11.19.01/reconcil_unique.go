@@ -77,8 +77,8 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 		//keyfunc(common.BKInnerObjIDHost, common.BKHostInnerIPField),
 		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
 		keyfunc(common.BKInnerObjIDProc, common.BKProcNameField),
-		keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
-		keyfunc(common.BKInnerObjIDProc, common.BKFuncIDField),
+		//keyfunc(common.BKInnerObjIDProc, common.BKAppIDField),
+		//keyfunc(common.BKInnerObjIDProc, common.BKFuncIDField),
 		keyfunc(common.BKInnerObjIDApp, common.BKAppNameField),
 		keyfunc(common.BKInnerObjIDSet, common.BKAppIDField),
 		keyfunc(common.BKInnerObjIDSet, common.BKSetNameField),
@@ -141,23 +141,23 @@ func reconcilUnique(ctx context.Context, db dal.RDB, conf *upgrader.Config) erro
 			OwnerID:  conf.OwnerID,
 			LastTime: metadata.Now(),
 		},
-		{
-			ObjID:     common.BKInnerObjIDProc,
-			MustCheck: false,
-			Keys: []metadata.UniqueKey{
-				{
-					Kind: metadata.UniqueKeyKindProperty,
-					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, common.BKAppIDField)].ID),
-				},
-				{
-					Kind: metadata.UniqueKeyKindProperty,
-					ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, common.BKFuncIDField)].ID),
-				},
-			},
-			Ispre:    true,
-			OwnerID:  conf.OwnerID,
-			LastTime: metadata.Now(),
-		},
+		//{
+		//	ObjID:     common.BKInnerObjIDProc,
+		//	MustCheck: false,
+		//	Keys: []metadata.UniqueKey{
+		//		{
+		//			Kind: metadata.UniqueKeyKindProperty,
+		//			ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, common.BKAppIDField)].ID),
+		//		},
+		//		{
+		//			Kind: metadata.UniqueKeyKindProperty,
+		//			ID:   uint64(propertyIDToProperty[keyfunc(common.BKInnerObjIDProc, common.BKFuncIDField)].ID),
+		//		},
+		//	},
+		//	Ispre:    true,
+		//	OwnerID:  conf.OwnerID,
+		//	LastTime: metadata.Now(),
+		//},
 		// biz
 		{
 			ObjID:     common.BKInnerObjIDApp,
