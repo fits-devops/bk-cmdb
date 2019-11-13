@@ -121,9 +121,9 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 	flag := "updateflag"
 	for _, asst := range assts {
 		if asst.ObjectAttID == common.BKChildStr {
-			asst.AsstKindID = common.AssociationTypeContain
+			asst.AsstKindID = common.AssociationTypeBelong
 			asst.AssociationName = buildObjAsstID(asst)
-			asst.AssociationAliasName = asst.ObjectID + "包含" + asst.AsstObjID
+			asst.AssociationAliasName = asst.ObjectID + "属于" + asst.AsstObjID
 			asst.Mapping = metadata.ManyToManyMapping
 			asst.OnDelete = metadata.NoAction
 			if (asst.ObjectID == common.BKInnerObjIDModule && asst.AsstObjID == common.BKInnerObjIDSet) ||
