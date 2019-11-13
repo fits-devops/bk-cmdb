@@ -43,7 +43,7 @@ var createIgnoreKeys = []string{
 
 func FetchBizIDFromInstance(objID string, instanceData mapstr.MapStr) (int64, error) {
 	switch objID {
-	case common.BKInnerObjIDApp, common.BKInnerObjIDSet, common.BKInnerObjIDModule, common.BKInnerObjIDProc:
+	case common.BKInnerObjIDApp, common.BKInnerObjIDSet, common.BKInnerObjIDProc:
 		biz, exist := instanceData[common.BKAppIDField]
 		if exist == false {
 			return 0, nil
