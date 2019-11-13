@@ -66,7 +66,7 @@ func addPresetAssociationType(ctx context.Context, db dal.RDB, conf *upgrader.Co
 			AssociationKindName:     "拓扑组成",
 			OwnerID:                 conf.OwnerID,
 			SourceToDestinationNote: "组成",
-			DestinationToSourceNote: "组成于",
+			DestinationToSourceNote: "被组成",
 			Direction:               metadata.SourceToDestination,
 			IsPre:                   ptrue(),
 		},
@@ -121,9 +121,9 @@ func reconcilAsstData(ctx context.Context, db dal.RDB, conf *upgrader.Config) er
 	flag := "updateflag"
 	for _, asst := range assts {
 		if asst.ObjectAttID == common.BKChildStr {
-			asst.AsstKindID = common.AssociationTypeBelong
+			asst.AsstKindID = common.AssociationKindMainline
 			asst.AssociationName = buildObjAsstID(asst)
-			asst.AssociationAliasName = asst.ObjectID + "属于" + asst.AsstObjID
+			asst.AssociationAliasName = asst.ObjectID + "组成" + asst.AsstObjID
 			asst.Mapping = metadata.ManyToManyMapping
 			asst.OnDelete = metadata.NoAction
 			if (asst.ObjectID == common.BKInnerObjIDModule && asst.AsstObjID == common.BKInnerObjIDSet) ||
