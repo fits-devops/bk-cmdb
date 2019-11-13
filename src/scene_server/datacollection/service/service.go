@@ -74,6 +74,12 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/netcollect/collector/action/update").To(s.UpdateCollector))
 	api.Route(api.POST("/netcollect/collector/action/discover").To(s.DiscoverNetDevice))
 
+	// 安装agent接口
+	api.Route(api.POST("/netcollect/host/action/create").To(s.CreateHost))
+	//api.Route(api.POST("/netcollect/device/action/batch").To(s.BatchCreateDevice))
+	//api.Route(api.POST("/netcollect/device/action/search").To(s.SearchDevice))
+	//api.Route(api.DELETE("/netcollect/device/action/delete").To(s.DeleteDevice))
+
 	container.Add(api)
 
 	healthzAPI := new(restful.WebService).Produces(restful.MIME_JSON)

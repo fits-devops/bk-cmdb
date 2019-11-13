@@ -15,6 +15,10 @@ package metadata
 type AddDeviceResult struct {
 	DeviceID uint64 `json:"device_id"`
 }
+type AddHostResult struct {
+	MinionId string `json:"minion_id"`
+}
+
 
 type BatchAddDevice struct {
 	Data []NetcollectDevice `json:"data"`
