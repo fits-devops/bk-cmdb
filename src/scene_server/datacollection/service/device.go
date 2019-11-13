@@ -219,7 +219,7 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 		if os.IsExist(err2) {
 			blog.Errorf("file is exit: %v", command)
 		}
-		blog.Errorf("file is not exit: %v", command)
+		blog.Errorf("file is not exit 2: %v", command)
 	}
 	//{"inst_name":"haowan66607","ip":"192.168.31.102","asset_id":"423424"} // 添加主機
 	resp.WriteEntity(meta.NewSuccessResp(result))
