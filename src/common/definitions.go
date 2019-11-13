@@ -1012,8 +1012,7 @@ const (
 const (
 	AssociationKindMainline = "mainline"
 	AssociationTypeBelong   = "belong"
-	AssociationTypeGroup    = "group"
-	AssociationTypeRun      = "run"
+	AssociationTypeContain  = "contain"
 	AssociationTypeConnect  = "connect"
 	AssociationTypeDefault  = "default"
 )
