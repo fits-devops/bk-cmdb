@@ -203,14 +203,24 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 	command := dir+"/scripts/test.sh "+host+" "+port+" "+ userName+" "+pwd//脚本的路径
 	cmd := exec.Command("/bin/bash", "-c",command)
 	var out bytes.Buffer
+	var stderr bytes.Buffer
 	cmd.Stdout = &out
+	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		blog.Errorf("[NetDevice] search net device failed, err: %v", err)
+		blog.Errorf("[NetDevice] search net device failed, err: %v", stderr.String())
 	}
 	minionId := out.String()
 	result := meta.AddHostResult{MinionId: minionId};
 	blog.Errorf("[NetDevice] minionId, err: %v", minionId)
+	blog.Errorf("command: %v", command)
+	_, err2 := os.Stat(command)    //os.Stat获取文件信息
+	if err2 != nil {
+		if os.IsExist(err2) {
+			blog.Errorf("file is exit: %v", command)
+		}
+		blog.Errorf("file is not exit: %v", command)
+	}
 	//{"inst_name":"haowan66607","ip":"192.168.31.102","asset_id":"423424"} // 添加主機
 	resp.WriteEntity(meta.NewSuccessResp(result))
 }
