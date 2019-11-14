@@ -24,6 +24,7 @@ import sys
     @cp -f $(SCRIPT_DIR)/stop.sh $(BIN_PATH)/stop.sh
     @cp -f $(SCRIPT_DIR)/restart.sh $(BIN_PATH)/restart.sh
     @cp -f $(SCRIPT_DIR)/restart.sh $(BIN_PATH)/$(TARGET_NAME)/restart.sh
+    @cp -f $(SCRIPT_DIR)/test.sh $(BIN_PATH)/$(TARGET_NAME)/test.sh
     @sed -e 's/version_placeholer/${VERSION}/g' $(SCRIPT_DIR)/image.sh > $(BIN_PATH)/image.sh
     @chmod +x  $(BIN_PATH)/$(TARGET_NAME)/*.sh
     @chmod +x  $(BIN_PATH)/$(TARGET_NAME)/*.py
@@ -105,6 +106,10 @@ if __name__ == "__main__":
     shutil.copy(os.path.join(script_dir, "stop.sh"), os.path.join(bin_path, "stop.sh"))
     shutil.copy(os.path.join(script_dir, "restart.sh"), os.path.join(bin_path, "restart.sh"))
     shutil.copy(os.path.join(script_dir, "restart.sh"), os.path.join(bin_path, target_name, "restart.sh"))
+
+    #  @cp -f $(SCRIPT_DIR)/test.sh $(BIN_PATH)/$(TARGET_NAME)/test.sh
+    if target_name == "cmdb_datacollection" :
+        shutil.copy(os.path.join(script_dir, "test.sh"), os.path.join(bin_path, target_name, "test.sh"))
 
     # @sed -e 's/version_placeholer/${VERSION}/g' $(SCRIPT_DIR)/image.sh > $(BIN_PATH)/image.sh
     with open(os.path.join(script_dir, "image.sh"), "r") as f:
