@@ -211,6 +211,7 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 			result := meta.AddHostResult{MinionId: hostIp}
 			resp.WriteEntity(meta.NewSuccessResp(result))
 		}else{
+			blog.Info("exec sh result: %v", ok)
 			resp.WriteError(http.StatusInternalServerError, &meta.RespError{Msg: defErr.Error(common.CCErrCollectCreateHostFail)})
 		}
 
