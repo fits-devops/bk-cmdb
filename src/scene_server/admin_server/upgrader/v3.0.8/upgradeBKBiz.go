@@ -28,22 +28,22 @@ var prc2port = []string{
 
 // 集群:模块:进程
 var setModuleKv = map[string]map[string]string{
-	"配置平台:iCenter后台服务集群": {
-		"coreservice":		"cmdb_coreservice",
-		"toposerver":       "cmdb_toposerver",
-		"adminserver":      "cmdb_adminserver",
-		"datacollection":   "cmdb_datacollection",
-		"eventserver":      "cmdb_eventserver",
-		"apiserver":        "cmdb_apiserver",
-		"webserver":        "cmdb_webserver",
+	"配置平台|iCenter后台服务集群": {
+		"coreservice|1":		"cmdb_coreservice",
+		"toposerver|1":       "cmdb_toposerver",
+		"adminserver|1":      "cmdb_adminserver",
+		"datacollection|1":   "cmdb_datacollection",
+		"eventserver|1":      "cmdb_eventserver",
+		"apiserver|1":        "cmdb_apiserver",
+		"webserver|1":        "cmdb_webserver",
 	},
-	"公共组件:iCenter后台公共组件": {
-		"mysql": "common_mysql",
-		"redis": "common_redis",
-		"redis_cluster": "redis_cluster",
-		"zookeeper": "zk_java",
-		"etcd": "etcd",
-		"mongodb": "mongodb",
+	"公共组件|iCenter后台公共组件": {
+		"mysql|2": "common_mysql",
+		"redis|2": "common_redis",
+		"redis_cluster|2": "redis_cluster",
+		"zookeeper|1": "zk_java",
+		"etcd|1": "etcd",
+		"mongodb|2": "mongodb",
 	},
 }
 
@@ -201,7 +201,7 @@ func addBKProcess(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID 
 //addSetInBKApp add set in bk app
 func addSetInBKApp(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID uint64) error {
 	for setStr, moduleArr := range setModuleKv {
-		setArr := strings.Split(setStr,":")
+		setArr := strings.Split(setStr,"|")
 		setName := setArr[0]
 		setDescription := setArr[1]
 		setModelData := map[string]interface{}{}
@@ -266,7 +266,9 @@ func addSetInBKApp(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID
 func addModuleInSet(ctx context.Context, db dal.RDB, conf *upgrader.Config, moduleArr map[string]string, setID, bizID uint64) error {
 	for moduleName, processNameStr := range moduleArr {
 		moduleModelData := map[string]interface{}{}
-		moduleModelData[common.BKModuleNameField] = moduleName
+		moduleNameArr := strings.Split(moduleName,"|")
+		moduleModelData[common.BKModuleNameField] = moduleNameArr[0]
+		moduleModelData[common.BKModuleTypeField] = moduleNameArr[1]
 		moduleModelData[common.BKAppIDField] = bizID
 		moduleModelData[common.BKSetIDField] = setID
 		moduleModelData[common.BKOwnerIDField] = conf.OwnerID

@@ -90,7 +90,7 @@ func ProcRow() []*Attribute {
 // ModuleRow module structure
 func ModuleRow() []*Attribute {
 	objID := common.BKInnerObjIDModule
-	moduleTypeOption := []validator.EnumVal{{ID: "1", Name: "普通", Type: "text", IsDefault: true}, {ID: "2", Name: "数据库", Type: "text"}}
+	moduleTypeOption := []validator.EnumVal{{ID: "1", Name: "普通服务", Type: "text", IsDefault: true}, {ID: "2", Name: "数据库服务", Type: "text"}}
 
 	dataRows := []*Attribute{
 		&Attribute{ObjectID: objID, PropertyID: common.BKAppIDField, PropertyName: "业务ID", IsAPI: true, IsRequired: false, IsOnly: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeInt, Option: validator.MinMaxOption{}},

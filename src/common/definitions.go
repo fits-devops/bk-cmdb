@@ -314,6 +314,9 @@ const (
 	// BKModuleNameField the module name field
 	BKModuleNameField = "module_name"
 
+	// BKModuleTypeField the module type field
+	BKModuleTypeField = "module_type"
+
 	// BKSubscriptionIDField the subscription id field
 	BKSubscriptionIDField = "subscription_id"
 	// BKSubscriptionNameField the subscription name field
