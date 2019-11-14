@@ -77,3 +77,10 @@ type SearchNetPropertyResult struct {
 type DeleteNetPropertyBatchOpt struct {
 	NetcollectPropertyIDs []uint64 `json:"netcollect_property_id"`
 }
+// 创建agent 参数
+type HostParams struct {
+	TargetHostIp      []string        `json:"target_host_ip"`
+	SshPort   string        `json:"ssh_port"`
+	HostUserName string `json:"host_user_name"`
+	HostUserPassword string `json:"host_user_password"`
+}

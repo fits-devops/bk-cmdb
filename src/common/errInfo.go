@@ -611,6 +611,7 @@ const (
 	CCErrCollectNetHistorySearchFail           = 1112016
 	CCErrCollectNetDeviceUpdateFail            = 1112017
 	CCErrCollectNetPropertyUpdateFail          = 1112018
+	CCErrCollectCreateHostFail         		   = 1112019
 
 	// coreservice 1113xxx
 
