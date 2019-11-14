@@ -305,6 +305,9 @@ const (
 	// BKSetNameField the set name field
 	BKSetNameField = "set_name"
 
+	// BKsetDescription the Description field
+	BKsetDescription = "set_desc"
+
 	// BKModuleIDField the module id field
 	BKModuleIDField = "module_id"
 
@@ -339,6 +342,9 @@ const (
 
 	// BKCloudNameField the cloud name field
 	BKCloudNameField = "cloud_name"
+
+	// BKSupplierField the supplier field
+	BKSupplierField = "supplier"
 
 	// BKObjIDField the obj id field
 	BKObjIDField = "obj_id"
@@ -482,6 +488,9 @@ const (
 
 	// BKFuncName the function name
 	BKFuncName = "func_name"
+
+	// BKDescription the description
+	BKDescription = "description"
 
 	// BKBindIP the bind ip
 	BKBindIP = "bind_ip"
@@ -648,7 +657,7 @@ const DefaultAppFlag int = 1
 // DefaultAppName the default app name
 const DefaultAppName string = "资源池"
 
-const DefaultCloudName string = "default area"
+const DefaultCloudName string = "公有云"
 
 const DefaultInstName string = "实例名称"
 

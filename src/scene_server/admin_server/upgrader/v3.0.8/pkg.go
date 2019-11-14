@@ -33,10 +33,10 @@ func upgrade(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error)
 		return err
 	}
 	//增加默认的应用数据
-	err = addDefaultBiz(ctx, db, conf)
-	if err != nil {
-		return err
-	}
+	//err = addDefaultBiz(ctx, db, conf)
+	//if err != nil {
+	//	return err
+	//}
 	//增加后台数据
 	err = addBKApp(ctx, db, conf)
 	if err != nil {

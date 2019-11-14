@@ -1,4 +1,4 @@
-package x08_09_18_01
+package x18_09_17_01
 
 import (
 	"context"
@@ -9,13 +9,13 @@ import (
 )
 
 func init() {
-	upgrader.RegistUpgrader("x08.09.18.01", upgrade)
+	upgrader.RegistUpgrader("x18.09.17.01", upgrade)
 }
 
 func upgrade(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
-	err = fixedHostPlatAssocateRelation(ctx, db, conf)
+	err = createTable(ctx, db, conf)
 	if err != nil {
-		blog.Errorf("[upgrade x08.09.18.01] fixedHostPlatAssocateRelation error  %s", err.Error())
+		blog.Errorf("[upgrade x18.09.17.01] create table netcollect error  %s", err.Error())
 		return err
 	}
 

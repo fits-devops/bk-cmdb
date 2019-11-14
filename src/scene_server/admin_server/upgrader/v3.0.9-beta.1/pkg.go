@@ -12,7 +12,7 @@ func init() {
 }
 
 func upgrade(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
-	err = fixesSupplierAccount(ctx, db, conf)
+	err = fixesOwnerID(ctx, db, conf)
 	if err != nil {
 		return err
 	}

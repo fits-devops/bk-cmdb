@@ -3,7 +3,6 @@ package v3v0v8
 import (
 	"context"
 	"fmt"
-
 	"strings"
 	"time"
 
@@ -24,11 +23,12 @@ var prc2port = []string{
 	"cmdb_datacollection:datacollection:40003",
 	"cmdb_eventserver:eventserver:40004",
 	"cmdb_apiserver:apiserver:8080",
-	"cmdb_webserver:webserver:8083"}
+	"cmdb_webserver:webserver:8083",
+}
 
 // 集群:模块:进程
 var setModuleKv = map[string]map[string]string{
-	"配置平台": {
+	"配置平台:iCenter后台服务集群": {
 		"coreservice":		"cmdb_coreservice",
 		"toposerver":       "cmdb_toposerver",
 		"adminserver":      "cmdb_adminserver",
@@ -37,13 +37,14 @@ var setModuleKv = map[string]map[string]string{
 		"apiserver":        "cmdb_apiserver",
 		"webserver":        "cmdb_webserver",
 	},
-	"公共组件": {
+	"公共组件:iCenter后台公共组件": {
 		"mysql": "common_mysql",
 		"redis": "common_redis",
 		"redis_cluster": "redis_cluster",
 		"zookeeper": "zk_java",
 		"etcd": "etcd",
-		"mongodb": "mongodb"},
+		"mongodb": "mongodb",
+	},
 }
 
 var procName2ID map[string]uint64
@@ -57,7 +58,7 @@ func addBKApp(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 		return nil
 	}
 
-	// add bk app
+	// add default app
 	appModelData := map[string]interface{}{}
 	appModelData[common.BKAppNameField] = common.BKAppName
 	appModelData[common.BKMaintainersField] = admin
@@ -108,49 +109,6 @@ func addBKApp(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 		return err
 	}
 
-	//// add bk app default set
-	//inputSetInfo := make(map[string]interface{})
-	//inputSetInfo[common.BKAppIDField] = bizID
-	//inputSetInfo[common.BKInstParentStr] = bizID
-	//inputSetInfo[common.BKSetNameField] = common.DefaultResSetName
-	//inputSetInfo[common.BKDefaultField] = common.DefaultResSetFlag
-	//inputSetInfo[common.BKOwnerIDField] = conf.OwnerID
-	//filled = fillEmptyFields(inputSetInfo, SetRow())
-	//setID, _, err := upgrader.Upsert(ctx, db, "cc_SetBase", inputSetInfo, common.BKSetIDField, []string{common.BKOwnerIDField, common.BKAppIDField, common.BKSetNameField}, append(filled, common.BKSetIDField))
-	//if err != nil {
-	//	blog.Error("add defaultSet error ", err.Error())
-	//	return err
-	//}
-
-	//// add bk app default module
-	//inputResModuleInfo := make(map[string]interface{})
-	//inputResModuleInfo[common.BKSetIDField] = setID
-	//inputResModuleInfo[common.BKInstParentStr] = setID
-	//inputResModuleInfo[common.BKAppIDField] = bizID
-	//inputResModuleInfo[common.BKModuleNameField] = common.DefaultResModuleName
-	//inputResModuleInfo[common.BKDefaultField] = common.DefaultResModuleFlag
-	//inputResModuleInfo[common.BKOwnerIDField] = conf.OwnerID
-	//filled = fillEmptyFields(inputResModuleInfo, ModuleRow())
-	//_, _, err = upgrader.Upsert(ctx, db, "cc_ModuleBase", inputResModuleInfo, common.BKModuleIDField, []string{common.BKOwnerIDField, common.BKModuleNameField, common.BKAppIDField, common.BKSetIDField}, append(filled, common.BKModuleIDField))
-	//if err != nil {
-	//	blog.Error("add defaultResModule error ", err.Error())
-	//	return err
-	//}
-
-	//inputFaultModuleInfo := make(map[string]interface{})
-	//inputFaultModuleInfo[common.BKSetIDField] = setID
-	//inputFaultModuleInfo[common.BKInstParentStr] = setID
-	//inputFaultModuleInfo[common.BKAppIDField] = bizID
-	//inputFaultModuleInfo[common.BKModuleNameField] = common.DefaultFaultModuleName
-	//inputFaultModuleInfo[common.BKDefaultField] = common.DefaultFaultModuleFlag
-	//inputFaultModuleInfo[common.BKOwnerIDField] = conf.OwnerID
-	//filled = fillEmptyFields(inputFaultModuleInfo, ModuleRow())
-	//_, _, err = upgrader.Upsert(ctx, db, "cc_ModuleBase", inputFaultModuleInfo, common.BKModuleIDField, []string{common.BKOwnerIDField, common.BKModuleNameField, common.BKAppIDField, common.BKSetIDField}, append(filled, common.BKModuleIDField))
-	//if err != nil {
-	//	blog.Error("add defaultFaultModule error ", err.Error())
-	//	return err
-	//}
-
 	if err := addBKProcess(ctx, db, conf, bizID); err != nil {
 		blog.Error("add addBKProcess error ", err.Error())
 	}
@@ -177,6 +135,7 @@ func addBKProcess(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID 
 		procModelData := map[string]interface{}{}
 		procModelData[common.BKProcessNameField] = procName
 		procModelData[common.BKFuncName] = funcName
+		procModelData[common.BKDescription] = funcName
 		procModelData[common.BKPort] = portStr
 		procModelData[common.BKWorkPath] = "/data/bkee"
 		procModelData[common.BKOwnerIDField] = conf.OwnerID
@@ -241,9 +200,13 @@ func addBKProcess(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID 
 
 //addSetInBKApp add set in bk app
 func addSetInBKApp(ctx context.Context, db dal.RDB, conf *upgrader.Config, bizID uint64) error {
-	for setName, moduleArr := range setModuleKv {
+	for setStr, moduleArr := range setModuleKv {
+		setArr := strings.Split(setStr,":")
+		setName := setArr[0]
+		setDescription := setArr[1]
 		setModelData := map[string]interface{}{}
 		setModelData[common.BKSetNameField] = setName
+		setModelData[common.BKsetDescription] = setDescription
 		setModelData[common.BKAppIDField] = bizID
 		setModelData[common.BKOwnerIDField] = conf.OwnerID
 		setModelData[common.BKInstParentStr] = bizID

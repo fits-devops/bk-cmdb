@@ -8,8 +8,8 @@ import (
 	"configcenter/src/storage/dal"
 )
 
-func fixesSupplierAccount(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
-	for _, tablename := range shouldAddSupplierAccountFieldTables {
+func fixesOwnerID(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
+	for _, tablename := range shouldAddOwnerIDFieldTables {
 		condition := map[string]interface{}{
 			common.BKOwnerIDField: map[string]interface{}{
 				"$in": []interface{}{nil, ""},
@@ -26,7 +26,7 @@ func fixesSupplierAccount(ctx context.Context, db dal.RDB, conf *upgrader.Config
 	return nil
 }
 
-var shouldAddSupplierAccountFieldTables = []string{
+var shouldAddOwnerIDFieldTables = []string{
 	"cc_ApplicationBase",
 	"cc_HostBase",
 	"cc_ModuleBase",

@@ -1,4 +1,4 @@
-package x08_09_11_01
+package x18_09_26_01
 
 import (
 	"context"
@@ -9,14 +9,16 @@ import (
 )
 
 func init() {
-	upgrader.RegistUpgrader("x08.09.11.01", upgrade)
+	upgrader.RegistUpgrader("x18.09.26.01", upgrade)
 }
 
 func upgrade(ctx context.Context, db dal.RDB, conf *upgrader.Config) (err error) {
-	err = addOperationLogIndex(ctx, db, conf)
+
+	err = updateProcessTooltips(ctx, db, conf)
 	if err != nil {
-		blog.Errorf("[upgrade x08.09.11.01] updateSystemProperty error  %s", err.Error())
+		blog.Errorf("[upgrade x18.09.19.01] updateProcessTooltips error  %s", err.Error())
 		return err
 	}
-	return
+
+	return nil
 }

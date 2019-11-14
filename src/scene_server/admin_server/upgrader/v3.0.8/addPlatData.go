@@ -15,7 +15,8 @@ func addPlatData(ctx context.Context, db dal.RDB, conf *upgrader.Config) error {
 	blog.Errorf("add data for  %s table ", tablename)
 	rows := []map[string]interface{}{
 		map[string]interface{}{
-			common.BKCloudNameField: "default area",
+			common.BKCloudNameField: "公有云",
+			common.BKSupplierField : "阿里云",
 			common.BKOwnerIDField:   common.BKDefaultOwnerID,
 			common.BKCloudIDField:   1,
 			common.CreateTimeField:  time.Now(),
