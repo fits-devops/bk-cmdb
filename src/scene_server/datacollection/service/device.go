@@ -197,13 +197,13 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 	pwd := body.HostUserPassword
 	resultData :=  mapstr.MapStr{}   //数据类型为map
 	for _,hostIp := range body.TargetHostIp {
-		outString, error := common.RunSsh(userName, pwd, hostIp, portInt)
+		minionId, error := common.RunSsh(userName, pwd, hostIp, portInt)
 		blog.Errorf("exec shell out string is %v", outString)
-		if error != nil {
+		if error == nil {
 			hostData :=  mapstr.MapStr{}   //数据类型为map
 			hostData["ip"] = hostIp   // ip
 			hostData["inst_name"] = hostIp // 实例名
-			hostData["minion_id"] = "minion-"+hostIp // minionId
+			hostData["minion_id"] = "minion-"+minionId // minionId
 			hostData["asset_id"] = "minion-"+hostIp // 固资编号
 			hostData["org_id"] = util.GetOwnerID(pheader) // 固资编号
 			// 创建主机
@@ -211,8 +211,6 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 			if nil != hostErr {
 				resultData[hostIp] = 0
 				blog.Errorf("failed to create host instance, error info is %s", hostErr.Error())
-				resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: hostErr})
-				return
 			}
 
 			if !rsp.Result {
