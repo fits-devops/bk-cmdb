@@ -121,7 +121,7 @@ func HostRow() []*Attribute {
 	dataRows := []*Attribute{
 		//基本信息分组
 		&Attribute{ObjectID: objID, PropertyID: "inst_name", PropertyName: "主机名称", IsPre: true, IsRequired: true, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
-		&Attribute{ObjectID: objID, PropertyID: "asset_id", PropertyName: "资产编号", IsPre: true, IsRequired: false, IsOnly: true, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "asset_id", PropertyName: "资产编号", IsPre: true, IsRequired: false, IsOnly: false, IsEditable: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "ip", PropertyName: "IP地址", IsPre: true, IsRequired: true, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: common.PatternMultipleIP},
 		&Attribute{ObjectID: objID, PropertyID: "status", PropertyName: "运营状态", IsPre: false, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: statusEnum},
 		&Attribute{ObjectID: objID, PropertyID: "sla", PropertyName: "SLA级别", IsPre: false, IsRequired: false, IsOnly: false, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "L1", Type: "text"}, {ID: "2", Name: "L2", Type: "text"}, {ID: "3", Name: "L3", Type: "text"}}},
@@ -132,6 +132,7 @@ func HostRow() []*Attribute {
 		&Attribute{ObjectID: objID, PropertyID: "agentStatus", PropertyName: "agent状态", IsPre: false, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeEnum, Option: []validator.EnumVal{{ID: "1", Name: "未安装", Type: "text"}, {ID: "2", Name: "异常", Type: "text"}, {ID: "3", Name: "正常", Type: "text"}}},
 		&Attribute{ObjectID: objID, PropertyID: "agentVersion", PropertyName: "agent版本", IsPre: false, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
 		&Attribute{ObjectID: objID, PropertyID: "provider", PropertyName: "供应商", IsPre: false, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupBaseInfo, PropertyType: common.FieldTypeSingleChar, Option: ""},
+		&Attribute{ObjectID: objID, PropertyID: "minionId", PropertyName: "minionId", IsPre: true, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupMoreInfo, PropertyType: common.FieldTypeLongChar, Option: ""},
 
 		//更多信息分组
 		&Attribute{ObjectID: objID, PropertyID: "state_name", PropertyName: "所在国家", IsPre: false, IsRequired: false, IsOnly: false, IsEditable: true, PropertyGroup: groupMoreInfo, PropertyType: common.FieldTypeEnum, Option: stateEnum},
