@@ -211,11 +211,13 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 			if nil != hostErr {
 				resultData[hostIp] = 0
 				blog.Errorf("failed to create host instance, error info is %s", hostErr.Error())
+				resp.WriteError(http.StatusBadRequest, &meta.RespError{Msg: hostErr})
+				return
 			}
 
 			if !rsp.Result {
 				resultData[hostIp] = 0
-				blog.Errorf("failed to create host instance ,error info is %v", rsp.ErrMsg)
+				blog.Errorf("failed to create host Result instance ,error info is %v", rsp.ErrMsg)
 			}else{
 				resultData[hostIp] = rsp.Data.Created.ID
 			}
