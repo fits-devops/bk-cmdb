@@ -205,6 +205,7 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 			hostData["inst_name"] = hostIp // 实例名
 			hostData["minion_id"] = "minion-"+hostIp // minionId
 			hostData["asset_id"] = "minion-"+hostIp // 固资编号
+			hostData["org_id"] = util.GetOwnerID(pheader) // 固资编号
 			// 创建主机
 			rsp, hostErr := s.CoreAPI.CoreService().Instance().CreateInstance(context.Background(), pheader,"host", &meta.CreateModelInstance{Data: hostData})
 			if nil != hostErr {
