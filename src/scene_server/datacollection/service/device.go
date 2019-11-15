@@ -198,7 +198,7 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 	resultData :=  mapstr.MapStr{}   //数据类型为map
 	for _,hostIp := range body.TargetHostIp {
 		minionId, error := common.RunSsh(userName, pwd, hostIp, portInt)
-		blog.Errorf("exec shell out string is %v", outString)
+		blog.Errorf("exec shell out string is %v", minionId)
 		if error == nil {
 			hostData :=  mapstr.MapStr{}   //数据类型为map
 			hostData["ip"] = hostIp   // ip
