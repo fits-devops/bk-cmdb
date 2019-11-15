@@ -16,9 +16,8 @@ type AddDeviceResult struct {
 	DeviceID uint64 `json:"device_id"`
 }
 type AddHostResult struct {
-	MinionId string `json:"minion_id"`
+	Data []byte `json:"data"`  //返回 安装成功的和 失败的
 }
-
 
 type BatchAddDevice struct {
 	Data []NetcollectDevice `json:"data"`

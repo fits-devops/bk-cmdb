@@ -14,10 +14,16 @@ package service
 
 import (
 	"bytes"
+	"configcenter/src/common/mapstr"
+	"context"
 	"encoding/json"
+	"fmt"
+	"golang.org/x/crypto/ssh"
+	"net"
 	"net/http"
 	"os/exec"
 	"strconv"
+	"strings"
 
 	restful "github.com/emicklei/go-restful"
 
@@ -192,30 +198,41 @@ func (s *Service) CreateHost(req *restful.Request, resp *restful.Response) {
 		return
 	}
 	port := body.SshPort
+	portInt,_:=strconv.Atoi(port)
 	userName := body.HostUserName
 	pwd := body.HostUserPassword
+	resultData :=  mapstr.MapStr{}   //数据类型为map
 	for _,hostIp := range body.TargetHostIp {
-		command := "./test.sh "+hostIp+" "+port+" "+ userName+" "+pwd//脚本的路径
-		cmd := exec.Command("/bin/bash", "-c",command)
-		var out bytes.Buffer
-		var stderr bytes.Buffer
-		cmd.Stdout = &out
-		cmd.Stderr = &stderr
-		err := cmd.Run()
-		if err != nil {
-			blog.Errorf("[CreateHost] failed, err: %v", stderr.String())
-		}
-		ok := out.String()
-		if ok == "100" {
-			blog.Errorf("[CreateHost] success, err: %v", ok)
-			result := meta.AddHostResult{MinionId: hostIp}
-			resp.WriteEntity(meta.NewSuccessResp(result))
+		outString, error := common.RunSsh(userName, pwd, hostIp, portInt)
+		blog.Errorf("exec shell out string is %v", outString)
+		if error != nil {
+			hostData :=  mapstr.MapStr{}   //数据类型为map
+			hostData["ip"] = hostIp   // ip
+			hostData["inst_name"] = hostIp // 实例名
+			hostData["minion_id"] = "minion-"+hostIp // minionId
+			hostData["asset_id"] = "minion-"+hostIp // 固资编号
+			// 创建主机
+			rsp, hostErr := s.CoreAPI.CoreService().Instance().CreateInstance(context.Background(), pheader,"host", &meta.CreateModelInstance{Data: hostData})
+			if nil != hostErr {
+				resultData[hostIp] = 0
+				blog.Errorf("failed to create host instance, error info is %s", hostErr.Error())
+			}
+
+			if !rsp.Result {
+				resultData[hostIp] = 0
+				blog.Errorf("failed to create host instance ,error info is %v", rsp.ErrMsg)
+			}else{
+				resultData[hostIp] = rsp.Data.Created.ID
+			}
 		}else{
-			blog.Info("exec sh result: %v", ok)
-			resp.WriteError(http.StatusInternalServerError, &meta.RespError{Msg: defErr.Error(common.CCErrCollectCreateHostFail)})
+			blog.Errorf("failed to create host instance ,error info is %v", error)
 		}
 
 	}
+	// 统一返回结果
+	dataJson, _ := json.Marshal(resultData)
+	result := meta.AddHostResult{Data:dataJson}
+	resp.WriteEntity(meta.NewSuccessResp(result))
 	// 檢查ip 是否存在 或者 sh 脚本檢查 存在手动添加的主机 可能是agent 未安装 minionId 不存在
 	// 可以查询 minionId 是否存在 再去调用脚本
 
