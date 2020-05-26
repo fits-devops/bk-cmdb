@@ -2,31 +2,24 @@
     <div class="relation-layout">
         <div class="relation-options clearfix">
             <div class="fl">
-                <span class="inline-block-middle"
-                    v-cursor="{
-                        active: !$isAuthorized(auth),
-                        auth: [auth]
-                    }">
-                    <bk-button class="options-button options-button-update" size="small" type="primary"
-                        :disabled="!hasRelation || !$isAuthorized(auth)"
+                <cmdb-auth class="inline-block-middle" :auth="authResources">
+                    <bk-button slot-scope="{ disabled }"
+                        class="options-button options-button-update"
+                        theme="primary"
+                        :disabled="!hasRelation || disabled"
                         :class="{ active: activeComponent === 'cmdbRelationUpdate' }"
                         @click="handleShowUpdate">
-                        {{$t('Association["关联管理"]')}}
+                        {{$t('关联管理')}}
                         <i class="bk-icon icon-angle-down"></i>
                     </bk-button>
-                </span>
+                </cmdb-auth>
             </div>
             <div class="fr">
-                <bk-button type="default" class="options-full-screen"
+                <bk-button theme="default" class="options-full-screen"
                     v-show="activeComponent === 'cmdbRelationTopology'"
-                    v-tooltip="$t('Common[\'全屏\']')"
+                    v-bk-tooltips="$t('全屏')"
                     @click="handleFullScreen">
                     <i class="icon-cc-resize-full"></i>
-                </bk-button>
-                <bk-button class="options-button" :type="activeComponent === 'cmdbRelationTopology' ? 'primary' : 'default'"
-                    @click.prevent="activeComponent = 'cmdbRelationTopology'">
-                    <i class="icon-cc-resources"></i>
-                    {{$t('Association["拓扑"]')}}
                 </bk-button>
             </div>
         </div>
@@ -39,7 +32,8 @@
 </template>
 
 <script>
-    import cmdbRelationTopology from './_topology.vue'
+    // import cmdbRelationTopology from './_topology.vue'
+    import cmdbRelationTopology from './_topology.new.vue'
     import cmdbRelationUpdate from './_update.vue'
     export default {
         components: {
@@ -85,6 +79,12 @@
                     'bk_inst_id': this.inst[idKey],
                     'bk_inst_name': this.inst[nameKey]
                 }
+            },
+            authResources () {
+                const auth = this.auth
+                if (!auth) return {}
+                if (Array.isArray(auth) && !auth.length) return {}
+                return this.$authResources({ type: auth })
             }
         },
         created () {
@@ -148,14 +148,14 @@
     }
     .relation-options {
         .options-full-screen {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             padding: 0;
             text-align: center;
             margin-right: 10px;
         }
         .icon-angle-down {
-            font-size: 12px;
+            font-size: 20px;
             vertical-align: baseline;
             transition: transform .2s linear;
         }
@@ -191,6 +191,6 @@
         }
     }
     .relation-component {
-        height: calc(100% - 54px);
+        height: calc(100% - 80px);
     }
 </style>

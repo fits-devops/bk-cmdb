@@ -13,12 +13,13 @@
 package metadata
 
 import (
-	"configcenter/src/common/json"
 	"errors"
 	"fmt"
 	"strconv"
 
+	"configcenter/src/common"
 	"configcenter/src/common/blog"
+	"configcenter/src/common/json"
 	"configcenter/src/common/mapstr"
 	"configcenter/src/common/util"
 )
@@ -44,7 +45,7 @@ const (
 var (
 	LabelKeyNotExistError = errors.New("label key does not exist")
 )
-
+var MetadataBizField = "metadata.label.bk_biz_id"
 var BizLabelNotExist = mapstr.MapStr{"metadata.label.bk_biz_id": mapstr.MapStr{"$exists": false}}
 
 /*
@@ -99,7 +100,7 @@ func NewPublicOrBizConditionByBizID(businessID int64) mapstr.MapStr {
 	if businessID != 0 {
 		condArr = append(condArr, mapstr.MapStr{"metadata.label.bk_biz_id": strconv.FormatInt(businessID, 10)})
 	}
-	return mapstr.MapStr{"$or": condArr}
+	return mapstr.MapStr{common.BKDBOR: condArr}
 }
 
 const (
@@ -115,6 +116,9 @@ func NewMetaDataFromBusinessID(value string) Metadata {
 	label[LabelBusinessID] = value
 	meta := Metadata{Label: label}
 	return meta
+}
+func NewMetadata(bizID int64) Metadata {
+	return NewMetaDataFromBusinessID(strconv.FormatInt(bizID, 10))
 }
 
 func GetBusinessIDFromMeta(data interface{}) string {
@@ -167,9 +171,28 @@ func ParseBizIDFromData(rawData mapstr.MapStr) (int64, error) {
 
 }
 
+type MetadataWrapper struct {
+	Metadata Metadata `json:"metadata"`
+}
+
 // Metadata  used to define the metadata for the resources
 type Metadata struct {
 	Label Label `field:"label" json:"label" bson:"label"`
+}
+
+func (md *Metadata) ParseBizID() (int64, error) {
+	if md == nil {
+		return 0, errors.New("invalid nil matadata")
+	}
+	bizID, err := BizIDFromMetadata(*md)
+	if err != nil {
+		return 0, err
+	}
+	return bizID, nil
+}
+
+func (md *Metadata) ToMapStr() mapstr.MapStr {
+	return mapstr.MapStr{"label": md.Label.ToMapStr()}
 }
 
 func (label Label) Set(key, value string) {
@@ -179,6 +202,14 @@ func (label Label) Set(key, value string) {
 func (label Label) Get(key string) (exist bool, value string) {
 	value, exist = label[key]
 	return
+}
+
+func (label Label) ToMapStr() mapstr.MapStr {
+	result := make(map[string]interface{})
+	for key, value := range label {
+		result[key] = value
+	}
+	return result
 }
 
 // isTrue is used to check if the label key is a true value or not.

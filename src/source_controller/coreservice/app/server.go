@@ -22,7 +22,6 @@ import (
 	"configcenter/src/common/backbone"
 	cc "configcenter/src/common/backbone/configcenter"
 	"configcenter/src/common/blog"
-	"configcenter/src/common/rdapi"
 	"configcenter/src/common/types"
 	"configcenter/src/common/version"
 	"configcenter/src/source_controller/coreservice/app/options"
@@ -48,7 +47,7 @@ func (t *CoreServer) onCoreServiceConfigUpdate(previous, current cc.ProcessConfi
 }
 
 // Run main function
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
 		return fmt.Errorf("wrap server info failed, err: %v", err)
@@ -57,9 +56,6 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 	coreSvr := new(CoreServer)
 	coreService := coresvr.New()
 	coreSvr.Service = coreService
-
-	webhandler := coreService.WebService()
-	webhandler.ServiceErrorHandler(rdapi.ServiceErrorHandler)
 
 	input := &backbone.BackboneParameter{
 		ConfigUpdate: coreSvr.onCoreServiceConfigUpdate,
@@ -80,18 +76,14 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 			time.Sleep(time.Second)
 			continue
 		}
-		// Mongo not found
-		if "" == coreSvr.Config.Mongo.Address {
-			time.Sleep(time.Second)
-			continue
-		}
+
 		configReady = true
 		break
 
 	}
 
 	if false == configReady {
-		return fmt.Errorf("Configuration item not found")
+		return fmt.Errorf("configuration item not found")
 	}
 
 	coreSvr.Core = engine
@@ -99,7 +91,8 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 	if err != nil {
 		return err
 	}
-	if err := backbone.StartServer(ctx, engine, webhandler); err != nil {
+	err = backbone.StartServer(ctx, cancel, engine, coreService.WebService(), true)
+	if err != nil {
 		return err
 	}
 	select {

@@ -1,36 +1,33 @@
 import Meta from '@/router/meta'
-import { NAV_BASIC_RESOURCE } from '@/dictionary/menu'
-import {
-    C_RESOURCE_HOST,
-    U_RESOURCE_HOST,
-    D_RESOURCE_HOST
-} from '@/dictionary/auth'
+import { MENU_RESOURCE_HOST, MENU_RESOURCE_MANAGEMENT } from '@/dictionary/menu-symbol'
 
-export const OPERATION = {
-    C_RESOURCE_HOST,
-    U_RESOURCE_HOST,
-    D_RESOURCE_HOST
-}
-
-const path = '/resource'
-
-export default {
-    name: 'resource',
-    path: path,
+export default [{
+    name: MENU_RESOURCE_HOST,
+    path: 'host',
     component: () => import('./index.vue'),
     meta: new Meta({
         menu: {
-            id: 'resource',
-            i18n: 'Nav["主机"]',
-            path: path,
-            order: 2,
-            parent: NAV_BASIC_RESOURCE
+            i18n: '主机'
         },
-        auth: {
-            operation: Object.values(OPERATION),
-            setAuthScope () {
-                this.authScope = 'global'
+        layout: {
+            previous: {
+                name: MENU_RESOURCE_MANAGEMENT
+            }
+        },
+        filterPropertyKey: 'resource_host_filter_properties'
+    })
+}, {
+    name: 'hostHistory',
+    path: 'host/history',
+    component: () => import('@/views/history/index.vue'),
+    meta: new Meta({
+        menu: {
+            relative: MENU_RESOURCE_MANAGEMENT
+        },
+        layout: {
+            previous: {
+                name: MENU_RESOURCE_HOST
             }
         }
     })
-}
+}]

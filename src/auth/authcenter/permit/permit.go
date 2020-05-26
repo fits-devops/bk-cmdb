@@ -12,7 +12,9 @@
 
 package permit
 
-import "configcenter/src/auth/meta"
+import (
+	"configcenter/src/auth/meta"
+)
 
 func IsReadAction(action meta.Action) bool {
 	if action == meta.FindMany || action == meta.Find {
@@ -56,7 +58,7 @@ func ShouldSkipAuthorize(rsc *meta.ResourceAttribute) bool {
 		return true
 
 	// all the model instance association related operation is all authorized for now.
-	case rsc.Type == meta.ModelInstanceAssociation:
+	case rsc.Type == meta.ModelInstanceAssociation && IsReadAction(rsc.Action):
 		return true
 
 	// case rsc.Type == meta.ModelInstance && (rsc.Action == meta.Find || rsc.Action == meta.FindMany):
@@ -72,6 +74,16 @@ func ShouldSkipAuthorize(rsc *meta.ResourceAttribute) bool {
 	// topology instance resource types.
 	case rsc.Type == meta.ModelInstanceTopology || rsc.Type == meta.MainlineInstanceTopology:
 		return true
+	case rsc.Type == meta.ProcessServiceInstance && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.ProcessServiceTemplate && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.SetTemplate && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.ProcessServiceCategory && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.ProcessTemplate && IsReadAction(rsc.Action):
+		return true
 
 	case rsc.Type == meta.MainlineInstance && IsReadAction(rsc.Action):
 		return true
@@ -81,18 +93,21 @@ func ShouldSkipAuthorize(rsc *meta.ResourceAttribute) bool {
 		return true
 	case rsc.Type == meta.ModelModule && IsReadAction(rsc.Action):
 		return true
-
-	case rsc.Type == meta.HostInstance:
-		// all these actions is batch operation, authorize has already been done
-		// in host server. so skip auth in apiserver.
-		if rsc.Action == meta.MoveResPoolHostToBizIdleModule ||
-			rsc.Action == meta.AddHostToResourcePool ||
-			rsc.Action == meta.MoveHostFromModuleToResPool ||
-			rsc.Action == meta.MoveHostToBizFaultModule ||
-			rsc.Action == meta.MoveHostToBizIdleModule {
-			return true
-		}
-
+	case rsc.Type == meta.MainlineModelTopology && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.OperationStatistic && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.HostFavorite:
+		return true
+	case rsc.Type == meta.InstallBK:
+		return true
+	// all the model instances' read operation is authorized for now
+	case rsc.Type == meta.ModelInstance && IsReadAction(rsc.Action):
+		return true
+	case rsc.Type == meta.SystemConfig:
+    return true
+	case rsc.Type == meta.Plat && IsReadAction(rsc.Action):
+		return true
 	default:
 		return false
 	}

@@ -13,6 +13,7 @@
 package parser
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -24,6 +25,8 @@ import (
 	"configcenter/src/common/blog"
 	"configcenter/src/common/mapstr"
 	"configcenter/src/common/metadata"
+
+	"github.com/tidwall/gjson"
 )
 
 func (ps *parseStream) topology() *parseStream {
@@ -38,28 +41,32 @@ func (ps *parseStream) topology() *parseStream {
 		objectInstanceAssociation().
 		objectInstance().
 		object().
-		ObjectClassification().
+		objectClassification().
 		objectAttributeGroup().
 		objectAttribute().
-		ObjectModule().
-		ObjectSet().
+		objectModule().
+		objectSet().
 		objectUnique().
 		audit().
 		instanceAudit().
-		privilege()
+		fullTextSearch().
+		cloudArea()
 
 	return ps
 }
 
 var (
-	createBusinessRegexp       = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/?$`)
-	updateBusinessRegexp       = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/[0-9]+/?$`)
-	deleteBusinessRegexp       = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/[0-9]+/?$`)
-	findBusinessRegexp         = regexp.MustCompile(`^/api/v3/biz/search/[^\s/]+/?$`)
-	updateBusinessStatusRegexp = regexp.MustCompile(`^/api/v3/biz/status/[^\s/]+/[^\s/]+/[0-9]+/?$`)
+	createBusinessRegexp = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/?$`)
+	updateBusinessRegexp = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/[0-9]+/?$`)
+	// deleteBusinessRegexp             = regexp.MustCompile(`^/api/v3/biz/[^\s/]+/[0-9]+/?$`)
+	findBusinessRegexp               = regexp.MustCompile(`^/api/v3/biz/search/[^\s/]+/?$`)
+	findResourcePoolBusinessRegexp   = regexp.MustCompile(`^/api/v3/biz/default/[^\s/]+/search/?$`)
+	createResourcePoolBusinessRegexp = regexp.MustCompile(`^/api/v3/biz/default/[^\s/]+/?$`)
+	updateBusinessStatusRegexp       = regexp.MustCompile(`^/api/v3/biz/status/[^\s/]+/[^\s/]+/[0-9]+/?$`)
 )
 
 const findReducedBusinessList = `/api/v3/biz/with_reduced`
+const findSimplifiedBusinessList = `/api/v3/biz/simplify`
 
 func (ps *parseStream) business() *parseStream {
 	if ps.shouldReturn() {
@@ -79,9 +86,35 @@ func (ps *parseStream) business() *parseStream {
 		return ps
 	}
 
+	// find simplified business list with limited fields return
+	if ps.hitPattern(findSimplifiedBusinessList, http.MethodGet) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.Business,
+					Action: meta.SkipAction,
+				},
+			},
+		}
+		return ps
+	}
+
 	// create business, this is not a normalize api.
 	// TODO: update this api format.
 	if ps.hitRegexp(createBusinessRegexp, http.MethodPost) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.Business,
+					Action: meta.Create,
+				},
+			},
+		}
+		return ps
+	}
+
+	// 创建资源池业务
+	if ps.hitRegexp(createResourcePoolBusinessRegexp, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
 				Basic: meta.Basic{
@@ -187,6 +220,22 @@ func (ps *parseStream) business() *parseStream {
 		return ps
 	}
 
+	// find resource pool business
+	if ps.hitRegexp(findResourcePoolBusinessRegexp, http.MethodPost) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.Business,
+					Action: meta.SkipAction,
+				},
+				// we don't know if one or more business is to find, so we assume it's a find many
+				// business operation.
+			},
+		}
+		return ps
+	}
+
+	// update business status to `disabled` or `enable`
 	if ps.hitRegexp(updateBusinessStatusRegexp, http.MethodPut) {
 		bizID, err := strconv.ParseInt(ps.RequestCtx.Elements[6], 10, 64)
 		if err != nil {
@@ -215,11 +264,12 @@ const (
 )
 
 var (
-	deleteMainlineObjectRegexp        = regexp.MustCompile(`^/api/v3/topo/model/mainline/owners/[^\s/]+/objectids/[^\s/]+/?$`)
-	findMainlineObjectTopoRegexp      = regexp.MustCompile(`^/api/v3/topo/model/[^\s/]+/?$`)
-	findMainlineInstanceTopoRegexp    = regexp.MustCompile(`^/api/v3/topo/inst/[^\s/]+/[0-9]+/?$`)
-	findMainineSubInstanceTopoRegexp  = regexp.MustCompile(`^/api/v3/topo/inst/child/[^\s/]+/[^\s/]+/[0-9]+/[0-9]+/?$`)
-	findMainlineIdleFaultModuleRegexp = regexp.MustCompile(`^/api/v3/topo/internal/[^\s/]+/[0-9]+/?$`)
+	deleteMainlineObjectRegexp                      = regexp.MustCompile(`^/api/v3/topo/model/mainline/owners/[^\s/]+/objectids/[^\s/]+/?$`)
+	findMainlineObjectTopoRegexp                    = regexp.MustCompile(`^/api/v3/topo/model/[^\s/]+/?$`)
+	findMainlineInstanceTopoRegexp                  = regexp.MustCompile(`^/api/v3/topo/inst/[^\s/]+/[0-9]+/?$`)
+	findMainlineSubInstanceTopoRegexp               = regexp.MustCompile(`^/api/v3/topo/inst/child/[^\s/]+/[^\s/]+/[0-9]+/[0-9]+/?$`)
+	findMainlineIdleFaultModuleRegexp               = regexp.MustCompile(`^/api/v3/topo/internal/[^\s/]+/[0-9]+/?$`)
+	findMainlineIdleFaultModuleWithStatisticsRegexp = regexp.MustCompile(`^/api/v3/topo/internal/[^\s/]+/[0-9]+/with_statistics/?$`)
 )
 
 func (ps *parseStream) mainline() *parseStream {
@@ -227,7 +277,7 @@ func (ps *parseStream) mainline() *parseStream {
 		return ps
 	}
 
-	// create mainline object operation.
+	// 添加主线层级
 	if ps.hitPattern(createMainlineObjectPattern, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -240,7 +290,7 @@ func (ps *parseStream) mainline() *parseStream {
 		return ps
 	}
 
-	// delete mainline object operation
+	// 删除主线层级
 	if ps.hitRegexp(deleteMainlineObjectRegexp, http.MethodDelete) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -254,7 +304,7 @@ func (ps *parseStream) mainline() *parseStream {
 		return ps
 	}
 
-	// get mainline object operation
+	// 获取主线层级
 	if ps.hitRegexp(findMainlineObjectTopoRegexp, http.MethodGet) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -269,6 +319,7 @@ func (ps *parseStream) mainline() *parseStream {
 	}
 
 	// find mainline instance topology operation.
+	// 查询主线节点（业务拓扑树上，集群到业务之间的节点）
 	if ps.hitRegexp(findMainlineInstanceTopoRegexp, http.MethodGet) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("find mainline instance topology, but got invalid url")
@@ -294,7 +345,8 @@ func (ps *parseStream) mainline() *parseStream {
 	}
 
 	// find mainline object instance's sub-instance topology operation.
-	if ps.hitRegexp(findMainineSubInstanceTopoRegexp, http.MethodGet) {
+	// 获取主线节点的孩子节点列表
+	if ps.hitRegexp(findMainlineSubInstanceTopoRegexp, http.MethodGet) {
 		if len(ps.RequestCtx.Elements) != 9 {
 			ps.err = errors.New("find mainline object's sub instance topology, but got invalid url")
 			return ps
@@ -318,7 +370,7 @@ func (ps *parseStream) mainline() *parseStream {
 		return ps
 	}
 
-	// find mainline internal idle and fault module operation.
+	// find internal mainline idle and fault module operation.
 	if ps.hitRegexp(findMainlineIdleFaultModuleRegexp, http.MethodGet) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("find mainline idle and fault module, but got invalid url")
@@ -343,12 +395,36 @@ func (ps *parseStream) mainline() *parseStream {
 		return ps
 	}
 
+	// find internal mainline idle and fault module with statistics operation.
+	if ps.hitRegexp(findMainlineIdleFaultModuleWithStatisticsRegexp, http.MethodGet) {
+		if len(ps.RequestCtx.Elements) != 7 {
+			ps.err = errors.New("find mainline idle and fault module with statistics, but got invalid url")
+			return ps
+		}
+
+		bizID, err := strconv.ParseInt(ps.RequestCtx.Elements[5], 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("find mainline idle and fault module with statistics, but got invalid business id %s", ps.RequestCtx.Elements[5])
+			return ps
+		}
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				BusinessID: bizID,
+				Basic: meta.Basic{
+					Type:   meta.MainlineInstance,
+					Action: meta.Find,
+				},
+			},
+		}
+
+		return ps
+	}
 	return ps
 }
 
 const (
 	findManyAssociationKindPattern = "/api/v3/topo/association/type/action/search"
-	createAssociationKindPattern   = "/api/v3/topo/association/type/action/search"
+	createAssociationKindPattern   = "/api/v3/topo/association/type/action/create"
 )
 
 var (
@@ -458,8 +534,14 @@ func (ps *parseStream) objectAssociation() *parseStream {
 
 	// search object association operation
 	if ps.RequestCtx.URI == findObjectAssociationPattern && ps.RequestCtx.Method == http.MethodPost {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAssociation,
 					Action: meta.FindMany,
@@ -471,8 +553,14 @@ func (ps *parseStream) objectAssociation() *parseStream {
 
 	// create object association operation
 	if ps.RequestCtx.URI == createObjectAssociationPattern && ps.RequestCtx.Method == http.MethodPost {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAssociation,
 					Action: meta.Create,
@@ -495,8 +583,14 @@ func (ps *parseStream) objectAssociation() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelAssociation,
 					Action:     meta.Update,
@@ -520,8 +614,14 @@ func (ps *parseStream) objectAssociation() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelAssociation,
 					Action:     meta.Delete,
@@ -534,8 +634,14 @@ func (ps *parseStream) objectAssociation() *parseStream {
 
 	// find object association with a association kind list.
 	if ps.RequestCtx.URI == findObjectAssociationWithAssociationKindPattern && ps.RequestCtx.Method == http.MethodPost {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAssociation,
 					Action: meta.FindMany,
@@ -555,6 +661,7 @@ const (
 
 var (
 	deleteObjectInstanceAssociationRegexp = regexp.MustCompile("/api/v3/inst/association/[0-9]+/action/delete")
+	importObjectInstanceAssociationRegexp = regexp.MustCompile("/api/v3/inst/association/action/\\w*/import")
 )
 
 func (ps *parseStream) objectInstanceAssociation() *parseStream {
@@ -562,10 +669,16 @@ func (ps *parseStream) objectInstanceAssociation() *parseStream {
 		return ps
 	}
 
-	// find object instance's association operation.
+	// find instance's association operation.
 	if ps.RequestCtx.URI == findObjectInstanceAssociationPattern && ps.RequestCtx.Method == http.MethodPost {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstanceAssociation,
 					Action: meta.FindMany,
@@ -575,10 +688,16 @@ func (ps *parseStream) objectInstanceAssociation() *parseStream {
 		return ps
 	}
 
-	// create object's instance association operation.
+	// create instance association operation.
 	if ps.RequestCtx.URI == createObjectInstanceAssociationPattern && ps.RequestCtx.Method == http.MethodPost {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstanceAssociation,
 					Action: meta.Create,
@@ -588,7 +707,7 @@ func (ps *parseStream) objectInstanceAssociation() *parseStream {
 		return ps
 	}
 
-	// delete object's instance association operation.
+	// delete instance association operation.
 	if ps.hitRegexp(deleteObjectInstanceAssociationRegexp, http.MethodDelete) {
 		if len(ps.RequestCtx.Elements) != 7 {
 			ps.err = errors.New("delete object instance association, but got invalid url")
@@ -601,12 +720,36 @@ func (ps *parseStream) objectInstanceAssociation() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelInstanceAssociation,
 					Action:     meta.Delete,
 					InstanceID: assoID,
+				},
+			},
+		}
+		return ps
+	}
+
+	// import object's instance association operation.
+	if ps.hitRegexp(importObjectInstanceAssociationRegexp, http.MethodPost) {
+		if len(ps.RequestCtx.Elements) != 7 {
+			ps.err = errors.New("import object instance association, but got invalid url")
+			return ps
+		}
+
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.ModelInstanceAssociation,
+					Action: meta.SkipAction,
 				},
 			},
 		}
@@ -627,7 +770,7 @@ var (
 	updateObjectInstanceBatchRegexp     = regexp.MustCompile(`^/api/v3/inst/[^\s/]+/[^\s/]+/batch$`)
 	deleteObjectInstanceBatchRegexp     = regexp.MustCompile(`^/api/v3/inst/[^\s/]+/[^\s/]+/batch$`)
 	deleteObjectInstanceRegexp          = regexp.MustCompile(`^/api/v3/inst/[^\s/]+/[^\s/]+/[0-9]+/?$`)
-	findObjectInstanceSubTopologyRegexp = regexp.MustCompile(`^/api/v3/inst/association/topo/search/owner/[^\s/]+/object/[^\s/]+/inst/[0-9]+/?$`)
+	findObjectInstanceSubTopologyRegexp = regexp.MustCompile(`^/api/v3/inst/search/topo/owner/[^\s/]+/object/[^\s/]+/inst/[0-9]+/?$`)
 	findObjectInstanceTopologyRegexp    = regexp.MustCompile(`^/api/v3/inst/association/topo/search/owner/[^\s/]+/object/[^\s/]+/inst/[0-9]+/?$`)
 	findBusinessInstanceTopologyRegexp  = regexp.MustCompile(`^/api/v3/topo/inst/[^\s/]+/[0-9]+/?$`)
 	findObjectInstancesRegexp           = regexp.MustCompile(`^/api/v3/inst/search/owner/[^\s/]+/object/[^\s/]+/?$`)
@@ -641,8 +784,14 @@ func (ps *parseStream) objectInstance() *parseStream {
 
 	// create object instance operation.
 	if ps.hitRegexp(createObjectInstanceRegexp, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstance,
 					Action: meta.Create,
@@ -658,8 +807,14 @@ func (ps *parseStream) objectInstance() *parseStream {
 			ps.err = errors.New("search object instance, but got invalid url")
 			return ps
 		}
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstance,
 					Action: meta.Find,
@@ -675,7 +830,7 @@ func (ps *parseStream) objectInstance() *parseStream {
 		return ps
 	}
 
-	// update object instance operation.
+	// update instance operation
 	if ps.hitRegexp(updateObjectInstanceRegexp, http.MethodPut) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("update object instance, but got invalid url")
@@ -688,33 +843,65 @@ func (ps *parseStream) objectInstance() *parseStream {
 			return ps
 		}
 
+		model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: ps.RequestCtx.Elements[4]})
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
+		var modelType = meta.ModelInstance
+		var bizID int64
+		bizID, err = metadata.BizIDFromMetadata(model.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
+		isMainline, err := ps.isMainlineModel(model.ObjectID)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+		if isMainline {
+			// only works for mainline instance update.
+			var err error
+			bizID, err = metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+			if err != nil {
+				ps.err = err
+				return ps
+			}
+			modelType = meta.MainlineInstance
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
-					Type:       meta.ModelInstance,
+					Type:       modelType,
 					Action:     meta.Update,
 					InstanceID: instID,
 				},
-				Layers: []meta.Item{
-					{
-						Type: meta.Model,
-						Name: ps.RequestCtx.Elements[4],
-					},
-				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
 			},
 		}
 		return ps
 	}
 
-	// update object instance batch operation.
+	// batch update instance operation
 	if ps.hitRegexp(updateObjectInstanceBatchRegexp, http.MethodPut) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("update object instance batch, but got invalid url")
 			return ps
 		}
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstance,
 					Action: meta.UpdateMany,
@@ -730,15 +917,22 @@ func (ps *parseStream) objectInstance() *parseStream {
 		return ps
 	}
 
-	// delete object instance batch operation.
+	// delete instance batch operation.
 	if ps.hitRegexp(deleteObjectInstanceBatchRegexp, http.MethodDelete) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("delete object instance batch, but got invalid url")
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstance,
 					Action: meta.DeleteMany,
@@ -754,10 +948,16 @@ func (ps *parseStream) objectInstance() *parseStream {
 		return ps
 	}
 
-	// delete object instance operation.
+	// delete instance operation.
 	if ps.hitRegexp(deleteObjectInstanceRegexp, http.MethodDelete) {
 		if len(ps.RequestCtx.Elements) != 6 {
 			ps.err = errors.New("delete object instance, but got invalid url")
+			return ps
+		}
+
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
 			return ps
 		}
 
@@ -769,6 +969,7 @@ func (ps *parseStream) objectInstance() *parseStream {
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelInstance,
 					Action:     meta.Delete,
@@ -787,19 +988,26 @@ func (ps *parseStream) objectInstance() *parseStream {
 
 	// find object instance topology operation
 	if ps.hitRegexp(findObjectInstanceSubTopologyRegexp, http.MethodPost) {
-		if len(ps.RequestCtx.Elements) != 12 {
+		if len(ps.RequestCtx.Elements) != 11 {
 			ps.err = errors.New("find object instance topology, but got invalid url")
 			return ps
 		}
 
-		instID, err := strconv.ParseInt(ps.RequestCtx.Elements[11], 10, 64)
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
 		if err != nil {
-			ps.err = fmt.Errorf("find object instance topology, but got invalid instance id %s", ps.RequestCtx.Elements[11])
+			ps.err = err
+			return ps
+		}
+
+		instID, err := strconv.ParseInt(ps.RequestCtx.Elements[10], 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("find object instance topology, but got invalid instance id %s", ps.RequestCtx.Elements[10])
 			return ps
 		}
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelInstanceTopology,
 					Action:     meta.Find,
@@ -823,6 +1031,12 @@ func (ps *parseStream) objectInstance() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
 		instID, err := strconv.ParseInt(ps.RequestCtx.Elements[11], 10, 64)
 		if err != nil {
 			ps.err = fmt.Errorf("find object instance, but get instance id %s", ps.RequestCtx.Elements[11])
@@ -831,6 +1045,7 @@ func (ps *parseStream) objectInstance() *parseStream {
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelInstanceTopology,
 					Action:     meta.Find,
@@ -863,6 +1078,8 @@ func (ps *parseStream) objectInstance() *parseStream {
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				// TODO: should we authorize in global scope?
+				// BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.MainlineInstanceTopology,
 					Action:     meta.Find,
@@ -886,8 +1103,15 @@ func (ps *parseStream) objectInstance() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelInstanceTopology,
 					Action: meta.FindMany,
@@ -903,21 +1127,26 @@ func (ps *parseStream) objectInstance() *parseStream {
 		return ps
 	}
 
-	// find object/s instance list details operation.
+	// find instance list details operation.
 	if ps.hitRegexp(findObjectInstancesDetailRegexp, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = err
+			return ps
+		}
 		// TODO: parse these query condition
-		models, err := ps.getModel(mapstr.MapStr{common.BKObjIDField: ps.RequestCtx.Elements[7]})
+		objectID := ps.RequestCtx.Elements[7]
+		filter := mapstr.MapStr{
+			common.BKObjIDField: objectID,
+		}
+		models, err := ps.searchModels(filter)
 		if err != nil {
 			ps.err = err
 			return ps
 		}
 
 		for _, model := range models {
-			bizID, err := metadata.BizIDFromMetadata(model.Metadata)
-			if err != nil {
-				ps.err = err
-				return ps
-			}
+			_ = model
 			ps.Attribute.Resources = append(ps.Attribute.Resources,
 				meta.ResourceAttribute{
 					BusinessID: bizID,
@@ -964,6 +1193,7 @@ const (
 	findObjectsPattern        = "/api/v3/objects"
 	findObjectTopologyPattern = "/api/v3/objects/topo"
 	createObjectBatchPattern  = "/api/v3/object/batch"
+	objectStatistics          = "/api/v3/object/statistics"
 )
 
 var (
@@ -980,8 +1210,15 @@ func (ps *parseStream) object() *parseStream {
 
 	// create common object operation.
 	if ps.hitPattern(createObjectPattern, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			blog.Warnf("create object, but parse biz id failed, err: %v", err)
+			ps.err = err
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.Model,
 					Action: meta.Create,
@@ -991,11 +1228,13 @@ func (ps *parseStream) object() *parseStream {
 		return ps
 	}
 
-	// create common object batch operation.
+	// batch create/update common object operation
 	if ps.hitPattern(createObjectBatchPattern, http.MethodPost) {
 		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
 		if err != nil {
 			blog.Warnf("import object, but parse biz id failed, err: %v", err)
+			ps.err = err
+			return ps
 		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -1009,50 +1248,98 @@ func (ps *parseStream) object() *parseStream {
 		return ps
 	}
 
-	// delete object operation
-	if ps.hitRegexp(deleteObjectRegexp, http.MethodDelete) {
-		if len(ps.RequestCtx.Elements) != 4 {
-			ps.err = errors.New("delete object, but got invalid url")
-			return ps
-		}
-
-		objID, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
-		if err != nil {
-			ps.err = fmt.Errorf("delete object, but got invalid object's id %s", ps.RequestCtx.Elements[3])
-			return ps
-		}
-
+	// 统计模型使用情况
+	if ps.hitPattern(objectStatistics, http.MethodGet) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
 				Basic: meta.Basic{
-					Type:       meta.Model,
-					Action:     meta.Delete,
-					InstanceID: objID,
+					Action: meta.SkipAction,
 				},
 			},
 		}
 		return ps
 	}
 
-	// update object operation.
+	// delete model operation
+	if ps.hitRegexp(deleteObjectRegexp, http.MethodDelete) {
+		if len(ps.RequestCtx.Elements) != 4 {
+			ps.err = errors.New("delete object, but got invalid url")
+			return ps
+		}
+
+		id, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("delete object, but got invalid object's id %s", ps.RequestCtx.Elements[3])
+			return ps
+		}
+
+		// extract bizID from model
+		filter := map[string]interface{}{
+			common.BKFieldID: id,
+		}
+		model, err := ps.getOneModel(filter)
+		if err != nil {
+			ps.err = fmt.Errorf("delete object, get model(id:%d) failed, err: %s", id, err.Error())
+			return ps
+		}
+		bizID, err := metadata.BizIDFromMetadata(model.Metadata)
+		if err != nil {
+			blog.ErrorJSON("delete object, but get business id in metadata failed, model: %s, err: %s", model, err.Error())
+			ps.err = err
+			return ps
+		}
+
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				// 注意：这里不要使用用户传递的业务ID，因为全局模型也会注册到业务模型下
+				BusinessID: bizID,
+				Basic: meta.Basic{
+					Type:       meta.Model,
+					Action:     meta.Delete,
+					InstanceID: id,
+				},
+			},
+		}
+		return ps
+	}
+
+	// update model operation.
 	if ps.hitRegexp(updateObjectRegexp, http.MethodPut) {
 		if len(ps.RequestCtx.Elements) != 4 {
 			ps.err = errors.New("update object, but got invalid url")
 			return ps
 		}
 
-		objID, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
+		id, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
 		if err != nil {
 			ps.err = fmt.Errorf("update object, but got invalid object's id %s", ps.RequestCtx.Elements[3])
 			return ps
 		}
 
+		// extract bizID from model
+		filter := map[string]interface{}{
+			common.BKFieldID: id,
+		}
+		model, err := ps.getOneModel(filter)
+		if err != nil {
+			ps.err = fmt.Errorf("delete object, get model(id:%d) failed, err: %s", id, err.Error())
+			return ps
+		}
+		bizID, err := metadata.BizIDFromMetadata(model.Metadata)
+		if err != nil {
+			blog.ErrorJSON("delete object, but get business id in metadata failed, model: %s, err: %s", model, err.Error())
+			ps.err = err
+			return ps
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				// 注意：这里不要使用用户传递的业务ID，因为全局模型也会注册到业务模型下
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.Model,
 					Action:     meta.Update,
-					InstanceID: objID,
+					InstanceID: id,
 				},
 			},
 		}
@@ -1085,7 +1372,6 @@ func (ps *parseStream) object() *parseStream {
 		return ps
 	}
 
-	// find object's topology graphic operation.
 	if ps.hitRegexp(findObjectTopologyGraphicRegexp, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -1125,7 +1411,7 @@ var (
 	findObjectsBelongsToClassificationRegexp = regexp.MustCompile(`^/api/v3/object/classification/[^\s/]+/objects$`)
 )
 
-func (ps *parseStream) ObjectClassification() *parseStream {
+func (ps *parseStream) objectClassification() *parseStream {
 	if ps.shouldReturn() {
 		return ps
 	}
@@ -1155,9 +1441,15 @@ func (ps *parseStream) ObjectClassification() *parseStream {
 			ps.err = fmt.Errorf("delete object classification, but got invalid object's id %s", ps.RequestCtx.Elements[4])
 			return ps
 		}
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelClassification,
 					Action:     meta.Delete,
@@ -1181,8 +1473,14 @@ func (ps *parseStream) ObjectClassification() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelClassification,
 					Action:     meta.Update,
@@ -1195,8 +1493,14 @@ func (ps *parseStream) ObjectClassification() *parseStream {
 
 	// find object's classification list operation.
 	if ps.hitPattern(findObjectClassificationListPattern, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelClassification,
 					Action: meta.FindMany,
@@ -1206,7 +1510,7 @@ func (ps *parseStream) ObjectClassification() *parseStream {
 		return ps
 	}
 
-	// find all the objects belongs to a classification
+	// find objects that belongs to the classification
 	if ps.hitRegexp(findObjectsBelongsToClassificationRegexp, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
@@ -1241,8 +1545,14 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 
 	// create object's attribute group operation.
 	if ps.hitPattern(createObjectAttributeGroupPattern, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttributeGroup,
 					Action: meta.Create,
@@ -1259,8 +1569,14 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttributeGroup,
 					Action: meta.Find,
@@ -1278,8 +1594,14 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 
 	// update object's attribute group operation.
 	if ps.hitPattern(updateObjectAttributeGroupPattern, http.MethodPut) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttributeGroup,
 					Action: meta.Update,
@@ -1290,14 +1612,48 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 	}
 
 	if ps.hitPattern(updateObjectAttributeGroupPropertyPattern, http.MethodPut) {
-		ps.Attribute.Resources = []meta.ResourceAttribute{
-			{
+
+		if !gjson.GetBytes(ps.RequestCtx.Body, "data").Exists() {
+			ps.err = errors.New("invalid request format")
+			return ps
+		}
+
+		data := gjson.GetBytes(ps.RequestCtx.Body, "data").String()
+		groups := make([]metadata.PropertyGroupObjectAtt, 0)
+		if err := json.Unmarshal([]byte(data), &groups); err != nil {
+			ps.err = err
+			return ps
+		}
+
+		// TODO: confirm this later. especially with frontend.
+		// when biz's model auth is settled down, then revise this.
+		// bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		// if err != nil {
+		// 	ps.err = err
+		// 	return ps
+		// }
+
+		ps.Attribute.Resources = make([]meta.ResourceAttribute, 0)
+		for _, group := range groups {
+			model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: group.Condition.ObjectID})
+			if err != nil {
+				ps.err = err
+				return ps
+			}
+
+			ps.Attribute.Resources = append(ps.Attribute.Resources, meta.ResourceAttribute{
 				Basic: meta.Basic{
 					Type:   meta.ModelAttributeGroup,
 					Action: meta.Update,
 				},
-			},
+				// BusinessID: bizID,
+				Layers: []meta.Item{{
+					Type:       meta.Model,
+					InstanceID: model.ID,
+				}},
+			})
 		}
+
 		return ps
 	}
 
@@ -1314,8 +1670,14 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelAttributeGroup,
 					Action:     meta.Delete,
@@ -1332,8 +1694,14 @@ func (ps *parseStream) objectAttributeGroup() *parseStream {
 			ps.err = errors.New("remove a object attribute away from a group, but got invalid uri")
 			return ps
 		}
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttributeGroup,
 					Action: meta.Delete,
@@ -1364,12 +1732,25 @@ func (ps *parseStream) objectAttribute() *parseStream {
 
 	// create object's attribute operation.
 	if ps.hitPattern(createObjectAttributePattern, http.MethodPost) {
+		objectID := gjson.GetBytes(ps.RequestCtx.Body, common.BKObjIDField).String()
+		model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: objectID})
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttribute,
 					Action: meta.Create,
 				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
 			},
 		}
 		return ps
@@ -1388,13 +1769,37 @@ func (ps *parseStream) objectAttribute() *parseStream {
 			return ps
 		}
 
+		// get attribute related bizID
+		filter := mapstr.MapStr{
+			common.BKFieldID: attrID,
+		}
+		attribute, err := ps.getModelAttribute(filter)
+		if err != nil {
+			ps.err = fmt.Errorf("delete model attribute, but get attribute by %+v failed, err: %s", filter, err.Error())
+			return ps
+		}
+		bizID, err := metadata.BizIDFromMetadata(attribute[0].Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
+
+		objectID := attribute[0].ObjectID
+		model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: objectID})
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelAttribute,
 					Action:     meta.Delete,
 					InstanceID: attrID,
 				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
 			},
 		}
 		return ps
@@ -1413,13 +1818,37 @@ func (ps *parseStream) objectAttribute() *parseStream {
 			return ps
 		}
 
+		// get attribute related bizID
+		filter := mapstr.MapStr{
+			common.BKFieldID: attrID,
+		}
+		attribute, err := ps.getModelAttribute(filter)
+		if err != nil {
+			ps.err = fmt.Errorf("delete model attribute, but get attribute by %+v failed, err: %s", filter, err.Error())
+			return ps
+		}
+		bizID, err := metadata.BizIDFromMetadata(attribute[0].Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
+
+		objectID := attribute[0].ObjectID
+		model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: objectID})
+		if err != nil {
+			ps.err = err
+			return ps
+		}
+
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelAttribute,
 					Action:     meta.Update,
 					InstanceID: attrID,
 				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
 			},
 		}
 		return ps
@@ -1427,8 +1856,14 @@ func (ps *parseStream) objectAttribute() *parseStream {
 
 	// get object's attribute operation.
 	if ps.hitPattern(findObjectAttributePattern, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelAttribute,
 					Action: meta.Find,
@@ -1442,13 +1877,15 @@ func (ps *parseStream) objectAttribute() *parseStream {
 }
 
 var (
-	createModuleRegexp = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/?$`)
-	deleteModuleRegexp = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/[0-9]+/?$`)
-	updateModuleRegexp = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/[0-9]+/?$`)
-	findModuleRegexp   = regexp.MustCompile(`^/api/v3/module/search/[^\s/]+/[0-9]+/[0-9]+/?$`)
+	createModuleRegexp                = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/?$`)
+	deleteModuleRegexp                = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/[0-9]+/?$`)
+	updateModuleRegexp                = regexp.MustCompile(`^/api/v3/module/[0-9]+/[0-9]+/[0-9]+/?$`)
+	updateModuleHostApplyStatusRegexp = regexp.MustCompile(`^/api/v3/module/host_apply_enable_status/bk_biz_id/([0-9]+)/bk_module_id/([0-9]+)/?$`)
+	findModuleRegexp                  = regexp.MustCompile(`^/api/v3/module/search/[^\s/]+/[0-9]+/[0-9]+/?$`)
+	findModuleByServiceTemplateRegexp = regexp.MustCompile(`^/api/v3/module/bk_biz_id/(?P<bk_biz_id>[0-9]+)/service_template_id/(?P<service_template_id>[0-9]+)/?$`)
 )
 
-func (ps *parseStream) ObjectModule() *parseStream {
+func (ps *parseStream) objectModule() *parseStream {
 	if ps.shouldReturn() {
 		return ps
 	}
@@ -1579,6 +2016,29 @@ func (ps *parseStream) ObjectModule() *parseStream {
 		}
 		return ps
 	}
+	if ps.hitRegexp(updateModuleHostApplyStatusRegexp, http.MethodPut) {
+		if len(ps.RequestCtx.Elements) != 8 {
+			ps.err = errors.New("update module host apply enabled status, but got invalid url")
+			return ps
+		}
+
+		bizID, err := strconv.ParseInt(ps.RequestCtx.Elements[5], 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("update module host apply enabled status, but got invalid business id %s", ps.RequestCtx.Elements[5])
+			return ps
+		}
+
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				BusinessID: bizID,
+				Basic: meta.Basic{
+					Type:   meta.HostApply,
+					Action: meta.Update,
+				},
+			},
+		}
+		return ps
+	}
 
 	// find module operation.
 	if ps.hitRegexp(findModuleRegexp, http.MethodPost) {
@@ -1616,18 +2076,52 @@ func (ps *parseStream) ObjectModule() *parseStream {
 		return ps
 	}
 
+	// find module by service template.
+	if ps.hitRegexp(findModuleByServiceTemplateRegexp, http.MethodPost) {
+		if len(ps.RequestCtx.Elements) != 7 {
+			ps.err = errors.New("find module by service template id, but got invalid url")
+			return ps
+		}
+		var bizIDStr string
+		match := findModuleByServiceTemplateRegexp.FindStringSubmatch(ps.RequestCtx.URI)
+		for i, name := range findModuleByServiceTemplateRegexp.SubexpNames() {
+			if name == common.BKAppIDField {
+				bizIDStr = match[i]
+				break
+			}
+		}
+		bizID, err := strconv.ParseInt(bizIDStr, 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("find module, but parse bk_biz_id failed, bizIDStr: %s, uri: %s, err: %+v", bizIDStr, ps.RequestCtx.URI, err)
+			return ps
+		}
+
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				BusinessID: bizID,
+				Basic: meta.Basic{
+					Type:   meta.ModelModule,
+					Action: meta.FindMany,
+				},
+				Layers: []meta.Item{},
+			},
+		}
+		return ps
+	}
+
 	return ps
 }
 
 var (
-	createSetRegexp     = regexp.MustCompile(`^/api/v3/set/[0-9]+/?$`)
-	deleteSetRegexp     = regexp.MustCompile(`^/api/v3/set/[0-9]+/[0-9]+/?$`)
-	deleteManySetRegexp = regexp.MustCompile(`^/api/v3/set/[0-9]+/batch$`)
-	updateSetRegexp     = regexp.MustCompile(`^/api/v3/set/[0-9]+/[0-9]+/?$`)
-	findSetRegexp       = regexp.MustCompile(`^/api/v3/set/search/[^\s/]+/[0-9]+/?$`)
+	createSetRegexp      = regexp.MustCompile(`^/api/v3/set/[0-9]+/?$`)
+	batchCreateSetRegexp = regexp.MustCompile(`^/api/v3/set/[0-9]+/batch/?$`)
+	deleteSetRegexp      = regexp.MustCompile(`^/api/v3/set/[0-9]+/[0-9]+/?$`)
+	deleteManySetRegexp  = regexp.MustCompile(`^/api/v3/set/[0-9]+/batch$`)
+	updateSetRegexp      = regexp.MustCompile(`^/api/v3/set/[0-9]+/[0-9]+/?$`)
+	findSetRegexp        = regexp.MustCompile(`^/api/v3/set/search/[^\s/]+/[0-9]+/?$`)
 )
 
-func (ps *parseStream) ObjectSet() *parseStream {
+func (ps *parseStream) objectSet() *parseStream {
 	if ps.shouldReturn() {
 		return ps
 	}
@@ -1642,6 +2136,30 @@ func (ps *parseStream) ObjectSet() *parseStream {
 		bizID, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
 		if err != nil {
 			ps.err = fmt.Errorf("create set, but got invalid business id %s", ps.RequestCtx.Elements[3])
+			return ps
+		}
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				BusinessID: bizID,
+				Basic: meta.Basic{
+					Type:   meta.ModelSet,
+					Action: meta.Create,
+				},
+			},
+		}
+		return ps
+	}
+
+	// batch create set
+	if ps.hitRegexp(batchCreateSetRegexp, http.MethodPost) {
+		if len(ps.RequestCtx.Elements) != 5 {
+			ps.err = errors.New("batch create set, but got invalid url")
+			return ps
+		}
+
+		bizID, err := strconv.ParseInt(ps.RequestCtx.Elements[3], 10, 64)
+		if err != nil {
+			ps.err = fmt.Errorf("batch create set, but got invalid business id %s", ps.RequestCtx.Elements[3])
 			return ps
 		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
@@ -1783,8 +2301,14 @@ func (ps *parseStream) objectUnique() *parseStream {
 
 	// add object unique operation.
 	if ps.hitRegexp(createObjectUniqueRegexp, http.MethodPost) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelUnique,
 					Action: meta.Create,
@@ -1803,8 +2327,14 @@ func (ps *parseStream) objectUnique() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelUnique,
 					Action:     meta.Update,
@@ -1829,8 +2359,14 @@ func (ps *parseStream) objectUnique() *parseStream {
 			return ps
 		}
 
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:       meta.ModelUnique,
 					Action:     meta.Delete,
@@ -1849,8 +2385,14 @@ func (ps *parseStream) objectUnique() *parseStream {
 
 	// find object unique operation.
 	if ps.hitRegexp(findObjectUniqueRegexp, http.MethodGet) {
+		bizID, err := metadata.BizIDFromMetadata(ps.RequestCtx.Metadata)
+		if err != nil {
+			ps.err = fmt.Errorf("parse bizID from metadata failed, err: %s", err.Error())
+			return ps
+		}
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
+				BusinessID: bizID,
 				Basic: meta.Basic{
 					Type:   meta.ModelUnique,
 					Action: meta.FindMany,
@@ -1870,8 +2412,8 @@ func (ps *parseStream) objectUnique() *parseStream {
 }
 
 var (
-	searchAuditlog               = `/api/v3/audit/search`
-	searchInstanceAuditlogRegexp = regexp.MustCompile(`^/api/v3/object/[^\s/]+/audit/search/?$`)
+	searchAuditLog               = `/api/v3/audit/search`
+	searchInstanceAuditLogRegexp = regexp.MustCompile(`^/api/v3/object/[^\s/]+/audit/search/?$`)
 )
 
 func (ps *parseStream) audit() *parseStream {
@@ -1879,8 +2421,7 @@ func (ps *parseStream) audit() *parseStream {
 		return ps
 	}
 
-	// add object unique operation.
-	if ps.hitPattern(searchAuditlog, http.MethodPost) {
+	if ps.hitPattern(searchAuditLog, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
 				Basic: meta.Basic{
@@ -1902,7 +2443,7 @@ func (ps *parseStream) instanceAudit() *parseStream {
 	}
 
 	// add object unique operation.
-	if ps.hitRegexp(searchInstanceAuditlogRegexp, http.MethodPost) {
+	if ps.hitRegexp(searchInstanceAuditLogRegexp, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
 				Basic: meta.Basic{
@@ -1919,21 +2460,96 @@ func (ps *parseStream) instanceAudit() *parseStream {
 }
 
 var (
-	findPrivilege = regexp.MustCompile(`^/api/v3/topo/privilege/.*$`)
-	postPrivilege = regexp.MustCompile(`^/api/v3/topo/privilege/.*$`)
+	fullTextSearchPattern = "/api/v3/find/full_text"
 )
 
-func (ps *parseStream) privilege() *parseStream {
+func (ps *parseStream) fullTextSearch() *parseStream {
 	if ps.shouldReturn() {
 		return ps
 	}
 
-	if ps.hitRegexp(findPrivilege, http.MethodGet) || ps.hitRegexp(findPrivilege, http.MethodPost) {
+	if ps.hitPattern(fullTextSearchPattern, http.MethodPost) {
 		ps.Attribute.Resources = []meta.ResourceAttribute{
 			{
 				Basic: meta.Basic{
 					Action: meta.SkipAction,
 				},
+			},
+		}
+		return ps
+	}
+
+	return ps
+}
+
+const (
+	findManyCloudAreaPattern = "/api/v3/findmany/cloudarea"
+	createCloudAreaPattern   = "/api/v3/create/cloudarea"
+)
+
+var (
+	updateCloudAreaRegexp = regexp.MustCompile(`^/api/v3/update/cloudarea/[0-9]+/?$`)
+	deleteCloudAreaRegexp = regexp.MustCompile(`^/api/v3/delete/cloudarea/[0-9]+/?$`)
+)
+
+func (ps *parseStream) cloudArea() *parseStream {
+	if ps.shouldReturn() {
+		return ps
+	}
+
+	model, err := ps.getOneModel(mapstr.MapStr{common.BKObjIDField: common.BKInnerObjIDPlat})
+	if err != nil {
+		ps.err = err
+		return ps
+	}
+
+	if ps.hitPattern(findManyCloudAreaPattern, http.MethodPost) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.ModelInstance,
+					Action: meta.FindMany,
+				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
+			},
+		}
+		return ps
+	}
+
+	if ps.hitPattern(createCloudAreaPattern, http.MethodPost) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.ModelInstance,
+					Action: meta.Create,
+				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
+			},
+		}
+		return ps
+	}
+
+	if ps.hitRegexp(updateCloudAreaRegexp, http.MethodPut) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.ModelInstance,
+					Action: meta.Update,
+				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
+			},
+		}
+		return ps
+	}
+
+	if ps.hitRegexp(deleteCloudAreaRegexp, http.MethodDelete) {
+		ps.Attribute.Resources = []meta.ResourceAttribute{
+			{
+				Basic: meta.Basic{
+					Type:   meta.ModelInstance,
+					Action: meta.Delete,
+				},
+				Layers: []meta.Item{{Type: meta.Model, InstanceID: model.ID}},
 			},
 		}
 		return ps

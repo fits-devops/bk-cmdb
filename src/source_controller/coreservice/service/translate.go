@@ -13,26 +13,14 @@
 package service
 
 import (
-	"configcenter/src/common"
+	"context"
+	"strings"
+
 	"configcenter/src/common/blog"
 	"configcenter/src/common/language"
 	"configcenter/src/common/metadata"
 	"configcenter/src/common/util"
-	"configcenter/src/source_controller/coreservice/core/instances"
 )
-
-var defaultNameLanguagePkg = map[string]map[string][]string{
-	common.BKInnerObjIDModule: {
-		"1": {"inst_module_idle", common.BKModuleNameField, common.BKModuleIDField},
-		"2": {"inst_module_fault", common.BKModuleNameField, common.BKModuleIDField},
-	},
-	common.BKInnerObjIDApp: {
-		"1": {"inst_biz_default", common.BKAppNameField, common.BKAppIDField},
-	},
-	common.BKInnerObjIDSet: {
-		"1": {"inst_set_default", common.BKSetNameField, common.BKSetIDField},
-	},
-}
 
 func (s *coreService) TranslateObjectName(defLang language.DefaultCCLanguageIf, obj *metadata.Object) string {
 	return util.FirstNotEmptyString(defLang.Language("object_"+obj.ObjectID), obj.ObjectName, obj.ObjectID)
@@ -49,10 +37,11 @@ func (s *coreService) TranslatePlaceholder(defLang language.DefaultCCLanguageIf,
 	return util.FirstNotEmptyString(defLang.Language(att.ObjectID+"_placeholder_"+att.PropertyID), att.Placeholder)
 }
 
-func (s *coreService) TranslateEnumName(defLang language.DefaultCCLanguageIf, att *metadata.Attribute, val interface{}) interface{} {
-	options, err := instances.ParseEnumOption(val)
+func (s *coreService) TranslateEnumName(ctx context.Context, defLang language.DefaultCCLanguageIf, att *metadata.Attribute, val interface{}) interface{} {
+	rid := util.ExtractRequestIDFromContext(ctx)
+	options, err := metadata.ParseEnumOption(ctx, val)
 	if err != nil {
-		blog.Warnf("TranslateEnumName failed: %v", err)
+		blog.Warnf("TranslateEnumName failed: %v, rid: %s", err, rid)
 		return val
 	}
 	for index := range options {
@@ -67,4 +56,17 @@ func (s *coreService) TranslatePropertyGroupName(defLang language.DefaultCCLangu
 
 func (s *coreService) TranslateClassificationName(defLang language.DefaultCCLanguageIf, att *metadata.Classification) string {
 	return util.FirstNotEmptyString(defLang.Language("classification_"+att.ClassificationID), att.ClassificationName, att.ClassificationID)
+}
+
+func (s *coreService) TranslateOperationChartName(defLang language.DefaultCCLanguageIf, att metadata.ChartConfig) string {
+	return util.FirstNotEmptyString(defLang.Language("operation_chart_"+att.ReportType), att.Name, att.ReportType)
+}
+
+func (s *coreService) TranslateAssociationType(defLang language.DefaultCCLanguageIf, assKind *metadata.AssociationKind) {
+	assKind.AssociationKindName = util.FirstNotEmptyString(defLang.Language("unique_kind_name_"+assKind.AssociationKindID), assKind.AssociationKindName)
+	assKind.SourceToDestinationNote = util.FirstNotEmptyString(defLang.Language("unique_kind_src_to_dest_"+assKind.AssociationKindID), assKind.SourceToDestinationNote)
+	assKind.DestinationToSourceNote = util.FirstNotEmptyString(defLang.Language("unique_kind_dest_to_src_"+assKind.AssociationKindID), assKind.DestinationToSourceNote)
+}
+func (s *coreService) TranslateServiceCategory(defLang language.DefaultCCLanguageIf, att *metadata.ServiceCategory) string {
+	return util.FirstNotEmptyString(defLang.Language("service_category_"+strings.Replace(att.Name, " ", "_", -1)), att.Name)
 }

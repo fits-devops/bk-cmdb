@@ -15,6 +15,7 @@ package options
 import (
 	"github.com/spf13/pflag"
 
+	"configcenter/src/common/auth"
 	"configcenter/src/common/core/cc/config"
 )
 
@@ -37,6 +38,7 @@ func (s *ServerOption) AddFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&s.ServConf.AddrPort, "addrport", "127.0.0.1:60006", "The ip address and port for the serve on")
 	fs.StringVar(&s.ServConf.RegDiscover, "regdiscv", "", "hosts of register and discover server. e.g: 127.0.0.1:2181")
 	fs.StringVar(&s.ServConf.ExConfig, "config", "", "The config path. e.g conf/api.conf")
+	fs.Var(auth.EnableAuthFlag, "enable-auth", "The auth center enable status, true for enabled, false for disabled")
 }
 
 // Config config file set
@@ -71,7 +73,7 @@ func (t TriggerTime) IsTiming() bool {
 type ConfigItem struct {
 	Name string
 	// White list, default false
-	WiteList bool
+	WhiteList bool
 	// White list  = true, need synchronize app list
 	// White list  = true,  out of synchronize business name,
 	AppNames []string
@@ -81,7 +83,7 @@ type ConfigItem struct {
 	// resource pool sync config
 	SyncResource bool
 
-	// TargetHost target data core
+	// TargetHost target data logics
 	TargetHost string
 
 	// FieldSign source data fields
@@ -97,4 +99,12 @@ type ConfigItem struct {
 
 	// Retry error max retry count
 	ExceptionFileCount int
+
+	// Unsynchronized model related properties
+	// 使用忽略模型属性变的模式。 用户在目标中新加对应的模型，模型的属性。
+	// 满足同步的实例将会同步到目的cmdb。 在目标系统中新建相同的唯一标识模型或者模型的字段。内容会自动展示出来
+	IgnoreModelAttr bool
+
+	// EnableInstFilter  是否开启实例数据根据同步身份过滤
+	EnableInstFilter bool
 }

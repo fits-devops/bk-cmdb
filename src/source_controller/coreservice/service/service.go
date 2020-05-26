@@ -21,9 +21,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/emicklei/go-restful"
-	redis "gopkg.in/redis.v5"
-
 	"configcenter/src/common"
 	"configcenter/src/common/backbone"
 	"configcenter/src/common/blog"
@@ -40,13 +37,22 @@ import (
 	"configcenter/src/source_controller/coreservice/core/auditlog"
 	"configcenter/src/source_controller/coreservice/core/datasynchronize"
 	"configcenter/src/source_controller/coreservice/core/host"
+	"configcenter/src/source_controller/coreservice/core/hostapplyrule"
 	"configcenter/src/source_controller/coreservice/core/instances"
+	"configcenter/src/source_controller/coreservice/core/label"
 	"configcenter/src/source_controller/coreservice/core/mainline"
 	"configcenter/src/source_controller/coreservice/core/model"
+	"configcenter/src/source_controller/coreservice/core/operation"
+	"configcenter/src/source_controller/coreservice/core/process"
+	"configcenter/src/source_controller/coreservice/core/settemplate"
+	dbSystem "configcenter/src/source_controller/coreservice/core/system"
 	"configcenter/src/storage/dal"
 	"configcenter/src/storage/dal/mongo/local"
 	"configcenter/src/storage/dal/mongo/remote"
 	dalredis "configcenter/src/storage/dal/redis"
+
+	"github.com/emicklei/go-restful"
+	"gopkg.in/redis.v5"
 )
 
 // CoreServiceInterface the topo service methods used to init
@@ -69,7 +75,7 @@ type coreService struct {
 	cfg      options.Config
 	core     core.Core
 	db       dal.RDB
-	cahce    *redis.Client
+	cache    *redis.Client
 }
 
 func (s *coreService) SetConfig(cfg options.Config, engin *backbone.Engine, err errors.CCErrorIf, language language.CCLanguageIf) error {
@@ -85,22 +91,18 @@ func (s *coreService) SetConfig(cfg options.Config, engin *backbone.Engine, err 
 		s.language = language
 	}
 
-	var db dal.DB
 	var dbErr error
-	if cfg.Mongo.Transaction == "enable" {
-		blog.Infof("connecting to transaction manager")
-		db, dbErr = remote.NewWithDiscover(engin.ServiceManageInterface.TMServer().GetServers, cfg.Mongo)
-		if dbErr != nil {
-			blog.Errorf("failed to connect the txc server, error info is %s", dbErr.Error())
-			return dbErr
-		}
+	var db dal.RDB
+	if s.cfg.Mongo.Enable == "true" {
+		db, dbErr = local.NewMgo(s.cfg.Mongo.BuildURI(), time.Minute)
 	} else {
-		db, dbErr = local.NewMgo(cfg.Mongo.BuildURI(), time.Minute)
-		if dbErr != nil {
-			blog.Errorf("failed to connect the remote server(%s), error info is %s", cfg.Mongo.BuildURI(), dbErr.Error())
-			return dbErr
-		}
+		db, dbErr = remote.NewWithDiscover(s.engin)
 	}
+	if dbErr != nil {
+		blog.Errorf("failed to connect the txc server, error info is %s", dbErr.Error())
+		return dbErr
+	}
+
 	cache, cacheRrr := dalredis.NewFromConfig(cfg.Redis)
 	if cacheRrr != nil {
 		blog.Errorf("new redis client failed, err: %v", cacheRrr)
@@ -108,17 +110,25 @@ func (s *coreService) SetConfig(cfg options.Config, engin *backbone.Engine, err 
 	}
 
 	s.db = db
-	s.cahce = cache
+	s.cache = cache
 
 	// connect the remote mongodb
+	instance := instances.New(db, s, cache)
+	hostApplyRuleCore := hostapplyrule.New(db, instance)
 	s.core = core.New(
-		model.New(db, s),
-		instances.New(db, s, cache),
+		model.New(db, s, cache),
+		instance,
 		association.New(db, s),
 		datasynchronize.New(db, s),
-		mainline.New(db),
-		host.New(db, cache),
+		mainline.New(db, s.language),
+		host.New(db, cache, s, hostApplyRuleCore),
 		auditlog.New(db),
+		process.New(db, s, cache),
+		label.New(db),
+		settemplate.New(db),
+		operation.New(db),
+		hostApplyRuleCore,
+		dbSystem.New(db),
 	)
 	return nil
 }
@@ -170,13 +180,13 @@ func (s *coreService) createAPIRspStr(errcode int, info interface{}) (string, er
 		Data:     nil,
 	}
 
-	if common.CCSuccess != errcode {
+	if errcode == common.CCSuccess {
+		rsp.ErrMsg = common.CCSuccessStr
+		rsp.Data = info
+	} else {
 		rsp.Code = errcode
 		rsp.Result = false
 		rsp.ErrMsg = fmt.Sprintf("%v", info)
-	} else {
-		rsp.ErrMsg = common.CCSuccessStr
-		rsp.Data = info
 	}
 
 	data, err := json.Marshal(rsp)
@@ -253,6 +263,7 @@ func (s *coreService) Actions() []*httpserver.Action {
 
 				// get the error info by the language
 				defErr := s.err.CreateDefaultCCErrorIf(language)
+				errors.SetGlobalCCError(s.err)
 
 				value, err := ioutil.ReadAll(req.Request.Body)
 				if err != nil {
@@ -280,7 +291,7 @@ func (s *coreService) Actions() []*httpserver.Action {
 					}
 				}
 
-				data, dataErr := act.HandlerFunc(core.ContextParams{
+				param := core.ContextParams{
 					Context:         util.GetDBContext(context.Background(), req.Request.Header),
 					Error:           defErr,
 					Lang:            defLang,
@@ -288,11 +299,8 @@ func (s *coreService) Actions() []*httpserver.Action {
 					SupplierAccount: ownerID,
 					ReqID:           rid,
 					User:            user,
-				},
-					req.PathParameter,
-					req.QueryParameter,
-					mData)
-
+				}
+				data, dataErr := act.HandlerFunc(param, req.PathParameter, req.QueryParameter, mData)
 				if nil != dataErr {
 					switch e := dataErr.(type) {
 					default:

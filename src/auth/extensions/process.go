@@ -13,19 +13,19 @@
 package extensions
 
 import (
-	"configcenter/src/auth/authcenter"
-	"configcenter/src/framework/core/errors"
 	"context"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"configcenter/src/auth/authcenter"
 	"configcenter/src/auth/meta"
 	"configcenter/src/common"
 	"configcenter/src/common/blog"
 	"configcenter/src/common/condition"
 	"configcenter/src/common/metadata"
 	"configcenter/src/common/util"
+	"configcenter/src/framework/core/errors"
 )
 
 /*
@@ -127,6 +127,8 @@ func (am *AuthManager) GenProcessNoPermissionResp(ctx context.Context, header ht
 		return nil, errors.New("get business detail failed")
 	}
 	p.ScopeName = businesses[0].BKAppNameField
+	p.ResourceType = p.Resources[0][0].ResourceType
+	p.ResourceTypeName = p.Resources[0][0].ResourceTypeName
 	resp := metadata.NewNoPermissionResp([]metadata.Permission{p})
 	return &resp, nil
 }
@@ -144,7 +146,7 @@ func (am *AuthManager) extractBusinessIDFromProcesses(processes ...ProcessSimpli
 }
 
 func (am *AuthManager) AuthorizeByProcesses(ctx context.Context, header http.Header, action meta.Action, processes ...ProcessSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -161,7 +163,7 @@ func (am *AuthManager) AuthorizeByProcesses(ctx context.Context, header http.Hea
 }
 
 func (am *AuthManager) AuthorizeByProcessID(ctx context.Context, header http.Header, action meta.Action, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -177,7 +179,7 @@ func (am *AuthManager) AuthorizeByProcessID(ctx context.Context, header http.Hea
 }
 
 func (am *AuthManager) UpdateRegisteredProcesses(ctx context.Context, header http.Header, processes ...ProcessSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -204,7 +206,7 @@ func (am *AuthManager) UpdateRegisteredProcesses(ctx context.Context, header htt
 }
 
 func (am *AuthManager) UpdateRegisteredProcessesByID(ctx context.Context, header http.Header, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -220,7 +222,7 @@ func (am *AuthManager) UpdateRegisteredProcessesByID(ctx context.Context, header
 }
 
 func (am *AuthManager) RegisterProcesses(ctx context.Context, header http.Header, processes ...ProcessSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -241,7 +243,7 @@ func (am *AuthManager) RegisterProcesses(ctx context.Context, header http.Header
 }
 
 func (am *AuthManager) DeregisterProcesses(ctx context.Context, header http.Header, processes ...ProcessSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 

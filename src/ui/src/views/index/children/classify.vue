@@ -79,9 +79,6 @@
                 return this.availableCollectedData.includes(model.id)
             },
             handleClick (model) {
-                this.$store.commit('setHeaderStatus', {
-                    back: true
-                })
                 this.$router.push({
                     name: 'generalModel',
                     params: {
@@ -97,7 +94,7 @@
                 } else if (this.availableCollectedData.length < this.maxCollectCount) {
                     collectedData.push(model.id)
                 } else {
-                    this.$warn(this.$t('Index["限制添加导航提示"]', { max: this.maxCollectCount }))
+                    this.$warn(this.$t('限制添加导航提示', { max: this.maxCollectCount }))
                     return false
                 }
                 await this.$store.dispatch('userCustom/saveUsercustom', {
@@ -105,8 +102,8 @@
                 })
                 this.$success(
                     isCollected
-                        ? this.$t('Index["取消导航成功"]')
-                        : this.$t('Index["添加导航成功"]')
+                        ? this.$t('取消导航成功')
+                        : this.$t('添加导航成功')
                 )
             }
         }

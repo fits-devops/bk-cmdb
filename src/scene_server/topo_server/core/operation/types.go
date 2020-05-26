@@ -42,8 +42,8 @@ type OpCondition struct {
 type InstBatchInfo struct {
 	// BatchInfo batch info
 	// map[rownumber]map[property_id][date]
-	BatchInfo *map[int64]map[string]interface{} `json:"BatchInfo"`
-	InputType string                            `json:"input_type"`
+	BatchInfo map[int64]map[string]interface{} `json:"BatchInfo"`
+	InputType string                           `json:"input_type"`
 }
 
 // ConditionItem subcondition
@@ -75,6 +75,7 @@ type CommonInstTopoV2 struct {
 
 type deletedInst struct {
 	instID int64
+	bizID  int64
 	obj    model.Object
 }
 

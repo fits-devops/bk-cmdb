@@ -30,10 +30,10 @@ type AuthConfig struct {
 	AppSecret string
 	// the system id that cmdb used in auth center.
 	SystemID string
-	// enable auth
-	Enable bool
 	// enable sync auth data to iam
-	EnableSync bool
+	EnableSync          bool
+	SyncWorkerCount     int
+	SyncIntervalMinutes int
 }
 
 type RegisterInfo struct {
@@ -193,6 +193,17 @@ type SearchResult struct {
 	Data      []meta.BackendResource `json:"data"`
 }
 
+type PageBackendResource struct {
+	Count   int64                  `json:"count"`
+	Results []meta.BackendResource `json:"results"`
+}
+
+type SearchPageResult struct {
+	BaseResponse
+	RequestID string              `json:"request_id"`
+	Data      PageBackendResource `json:"data"`
+}
+
 func (br BaseResponse) ErrorString() string {
 	return fmt.Sprintf("request id: %s, error code: %d, message: %s", br.RequestID, br.Code, br.Message)
 }
@@ -222,10 +233,12 @@ type ListAuthorizedScopeResult struct {
 }
 
 type AuthorizedResource struct {
-	ActionID     ActionID         `json:"action_id"`
-	ResourceType ResourceTypeID   `json:"resource_type"`
-	ResourceIDs  [][]RscTypeAndID `json:"resource_ids"`
+	ActionID     ActionID       `json:"action_id"`
+	ResourceType ResourceTypeID `json:"resource_type"`
+	ResourceIDs  []IamResource  `json:"resource_ids"`
 }
+
+type IamResource []RscTypeAndID
 
 type RoleWithAuthResources struct {
 	RoleTemplateName string       `json:"perm_template_name"`
@@ -238,4 +251,31 @@ type RoleAction struct {
 	ScopeTypeID    string         `json:"scope_type_id"`
 	ResourceTypeID ResourceTypeID `json:"resource_type_id"`
 	ActionID       ActionID       `json:"action_id"`
+}
+
+type RegisterRoleResult struct {
+	BaseResponse
+	Data struct {
+		TemplateID int64 `json:"perm_template_id"`
+	} `json:"data"`
+}
+
+type GetSkipUrlResult struct {
+	BaseResponse
+	Data struct {
+		Url string `json:"url"`
+	} `json:"data"`
+}
+
+type UserGroupMembersResult struct {
+	BaseResponse
+	Data []UserGroupMembers `json:"data"`
+}
+
+type UserGroupMembers struct {
+	ID int64 `json:"group_id"`
+	// user's group name, should be one of follows:
+	// bk_biz_maintainer, bk_biz_productor, bk_biz_test, bk_biz_developer, operator
+	Name  string   `json:"group_code"`
+	Users []string `json:"users"`
 }

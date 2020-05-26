@@ -83,7 +83,7 @@ func (s *Service) WebService() *restful.Container {
 	getErrFunc := func() errors.CCErrorIf {
 		return s.CCErr
 	}
-	api.Path("/host/v3").Filter(rdapi.AllGlobalFilter(getErrFunc)).Produces(restful.MIME_JSON)
+	api.Path("/host/v3").Filter(s.Engine.Metric().RestfulMiddleWare).Filter(rdapi.AllGlobalFilter(getErrFunc)).Produces(restful.MIME_JSON)
 
 	api.Route(api.DELETE("/hosts/batch").To(s.DeleteHostBatchFromResourcePool))
 	api.Route(api.GET("/hosts/{bk_supplier_account}/{bk_host_id}").To(s.GetHostInstanceProperties))
@@ -91,31 +91,46 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/hosts/add").To(s.AddHost))
 	// api.Route(api.POST("/host/add/agent").To(s.AddHostFromAgent))
 	api.Route(api.POST("/hosts/sync/new/host").To(s.NewHostSyncAppTopo))
-	api.Route(api.POST("hosts/favorites/search").To(s.GetHostFavourites))
-	api.Route(api.POST("hosts/favorites").To(s.AddHostFavourite))
-	api.Route(api.PUT("hosts/favorites/{id}").To(s.UpdateHostFavouriteByID))
-	api.Route(api.DELETE("hosts/favorites/{id}").To(s.DeleteHostFavouriteByID))
+	api.Route(api.PUT("/updatemany/hosts/cloudarea_field").To(s.UpdateHostCloudAreaField))
+
+	// host favorites
+	api.Route(api.POST("/hosts/favorites/search").To(s.ListHostFavourites))
+	api.Route(api.POST("/hosts/favorites").To(s.AddHostFavourite))
+	api.Route(api.PUT("/hosts/favorites/{id}").To(s.UpdateHostFavouriteByID))
+	api.Route(api.DELETE("/hosts/favorites/{id}").To(s.DeleteHostFavouriteByID))
 	api.Route(api.PUT("/hosts/favorites/{id}/incr").To(s.IncrHostFavouritesCount))
-	api.Route(api.POST("/hosts/modules").To(s.HostModuleRelation))
-	api.Route(api.POST("/hosts/modules/idle").To(s.MoveHost2EmptyModule))
+
+	api.Route(api.POST("/hosts/modules").To(s.TransferHostModule))
+	api.Route(api.POST("/hosts/modules/idle").To(s.MoveHost2IdleModule))
 	api.Route(api.POST("/hosts/modules/fault").To(s.MoveHost2FaultModule))
+	api.Route(api.POST("/hosts/modules/recycle").To(s.MoveHost2RecycleModule))
 	api.Route(api.POST("/hosts/modules/resource").To(s.MoveHostToResourcePool))
 	api.Route(api.POST("/hosts/modules/resource/idle").To(s.AssignHostToApp))
 	api.Route(api.POST("/host/add/module").To(s.AssignHostToAppModule))
+	api.Route(api.POST("/host/transfer_with_auto_clear_service_instance/bk_biz_id/{bk_biz_id}/").To(s.TransferHostWithAutoClearServiceInstance))
+	api.Route(api.POST("/host/transfer_with_auto_clear_service_instance/bk_biz_id/{bk_biz_id}/preview/").To(s.TransferHostWithAutoClearServiceInstancePreview))
 	api.Route(api.POST("/usercustom").To(s.SaveUserCustom))
 	api.Route(api.POST("/usercustom/user/search").To(s.GetUserCustom))
 	api.Route(api.POST("/usercustom/default/search").To(s.GetDefaultCustom))
 	api.Route(api.POST("/hosts/search").To(s.SearchHost))
 	api.Route(api.POST("/hosts/search/asstdetail").To(s.SearchHostWithAsstDetail))
 	api.Route(api.PUT("/hosts/batch").To(s.UpdateHostBatch))
+	api.Route(api.PUT("/hosts/property/batch").To(s.UpdateHostPropertyBatch))
 	api.Route(api.PUT("/hosts/property/clone").To(s.CloneHostProperty))
 	api.Route(api.POST("/hosts/modules/idle/set").To(s.MoveSetHost2IdleModule))
 	// get host module relation in app
 	api.Route(api.POST("/hosts/modules/read").To(s.GetHostModuleRelation))
+	api.Route(api.POST("/host/topo/relation/read").To(s.GetAppHostTopoRelation))
 	// transfer host to other business
 	api.Route(api.POST("/hosts/modules/across/biz").To(s.TransferHostAcrossBusiness))
 	//  delete host from business, used for framework
 	api.Route(api.DELETE("/hosts/module/biz/delete").To(s.DeleteHostFromBusiness))
+
+	// next generation host search api
+	api.Route(api.POST("/hosts/list_hosts_without_app").To(s.ListHostsWithNoBiz))
+	api.Route(api.POST("/hosts/app/{appid}/list_hosts").To(s.ListBizHosts))
+	api.Route(api.POST("/hosts/list_resource_pool_hosts").To(s.ListResourcePoolHosts))
+	api.Route(api.POST("/hosts/app/{bk_biz_id}/list_hosts_topo").To(s.ListBizHostsTopo))
 
 	api.Route(api.POST("/userapi").To(s.AddUserCustomQuery))
 	api.Route(api.PUT("/userapi/{bk_biz_id}/{id}").To(s.UpdateUserCustomQuery))
@@ -127,24 +142,7 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/host/lock").To(s.LockHost))
 	api.Route(api.DELETE("/host/lock").To(s.UnlockHost))
 	api.Route(api.POST("/host/lock/search").To(s.QueryHostLock))
-
-	api.Route(api.GET("/host/getHostListByAppidAndField/{" + common.BKAppIDField + "}/{field}").To(s.getHostListByAppidAndField))
-	api.Route(api.PUT("/openapi/host/{" + common.BKAppIDField + "}").To(s.UpdateHost))
-	api.Route(api.PUT("/host/updateHostByAppID/{appid}").To(s.UpdateHostByAppID))
-	api.Route(api.POST("/gethostlistbyip").To(s.HostSearchByIP))
-	api.Route(api.POST("/gethostlistbyconds").To(s.HostSearchByConds))
-	api.Route(api.POST("/getmodulehostlist").To(s.HostSearchByModuleID))
-	api.Route(api.POST("/getsethostlist").To(s.HostSearchBySetID))
-	api.Route(api.POST("/getapphostlist").To(s.HostSearchByAppID))
-	api.Route(api.POST("/gethostsbyproperty").To(s.HostSearchByProperty))
-	api.Route(api.POST("/getIPAndProxyByCompany").To(s.GetIPAndProxyByCompany))
-	api.Route(api.PUT("/openapi/updatecustomproperty").To(s.UpdateCustomProperty))
-	api.Route(api.POST("/openapi/host/getHostAppByCompanyId").To(s.GetHostAppByCompanyId))
-	api.Route(api.DELETE("/openapi/host/delhostinapp").To(s.DelHostInApp))
-	api.Route(api.POST("/openapi/host/getGitServerIp").To(s.GetGitServerIp))
-	api.Route(api.GET("/plat").To(s.GetPlat))
-	api.Route(api.POST("/plat").To(s.CreatePlat))
-	api.Route(api.DELETE("/plat/{bk_cloud_id}").To(s.DelPlat))
+	api.Route(api.POST("/host/count_by_topo_node/bk_biz_id/{bk_biz_id}").To(s.CountTopoNodeHosts))
 
 	api.Route(api.POST("/findmany/modulehost").To(s.FindModuleHost))
 
@@ -154,12 +152,33 @@ func (s *Service) WebService() *restful.Container {
 	api.Route(api.POST("/hosts/cloud/search").To(s.SearchCloudTask))
 	api.Route(api.PUT("/hosts/cloud/update").To(s.UpdateCloudTask))
 	api.Route(api.POST("/hosts/cloud/startSync").To(s.StartCloudSync))
-	api.Route(api.POST("/hosts/cloud/resourceConfirm").To(s.ResourceConfirm))
+	api.Route(api.POST("/hosts/cloud/resourceConfirm").To(s.CreateResourceConfirm))
 	api.Route(api.POST("/hosts/cloud/searchConfirm").To(s.SearchConfirm))
 	api.Route(api.POST("/hosts/cloud/confirmHistory/add").To(s.AddConfirmHistory))
 	api.Route(api.POST("/hosts/cloud/confirmHistory/search").To(s.SearchConfirmHistory))
 	api.Route(api.POST("/hosts/cloud/accountSearch").To(s.SearchAccount))
-	api.Route(api.POST("/hosts/cloud/syncHistory").To(s.CloudSyncHistory))
+	api.Route(api.POST("/hosts/cloud/syncHistory").To(s.SearchCloudSyncHistory))
+
+	api.Route(api.POST("/findmany/cloudarea").To(s.FindManyCloudArea))
+	api.Route(api.POST("/create/cloudarea").To(s.CreatePlat))
+	api.Route(api.PUT("/update/cloudarea/{bk_cloud_id}").To(s.UpdatePlat))
+	api.Route(api.DELETE("/delete/cloudarea/{bk_cloud_id}").To(s.DelPlat))
+
+	// first install use api
+	api.Route(api.POST("/host/install/bk").To(s.BKSystemInstall))
+
+	api.Route(api.POST("/system/config/user_config/blueking_modify").To(s.FindSystemUserConfigBKSwitch))
+
+	// 主机属性自动应用
+	api.Route(api.POST("/create/host_apply_rule/bk_biz_id/{bk_biz_id}").To(s.CreateHostApplyRule))
+	api.Route(api.PUT("/update/host_apply_rule/{host_apply_rule_id}/bk_biz_id/{bk_biz_id}").To(s.UpdateHostApplyRule))
+	api.Route(api.DELETE("/deletemany/host_apply_rule/bk_biz_id/{bk_biz_id}").To(s.DeleteHostApplyRule))
+	api.Route(api.GET("/find/host_apply_rule/{host_apply_rule_id}/bk_biz_id/{bk_biz_id}/").To(s.GetHostApplyRule))
+	api.Route(api.POST("/findmany/host_apply_rule/bk_biz_id/{bk_biz_id}").To(s.ListHostApplyRule))
+	api.Route(api.POST("/createmany/host_apply_rule/bk_biz_id/{bk_biz_id}/batch_create_or_update").To(s.BatchCreateOrUpdateHostApplyRule))
+	api.Route(api.POST("/createmany/host_apply_plan/bk_biz_id/{bk_biz_id}/preview").To(s.GenerateApplyPlan))
+	api.Route(api.POST("/updatemany/host_apply_plan/bk_biz_id/{bk_biz_id}/run").To(s.RunHostApplyRule))
+	api.Route(api.POST("/findmany/host_apply_rule/bk_biz_id/{bk_biz_id}/host_related_rules").To(s.ListHostRelatedApplyRule))
 
 	container.Add(api)
 
@@ -180,22 +199,6 @@ func (s *Service) Healthz(req *restful.Request, resp *restful.Response) {
 		zkItem.Message = err.Error()
 	}
 	meta.Items = append(meta.Items, zkItem)
-
-	// object controller
-	objCtr := metric.HealthItem{IsHealthy: true, Name: types.CC_MODULE_OBJECTCONTROLLER}
-	if _, err := s.Engine.CoreAPI.Healthz().HealthCheck(types.CC_MODULE_OBJECTCONTROLLER); err != nil {
-		objCtr.IsHealthy = false
-		objCtr.Message = err.Error()
-	}
-	meta.Items = append(meta.Items, objCtr)
-
-	// host controller
-	hostCtrl := metric.HealthItem{IsHealthy: true, Name: types.CC_MODULE_HOSTCONTROLLER}
-	if _, err := s.Engine.CoreAPI.Healthz().HealthCheck(types.CC_MODULE_HOSTCONTROLLER); err != nil {
-		hostCtrl.IsHealthy = false
-		hostCtrl.Message = err.Error()
-	}
-	meta.Items = append(meta.Items, hostCtrl)
 
 	// coreservice
 	coreSrv := metric.HealthItem{IsHealthy: true, Name: types.CC_MODULE_CORESERVICE}
@@ -227,7 +230,7 @@ func (s *Service) Healthz(req *restful.Request, resp *restful.Response) {
 		Message: meta.Message,
 	}
 	resp.Header().Set("Content-Type", "application/json")
-	resp.WriteEntity(answer)
+	_ = resp.WriteEntity(answer)
 }
 
 func (s *Service) InitBackground() {
@@ -236,6 +239,7 @@ func (s *Service) InitBackground() {
 		header.Set(common.BKHTTPOwnerID, common.BKSuperOwnerID)
 		header.Set(common.BKHTTPHeaderUser, common.BKProcInstanceOpUser)
 	}
+	s.CacheDB.FlushDb()
 
 	srvData := s.newSrvComm(header)
 	go srvData.lgc.TimerTriggerCheckStatus(srvData.ctx)

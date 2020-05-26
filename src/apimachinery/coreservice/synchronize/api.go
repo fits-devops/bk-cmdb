@@ -19,70 +19,84 @@ import (
 	"configcenter/src/common/metadata"
 )
 
-func (inst *synchronize) SynchronizeInstance(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
+func (sync *synchronize) SynchronizeInstance(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
 	resp = new(metadata.SynchronizeResult)
 	subPath := "/set/synchronize/instance"
 
-	err = inst.client.Post().
+	err = sync.client.Post().
 		WithContext(ctx).
 		Body(input).
-		SubResource(subPath).
+		SubResourcef(subPath).
 		WithHeaders(h).
 		Do().
 		Into(resp)
 	return
 }
 
-func (inst *synchronize) SynchronizeModel(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
+func (sync *synchronize) SynchronizeModel(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
 	resp = new(metadata.SynchronizeResult)
 	subPath := "/set/synchronize/model"
 
-	err = inst.client.Post().
+	err = sync.client.Post().
 		WithContext(ctx).
 		Body(input).
-		SubResource(subPath).
+		SubResourcef(subPath).
 		WithHeaders(h).
 		Do().
 		Into(resp)
 	return
 }
 
-func (inst *synchronize) SynchronizeAssociation(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
+func (sync *synchronize) SynchronizeAssociation(ctx context.Context, h http.Header, input *metadata.SynchronizeParameter) (resp *metadata.SynchronizeResult, err error) {
 	resp = new(metadata.SynchronizeResult)
 	subPath := "/set/synchronize/association"
 
-	err = inst.client.Post().
+	err = sync.client.Post().
 		WithContext(ctx).
 		Body(input).
-		SubResource(subPath).
+		SubResourcef(subPath).
 		WithHeaders(h).
 		Do().
 		Into(resp)
 	return
 }
 
-func (inst *synchronize) SynchronizeFind(ctx context.Context, h http.Header, input *metadata.SynchronizeFindInfoParameter) (resp *metadata.ResponseInstData, err error) {
+func (sync *synchronize) SynchronizeFind(ctx context.Context, h http.Header, input *metadata.SynchronizeFindInfoParameter) (resp *metadata.ResponseInstData, err error) {
 	resp = new(metadata.ResponseInstData)
 	subPath := "/read/synchronize"
 
-	err = inst.client.Post().
+	err = sync.client.Post().
 		WithContext(ctx).
 		Body(input).
-		SubResource(subPath).
+		SubResourcef(subPath).
 		WithHeaders(h).
 		Do().
 		Into(resp)
 	return
 }
 
-func (inst *synchronize) SynchronizeClearData(ctx context.Context, h http.Header, input *metadata.SynchronizeClearDataParameter) (resp *metadata.Response, err error) {
+func (sync *synchronize) SynchronizeClearData(ctx context.Context, h http.Header, input *metadata.SynchronizeClearDataParameter) (resp *metadata.Response, err error) {
 	resp = new(metadata.Response)
 	subPath := "/clear/synchronize/data"
 
-	err = inst.client.Delete().
+	err = sync.client.Delete().
 		WithContext(ctx).
 		Body(input).
-		SubResource(subPath).
+		SubResourcef(subPath).
+		WithHeaders(h).
+		Do().
+		Into(resp)
+	return
+}
+
+func (sync *synchronize) SetIdentifierFlag(ctx context.Context, h http.Header, input *metadata.SetIdenifierFlag) (resp *metadata.SynchronizeResult, err error) {
+	resp = new(metadata.SynchronizeResult)
+	subPath := "/set/synchronize/identifier/flag"
+
+	err = sync.client.Post().
+		WithContext(ctx).
+		Body(input).
+		SubResourcef(subPath).
 		WithHeaders(h).
 		Do().
 		Into(resp)

@@ -15,10 +15,14 @@ package auth
 import (
 	"context"
 	"errors"
+	"net/http"
 
 	"configcenter/src/apimachinery/util"
 	"configcenter/src/auth/authcenter"
 	"configcenter/src/auth/meta"
+	"configcenter/src/common/metadata"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 type Authorize interface {
@@ -34,8 +38,11 @@ type Authorizer interface {
 	AuthorizeBatch(ctx context.Context, user meta.UserInfo, resources ...meta.ResourceAttribute) (decisions []meta.Decision, err error)
 	GetAnyAuthorizedBusinessList(ctx context.Context, user meta.UserInfo) ([]int64, error)
 	GetExactAuthorizedBusinessList(ctx context.Context, user meta.UserInfo) ([]int64, error)
+	ListAuthorizedResources(ctx context.Context, username string, bizID int64, resourceType meta.ResourceType, action meta.Action) ([]authcenter.IamResource, error)
 	AdminEntrance(ctx context.Context, user meta.UserInfo) ([]string, error)
 	GetAuthorizedAuditList(ctx context.Context, user meta.UserInfo, businessID int64) ([]authcenter.AuthorizedResource, error)
+	GetNoAuthSkipUrl(ctx context.Context, header http.Header, permission []metadata.Permission) (skipUrl string, err error)
+	GetUserGroupMembers(ctx context.Context, header http.Header, bizID int64, groups []string) ([]authcenter.UserGroupMembers, error)
 	Enabled() bool
 }
 
@@ -56,7 +63,13 @@ type ResourceHandler interface {
 	Get(ctx context.Context) error
 	// list resources by condition
 	ListResources(ctx context.Context, r *meta.ResourceAttribute) ([]meta.BackendResource, error)
-	// init the authcenter
+	RawListResources(ctx context.Context, header http.Header, searchCondition authcenter.SearchCondition) ([]meta.BackendResource, error)
+
+	// page interface
+	ListPageResources(ctx context.Context, r *meta.ResourceAttribute, limit, offset int64) (authcenter.PageBackendResource, error)
+	RawPageListResources(ctx context.Context, header http.Header, searchCondition authcenter.SearchCondition, limit, offset int64) (authcenter.PageBackendResource, error)
+
+	// init the auth center
 	Init(ctx context.Context, config meta.InitConfig) error
 }
 
@@ -65,6 +78,6 @@ type ResourceHandler interface {
 // This allows bk-cmdb to support other kind of auth center.
 // tls can be nil if it is not care.
 // authConfig is a way to parse configuration info for the connection to a auth center.
-func NewAuthorize(tls *util.TLSClientConfig, authConfig authcenter.AuthConfig) (Authorize, error) {
-	return authcenter.NewAuthCenter(tls, authConfig)
+func NewAuthorize(tls *util.TLSClientConfig, authConfig authcenter.AuthConfig, reg prometheus.Registerer) (Authorize, error) {
+	return authcenter.NewAuthCenter(tls, authConfig, reg)
 }

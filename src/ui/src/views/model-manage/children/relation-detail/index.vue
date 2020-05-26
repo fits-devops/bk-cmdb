@@ -1,37 +1,23 @@
 <template>
-    <div class="slider-content">
+    <div class="model-slider-content">
         <label class="form-label" v-if="isEdit">
             <span class="label-text">
-                {{$t('ModelManagement["唯一标识"]')}}
+                {{$t('唯一标识')}}
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item">
-                <input type="text" class="cmdb-form-input" v-model.trim="objAsstId" disabled>
-            </div>
-            <i class="bk-icon icon-info-circle"></i>
-        </label>
-        <label class="form-label">
-            <span class="label-text">
-                {{$t('ModelManagement["关联描述"]')}}
-            </span>
-            <div class="cmdb-form-item" :class="{ 'is-error': errors.has('asstName') }">
-                <input type="text" class="cmdb-form-input"
-                    name="asstName"
-                    :placeholder="$t('ModelManagement[\'请输入关联描述\']')"
-                    :disabled="relationInfo.ispre || isReadOnly"
-                    v-model.trim="relationInfo['bk_obj_asst_name']"
-                    v-validate="'singlechar'">
-                <p class="form-error">{{errors.first('asstName')}}</p>
+                <bk-input type="text" class="cmdb-form-input" v-model.trim="objAsstId" disabled></bk-input>
             </div>
             <i class="bk-icon icon-info-circle"></i>
         </label>
         <div class="form-label">
             <span class="label-text">
-                {{$t('ModelManagement["源模型"]')}}
+                {{$t('源模型')}}
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item" :class="{ 'is-error': errors.has('objId') }">
                 <cmdb-selector
+                    class="bk-select-full-width"
                     :disabled="relationInfo.ispre || isEdit"
                     :has-children="true"
                     :auto-select="false"
@@ -46,11 +32,12 @@
         </div>
         <div class="form-label">
             <span class="label-text">
-                {{$t('ModelManagement["目标模型"]')}}
+                {{$t('目标模型')}}
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item" :class="{ 'is-error': errors.has('asstObjId') }">
                 <cmdb-selector
+                    class="bk-select-full-width"
                     :disabled="relationInfo.ispre || isEdit"
                     :has-children="true"
                     :auto-select="false"
@@ -65,11 +52,13 @@
         </div>
         <div class="form-label">
             <span class="label-text">
-                {{$t('ModelManagement["关联类型"]')}}
+                {{$t('关联类型')}}
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item" :class="{ 'is-error': errors.has('asstId') }">
                 <cmdb-selector
+                    class="bk-select-full-width"
+                    :searchable="true"
                     :disabled="relationInfo.ispre || isReadOnly || isEdit"
                     :list="usefulRelationList"
                     v-validate="'required'"
@@ -82,11 +71,12 @@
         </div>
         <div class="form-label">
             <span class="label-text">
-                {{$t('ModelManagement["源-目标约束"]')}}
+                {{$t('源-目标约束')}}
                 <span class="color-danger">*</span>
             </span>
             <div class="cmdb-form-item" :class="{ 'is-error': errors.has('mapping') }">
                 <cmdb-selector
+                    class="bk-select-full-width"
                     :disabled="relationInfo.ispre || isEdit"
                     :list="mappingList"
                     v-validate="'required'"
@@ -97,12 +87,28 @@
             </div>
             <i class="bk-icon icon-info-circle"></i>
         </div>
+        <label class="form-label">
+            <span class="label-text">
+                {{$t('关联描述')}}
+            </span>
+            <div class="cmdb-form-item" :class="{ 'is-error': errors.has('asstName') }">
+                <bk-input type="text" class="cmdb-form-input"
+                    name="asstName"
+                    :placeholder="$t('请输入关联描述')"
+                    :disabled="relationInfo.ispre || isReadOnly"
+                    v-model.trim="relationInfo['bk_obj_asst_name']"
+                    v-validate="'singlechar|length:256'">
+                </bk-input>
+                <p class="form-error">{{errors.first('asstName')}}</p>
+            </div>
+            <i class="bk-icon icon-info-circle"></i>
+        </label>
         <div class="btn-group">
-            <bk-button type="primary" :loading="$loading(['createObjectAssociation', 'updateObjectAssociation'])" @click="saveRelation">
-                {{$t('Common["确定"]')}}
+            <bk-button theme="primary" :disabled="isReadOnly" :loading="$loading(['createObjectAssociation', 'updateObjectAssociation'])" @click="saveRelation">
+                {{isEdit ? $t('保存') : $t('提交')}}
             </bk-button>
-            <bk-button type="default" @click="cancel">
-                {{$t('Common["取消"]')}}
+            <bk-button theme="default" @click="cancel">
+                {{$t('取消')}}
             </bk-button>
         </div>
     </div>
@@ -149,7 +155,8 @@
                     bk_asst_id: '',
                     mapping: ''
                 },
-                specialModel: ['process', 'plat']
+                specialModel: ['process', 'plat'],
+                originRelationInfo: {}
             }
         },
         computed: {
@@ -211,6 +218,15 @@
                     }
                 })
                 return asstList
+            },
+            changedValues () {
+                const changedValues = {}
+                for (const propertyId in this.relationInfo) {
+                    if (JSON.stringify(this.relationInfo[propertyId]) !== JSON.stringify(this.originRelationInfo[propertyId])) {
+                        changedValues[propertyId] = this.relationInfo[propertyId]
+                    }
+                }
+                return changedValues
             }
         },
         watch: {
@@ -227,6 +243,9 @@
         },
         created () {
             this.initData()
+            this.$nextTick(() => {
+                this.originRelationInfo = this.$tools.clone(this.relationInfo)
+            })
         },
         methods: {
             ...mapActions('objectAssociation', [

@@ -31,7 +31,6 @@ func (s *Service) CreateObjectBatch(params types.ContextParams, pathParams, quer
 
 // SearchObjectBatch batch to search some objects
 func (s *Service) SearchObjectBatch(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-
 	data.Remove(metadata.BKMetadata)
 	return s.Core.ObjectOperation().FindObjectBatch(params, data)
 }
@@ -69,10 +68,11 @@ func (s *Service) SearchObjectTopo(params types.ContextParams, pathParams, query
 
 // UpdateObject update the object
 func (s *Service) UpdateObject(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	id, err := strconv.ParseInt(pathParams("id"), 10, 64)
+	idStr := pathParams(common.BKFieldID)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if nil != err {
-		blog.Errorf("[api-obj] failed to parse the path params id(%s), error info is %s ", pathParams("id"), err.Error())
-		return nil, params.Err.Errorf(common.CCErrCommParamsNeedInt, "object id")
+		blog.Errorf("[api-obj] failed to parse the path params id(%s), error info is %s , rid: %s", idStr, err.Error(), params.ReqID)
+		return nil, params.Err.Errorf(common.CCErrCommParamsNeedInt, common.BKFieldID)
 	}
 	err = s.Core.ObjectOperation().UpdateObject(params, data, id)
 	return nil, err
@@ -80,15 +80,23 @@ func (s *Service) UpdateObject(params types.ContextParams, pathParams, queryPara
 
 // DeleteObject delete the object
 func (s *Service) DeleteObject(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	paramPath := mapstr.MapStr{}
-	paramPath.Set("id", pathParams("id"))
-	id, err := paramPath.Int64("id")
+	idStr := pathParams(common.BKFieldID)
+	id, err := strconv.ParseInt(idStr, 10, 64)
 	if nil != err {
-		blog.Errorf("[api-obj] failed to parse the path params id(%s), error info is %s ", pathParams("id"), err.Error())
-		return nil, err
+		blog.Errorf("[api-obj] failed to parse the path params id(%s), error info is %s , rid: %s", idStr, err.Error(), params.ReqID)
+		return nil, params.Err.CCErrorf(common.CCErrCommParamsInvalid, common.BKFieldID)
 	}
 
-	cond := condition.CreateCondition()
-	err = s.Core.ObjectOperation().DeleteObject(params, id, cond, true)
+	err = s.Core.ObjectOperation().DeleteObject(params, id, true)
 	return nil, err
+}
+
+// GetModelStatistics 用于统计各个模型的实例数(Web页面展示需要)
+func (s *Service) GetModelStatistics(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
+	result, err := s.Engine.CoreAPI.CoreService().Model().GetModelStatistics(params.Context, params.Header)
+	if err != nil {
+		blog.Errorf("GetModelStatistics failed, err: %s, rid: %s", err.Error(), params.ReqID)
+		return nil, err
+	}
+	return result.Data, err
 }

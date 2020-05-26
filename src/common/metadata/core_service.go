@@ -18,6 +18,7 @@ import (
 	"configcenter/src/common"
 	"configcenter/src/common/blog"
 	"configcenter/src/common/mapstr"
+	"configcenter/src/common/selector"
 	"configcenter/src/common/util"
 )
 
@@ -136,7 +137,7 @@ type SearchTopoModelNodeResult struct {
 	Data     TopoModelNode `json:"data"`
 }
 
-// LeftestObjectIDList extrac leftest node's id of each level, arrange as a list
+// LeftestObjectIDList extract leftest node's id of each level, arrange as a list
 // it's useful in model mainline topo case, as bk_mainline relationship degenerate to a list.
 func (tn *TopoModelNode) LeftestObjectIDList() []string {
 	objectIDs := make([]string, 0)
@@ -151,11 +152,18 @@ func (tn *TopoModelNode) LeftestObjectIDList() []string {
 	return objectIDs
 }
 
+type TopoInstanceNodeSimplify struct {
+	ObjectID     string `json:"bk_obj_id" field:"bk_obj_id" mapstructure:"bk_obj_id"`
+	InstanceID   int64  `json:"bk_inst_id" field:"bk_inst_id" mapstructure:"bk_inst_id"`
+	InstanceName string `json:"bk_inst_name" field:"bk_inst_name" mapstructure:"bk_inst_name"`
+}
+
 type TopoInstanceNode struct {
-	Children   []*TopoInstanceNode
-	ObjectID   string
-	InstanceID int64
-	Detail     map[string]interface{}
+	Children     []*TopoInstanceNode
+	ObjectID     string
+	InstanceID   int64
+	InstanceName string
+	Detail       map[string]interface{}
 }
 
 type SearchTopoInstanceNodeResult struct {
@@ -192,8 +200,12 @@ func (node *TopoInstanceNode) TraversalFindModule(targetID int64) []*TopoInstanc
 	return node.TraversalFindNode(common.BKInnerObjIDModule, targetID)
 }
 
+// common.BKInnerObjIDObject used for matching custom level node
 func (node *TopoInstanceNode) TraversalFindNode(objectType string, targetID int64) []*TopoInstanceNode {
-	if common.GetObjByType(node.ObjectID) == objectType && node.InstanceID == targetID {
+	if objectType == common.BKInnerObjIDObject && !common.IsInnerModel(node.ObjectID) && node.InstanceID == targetID {
+		return []*TopoInstanceNode{node}
+	}
+	if node.ObjectID == objectType && node.InstanceID == targetID {
 		return []*TopoInstanceNode{node}
 	}
 
@@ -208,12 +220,34 @@ func (node *TopoInstanceNode) TraversalFindNode(objectType string, targetID int6
 	return []*TopoInstanceNode{}
 }
 
+func (node *TopoInstanceNode) DeepFirstTraversal(f func(node *TopoInstanceNode)) {
+	if node == nil {
+		return
+	}
+	for _, child := range node.Children {
+		child.DeepFirstTraversal(f)
+	}
+	f(node)
+}
+
+func (node *TopoInstanceNode) ToSimplify() *TopoInstanceNodeSimplify {
+	if node == nil {
+		return nil
+	}
+	return &TopoInstanceNodeSimplify{
+		ObjectID:     node.ObjectID,
+		InstanceID:   node.InstanceID,
+		InstanceName: node.InstanceName,
+	}
+}
+
 type TopoInstance struct {
 	ObjectID         string
 	InstanceID       int64
+	InstanceName     string
 	ParentInstanceID int64
 	Detail           map[string]interface{}
-	Default        int64
+	Default          int64
 }
 
 // Key generate a unique key for instance(as instances's of different object type maybe conflict)
@@ -231,10 +265,11 @@ type TransferHostsCrossBusinessRequest struct {
 
 // HostModuleRelationRequest gethost module relation request parameter
 type HostModuleRelationRequest struct {
-	ApplicationID int64   `json:"bk_biz_id"`
-	SetIDArr      []int64 `json:"bk_set_ids"`
-	HostIDArr     []int64 `json:"bk_host_ids"`
-	ModuleIDArr   []int64 `json:"bk_module_ids"`
+	ApplicationID int64    `json:"bk_biz_id" bson:"bk_biz_id" field:"bk_biz_id" mapstructure:"bk_biz_id"`
+	SetIDArr      []int64  `json:"bk_set_ids" bson:"bk_set_ids" field:"bk_set_ids" mapstructure:"bk_set_ids"`
+	HostIDArr     []int64  `json:"bk_host_ids" bson:"bk_host_ids" field:"bk_host_ids" mapstructure:"bk_host_ids"`
+	ModuleIDArr   []int64  `json:"bk_module_ids" bson:"bk_module_ids" field:"bk_module_ids" mapstructure:"bk_module_ids"`
+	Page          BasePage `json:"page" bson:"page" field:"page" mapstructure:"page"`
 }
 
 // Empty empty struct
@@ -259,4 +294,226 @@ func (h *HostModuleRelationRequest) Empty() bool {
 type DeleteHostRequest struct {
 	ApplicationID int64   `json:"bk_biz_id"`
 	HostIDArr     []int64 `json:"bk_host_ids"`
+}
+
+type OneServiceCategoryResult struct {
+	BaseResp `json:",inline"`
+	Data     ServiceCategory `json:"data"`
+}
+
+type OneServiceCategoryWithStatisticsResult struct {
+	BaseResp `json:",inline"`
+	Data     ServiceCategoryWithStatistics `json:"data"`
+}
+
+type MultipleServiceCategory struct {
+	Count int64             `json:"count"`
+	Info  []ServiceCategory `json:"info"`
+}
+
+type MultipleServiceCategoryWithStatistics struct {
+	Count int64                           `json:"count"`
+	Info  []ServiceCategoryWithStatistics `json:"info"`
+}
+
+type MultipleServiceCategoryResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceCategory `json:"data"`
+}
+
+type MultipleServiceCategoryWithStatisticsResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceCategoryWithStatistics `json:"data"`
+}
+
+type ListServiceTemplateOption struct {
+	BusinessID         int64    `json:"bk_biz_id"`
+	ServiceCategoryID  *int64   `json:"service_category_id"`
+	ServiceTemplateIDs []int64  `json:"service_template_ids"`
+	Page               BasePage `json:"page,omitempty"`
+	Search             string   `json:"search"`
+}
+
+type OneServiceTemplateResult struct {
+	BaseResp `json:",inline"`
+	Data     ServiceTemplate `json:"data"`
+}
+
+type OneServiceTemplateWithStatisticsResult struct {
+	BaseResp `json:",inline"`
+	Data     ServiceTemplateWithStatistics `json:"data"`
+}
+
+type MultipleServiceTemplateDetailResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceTemplateDetail `json:"data"`
+}
+
+type MultipleServiceTemplateDetail struct {
+	Count uint64                  `json:"count"`
+	Info  []ServiceTemplateDetail `json:"info"`
+}
+
+type MultipleServiceTemplate struct {
+	Count uint64            `json:"count"`
+	Info  []ServiceTemplate `json:"info"`
+}
+
+type ListServiceInstanceOption struct {
+	BusinessID         int64              `json:"bk_biz_id"`
+	ServiceTemplateID  int64              `json:"service_template_id"`
+	HostIDs            []int64            `json:"bk_host_ids"`
+	ModuleIDs          []int64            `json:"bk_module_ids"`
+	SearchKey          *string            `json:"search_key"`
+	ServiceInstanceIDs []int64            `json:"service_instance_ids"`
+	Selectors          selector.Selectors `json:"selectors"`
+	Page               BasePage           `json:"page"`
+}
+
+type ListServiceInstanceDetailOption struct {
+	BusinessID         int64              `json:"bk_biz_id"`
+	SetID              int64              `json:"bk_set_id"`
+	ModuleID           int64              `json:"bk_module_id"`
+	HostID             int64              `json:"bk_host_id"`
+	ServiceInstanceIDs []int64            `json:"service_instance_ids"`
+	Selectors          selector.Selectors `json:"selectors,omitempty"`
+	Page               BasePage           `json:"page,omitempty"`
+}
+
+type ListProcessInstanceRelationOption struct {
+	BusinessID         int64    `json:"bk_biz_id"`
+	ProcessIDs         []int64  `json:"process_ids,omitempty"`
+	ServiceInstanceIDs []int64  `json:"service_instance_id,omitempty"`
+	ProcessTemplateID  int64    `json:"process_template_id,omitempty"`
+	HostID             int64    `json:"host_id,omitempty"`
+	Page               BasePage `json:"page" field:"page"`
+}
+
+type MultipleServiceTemplateResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceTemplate `json:"data"`
+}
+
+type OneProcessTemplateResult struct {
+	BaseResp `json:",inline"`
+	Data     ProcessTemplate `json:"data"`
+}
+
+type MultipleProcessTemplate struct {
+	Count uint64            `json:"count"`
+	Info  []ProcessTemplate `json:"info"`
+}
+
+type MultipleProcessTemplateResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleProcessTemplate `json:"data"`
+}
+
+type DeleteProcessInstanceRelationOption struct {
+	BusinessID         *int64  `json:"bk_biz_id"`
+	ProcessIDs         []int64 `json:"bk_process_id,omitempty"`
+	ServiceInstanceIDs []int64 `json:"service_instance_id,omitempty"`
+	ProcessTemplateIDs []int64 `json:"process_template_id,omitempty"`
+	HostIDs            []int64 `json:"bk_host_id,omitempty"`
+	ModuleIDs          []int64 `json:"bk_module_id,omitempty"`
+}
+
+type ListProcessTemplatesOption struct {
+	BusinessID         int64    `json:"bk_biz_id" bson:"bk_biz_id"`
+	ProcessTemplateIDs []int64  `json:"process_template_ids,omitempty" bson:"process_template_ids"`
+	ServiceTemplateIDs []int64  `json:"service_template_ids,omitempty" bson:"service_template_ids"`
+	Page               BasePage `json:"page" field:"page" bson:"page"`
+}
+type ListServiceCategoriesOption struct {
+	BusinessID         int64   `json:"bk_biz_id" bson:"bk_biz_id"`
+	ServiceCategoryIDs []int64 `json:"service_category_ids,omitempty" bson:"service_category_ids"`
+	WithStatistics     bool    `json:"with_statistics" bson:"with_statistics"`
+}
+
+type OneServiceInstanceResult struct {
+	BaseResp `json:",inline"`
+	Data     ServiceInstance `json:"data"`
+}
+
+type MultipleServiceInstance struct {
+	Count uint64            `json:"count"`
+	Info  []ServiceInstance `json:"info"`
+}
+
+type MultipleServiceInstanceDetail struct {
+	Count uint64                  `json:"count"`
+	Info  []ServiceInstanceDetail `json:"info"`
+}
+
+type MultipleServiceInstanceResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceInstance `json:"data"`
+}
+
+type MultipleServiceInstanceDetailResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleServiceInstanceDetail `json:"data"`
+}
+
+type OneProcessInstanceRelationResult struct {
+	BaseResp `json:",inline"`
+	Data     ProcessInstanceRelation `json:"data"`
+}
+
+type MultipleProcessInstanceRelation struct {
+	Count uint64                    `json:"count"`
+	Info  []ProcessInstanceRelation `json:"info"`
+}
+
+type MultipleProcessInstanceRelationResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleProcessInstanceRelation `json:"data"`
+}
+
+type MultipleHostProcessRelation struct {
+	Count uint64                 `json:"count"`
+	Info  []HostProcessRelation `json:"info"`
+}
+
+type MultipleHostProcessRelationResult struct {
+	BaseResp `json:",inline"`
+	Data     MultipleHostProcessRelation `json:"data"`
+}
+
+type BusinessDefaultSetModuleInfo struct {
+	IdleSetID       int64 `json:"idle_set_id"`
+	IdleModuleID    int64 `json:"idle_module_id"`
+	FaultModuleID   int64 `json:"fault_module_id"`
+	RecycleModuleID int64 `json:"recycle_module_id"`
+}
+
+func (b BusinessDefaultSetModuleInfo) IsInternalModule(moduleID int64) bool {
+	if moduleID == b.IdleModuleID ||
+		moduleID == b.FaultModuleID ||
+		moduleID == b.RecycleModuleID {
+		return true
+	}
+	return false
+}
+
+type BusinessDefaultSetModuleInfoResult struct {
+	BaseResp `json:",inline"`
+	Data     BusinessDefaultSetModuleInfo `json:"data"`
+}
+
+type RemoveTemplateBoundOnModuleResult struct {
+	BaseResp `json:",inline"`
+	Data     struct {
+		ServiceTemplateID int64 `json:"service_template_id" bson:"service_template_id" field:"service_template_id"`
+	} `json:"data"`
+}
+
+type GetProc2ModuleResult struct {
+	BaseResp `json:",inline"`
+	Data     []Proc2Module `json:"data"`
+}
+
+type MultipleMap struct {
+	Count uint64                   `json:"count"`
+	Info  []map[string]interface{} `json:"info"`
 }

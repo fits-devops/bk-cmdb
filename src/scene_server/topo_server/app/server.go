@@ -31,8 +31,11 @@ import (
 	"configcenter/src/scene_server/topo_server/app/options"
 	"configcenter/src/scene_server/topo_server/core"
 	"configcenter/src/scene_server/topo_server/service"
+	"configcenter/src/storage/dal"
 	"configcenter/src/storage/dal/mongo"
+	"configcenter/src/storage/dal/mongo/local"
 	"configcenter/src/storage/dal/mongo/remote"
+	"configcenter/src/thirdpartyclient/elasticsearch"
 )
 
 // TopoServer the topo server
@@ -64,10 +67,15 @@ func (t *TopoServer) onTopoConfigUpdate(previous, current cc.ProcessConfig) {
 	if err != nil {
 		blog.Warnf("parse auth center config failed: %v", err)
 	}
+
+	t.Config.Es, err = elasticsearch.ParseConfigFromKV("es", current.ConfigMap)
+	if err != nil {
+		blog.Warnf("parse es config failed: %v", err)
+	}
 }
 
 // Run main function
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
 		return fmt.Errorf("wrap server info failed, err: %v", err)
@@ -95,15 +103,31 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 		return err
 	}
 
-	txn, err := remote.NewWithDiscover(engine.ServiceManageInterface.TMServer().GetServers, server.Config.Mongo)
+	var txn dal.Transcation
+	if server.Config.Mongo.Enable == "true" {
+		txn, err = local.NewMgo(server.Config.Mongo.BuildURI(), time.Second*5)
+	} else {
+		txn, err = remote.NewWithDiscover(engine)
+	}
 	if err != nil {
 		blog.Errorf("failed to connect the txc server, error info is %v", err)
 		return err
 	}
 
-	authorize, err := authcenter.NewAuthCenter(nil, server.Config.Auth)
+	authorize, err := authcenter.NewAuthCenter(nil, server.Config.Auth, engine.Metric().Registry())
 	if err != nil {
 		blog.Errorf("it is failed to create a new auth API, err:%s", err.Error())
+		return err
+	}
+
+	essrv := new(elasticsearch.EsSrv)
+	if server.Config.Es.FullTextSearch == "on" {
+		esClient, err := elasticsearch.NewEsClient(server.Config.Es)
+		if err != nil {
+			blog.Errorf("failed to create elastic search client, err:%s", err.Error())
+			return fmt.Errorf("new es client failed, err: %v", err)
+		}
+		essrv.Client = esClient
 	}
 
 	authManager := extensions.NewAuthManager(engine.CoreAPI, authorize)
@@ -111,13 +135,15 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 		Language:    engine.Language,
 		Engine:      engine,
 		AuthManager: authManager,
+		Es:          essrv,
 		Core:        core.New(engine.CoreAPI, authManager),
 		Error:       engine.CCErr,
 		Txn:         txn,
 		Config:      server.Config,
 	}
 
-	if err := backbone.StartServer(ctx, engine, server.Service.WebService()); err != nil {
+	err = backbone.StartServer(ctx, cancel, engine, server.Service.WebService(), true)
+	if err != nil {
 		return err
 	}
 	select {

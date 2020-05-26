@@ -14,9 +14,14 @@ package service
 
 import (
 	"errors"
+	"fmt"
+	"regexp"
 	"strings"
 
-	restful "github.com/emicklei/go-restful"
+	"configcenter/src/common/blog"
+	"configcenter/src/common/util"
+
+	"github.com/emicklei/go-restful"
 )
 
 // URLPath url path filter
@@ -24,21 +29,34 @@ type URLPath string
 
 // FilterChain url path filter
 func (u URLPath) FilterChain(req *restful.Request) (RequestType, error) {
+	rid := util.GetHTTPCCRequestID(req.Request.Header)
+
+	var serverType RequestType
+	var err error
 	switch {
 	case u.WithTopo(req):
-		return TopoType, nil
+		serverType = TopoType
 	case u.WithHost(req):
-		return HostType, nil
+		serverType = HostType
 	case u.WithProc(req):
-		return ProcType, nil
+		serverType = ProcType
 	case u.WithEvent(req):
-		return EventType, nil
+		serverType = EventType
 	case u.WithDataCollect(req):
 		return DataCollectType, nil
+	case u.WithOperation(req):
+		return OperationType, nil
+	case u.WithTask(req):
+		return TaskType, nil
 	default:
-		return UnknownType, errors.New("unknown requested with backend process")
+		serverType = UnknownType
+		err = errors.New("unknown requested with backend process")
 	}
+	blog.V(7).Infof("FilterChain match %s server, url: %s, rid: %s", serverType, req.Request.URL, rid)
+	return serverType, err
 }
+
+var topoURLRegexp = regexp.MustCompile(fmt.Sprintf("^/api/v3/(%s)/(inst|object|objects|topo|biz|module|set)/.*$", verbs))
 
 // WithTopo parse topo api's url
 func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
@@ -52,6 +70,9 @@ func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
 		from, to, isHit = rootPath+"/biz", topoRoot+"/app", true
 
 	case strings.HasPrefix(string(*u), rootPath+"/topo/"):
+		from, to, isHit = rootPath, topoRoot, true
+
+	case topoURLRegexp.MatchString(string(*u)):
 		from, to, isHit = rootPath, topoRoot, true
 
 	case strings.HasPrefix(string(*u), rootPath+"/identifier/"):
@@ -107,6 +128,7 @@ func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
 	case strings.Contains(string(*u), "/objectattgroupproperty"):
 		from, to, isHit = rootPath, topoRoot, true
 
+	// TODO remove it
 	case strings.Contains(string(*u), "/objectattgroupasst"):
 		from, to, isHit = rootPath, topoRoot, true
 
@@ -117,6 +139,9 @@ func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
 		from, to, isHit = rootPath, topoRoot, true
 
 	case strings.Contains(string(*u), "/topoinst"):
+		from, to, isHit = rootPath, topoRoot, true
+
+	case strings.Contains(string(*u), "/topopath"):
 		from, to, isHit = rootPath, topoRoot, true
 
 	case strings.Contains(string(*u), "/topoassociationtype"):
@@ -137,10 +162,13 @@ func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
 	case strings.Contains(string(*u), "/instassociationdetail"):
 		from, to, isHit = rootPath, topoRoot, true
 
-	case strings.Contains(string(*u), "/instassociationdetail"):
+	case strings.Contains(string(*u), "/associationtype"):
 		from, to, isHit = rootPath, topoRoot, true
 
-	case strings.Contains(string(*u), "/associationtype"):
+	case strings.Contains(string(*u), "/find/full_text"):
+		from, to, isHit = rootPath, topoRoot, true
+
+	case topoURLRegexp.MatchString(string(*u)):
 		from, to, isHit = rootPath, topoRoot, true
 
 	default:
@@ -153,6 +181,10 @@ func (u *URLPath) WithTopo(req *restful.Request) (isHit bool) {
 	}
 	return false
 }
+
+// hostCloudAreaURLRegexp host server opeator cloud area api regex
+var hostCloudAreaURLRegexp = regexp.MustCompile(fmt.Sprintf("^/api/v3/(%s)/(cloudarea|cloudarea/.*)$", verbs))
+var hostURLRegexp = regexp.MustCompile(fmt.Sprintf("^/api/v3/(%s)/(host|hosts|host_apply_rule|host_apply_plan)/.*$", verbs))
 
 // WithHost transform the host's url
 func (u *URLPath) WithHost(req *restful.Request) (isHit bool) {
@@ -181,6 +213,14 @@ func (u *URLPath) WithHost(req *restful.Request) (isHit bool) {
 	case string(*u) == (rootPath + "/findmany/modulehost"):
 		from, to, isHit = rootPath, hostRoot, true
 
+	case hostCloudAreaURLRegexp.MatchString(string(*u)):
+		from, to, isHit = rootPath, hostRoot, true
+
+	case hostURLRegexp.MatchString(string(*u)):
+		from, to, isHit = rootPath, hostRoot, true
+
+	case strings.HasPrefix(string(*u), rootPath+"/system/config"):
+		from, to, isHit = rootPath, hostRoot, true
 	default:
 		isHit = false
 	}
@@ -212,6 +252,10 @@ func (u *URLPath) WithEvent(req *restful.Request) (isHit bool) {
 	return false
 }
 
+const verbs = "create|createmany|update|updatemany|delete|deletemany|find|findmany"
+
+var procUrlRegexp = regexp.MustCompile(fmt.Sprintf("^/api/v3/(%s)/proc/.*$", verbs))
+
 // WithProc transform the proc's url
 func (u *URLPath) WithProc(req *restful.Request) (isHit bool) {
 	procRoot := "/process/v3"
@@ -220,7 +264,8 @@ func (u *URLPath) WithProc(req *restful.Request) (isHit bool) {
 	switch {
 	case strings.HasPrefix(string(*u), rootPath+"/proc/"):
 		from, to, isHit = rootPath+"/proc", procRoot, true
-
+	case procUrlRegexp.MatchString(string(*u)):
+		from, to, isHit = rootPath, procRoot, true
 	default:
 		isHit = false
 	}
@@ -240,6 +285,46 @@ func (u *URLPath) WithDataCollect(req *restful.Request) (isHit bool) {
 	switch {
 	case strings.HasPrefix(string(*u), rootPath+"/collector/"):
 		from, to, isHit = rootPath+"/collector", dataCollectRoot, true
+
+	default:
+		isHit = false
+	}
+
+	if isHit {
+		u.revise(req, from, to)
+		return true
+	}
+	return false
+}
+
+// WithOperation transform OperationStatistic's url
+func (u *URLPath) WithOperation(req *restful.Request) (isHit bool) {
+	statisticsRoot := "/operation/v3"
+	from, to := rootPath, statisticsRoot
+
+	switch {
+	case strings.Contains(string(*u), "/operation/"):
+		from, to, isHit = rootPath, statisticsRoot, true
+
+	default:
+		isHit = false
+	}
+
+	if isHit {
+		u.revise(req, from, to)
+		return true
+	}
+	return false
+}
+
+// WithTask transform task server  url
+func (u *URLPath) WithTask(req *restful.Request) (isHit bool) {
+	statisticsRoot := "/task/v3"
+	from, to := rootPath, statisticsRoot
+
+	switch {
+	case strings.Contains(string(*u), "/task/"):
+		from, to, isHit = rootPath, statisticsRoot, true
 
 	default:
 		isHit = false

@@ -4,7 +4,7 @@
             <div class="empty-content">
                 <i class="bk-icon icon-empty">
                 </i>
-                <span>{{$t('HostDetails["暂无关联关系"]')}}</span>
+                <span>{{$t('暂无关联关系')}}</span>
             </div>
         </div>
         <template v-else>
@@ -83,8 +83,10 @@
         watch: {
             list () {
                 this.$nextTick(() => {
-                    const [firstAssociationListTable] = this.$refs.associationListTable
-                    firstAssociationListTable && (firstAssociationListTable.expanded = true)
+                    if (this.$refs.associationListTable) {
+                        const [firstAssociationListTable] = this.$refs.associationListTable
+                        firstAssociationListTable && (firstAssociationListTable.expanded = true)
+                    }
                 })
             }
         },
@@ -140,7 +142,7 @@
             },
             getAssociation (condition) {
                 return this.$store.dispatch('objectAssociation/searchObjectAssociation', {
-                    params: this.$injectMetadata({ condition }),
+                    params: { condition },
                     config: {
                         requestId: 'getAssociation'
                     }
@@ -165,12 +167,12 @@
                 const [root] = await this.$store.dispatch('objectRelation/getInstRelation', {
                     objId: 'host',
                     instId: this.id,
-                    params: this.$injectMetadata(),
+                    params: {},
                     config: {
                         requestId: 'getInstRelation'
                     }
                 })
-                return Promise.resolve(root)
+                return Promise.resolve(root || { prev: [], next: [] })
             },
             getAvailableAssociation (data, reference = [], mainLine = []) {
                 return data.filter(association => {

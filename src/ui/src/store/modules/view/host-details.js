@@ -22,6 +22,7 @@ const getters = {
         state.propertyGroups.forEach(group => {
             const properties = state.properties.filter(property => property.bk_property_group === group.bk_group_id)
             if (properties.length) {
+                properties.sort((prev, next) => prev.bk_property_index - next.bk_property_index)
                 groupedProperties.push({
                     ...group,
                     properties
@@ -48,7 +49,10 @@ const getters = {
     source: state => state.association.source,
     target: state => state.association.target,
     sourceInstances: state => state.instances.source,
-    targetInstances: state => state.instances.target
+    targetInstances: state => state.instances.target,
+    isBusinessHost: state => {
+        return (state.info.biz || []).some(business => business.default === 0)
+    }
 }
 
 const mutations = {

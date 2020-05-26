@@ -17,9 +17,12 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"configcenter/src/apimachinery/rest"
 	"configcenter/src/auth/meta"
+	"configcenter/src/common/metadata"
 	"configcenter/src/common/util"
 )
 
@@ -52,9 +55,8 @@ type authClient struct {
 func (a *authClient) verifyExactResourceBatch(ctx context.Context, header http.Header, batch *AuthBatch) ([]BatchStatus, error) {
 	util.CopyHeader(a.basicHeader, header)
 	resp := new(BatchResult)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/resources-perms/batch-verify", a.Config.SystemID)
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources-perms/batch-verify", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(batch).
@@ -81,9 +83,8 @@ func (a *authClient) verifyExactResourceBatch(ctx context.Context, header http.H
 func (a *authClient) verifyAnyResourceBatch(ctx context.Context, header http.Header, batch *AuthBatch) ([]BatchStatus, error) {
 	util.CopyHeader(a.basicHeader, header)
 	resp := new(BatchResult)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/any-resources-perms/batch-verify", a.Config.SystemID)
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/any-resources-perms/batch-verify", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(batch).
@@ -117,9 +118,8 @@ func (a *authClient) registerResource(ctx context.Context, header http.Header, i
 
 	util.CopyHeader(a.basicHeader, header)
 	resp := new(ResourceResult)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/resources/batch-register", a.Config.SystemID)
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources/batch-register", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(info).
@@ -147,9 +147,8 @@ func (a *authClient) registerResource(ctx context.Context, header http.Header, i
 func (a *authClient) deregisterResource(ctx context.Context, header http.Header, info *DeregisterInfo) error {
 	util.CopyHeader(a.basicHeader, header)
 	resp := new(ResourceResult)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/resources/batch-delete", a.Config.SystemID)
 	err := a.client.Delete().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources/batch-delete", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(info).
@@ -178,9 +177,8 @@ func (a *authClient) deregisterResource(ctx context.Context, header http.Header,
 func (a *authClient) updateResource(ctx context.Context, header http.Header, info *UpdateInfo) error {
 	util.CopyHeader(a.basicHeader, header)
 	resp := new(ResourceResult)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/resources", a.Config.SystemID)
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(info).
@@ -203,7 +201,6 @@ func (a *authClient) updateResource(ctx context.Context, header http.Header, inf
 
 func (a *authClient) QuerySystemInfo(ctx context.Context, header http.Header, systemID string, detail bool) (*SystemDetail, error) {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s", systemID)
 
 	resp := struct {
 		BaseResponse
@@ -216,7 +213,7 @@ func (a *authClient) QuerySystemInfo(ctx context.Context, header http.Header, sy
 	}
 
 	err := a.client.Get().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s", systemID).
 		WithParam("is_detail", isDetail).
 		WithContext(ctx).
 		WithHeaders(header).
@@ -244,7 +241,7 @@ func (a *authClient) RegistSystem(ctx context.Context, header http.Header, syste
 	}{}
 
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef(url).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(system).
@@ -265,14 +262,13 @@ func (a *authClient) RegistSystem(ctx context.Context, header http.Header, syste
 
 func (a *authClient) UpdateSystem(ctx context.Context, header http.Header, system System) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s", system.SystemID)
 	resp := struct {
 		BaseResponse
 		Data System `json:"data"`
 	}{}
 
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s", system.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(system).
@@ -294,7 +290,7 @@ func (a *authClient) InitSystemBatch(ctx context.Context, header http.Header, de
 	resp := BaseResponse{}
 
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef(url).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(detail).
@@ -311,11 +307,10 @@ func (a *authClient) InitSystemBatch(ctx context.Context, header http.Header, de
 
 func (a *authClient) RegistResourceTypeBatch(ctx context.Context, header http.Header, systemID, scopeType string, resources []ResourceType) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-register", systemID, scopeType)
 	resp := BaseResponse{}
 
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-register", systemID, scopeType).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(struct {
@@ -334,11 +329,10 @@ func (a *authClient) RegistResourceTypeBatch(ctx context.Context, header http.He
 
 func (a *authClient) UpdateResourceTypeBatch(ctx context.Context, header http.Header, systemID, scopeType string, resources []ResourceType) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-update", systemID, scopeType)
 	resp := BaseResponse{}
 
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-update", systemID, scopeType).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(struct {
@@ -357,11 +351,10 @@ func (a *authClient) UpdateResourceTypeBatch(ctx context.Context, header http.He
 
 func (a *authClient) UpdateResourceTypeActionBatch(ctx context.Context, header http.Header, systemID, scopeType string, resources []ResourceType) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-type-actions/batch-update", systemID, scopeType)
 	resp := BaseResponse{}
 
 	err := a.client.Put().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-type-actions/batch-update", systemID, scopeType).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(struct {
@@ -380,11 +373,10 @@ func (a *authClient) UpdateResourceTypeActionBatch(ctx context.Context, header h
 
 func (a *authClient) UpsertResourceTypeBatch(ctx context.Context, header http.Header, systemID, scopeType string, resources []ResourceType) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-upsert", systemID, scopeType)
 	resp := BaseResponse{}
 
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/batch-upsert", systemID, scopeType).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(struct {
@@ -403,11 +395,10 @@ func (a *authClient) UpsertResourceTypeBatch(ctx context.Context, header http.He
 
 func (a *authClient) DeleteResourceType(ctx context.Context, header http.Header, systemID, scopeType, resourceType string) error {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/%s", systemID, scopeType, resourceType)
 	resp := BaseResponse{}
 
 	err := a.client.Delete().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/%s", systemID, scopeType, resourceType).
 		WithContext(ctx).
 		WithHeaders(header).
 		Do().Into(&resp)
@@ -422,13 +413,13 @@ func (a *authClient) DeleteResourceType(ctx context.Context, header http.Header,
 }
 
 func (a *authClient) GetAuthorizedResources(ctx context.Context, body *ListAuthorizedResources) ([]AuthorizedResource, error) {
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/authorized-resources/search", SystemIDCMDB)
+	header := util.CloneHeader(a.basicHeader)
 	resp := ListAuthorizedResourcesResult{}
 
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/authorized-resources/search", SystemIDCMDB).
 		WithContext(ctx).
-		WithHeaders(a.basicHeader).
+		WithHeaders(header).
 		Body(body).
 		Do().Into(&resp)
 	if err != nil {
@@ -443,13 +434,13 @@ func (a *authClient) GetAuthorizedResources(ctx context.Context, body *ListAutho
 
 // find resource list that a user got any authorized resources.
 func (a *authClient) GetAnyAuthorizedScopes(ctx context.Context, scopeID string, body *Principal) ([]string, error) {
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/scope_type/%s/authorized-scopes", SystemIDCMDB, scopeID)
+	header := util.CloneHeader(a.basicHeader)
 	resp := ListAuthorizedScopeResult{}
 
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/scope_type/%s/authorized-scopes", SystemIDCMDB, scopeID).
 		WithContext(ctx).
-		WithHeaders(a.basicHeader).
+		WithHeaders(header).
 		Body(body).
 		Do().Into(&resp)
 	if err != nil {
@@ -462,14 +453,37 @@ func (a *authClient) GetAnyAuthorizedScopes(ctx context.Context, scopeID string,
 	return resp.Data, nil
 }
 
+func (a *authClient) ListPageResources(ctx context.Context, header http.Header, searchCondition SearchCondition, limit, offset int64) (result PageBackendResource, err error) {
+	util.CopyHeader(a.basicHeader, header)
+
+	resp := new(SearchPageResult)
+
+	err = a.client.Post().
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources/search", a.Config.SystemID).
+		WithContext(ctx).
+		WithHeaders(header).
+		Body(searchCondition).
+		WithParam("page", "1").
+		WithParam("limit", strconv.FormatInt(limit, 10)).
+		WithParam("offset", strconv.FormatInt(offset, 10)).
+		Do().Into(&resp)
+	if err != nil {
+		return resp.Data, fmt.Errorf("search resource with condition: %+v failed, error: %v", searchCondition, err)
+	}
+	if !resp.Result || resp.Code != 0 {
+		return resp.Data, fmt.Errorf("search resource with condition: %+v failed, message: %s, code: %v", searchCondition, resp.Message, resp.Code)
+	}
+
+	return resp.Data, nil
+}
+
 func (a *authClient) ListResources(ctx context.Context, header http.Header, searchCondition SearchCondition) (result []meta.BackendResource, err error) {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm/systems/%s/resources/search", a.Config.SystemID)
 
 	resp := new(SearchResult)
 
 	err = a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/resources/search", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(searchCondition).
@@ -486,21 +500,14 @@ func (a *authClient) ListResources(ctx context.Context, header http.Header, sear
 
 func (a *authClient) RegisterUserRole(ctx context.Context, header http.Header, roles RoleWithAuthResources) (int64, error) {
 	util.CopyHeader(a.basicHeader, header)
-	url := fmt.Sprintf("/bkiam/api/v1/perm-model/systems/%s/perm-templates", a.Config.SystemID)
-
-	resp := struct {
-		BaseResponse
-		Data struct {
-			TemplateID int64 `json:"perm_template_id"`
-		}
-	}{}
+	resp := new(RegisterRoleResult)
 
 	err := a.client.Post().
-		SubResource(url).
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/perm-templates", a.Config.SystemID).
 		WithContext(ctx).
 		WithHeaders(header).
 		Body(roles).
-		Do().Into(&resp)
+		Do().Into(resp)
 	if err != nil {
 		return 0, err
 	}
@@ -509,4 +516,75 @@ func (a *authClient) RegisterUserRole(ctx context.Context, header http.Header, r
 	}
 
 	return resp.Data.TemplateID, nil
+}
+
+// returns the url which can helps to launch the bk-auth-center when a user do not
+// have the authorize to access resource(s).
+func (a *authClient) GetNoAuthSkipUrl(ctx context.Context, header http.Header, p []metadata.Permission) (skipUrl string, err error) {
+	util.CopyHeader(a.basicHeader, header)
+	url := "/o/bk_iam_app/api/v1/apply-permission/url/"
+	req := map[string]interface{}{
+		"permission": p,
+	}
+	resp := new(GetSkipUrlResult)
+	err = a.client.Post().
+		SubResourcef(url).
+		WithContext(ctx).
+		WithHeaders(header).
+		Body(req).
+		Do().Into(&resp)
+	if err != nil {
+		return "", err
+	}
+	if !resp.Result || resp.Code != 0 {
+		return "", fmt.Errorf("code: %d, message: %s", resp.Code, resp.Message)
+	}
+
+	return resp.Data.Url, nil
+}
+
+// get user's group members from auth center
+func (a *authClient) GetUserGroupMembers(ctx context.Context, header http.Header, bizID int64, groups []string) ([]UserGroupMembers, error) {
+	util.CopyHeader(a.basicHeader, header)
+	resp := new(UserGroupMembersResult)
+	err := a.client.Get().
+		SubResourcef("/bkiam/api/v1/perm/systems/%s/scope-types/%s/scopes/%d/group-users", SystemIDCMDB, "biz", bizID).
+		WithContext(ctx).
+		WithHeaders(header).
+		WithParam("group_codes", strings.Join(groups, ",")).
+		Do().Into(&resp)
+	if err != nil {
+		return nil, err
+	}
+	if !resp.Result || resp.Code != 0 {
+		return nil, fmt.Errorf("code: %d, message: %s", resp.Code, resp.Message)
+	}
+
+	return resp.Data, nil
+}
+
+// delete iam resource which has already registered from iam.
+// scope type value can be enum of biz or system.
+func (a *authClient) DeleteResources(ctx context.Context, header http.Header, scopeType string, resType ResourceTypeID) error {
+	util.CopyHeader(a.basicHeader, header)
+	resp := new(BaseResponse)
+	err := a.client.Delete().
+		SubResourcef("/bkiam/api/v1/perm-model/systems/%s/scope-types/%s/resource-types/%s", SystemIDCMDB, scopeType, resType).
+		WithContext(ctx).
+		WithHeaders(header).
+		Do().Into(&resp)
+	if err != nil {
+		return err
+	}
+	if !resp.Result || resp.Code != 0 {
+		// resource not exist error code
+		if resp.Code == 1901002 {
+			// delete a not exist resource, so it means success to us.
+			return nil
+		} else {
+			return fmt.Errorf("code: %d, message: %s", resp.Code, resp.Message)
+		}
+	}
+
+	return nil
 }

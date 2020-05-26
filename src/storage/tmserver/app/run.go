@@ -23,11 +23,11 @@ import (
 	"configcenter/src/storage/tmserver/app/options"
 	"configcenter/src/storage/tmserver/service"
 
-	restful "github.com/emicklei/go-restful"
+	"github.com/emicklei/go-restful"
 )
 
 // Run main goroute
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
 		return fmt.Errorf("wrap server info failed, err: %v", err)
@@ -72,12 +72,14 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 
 		blog.Infof("connected to mongo %v", tmServer.config.MongoDB.BuildURI())
 
-		// set core service
+		// set logics service
 		coreService.SetConfig(engine, db, tmServer.config.Transaction)
 		break
 	}
 	tmServer.engin = engine
-	if err := backbone.StartServer(ctx, engine, restful.NewContainer().Add(coreService.WebService())); err != nil {
+	handler := restful.NewContainer().Add(coreService.WebService())
+	err = backbone.StartServer(ctx, cancel, engine, handler, true)
+	if err != nil {
 		return err
 	}
 	// waiting to exit

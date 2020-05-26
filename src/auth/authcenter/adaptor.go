@@ -15,9 +15,15 @@ package authcenter
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"strconv"
 
+	"configcenter/src/apimachinery"
 	"configcenter/src/auth/meta"
+	"configcenter/src/common"
+	"configcenter/src/common/blog"
 	"configcenter/src/common/metadata"
+	"configcenter/src/common/util"
 )
 
 var NotEnoughLayer = fmt.Errorf("not enough layer")
@@ -28,7 +34,7 @@ func adaptor(attribute *meta.ResourceAttribute) (*ResourceInfo, error) {
 	info := new(ResourceInfo)
 	info.ResourceName = attribute.Basic.Name
 
-	resourceTypeID, err := convertResourceType(attribute.Type, attribute.BusinessID)
+	resourceTypeID, err := ConvertResourceType(attribute.Type, attribute.BusinessID)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +51,7 @@ func adaptor(attribute *meta.ResourceAttribute) (*ResourceInfo, error) {
 // Adaptor is a middleware wrapper which works for converting concepts
 // between bk-cmdb and blueking auth center. Especially the policies
 // in auth center.
-func convertResourceType(resourceType meta.ResourceType, businessID int64) (*ResourceTypeID, error) {
+func ConvertResourceType(resourceType meta.ResourceType, businessID int64) (*ResourceTypeID, error) {
 	var iamResourceType ResourceTypeID
 	switch resourceType {
 	case meta.Business:
@@ -78,10 +84,17 @@ func convertResourceType(resourceType meta.ResourceType, businessID int64) (*Res
 		iamResourceType = SysAssociationType
 
 	case meta.ModelAssociation:
-		return nil, errors.New("model association does not support auth now")
-
+		if businessID > 0 {
+			iamResourceType = BizInstance
+		} else {
+			iamResourceType = SysInstance
+		}
 	case meta.ModelInstanceAssociation:
-		return nil, errors.New("model instance association does not support  auth now")
+		if businessID > 0 {
+			iamResourceType = BizInstance
+		} else {
+			iamResourceType = SysInstance
+		}
 	case meta.MainlineModelTopology:
 		iamResourceType = SysSystemBase
 
@@ -102,7 +115,7 @@ func convertResourceType(resourceType meta.ResourceType, businessID int64) (*Res
 		}
 
 	case meta.HostFavorite:
-		return nil, errors.New("host favorite does not support auth now")
+		iamResourceType = BizHostInstance
 
 	case meta.Process:
 		iamResourceType = BizProcessInstance
@@ -122,6 +135,20 @@ func convertResourceType(resourceType meta.ResourceType, businessID int64) (*Res
 		iamResourceType = UserCustom
 	case meta.NetDataCollector:
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
+	case meta.ProcessServiceTemplate:
+		iamResourceType = BizProcessServiceTemplate
+	case meta.ProcessServiceCategory:
+		iamResourceType = BizProcessServiceCategory
+	case meta.ProcessServiceInstance:
+		iamResourceType = BizProcessServiceInstance
+	case meta.BizTopology:
+		iamResourceType = BizTopology
+	case meta.SetTemplate:
+		iamResourceType = BizSetTemplate
+	case meta.OperationStatistic:
+		iamResourceType = SysOperationStatistic
+	case meta.HostApply:
+		iamResourceType = BizHostApply
 	default:
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
 	}
@@ -134,28 +161,34 @@ type ResourceTypeID string
 
 // System Resource
 const (
-	SysSystemBase       ResourceTypeID = "sys_system_base"
-	SysBusinessInstance ResourceTypeID = "sys_business_instance"
-	SysHostInstance     ResourceTypeID = "sys_host_instance"
-	SysEventPushing     ResourceTypeID = "sys_event_pushing"
-	SysModelGroup       ResourceTypeID = "sys_model_group"
-	SysModel            ResourceTypeID = "sys_model"
-	SysInstance         ResourceTypeID = "sys_instance"
-	SysAssociationType  ResourceTypeID = "sys_association_type"
-	SysAuditLog         ResourceTypeID = "sys_audit_log"
+	SysSystemBase         ResourceTypeID = "sys_system_base"
+	SysBusinessInstance   ResourceTypeID = "sys_business_instance"
+	SysHostInstance       ResourceTypeID = "sys_host_instance"
+	SysEventPushing       ResourceTypeID = "sys_event_pushing"
+	SysModelGroup         ResourceTypeID = "sys_model_group"
+	SysModel              ResourceTypeID = "sys_model"
+	SysInstance           ResourceTypeID = "sys_instance"
+	SysAssociationType    ResourceTypeID = "sys_association_type"
+	SysAuditLog           ResourceTypeID = "sys_audit_log"
+	SysOperationStatistic ResourceTypeID = "sys_operation_statistic"
 )
 
 // Business Resource
 const (
 	// the alias name maybe "dynamic classification"
-	BizCustomQuery     ResourceTypeID = "biz_custom_query"
-	BizHostInstance    ResourceTypeID = "biz_host_instance"
-	BizProcessInstance ResourceTypeID = "biz_process_instance"
-	BizTopology        ResourceTypeID = "biz_topology"
-	BizModelGroup      ResourceTypeID = "biz_model_group"
-	BizModel           ResourceTypeID = "biz_model"
-	BizInstance        ResourceTypeID = "biz_instance"
-	BizAuditLog        ResourceTypeID = "biz_audit_log"
+	BizCustomQuery            ResourceTypeID = "biz_custom_query"
+	BizHostInstance           ResourceTypeID = "biz_host_instance"
+	BizProcessInstance        ResourceTypeID = "biz_process_instance"
+	BizTopology               ResourceTypeID = "biz_topology"
+	BizModelGroup             ResourceTypeID = "biz_model_group"
+	BizModel                  ResourceTypeID = "biz_model"
+	BizInstance               ResourceTypeID = "biz_instance"
+	BizAuditLog               ResourceTypeID = "biz_audit_log"
+	BizProcessServiceTemplate ResourceTypeID = "biz_process_service_template"
+	BizProcessServiceCategory ResourceTypeID = "biz_process_service_category"
+	BizProcessServiceInstance ResourceTypeID = "biz_process_service_instance"
+	BizSetTemplate            ResourceTypeID = "biz_set_template"
+	BizHostApply              ResourceTypeID = "biz_host_apply"
 )
 
 const (
@@ -167,7 +200,7 @@ var ResourceTypeIDMap = map[ResourceTypeID]string{
 	SysBusinessInstance: "业务",
 	SysHostInstance:     "主机",
 	SysEventPushing:     "事件推送",
-	SysModelGroup:       "模型分级",
+	SysModelGroup:       "模型分组",
 	SysModel:            "模型",
 	SysInstance:         "实例",
 	SysAssociationType:  "关联类型",
@@ -176,12 +209,18 @@ var ResourceTypeIDMap = map[ResourceTypeID]string{
 	BizHostInstance:     "业务主机",
 	BizProcessInstance:  "进程",
 	// TODO: delete this when upgrade to v3.5.x
-	BizTopology:   "拓扑",
-	BizModelGroup: "模型分组",
-	BizModel:      "模型",
-	BizInstance:   "实例",
-	BizAuditLog:   "操作审计",
-	UserCustom:    "",
+	BizTopology:               "业务拓扑",
+	BizModelGroup:             "模型分组",
+	BizModel:                  "模型",
+	BizInstance:               "实例",
+	BizAuditLog:               "操作审计",
+	UserCustom:                "",
+	BizProcessServiceTemplate: "服务模板",
+	BizProcessServiceCategory: "服务分类",
+	BizProcessServiceInstance: "服务实例",
+	BizSetTemplate:            "集群模板",
+	SysOperationStatistic:     "运营统计",
+	BizHostApply:              "主机属性自动应用",
 }
 
 type ActionID string
@@ -219,12 +258,10 @@ var ActionIDNameMap = map[ActionID]string{
 	Get:                    "查询",
 	Delete:                 "删除",
 	Archive:                "归档",
-	ModelTopologyOperation: "拓扑层级管理",
-	// TODO: delete this when upgrade to v3.5.x
-	BindModule: "绑定到模块",
+	ModelTopologyOperation: "编辑业务层级",
 }
 
-func adaptorAction(r *meta.ResourceAttribute) (ActionID, error) {
+func AdaptorAction(r *meta.ResourceAttribute) (ActionID, error) {
 	if r.Basic.Type == meta.ModelAttributeGroup ||
 		r.Basic.Type == meta.ModelUnique ||
 		r.Basic.Type == meta.ModelAttribute {
@@ -248,15 +285,16 @@ func adaptorAction(r *meta.ResourceAttribute) (ActionID, error) {
 		}
 	}
 
+	// TODO: confirm this.
+	if r.Action == meta.Execute && r.Basic.Type == meta.DynamicGrouping {
+		return Get, nil
+	}
+
 	if r.Action == meta.Find || r.Action == meta.Delete || r.Action == meta.Create {
 		if r.Basic.Type == meta.MainlineModel {
 			return ModelTopologyOperation, nil
 		}
 	}
-
-	// if r.Basic.Type == meta.ModelModule || r.Basic.Type == meta.ModelSet || r.Basic.Type == meta.MainlineInstance {
-	// 	return ModelTopologyOperation, nil
-	// }
 
 	if r.Action == meta.Find || r.Action == meta.Update {
 		if r.Basic.Type == meta.ModelTopology {
@@ -308,6 +346,7 @@ func adaptorAction(r *meta.ResourceAttribute) (ActionID, error) {
 
 	case meta.MoveHostToBizFaultModule,
 		meta.MoveHostToBizIdleModule,
+		meta.MoveHostToBizRecycleModule,
 		meta.MoveHostToAnotherBizModule,
 		meta.CleanHostInSetOrModule,
 		meta.TransferHost,
@@ -330,10 +369,30 @@ func adaptorAction(r *meta.ResourceAttribute) (ActionID, error) {
 	return Unknown, fmt.Errorf("unsupported action: %s", r.Action)
 }
 
+func GetBizNameByID(clientSet apimachinery.ClientSetInterface, header http.Header, bizID int64) (string, error) {
+	ctx := util.NewContextFromHTTPHeader(header)
+
+	result, err := clientSet.TopoServer().Instance().GetAppBasicInfo(ctx, header, bizID)
+	if err != nil {
+		return "", err
+	}
+	if result.Code == common.CCNoPermission {
+		return "", nil
+	}
+	if !result.Result {
+		return "", errors.New(result.ErrMsg)
+	}
+	bizName := result.Data.BizName
+	return bizName, nil
+}
+
 // TODO: add multiple language support
-func AdoptPermissions(rs []meta.ResourceAttribute) ([]metadata.Permission, error) {
+// AdoptPermissions 用于鉴权没有通过时，根据鉴权的资源信息生成需要申请的权限信息
+func AdoptPermissions(h http.Header, api apimachinery.ClientSetInterface, rs []meta.ResourceAttribute) ([]metadata.Permission, error) {
+	rid := util.GetHTTPCCRequestID(h)
 
 	ps := make([]metadata.Permission, 0)
+	bizIDMap := make(map[int64]string)
 	for _, r := range rs {
 		var p metadata.Permission
 		p.SystemID = SystemIDCMDB
@@ -342,19 +401,33 @@ func AdoptPermissions(rs []meta.ResourceAttribute) ([]metadata.Permission, error
 		if r.BusinessID > 0 {
 			p.ScopeType = ScopeTypeIDBiz
 			p.ScopeTypeName = ScopeTypeIDBizName
+			p.ScopeID = strconv.FormatInt(r.BusinessID, 10)
+			scopeName, exist := bizIDMap[r.BusinessID]
+			if !exist {
+				var err error
+				scopeName, err = GetBizNameByID(api, h, r.BusinessID)
+				if err != nil {
+					blog.Errorf("AdoptPermissions failed, GetBizNameByID failed, bizID: %d, err: %s, rid: %s", r.BusinessID, err.Error(), rid)
+				} else {
+					bizIDMap[r.BusinessID] = scopeName
+				}
+			}
+			p.ScopeName = scopeName
 		} else {
 			p.ScopeType = ScopeTypeIDSystem
 			p.ScopeTypeName = ScopeTypeIDSystemName
+			p.ScopeID = SystemIDCMDB
+			p.ScopeName = SystemNameCMDB
 		}
 
-		actID, err := adaptorAction(&r)
+		actID, err := AdaptorAction(&r)
 		if err != nil {
 			return nil, err
 		}
 		p.ActionID = string(actID)
 		p.ActionName = ActionIDNameMap[actID]
 
-		rscType, err := convertResourceType(r.Basic.Type, r.BusinessID)
+		rscType, err := ConvertResourceType(r.Basic.Type, r.BusinessID)
 		if err != nil {
 			return nil, err
 		}
@@ -368,7 +441,7 @@ func AdoptPermissions(rs []meta.ResourceAttribute) ([]metadata.Permission, error
 		rsc.ResourceType = string(*rscType)
 		rsc.ResourceTypeName = ResourceTypeIDMap[*rscType]
 		if len(rscIDs) != 0 {
-			rsc.ResourceID = rscIDs[0].ResourceID
+			rsc.ResourceID = rscIDs[len(rscIDs)-1].ResourceID
 		}
 		rsc.ResourceName = r.Basic.Name
 		p.Resources = [][]metadata.Resource{{rsc}}
@@ -443,5 +516,10 @@ var (
 	SystemBaseDescribe = ResourceDetail{
 		Type:    SysSystemBase,
 		Actions: []ActionID{Get, Delete, Edit, Create},
+	}
+
+	OperationStatistic = ResourceDetail{
+		Type:    SysOperationStatistic,
+		Actions: []ActionID{Get, Edit},
 	}
 )

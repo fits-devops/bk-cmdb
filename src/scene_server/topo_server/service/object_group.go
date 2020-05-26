@@ -34,7 +34,7 @@ func (s *Service) CreateObjectGroup(params types.ContextParams, pathParams, quer
 
 	// auth: register attribute group
 	if err := s.AuthManager.RegisterModelAttributeGroup(params.Context, params.Header, rsp.Group()); err != nil {
-		blog.Errorf("create object group success, but register attribute group to iam failed, err: %+v", err)
+		blog.Errorf("create object group success, but register attribute group to iam failed, err: %+v, rid: %s", err, params.ReqID)
 		return nil, params.Err.Error(common.CCErrCommRegistResourceToIAMFailed)
 	}
 	return rsp.ToMapStr()
@@ -61,30 +61,19 @@ func (s *Service) UpdateObjectGroup(params types.ContextParams, pathParams, quer
 	if cond.Condition.ID != 0 {
 		searchCondition.Field(common.BKFieldID).Eq(cond.Condition.ID)
 	}
-	if cond.Condition.GroupID != "" {
-		searchCondition.Field(common.BKPropertyGroupIDField).Eq(cond.Condition.GroupID)
-	}
-	if cond.Condition.ObjID != "" {
-		searchCondition.Field(common.BKObjIDField).Eq(cond.Condition.ObjID)
-	}
-	queryCond := metadata.QueryCondition{
-		Condition: searchCondition.ToMapStr(),
-	}
-	result, err := s.Engine.CoreAPI.CoreService().Instance().ReadInstance(params.Context, params.Header, common.BKTableNamePropertyGroup, &queryCond)
+	result, err := s.Core.GroupOperation().FindObjectGroup(params, searchCondition)
 	if err != nil {
-		blog.Errorf("search attribute group by condition failed, err: %+v", err)
+		blog.Errorf("search attribute group by condition failed, err: %+v, rid: %s", err, params.ReqID)
 		return nil, err
 	}
 	attributeGroups := make([]metadata.Group, 0)
-	for _, item := range result.Data.Info {
-		ag := metadata.Group{}
-		ag.Parse(item)
-		attributeGroups = append(attributeGroups, ag)
+	for _, item := range result {
+		attributeGroups = append(attributeGroups, item.Group())
 	}
 
 	// auth: register attribute group
 	if err := s.AuthManager.UpdateRegisteredModelAttributeGroup(params.Context, params.Header, attributeGroups...); err != nil {
-		blog.Errorf("update object group success, but update attribute group to iam failed, err: %+v", err)
+		blog.Errorf("update object group success, but update attribute group to iam failed, err: %+v, rid: %s", err, params.ReqID)
 		return nil, params.Err.Error(common.CCErrCommRegistResourceToIAMFailed)
 	}
 	return nil, nil
@@ -99,14 +88,14 @@ func (s *Service) DeleteObjectGroup(params types.ContextParams, pathParams, quer
 
 	data.Remove(metadata.BKMetadata)
 
-	// auth: deregister attribute group
-	if err := s.AuthManager.DeregisterModelAttributeGroupByID(params.Context, params.Header, gid); err != nil {
-		blog.Errorf("delete object group failed, deregister attribute group to iam failed, err: %+v", err)
-		return nil, params.Err.Error(common.CCErrCommUnRegistResourceToIAMFailed)
-	}
 	err = s.Core.GroupOperation().DeleteObjectGroup(params, gid)
 	if nil != err {
 		return nil, err
+	}
+	// auth: deregister attribute group
+	if err := s.AuthManager.DeregisterModelAttributeGroupByID(params.Context, params.Header, gid); err != nil {
+		blog.Errorf("delete object group failed, deregister attribute group to iam failed, err: %+v, rid: %s", err, params.ReqID)
+		return nil, params.Err.Error(common.CCErrCommUnRegistResourceToIAMFailed)
 	}
 
 	return nil, nil
@@ -128,15 +117,17 @@ func (s *Service) ParseUpdateObjectAttributeGroupPropertyInput(data []byte) (map
 // UpdateObjectAttributeGroupProperty update the object attribute belongs to group information
 func (s *Service) UpdateObjectAttributeGroupProperty(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 
-	datas := make([]metadata.PropertyGroupObjectAtt, 0)
 	val, exists := data.Get("origin")
 	if !exists {
 		return nil, params.Err.New(common.CCErrCommParamsIsInvalid, "not set anything")
 	}
 
-	datas, _ = val.([]metadata.PropertyGroupObjectAtt)
+	objectAtt, ok := val.([]metadata.PropertyGroupObjectAtt)
+	if ok == false {
+		return nil, params.Err.Errorf(common.CCErrCommParamsIsInvalid, "unexpected parameter type")
+	}
 
-	err := s.Core.GroupOperation().UpdateObjectAttributeGroup(params, datas)
+	err := s.Core.GroupOperation().UpdateObjectAttributeGroup(params, objectAtt)
 	if nil != err {
 		return nil, err
 	}
@@ -147,35 +138,7 @@ func (s *Service) UpdateObjectAttributeGroupProperty(params types.ContextParams,
 // DeleteObjectAttributeGroup delete the object attribute belongs to group information
 
 func (s *Service) DeleteObjectAttributeGroup(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
-	data.Remove(metadata.BKMetadata)
-
-	// query attribute groups with given condition, so that update them to iam after updated
-	searchCondition := condition.CreateCondition()
-	searchCondition.Field(common.BKObjIDField).Eq(pathParams("bk_object_id"))
-	searchCondition.Field(common.BKPropertyIDField).Eq(pathParams("property_id"))
-	searchCondition.Field(common.BKPropertyGroupIDField).Eq(pathParams("group_id"))
-	queryCondition := metadata.QueryCondition{
-		Condition: searchCondition.ToMapStr(),
-	}
-	result, err := s.Engine.CoreAPI.CoreService().Instance().ReadInstance(params.Context, params.Header, common.BKTableNamePropertyGroup, &queryCondition)
-	if err != nil {
-		blog.Errorf("search attribute group by condition failed, err: %+v", err)
-		return nil, err
-	}
-	attributeGroups := make([]metadata.Group, 0)
-	for _, item := range result.Data.Info {
-		ag := metadata.Group{}
-		ag.Parse(item)
-		attributeGroups = append(attributeGroups, ag)
-	}
-
-	// auth: deregister attribute group
-	if err := s.AuthManager.DeregisterModelAttributeGroup(params.Context, params.Header, attributeGroups...); err != nil {
-		blog.Errorf("delete object attribute group failed, deregister from iam failed, err: %+v", err)
-		return nil, params.Err.Error(common.CCErrCommUnRegistResourceToIAMFailed)
-	}
-
-	err = s.Core.GroupOperation().DeleteObjectAttributeGroup(params, pathParams("bk_object_id"), pathParams("property_id"), pathParams("group_id"))
+	err := s.Core.GroupOperation().DeleteObjectAttributeGroup(params, pathParams("bk_object_id"), pathParams("property_id"), pathParams("group_id"))
 	if nil != err {
 		return nil, err
 	}

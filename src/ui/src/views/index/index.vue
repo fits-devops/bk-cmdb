@@ -1,84 +1,81 @@
 <template>
-    <div class="index-layout" :class="{
-        'is-sticky': sticky
-    }">
-        <div class="sticky-layout" ref="stickyLayout">
-            <the-search></the-search>
-            <the-recently></the-recently>
+    <div class="index-layout">
+        <div class="search-layout" :style="{ paddingTop: inSearchPaddingTop + 'px' }">
+            <div :class="['search-tab', { 'is-focus': isFocus }]" v-show="showSearchTab" v-if="isFullTextSearch">
+                <span :class="['tab-item', { 'active': activeName === 'host' }]"
+                    @click="handleChangeTab('host')">
+                    {{$t('主机搜索')}}
+                </span>
+                <span :class="['tab-item', { 'active': activeName === 'fullText' }]"
+                    @click="handleChangeTab('fullText')">
+                    {{$t('全文检索')}}
+                </span>
+            </div>
+            <div class="tab-content">
+                <host-search v-show="activeName === 'host'" @focus="handleFocus"></host-search>
+                <search-input v-show="activeName === 'fullText'"
+                    v-if="isFullTextSearch"
+                    :is-full-text-search="true"
+                    @search-status="handleSearchStatus"
+                    @focus="handleFocus">
+                </search-input>
+            </div>
         </div>
-        <div ref="stickyProxy" v-show="sticky"></div>
-        <the-classify></the-classify>
-        <the-map></the-map>
-        <cmdb-main-inject class="copyright" ref="copyright">
-            Copyright © 2012-{{year}} Tencent BlueKing. All Rights Reserved. 腾讯蓝鲸 版权所有
-        </cmdb-main-inject>
+        <the-map style="user-select: none;"></the-map>
+        <div class="copyright">
+            Copyright © 2012-{{year}} Tencent BlueKing. All Rights Reserved. 腾讯蓝鲸 版权所有. {{site.buildVersion}}
+        </div>
     </div>
 </template>
 
 <script>
-    import theSearch from './children/search'
-    import theRecently from './children/recently'
-    import theClassify from './children/classify'
+    import hostSearch from './children/host-search'
+    import searchInput from './children/search-input'
     import theMap from './children/map'
-    import cmdbMainInject from '@/components/layout/main-inject'
-    import {
-        addMainResizeListener,
-        removeMainResizeListener,
-        addMainScrollListener,
-        removeMainScrollListener
-    } from '@/utils/main-scroller'
+    import { mapGetters } from 'vuex'
     export default {
-        name: 'cmdb-index',
+        name: 'index',
         components: {
-            theSearch,
-            theRecently,
-            theClassify,
-            theMap,
-            cmdbMainInject
+            hostSearch,
+            searchInput,
+            theMap
         },
         data () {
             return {
                 year: (new Date()).getFullYear(),
-                sticky: false,
-                resizeHandler: null,
-                scrollHandler: null
+                activeName: 'host',
+                inSearchPaddingTop: null,
+                showSearchTab: true,
+                isFocus: false
+            }
+        },
+        computed: {
+            ...mapGetters(['site']),
+            isFullTextSearch () {
+                return this.site.fullTextSearch === 'on'
+            },
+            paddingTop () {
+                return parseInt((this.$APP.height - 58) / 3, 10)
             }
         },
         created () {
-            this.$store.commit('setHeaderTitle', this.$t('Index["首页"]'))
-        },
-        mounted () {
-            this.initResizeListener()
-            this.initScrollListener()
-        },
-        beforeDestroy () {
-            removeMainResizeListener(this.resizeHandler)
-            removeMainScrollListener(this.scrollHandler)
+            this.inSearchPaddingTop = this.paddingTop
+            const query = this.$route.query
+            const showFullText = ['keywords', 'show'].every(key => query.hasOwnProperty(key))
+            if (showFullText && this.isFullTextSearch) {
+                this.activeName = 'fullText'
+            }
         },
         methods: {
-            initResizeListener () {
-                const $copyright = this.$refs.copyright.$el
-                this.resizeHandler = event => {
-                    const target = event.target
-                    if (target.offsetWidth < 1100) {
-                        $copyright.style.bottom = '8px'
-                    } else {
-                        $copyright.style.bottom = 0
-                    }
-                }
-                addMainResizeListener(this.resizeHandler)
-                this.resizeHandler({ target: document.querySelector('.main-scroller') })
+            handleChangeTab (name) {
+                this.activeName = name
             },
-            initScrollListener () {
-                this.scrollHandler = event => {
-                    const target = event.target
-                    this.sticky = target.scrollTop > 170
-                    if (this.sticky) {
-                        this.$refs.stickyLayout.style.top = target.scrollTop + 'px'
-                    }
-                }
-                this.$refs.stickyProxy.style.height = this.$refs.stickyLayout.offsetHeight + 'px'
-                addMainScrollListener(this.scrollHandler)
+            handleSearchStatus (status) {
+                this.inSearchPaddingTop = status ? 0 : this.paddingTop
+                this.showSearchTab = !status
+            },
+            handleFocus (status) {
+                this.isFocus = status
             }
         }
     }
@@ -86,25 +83,46 @@
 
 <style lang="scss" scoped>
     .index-layout {
-        overflow: auto;
         padding: 0 0 50px;
-        background-color: #f5f6fa;
+        background-color: #F5F6FA;
         position: relative;
         z-index: 1;
-        &.is-sticky {
-            .sticky-layout {
-                position: absolute;
-                top: 50px;
-                left: 0;
-                width: 100%;
-                padding-top: 50px;
-                box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.03);
-                background-color: #f5f6fa;
+    }
+    .search-layout {
+        height: calc(100% + 50px);
+        transition: all 0.4s;
+        .search-tab {
+            max-width: 726px;
+            margin: 0 auto;
+            font-size: 0;
+            &.is-focus .tab-item.active {
+                border-color: #3A84FF;
+            }
+            .tab-item {
+                @include inlineBlock;
+                position: relative;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                padding: 0 14px;
+                margin: 0 4px -1px 0;
+                font-size: 14px;
+                color: #63656E;
+                background-color: #DCDEE5;
+                border: 1px solid #C4C6CC;
+                border-radius: 6px 6px 0 0;
+                transition: all 0.2s;
+                cursor: pointer;
+                &.active {
+                    background-color: #FFFFFF;
+                    border-bottom-color: #FFFFFF !important;
+                    z-index: 1000;
+                }
             }
         }
-    }
-    .sticky-layout {
-        padding: 220px 0 27px;
+        .tab-content {
+            height: 100%;
+        }
     }
     .copyright{
         position: absolute;
@@ -115,9 +133,9 @@
         line-height: 42px;
         font-size: 12px;
         text-align: center;
-        color: rgba(116, 120, 131, 0.5);
-        border-top: 1px solid rgba(116, 120, 131, 0.2);
-        background-color: #f5f6fa;
+        color: #C4C6CC;
+        border-top: 1px solid #DCDEE5;
+        background-color: #F5F6FA;
         z-index: 2;
     }
 </style>

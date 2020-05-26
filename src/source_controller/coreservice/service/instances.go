@@ -13,12 +13,11 @@
 package service
 
 import (
-	"fmt"
-
+	"configcenter/src/common"
 	"configcenter/src/common/mapstr"
 	"configcenter/src/common/metadata"
-	"configcenter/src/common/util"
 	"configcenter/src/source_controller/coreservice/core"
+	"configcenter/src/source_controller/coreservice/multilingual"
 )
 
 func (s *coreService) CreateOneModelInstance(params core.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
@@ -42,6 +41,25 @@ func (s *coreService) UpdateModelInstances(params core.ContextParams, pathParams
 	if err := data.MarshalJSONInto(&inputData); nil != err {
 		return nil, err
 	}
+
+	// TODO: remove this logic when biz model is changed.
+	cond := metadata.QueryCondition{
+		Condition: mapstr.MapStr{
+			common.AssociationKindIDField:  common.AssociationKindMainline,
+			common.AssociatedObjectIDField: pathParams("bk_obj_id"),
+		},
+	}
+	result, err := s.core.AssociationOperation().SearchModelAssociation(params, cond)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(result.Info) != 0 {
+		// this is a mainline object, need to delete metadata field.
+		// otherwise, can not find this object, then update failed.
+		inputData.Condition.Remove("metadata")
+	}
+
 	return s.core.InstanceOperation().UpdateModelInstance(params, pathParams("bk_obj_id"), inputData)
 }
 
@@ -51,21 +69,24 @@ func (s *coreService) SearchModelInstances(params core.ContextParams, pathParams
 		return nil, err
 	}
 
-	dataResult, err := s.core.InstanceOperation().SearchModelInstance(params, pathParams("bk_obj_id"), inputData)
+	objectID := pathParams("bk_obj_id")
+
+	// 判断是否有要根据default字段，需要国际化的内容
+	if _, ok := multilingual.BuildInInstanceNamePkg[objectID]; ok {
+		// 大于两个字段
+		if len(inputData.Fields) > 1 {
+			inputData.Fields = append(inputData.Fields, common.BKDefaultField)
+		} else if len(inputData.Fields) == 1 && inputData.Fields[0] != "" {
+			// 只有一个字段，如果字段为空白字符，则不处理
+			inputData.Fields = append(inputData.Fields, common.BKDefaultField)
+		}
+	}
+
+	dataResult, err := s.core.InstanceOperation().SearchModelInstance(params, objectID, inputData)
 	if nil != err {
 		return dataResult, err
 	}
-
-	// translate language for default name
-	if m, ok := defaultNameLanguagePkg[pathParams("bk_obj_id")]; ok {
-		for idx := range dataResult.Info {
-			subResult := m[fmt.Sprint(dataResult.Info[idx]["default"])]
-			if len(subResult) >= 3 {
-				dataResult.Info[idx][subResult[1]] = util.FirstNotEmptyString(params.Lang.Language(subResult[0]), fmt.Sprint(dataResult.Info[idx][subResult[1]]), fmt.Sprint(dataResult.Info[idx][subResult[2]]))
-			}
-		}
-
-	}
+	multilingual.TranslateInstanceName(params.Lang, objectID, dataResult.Info)
 	return dataResult, err
 }
 

@@ -13,6 +13,10 @@
 package extensions
 
 import (
+	"context"
+	"fmt"
+	"net/http"
+
 	"configcenter/src/auth/authcenter"
 	"configcenter/src/auth/meta"
 	"configcenter/src/common"
@@ -20,9 +24,6 @@ import (
 	"configcenter/src/common/condition"
 	"configcenter/src/common/metadata"
 	"configcenter/src/common/util"
-	"context"
-	"fmt"
-	"net/http"
 )
 
 /*
@@ -39,7 +40,7 @@ func (am *AuthManager) CollectModuleByBusinessIDs(ctx context.Context, header ht
 		Condition: cond.ToMapStr(),
 		Limit:     metadata.SearchLimit{Limit: common.BKNoLimit},
 	}
-	instances, err := am.clientSet.CoreService().Instance().ReadInstance(context.Background(), header, common.BKInnerObjIDModule, query)
+	instances, err := am.clientSet.CoreService().Instance().ReadInstance(ctx, header, common.BKInnerObjIDModule, query)
 	if err != nil {
 		blog.Errorf("get module:%+v by businessID:%d failed, err: %+v, rid: %s", businessID, err, rid)
 		return nil, fmt.Errorf("get module by businessID:%d failed, err: %+v", businessID, err)
@@ -100,6 +101,19 @@ func (am *AuthManager) extractBusinessIDFromModules(modules ...ModuleSimplify) (
 	return businessID, nil
 }
 
+func (am *AuthManager) MakeResourcesByModuleIDs(ctx context.Context, header http.Header, action meta.Action, ids ...int64) ([]meta.ResourceAttribute, error) {
+	modules, err := am.collectModuleByModuleIDs(ctx, header, ids...)
+	if err != nil {
+		return nil, fmt.Errorf("update registered modules failed, get modules by id failed, err: %+v", err)
+	}
+	bizID, err := am.extractBusinessIDFromModules(modules...)
+	if err != nil {
+		return nil, err
+	}
+	iamResources := am.MakeResourcesByModule(header, action, bizID, modules...)
+	return iamResources, nil
+}
+
 func (am *AuthManager) MakeResourcesByModule(header http.Header, action meta.Action, businessID int64, modules ...ModuleSimplify) []meta.ResourceAttribute {
 	resources := make([]meta.ResourceAttribute, 0)
 	for _, module := range modules {
@@ -120,14 +134,14 @@ func (am *AuthManager) MakeResourcesByModule(header http.Header, action meta.Act
 }
 
 func (am *AuthManager) AuthorizeByModuleID(ctx context.Context, header http.Header, action meta.Action, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(ids) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -153,6 +167,9 @@ func (am *AuthManager) GenModuleSetNoPermissionResp() *metadata.BaseResp {
 		}},
 	}
 
+	p.ResourceType = p.Resources[0][0].ResourceType
+	p.ResourceTypeName = p.Resources[0][0].ResourceTypeName
+
 	resp := metadata.NewNoPermissionResp([]metadata.Permission{p})
 	return &resp
 }
@@ -160,11 +177,11 @@ func (am *AuthManager) GenModuleSetNoPermissionResp() *metadata.BaseResp {
 func (am *AuthManager) AuthorizeByModule(ctx context.Context, header http.Header, action meta.Action, modules ...ModuleSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -191,14 +208,14 @@ func (am *AuthManager) AuthorizeByModule(ctx context.Context, header http.Header
 func (am *AuthManager) UpdateRegisteredModule(ctx context.Context, header http.Header, modules ...ModuleSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(modules) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -221,14 +238,14 @@ func (am *AuthManager) UpdateRegisteredModule(ctx context.Context, header http.H
 }
 
 func (am *AuthManager) UpdateRegisteredModuleByID(ctx context.Context, header http.Header, moduleIDs ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(moduleIDs) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -240,14 +257,14 @@ func (am *AuthManager) UpdateRegisteredModuleByID(ctx context.Context, header ht
 }
 
 func (am *AuthManager) DeregisterModuleByID(ctx context.Context, header http.Header, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(ids) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -259,14 +276,14 @@ func (am *AuthManager) DeregisterModuleByID(ctx context.Context, header http.Hea
 }
 
 func (am *AuthManager) RegisterModule(ctx context.Context, header http.Header, modules ...ModuleSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(modules) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -283,14 +300,14 @@ func (am *AuthManager) RegisterModule(ctx context.Context, header http.Header, m
 }
 
 func (am *AuthManager) RegisterModuleByID(ctx context.Context, header http.Header, moduleIDs ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(moduleIDs) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 
@@ -302,14 +319,14 @@ func (am *AuthManager) RegisterModuleByID(ctx context.Context, header http.Heade
 }
 
 func (am *AuthManager) DeregisterModule(ctx context.Context, header http.Header, modules ...ModuleSimplify) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(modules) == 0 {
 		return nil
 	}
-	if am.RegisterModuleEnabled == false {
+	if !am.RegisterModuleEnabled {
 		return nil
 	}
 

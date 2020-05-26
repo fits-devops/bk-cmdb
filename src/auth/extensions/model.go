@@ -43,10 +43,19 @@ func (am *AuthManager) CollectObjectsByBusinessID(ctx context.Context, header ht
 		cond.Merge(metadata.BizLabelNotExist)
 	}
 	query := &metadata.QueryCondition{
-		Condition: cond,
+		Fields: []string{
+			common.BKFieldID,
+			common.BKObjIDField,
+			common.BKObjNameField,
+			common.MetadataField,
+			common.BKIsPre,
+			common.BKClassificationIDField,
+		},
 		Limit:     metadata.SearchLimit{Limit: common.BKNoLimit},
+		SortArr:   nil,
+		Condition: cond,
 	}
-	models, err := am.clientSet.CoreService().Model().ReadModel(context.Background(), header, query)
+	models, err := am.clientSet.CoreService().Model().ReadModel(ctx, header, query)
 	if err != nil {
 		blog.Errorf("get models by business %d failed, err: %+v, rid: %s", businessID, err, rid)
 		return nil, fmt.Errorf("get models by business %d failed, err: %+v", businessID, err)
@@ -123,7 +132,7 @@ func (am *AuthManager) ExtractBusinessIDFromObject(object metadata.Object) (int6
 }
 
 func (am *AuthManager) ExtractBusinessIDFromObjects(objects ...metadata.Object) (map[int64]int64, error) {
-	objID2BizIDMap := make(map[int64]int64, 0)
+	objID2BizIDMap := make(map[int64]int64)
 	for _, object := range objects {
 		bizID, err := am.ExtractBusinessIDFromObject(object)
 		if err != nil {
@@ -159,6 +168,27 @@ func (am *AuthManager) MakeResourcesByObjects(ctx context.Context, header http.H
 			},
 			SupplierAccount: util.GetOwnerID(header),
 			BusinessID:      businessID,
+		}
+		resources = append(resources, resource)
+	}
+
+	return resources, nil
+}
+
+func (am *AuthManager) MakeGlobalModelAsBizResources(ctx context.Context, header http.Header, bizID int64, action meta.Action, objects ...metadata.Object) ([]meta.ResourceAttribute, error) {
+	// prepare resource layers for authorization
+	resources := make([]meta.ResourceAttribute, 0)
+	for _, object := range objects {
+		// instance
+		resource := meta.ResourceAttribute{
+			Basic: meta.Basic{
+				Action:     action,
+				Type:       meta.Model,
+				Name:       object.ObjectName,
+				InstanceID: object.ID,
+			},
+			SupplierAccount: util.GetOwnerID(header),
+			BusinessID:      bizID,
 		}
 		resources = append(resources, resource)
 	}
@@ -226,7 +256,7 @@ func (am *AuthManager) MakeResourcesByObjects(ctx context.Context, header http.H
 // }
 
 func (am *AuthManager) AuthorizeResourceCreate(ctx context.Context, header http.Header, businessID int64, resourceType meta.ResourceType) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -243,7 +273,7 @@ func (am *AuthManager) AuthorizeResourceCreate(ctx context.Context, header http.
 }
 
 func (am *AuthManager) RegisterObject(ctx context.Context, header http.Header, objects ...metadata.Object) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -262,7 +292,7 @@ func (am *AuthManager) RegisterObject(ctx context.Context, header http.Header, o
 }
 
 func (am *AuthManager) UpdateRegisteredObjects(ctx context.Context, header http.Header, businessID int64, objects ...metadata.Object) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -280,7 +310,7 @@ func (am *AuthManager) UpdateRegisteredObjects(ctx context.Context, header http.
 	return nil
 }
 func (am *AuthManager) UpdateRegisteredObjectsByRawIDs(ctx context.Context, header http.Header, businessID int64, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -296,8 +326,9 @@ func (am *AuthManager) UpdateRegisteredObjectsByRawIDs(ctx context.Context, head
 
 	return am.UpdateRegisteredObjects(ctx, header, businessID, objects...)
 }
+
 func (am *AuthManager) DeregisterObject(ctx context.Context, header http.Header, objects ...metadata.Object) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -316,7 +347,7 @@ func (am *AuthManager) DeregisterObject(ctx context.Context, header http.Header,
 }
 
 func (am *AuthManager) RegisterMainlineObject(ctx context.Context, header http.Header, objects ...metadata.Object) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -324,7 +355,7 @@ func (am *AuthManager) RegisterMainlineObject(ctx context.Context, header http.H
 }
 
 func (am *AuthManager) DeregisterMainlineModelByObjectID(ctx context.Context, header http.Header, businessID int64, objectIDs ...string) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -336,4 +367,23 @@ func (am *AuthManager) DeregisterMainlineModelByObjectID(ctx context.Context, he
 		return fmt.Errorf("deregister mainline model failed, get model by id failed, err: %+v", err)
 	}
 	return am.DeregisterObject(ctx, header, objects...)
+}
+
+func (am *AuthManager) MakeResourcesByObjectIDs(ctx context.Context, header http.Header, businessID int64, objectIDs ...string) ([]meta.ResourceAttribute, error) {
+	if !am.Enabled() {
+		return nil, nil
+	}
+
+	if len(objectIDs) == 0 {
+		return nil, nil
+	}
+	objects, err := am.collectObjectsByObjectIDs(ctx, header, businessID, objectIDs...)
+	if err != nil {
+		return nil, fmt.Errorf("deregister mainline model failed, get model by id failed, err: %+v", err)
+	}
+	resources, err := am.MakeResourcesByObjects(ctx, header, meta.EmptyAction, objects...)
+	if err != nil {
+		return nil, fmt.Errorf("make auth resource by models failed, err: %+v", err)
+	}
+	return resources, nil
 }

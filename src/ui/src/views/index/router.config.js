@@ -1,20 +1,25 @@
 import Meta from '@/router/meta'
-import { NAV_INDEX } from '@/dictionary/menu'
+import { MENU_INDEX } from '@/dictionary/menu-symbol'
 
-const path = '/index'
-
-export default {
-    name: 'index',
-    path: path,
+export default [{
+    name: MENU_INDEX,
+    path: '/index',
     component: () => import('./index.vue'),
     meta: new Meta({
         menu: {
-            id: NAV_INDEX,
-            i18n: 'Nav["首页"]',
-            path: path
+            i18n: '首页'
         },
         auth: {
             view: null
         }
     })
-}
+}, {
+    name: 'search',
+    path: '/index/search',
+    component: () => import('./children/full-text-search.vue'),
+    meta: new Meta({
+        checkAvailable: (to, from, app) => {
+            return window.Site.fullTextSearch === 'on'
+        }
+    })
+}]

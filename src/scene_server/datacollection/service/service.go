@@ -24,13 +24,16 @@ import (
 	"configcenter/src/storage/dal"
 
 	"github.com/emicklei/go-restful"
-	redis "gopkg.in/redis.v5"
+	"gopkg.in/redis.v5"
 )
 
 type Service struct {
 	*backbone.Engine
-	db    dal.RDB
-	cache *redis.Client
+	db      dal.RDB
+	cache   *redis.Client
+	snapcli *redis.Client
+	disCli  *redis.Client
+	netCli  *redis.Client
 	*logics.Logics
 }
 
@@ -42,6 +45,18 @@ func (s *Service) SetCache(db *redis.Client) {
 	s.cache = db
 }
 
+func (s *Service) SetSnapcli(db *redis.Client) {
+	s.snapcli = db
+}
+
+func (s *Service) SetDisCli(db *redis.Client) {
+	s.disCli = db
+}
+
+func (s *Service) SetNetCli(db *redis.Client) {
+	s.netCli = db
+}
+
 func (s *Service) WebService() *restful.Container {
 
 	container := restful.NewContainer()
@@ -51,7 +66,7 @@ func (s *Service) WebService() *restful.Container {
 		return s.CCErr
 	}
 
-	api.Path("/collector/v3").Filter(rdapi.AllGlobalFilter(getErrFunc)).Produces(restful.MIME_JSON)
+	api.Path("/collector/v3").Filter(s.Engine.Metric().RestfulMiddleWare).Filter(rdapi.AllGlobalFilter(getErrFunc)).Produces(restful.MIME_JSON)
 
 	api.Route(api.POST("/netcollect/device/action/create").To(s.CreateDevice))
 	api.Route(api.POST("/netcollect/device/{device_id}/action/update").To(s.UpdateDevice))
@@ -107,6 +122,15 @@ func (s *Service) Healthz(req *restful.Request, resp *restful.Response) {
 
 	// redis
 	meta.Items = append(meta.Items, metric.NewHealthItem(types.CCFunctionalityRedis, s.cache.Ping().Err()))
+	if s.snapcli != nil {
+		meta.Items = append(meta.Items, metric.NewHealthItem(types.CCFunctionalityRedis+" - snapcli", s.snapcli.Ping().Err()))
+	}
+	if s.disCli != nil {
+		meta.Items = append(meta.Items, metric.NewHealthItem(types.CCFunctionalityRedis+" - disCli", s.disCli.Ping().Err()))
+	}
+	if s.netCli != nil {
+		meta.Items = append(meta.Items, metric.NewHealthItem(types.CCFunctionalityRedis+" - netCli", s.netCli.Ping().Err()))
+	}
 
 	for _, item := range meta.Items {
 		if item.IsHealthy == false {
@@ -130,5 +154,5 @@ func (s *Service) Healthz(req *restful.Request, resp *restful.Response) {
 		Message: meta.Message,
 	}
 	resp.Header().Set("Content-Type", "application/json")
-	resp.WriteEntity(answer)
+	_ = resp.WriteEntity(answer)
 }

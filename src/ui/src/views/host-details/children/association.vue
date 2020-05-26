@@ -2,51 +2,57 @@
     <div class="association">
         <div class="options clearfix">
             <div class="fl" v-show="activeView === viewName.list">
-                <span class="inline-block-middle" v-if="hasAssociation"
-                    v-cursor="{
-                        active: !$isAuthorized(updateAuth),
-                        auth: [updateAuth]
-                    }">
-                    <bk-button type="primary" class="options-button"
-                        :disabled="!$isAuthorized(updateAuth)"
+                <cmdb-auth class="inline-block-middle mr10"
+                    v-if="hasAssociation"
+                    :auth="updateAuthResources">
+                    <bk-button slot-scope="{ disabled }"
+                        theme="primary"
+                        class="options-button"
+                        :disabled="disabled"
                         @click="showCreate = true">
-                        {{$t('HostDetails["新增关联"]')}}
+                        {{$t('新增关联')}}
+                    </bk-button>
+                </cmdb-auth>
+                <span class="inline-block-middle mr10" v-else v-bk-tooltips="$t('当前模型暂未定义可用关联')">
+                    <bk-button theme="primary" class="options-button" disabled>
+                        {{$t('新增关联')}}
                     </bk-button>
                 </span>
-                <cmdb-form-bool v-if="hasAssociation"
+                <bk-checkbox v-if="hasAssociation"
                     :size="16" class="options-checkbox"
                     @change="handleExpandAll">
-                    <span class="checkbox-label">{{$t('Common["全部展开"]')}}</span>
-                </cmdb-form-bool>
-                <bk-button type="default" class="options-button" v-show="false">{{$t('HostDetails["批量取消"]')}}</bk-button>
+                    <span class="checkbox-label">{{$t('全部展开')}}</span>
+                </bk-checkbox>
+                <bk-button theme="default" class="options-button" v-show="false">{{$t('批量取消')}}</bk-button>
             </div>
             <div class="fr">
                 <bk-button class="options-button options-button-view"
-                    :type="activeView === viewName.list ? 'primary' : 'default'"
+                    :theme="activeView === viewName.list ? 'primary' : 'default'"
                     @click="toggleView(viewName.list)">
-                    {{$t('HostDetails["列表"]')}}
+                    {{$t('列表')}}
                 </bk-button>
                 <bk-button class="options-button options-button-view"
-                    :type="activeView === viewName.graphics ? 'primary' : 'default'"
+                    :theme="activeView === viewName.graphics ? 'primary' : 'default'"
                     @click="toggleView(viewName.graphics)">
-                    {{$t('HostDetails["拓扑"]')}}
+                    {{$t('拓扑')}}
                 </bk-button>
             </div>
         </div>
         <div class="association-view">
             <component :is="activeView"></component>
         </div>
-        <cmdb-slider :is-show.sync="showCreate">
+        <bk-sideslider v-transfer-dom :is-show.sync="showCreate" :width="800" :title="$t('新增关联')">
             <cmdb-host-association-create slot="content" v-if="showCreate"></cmdb-host-association-create>
-        </cmdb-slider>
+        </bk-sideslider>
     </div>
 </template>
 
 <script>
     import cmdbHostAssociationList from './association-list.vue'
-    import cmdbHostAssociationGraphics from './association-graphics.vue'
+    // import cmdbHostAssociationGraphics from './association-graphics.vue'
+    import cmdbHostAssociationGraphics from './association-graphics.new.vue'
     import cmdbHostAssociationCreate from './association-create.vue'
-    import { RESOURCE_HOST } from '../router.config.js'
+    import { MENU_RESOURCE_HOST_DETAILS } from '@/dictionary/menu-symbol'
     export default {
         name: 'cmdb-host-association',
         components: {
@@ -65,12 +71,12 @@
             }
         },
         computed: {
-            updateAuth () {
-                const isResourceHost = this.$route.name === RESOURCE_HOST
+            updateAuthResources () {
+                const isResourceHost = this.$route.name === MENU_RESOURCE_HOST_DETAILS
                 if (isResourceHost) {
-                    return this.$OPERATION.U_RESOURCE_HOST
+                    return this.$authResources({ type: this.$OPERATION.U_RESOURCE_HOST })
                 }
-                return this.$OPERATION.U_HOST
+                return this.$authResources({ type: this.$OPERATION.U_HOST })
             },
             hasAssociation () {
                 const association = this.$store.state.hostDetails.association
@@ -96,6 +102,7 @@
         height: 100%;
         .association-view {
             height: calc(100% - 62px);
+            @include scrollbar-y;
         }
     }
     .options {
@@ -103,7 +110,6 @@
         font-size: 0;
         .options-button {
             height: 32px;
-            margin: 0 11px 0 0;
             line-height: 30px;
             font-size: 14px;
             &.options-button-view {

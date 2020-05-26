@@ -5,54 +5,32 @@ import StatusError from './StatusError.js'
 
 import preload from '@/setup/preload'
 import afterload from '@/setup/afterload'
-import $http from '@/api'
 
 import index from '@/views/index/router.config'
-import audit from '@/views/audit/router.config'
-import business from '@/views/business/router.config'
-import businessModel from '@/views/business-model/router.config'
-import customQuery from '@/views/custom-query/router.config'
-import eventpush from '@/views/eventpush/router.config'
-import history from '@/views/history/router.config'
-import hosts from '@/views/hosts/router.config'
-import hostDetails from '@/views/host-details/router.config'
-import model from '@/views/model-manage/router.config'
-import modelAssociation from '@/views/model-association/router.config'
-import modelTopology from '@/views/model-topology/router.config'
-import process from '@/views/process/router.config'
-import resource from '@/views/resource/router.config'
-import topology from '@/views/topology/router.config'
-import generalModel from '@/views/general-model/router.config'
-import permission from '@/views/permission/router.config'
+
+import {
+    MENU_INDEX,
+    MENU_BUSINESS,
+    MENU_RESOURCE,
+    MENU_MODEL,
+    MENU_ANALYSIS
+} from '@/dictionary/menu-symbol'
+
+import {
+    businessViews,
+    resourceViews,
+    modelViews,
+    analysisViews
+} from '@/views'
+
+import dynamicRouterView from '@/components/layout/dynamic-router-view'
 
 Vue.use(Router)
 
-export const viewRouters = [
-    index,
-    audit,
-    businessModel,
-    customQuery,
-    eventpush,
-    history,
-    hosts,
-    ...hostDetails,
-    modelAssociation,
-    modelTopology,
-    process,
-    resource,
-    topology,
-    ...generalModel,
-    ...business,
-    ...model,
-    ...permission
-]
+export const viewRouters = []
 
 const statusRouters = [
     {
-        name: '403',
-        path: '/403',
-        components: require('@/views/status/403')
-    }, {
         name: '404',
         path: '/404',
         components: require('@/views/status/404')
@@ -60,10 +38,6 @@ const statusRouters = [
         name: 'error',
         path: '/error',
         components: require('@/views/status/error')
-    }, {
-        name: 'requireBusiness',
-        path: '/require-business',
-        components: require('@/views/status/require-business')
     }
 ]
 
@@ -75,7 +49,7 @@ const redirectRouters = [{
 }, {
     path: '/',
     redirect: {
-        name: index.name
+        name: MENU_INDEX
     }
 }]
 
@@ -84,97 +58,84 @@ const router = new Router({
     routes: [
         ...redirectRouters,
         ...statusRouters,
-        ...viewRouters
+        ...index,
+        {
+            name: MENU_BUSINESS,
+            component: dynamicRouterView,
+            children: businessViews,
+            path: '/business',
+            redirect: '/business/index'
+        }, {
+            name: MENU_MODEL,
+            component: dynamicRouterView,
+            children: modelViews,
+            path: '/model',
+            redirect: '/model/index'
+        },
+        {
+            name: MENU_RESOURCE,
+            component: dynamicRouterView,
+            children: resourceViews,
+            path: '/resource',
+            redirect: '/resource/index'
+        }, {
+            name: MENU_ANALYSIS,
+            component: dynamicRouterView,
+            children: analysisViews,
+            path: '/analysis',
+            redirect: '/analysis/audit'
+        }
     ]
 })
 
-const getAuth = to => {
+const checkViewAuthorize = async to => {
+    // owener判断已经发现无业务时
+    if (to.meta.view === 'permission') {
+        return false
+    }
     const auth = to.meta.auth || {}
     const view = auth.view
-    const operation = auth.operation || []
-    const routerAuth = view ? [view, ...operation] : operation
-    if (routerAuth.length) {
-        return router.app.$store.dispatch('auth/getAuth', {
-            type: 'operation',
-            list: routerAuth
-        })
+    if (view) {
+        const viewAuthData = typeof view === 'function' ? view(to, router.app) : view
+        const viewAuth = await router.app.$store.dispatch('auth/getViewAuth', viewAuthData)
+        to.meta.view = viewAuth ? 'default' : 'permission'
     }
-    return Promise.resolve([])
-}
-
-const isViewAuthorized = to => {
-    const auth = to.meta.auth || {}
-    const view = auth.view
-    if (!view) {
-        return true
-    }
-    const viewAuth = router.app.$store.getters['auth/isAuthorized'](view)
-    return viewAuth
-}
-
-const cancelRequest = () => {
-    const allRequest = $http.queue.get()
-    const requestQueue = allRequest.filter(request => request.cancelWhenRouteChange)
-    return $http.cancel(requestQueue.map(request => request.requestId))
+    return Promise.resolve()
 }
 
 const setLoading = loading => router.app.$store.commit('setGlobalLoading', loading)
 
-const setMenuState = to => {
-    const isStatusRoute = statusRouters.some(route => route.name === to.name)
-    if (isStatusRoute) {
-        return false
-    }
-    const menu = to.meta.menu || {}
-    const menuId = menu.id
-    const parentId = menu.parent
-    router.app.$store.commit('menu/setActiveMenu', menuId)
-    if (parentId) {
-        router.app.$store.commit('menu/setOpenMenu', parentId)
-    }
-}
-
-const setAuthScope = (to, from) => {
-    const auth = to.meta.auth || {}
-    if (typeof auth.setAuthScope === 'function') {
-        auth.setAuthScope(to, from, router.app)
-    }
-}
-
-const checkAuthDynamicMeta = (to, from) => {
-    router.app.$store.commit('auth/clearDynamicMeta')
-    const auth = to.meta.auth || {}
-    const setDynamicMeta = auth.setDynamicMeta
-    if (typeof setDynamicMeta === 'function') {
-        setDynamicMeta(to, from, router.app)
-    }
-}
-
 const checkAvailable = (to, from) => {
     if (typeof to.meta.checkAvailable === 'function') {
         return to.meta.checkAvailable(to, from, router.app)
+    } else if (to.meta.hasOwnProperty('available')) {
+        return to.meta.available
     }
     return true
 }
 
-const checkBusiness = to => {
-    const getters = router.app.$store.getters
-    const isAdminView = getters.isAdminView
-    if (isAdminView || !to.meta.requireBusiness) {
-        return true
-    }
-    const authorizedBusiness = getters['objectBiz/authorizedBusiness']
-    return authorizedBusiness.length
+// 因产品形态调整，去掉了管理模式与业务模式，为避免修改过多逻辑，此处做兼容处理
+const setAdminView = to => {
+    const isAdminView = to.matched.length && to.matched[0].name !== MENU_BUSINESS
+    router.app.$store.commit('setAdminView', isAdminView)
 }
 
-const isShouldShow = to => {
-    const isAdminView = router.app.$store.getters.isAdminView
-    const menu = to.meta.menu
-    return menu
-        ? isAdminView
-            ? menu.adminView
-            : menu.businessView
-        : true
+// 进入业务二级导航时需要先加载业务
+// 在App.vue中添加一个隐藏的业务选择器，业务选择器完成设置后resolve对应的promise
+const checkOwner = async (to, from) => {
+    const toMatched = (to.matched || [])[0] || {}
+    const fromMatched = (from.matched || [])[0] || {}
+    if (toMatched.name === MENU_BUSINESS) {
+        if (fromMatched.name !== MENU_BUSINESS) {
+            router.app.$store.commit('createBusinessSelectorPromise')
+        }
+        router.app.$store.commit('setBusinessSelectorVisible', true)
+        const result = await router.app.$store.state.businessSelectorPromise
+        to.meta.view = result ? 'default' : 'permission'
+    } else {
+        to.meta.view = 'default'
+        router.app.$store.commit('setBusinessSelectorVisible', false)
+    }
 }
 
 const setupStatus = {
@@ -186,45 +147,31 @@ router.beforeEach((to, from, next) => {
     Vue.nextTick(async () => {
         try {
             setLoading(true)
-            await cancelRequest()
             if (setupStatus.preload) {
                 await preload(router.app)
             }
-            if (!isShouldShow(to)) {
-                next({ name: index.name })
-            } else {
-                setMenuState(to)
-                setAuthScope(to, from)
-                checkAuthDynamicMeta(to, from)
+            await checkOwner(to, from)
+            setAdminView(to)
 
-                const isAvailable = checkAvailable(to, from)
-                if (!isAvailable) {
-                    throw new StatusError({ name: '404' })
-                }
-                await getAuth(to)
-                const viewAuth = isViewAuthorized(to)
-                if (!viewAuth) {
-                    throw new StatusError({ name: '403' })
-                }
-
-                const isBusinessCheckPass = checkBusiness(to)
-                if (!isBusinessCheckPass) {
-                    throw new StatusError({ name: 'requireBusiness' })
-                }
-
-                next()
+            const isAvailable = checkAvailable(to, from)
+            if (!isAvailable) {
+                throw new StatusError({ name: '404' })
             }
+            await checkViewAuthorize(to)
+            return next()
         } catch (e) {
             if (e.__CANCEL__) {
                 next()
             } else if (e instanceof StatusError) {
-                next({ name: e.name })
-            } else {
+                next({ name: e.name, query: e.query })
+            } else if (e.status !== 401) {
                 console.error(e)
                 next({ name: 'error' })
+            } else {
+                next()
             }
-            setLoading(false)
         } finally {
+            setLoading(false)
             setupStatus.preload = false
         }
     })
@@ -235,8 +182,9 @@ router.afterEach((to, from) => {
         if (setupStatus.afterload) {
             afterload(router.app, to, from)
         }
+        router.app.$store.commit('setTitle', '')
     } catch (e) {
-        // ignore
+        console.error(e)
     } finally {
         setLoading(false)
     }

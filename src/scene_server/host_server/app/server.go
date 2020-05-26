@@ -19,8 +19,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/emicklei/go-restful"
-
 	"configcenter/src/auth"
 	"configcenter/src/auth/authcenter"
 	"configcenter/src/auth/extensions"
@@ -33,9 +31,11 @@ import (
 	"configcenter/src/scene_server/host_server/app/options"
 	hostsvc "configcenter/src/scene_server/host_server/service"
 	"configcenter/src/storage/dal/redis"
+
+	"github.com/emicklei/go-restful"
 )
 
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
 		blog.Errorf("wrap server info failed, err: %v", err)
@@ -77,7 +77,7 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 	}
 
 	blog.Info("host server auth config is: %+v", hostSrv.Config.Auth)
-	authorizer, err := auth.NewAuthorize(nil, hostSrv.Config.Auth)
+	authorizer, err := auth.NewAuthorize(nil, hostSrv.Config.Auth, engine.Metric().Registry())
 	if err != nil {
 		blog.Errorf("new host authorizer failed, err: %+v", err)
 		return fmt.Errorf("new host authorizer failed, err: %+v", err)
@@ -90,13 +90,18 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 	hostSrv.Core = engine
 	hostSrv.Service = service
 
-	if err := backbone.StartServer(ctx, engine, service.WebService()); err != nil {
+	err = backbone.StartServer(ctx, cancel, engine, service.WebService(), true)
+	if err != nil {
 		blog.Errorf("start backbone failed, err: %+v", err)
 		return err
 	}
 
-	go hostSrv.Service.InitBackground()
-	select {}
+	// 关闭云同步
+	// go hostSrv.Service.InitBackground()
+	select {
+	case <-ctx.Done():
+	}
+	return nil
 }
 
 type HostServer struct {

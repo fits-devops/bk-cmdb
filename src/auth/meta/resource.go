@@ -22,6 +22,8 @@ func (r ResourceType) String() string {
 	return string(r)
 }
 
+// ResourceType 表示 CMDB 这一侧的资源类型， 对应的有 ResourceTypeID 表示 IAM 一侧的资源类型
+// 两者之间有映射关系，详情见 ConvertResourceType
 const (
 	Business                 ResourceType = "business"
 	Model                    ResourceType = "model"
@@ -43,6 +45,11 @@ const (
 	ModelUnique              ResourceType = "modelUnique"
 	HostFavorite             ResourceType = "hostFavorite"
 	Process                  ResourceType = "process"
+	ProcessServiceCategory   ResourceType = "processServiceCategory"
+	ProcessServiceTemplate   ResourceType = "processServiceTemplate"
+	ProcessTemplate          ResourceType = "processTemplate"
+	ProcessServiceInstance   ResourceType = "processServiceInstance"
+	BizTopology              ResourceType = "bizTopology"
 	HostInstance             ResourceType = "hostInstance"
 	NetDataCollector         ResourceType = "netDataCollector"
 	DynamicGrouping          ResourceType = "dynamicGrouping" // 动态分组
@@ -52,6 +59,11 @@ const (
 	ResourceSync             ResourceType = "resourceSync" // 云资源发现
 	UserCustom               ResourceType = "usercustom"   // 用户自定义
 	SystemBase               ResourceType = "systemBase"
+	InstallBK                ResourceType = "installBK"
+	SystemConfig             ResourceType = "systemConfig" // syste config
+	SetTemplate              ResourceType = "setTemplate"
+	OperationStatistic       ResourceType = "operationStatistic" // 运营统计
+	HostApply                ResourceType = "hostApply"
 )
 
 const (
@@ -138,6 +150,7 @@ var (
 			MoveResPoolHostToBizIdleModule,
 			MoveHostToBizFaultModule,
 			MoveHostToBizIdleModule,
+			MoveHostToBizRecycleModule,
 			MoveHostFromModuleToResPool,
 			MoveHostToAnotherBizModule,
 			CleanHostInSetOrModule,

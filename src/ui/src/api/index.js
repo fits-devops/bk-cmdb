@@ -136,7 +136,7 @@ async function getPromise (method, url, data, userConfig = {}) {
     }).catch(error => {
         return handleReject(error, config)
     }).finally(() => {
-        $http.queue.delete(config.requestId)
+        $http.queue.delete(config.requestId, config.requestSymbol)
     })
     // 添加请求队列
     $http.queue.set(config)
@@ -153,16 +153,16 @@ async function getPromise (method, url, data, userConfig = {}) {
  * @param {reject} promise拒绝函数
  * @return
  */
-
 const PermissionCode = 9900403
 function handleResponse ({ config, response, resolve, reject }) {
     const transformedResponse = response.data
+    const { bk_error_msg: message, permission } = transformedResponse
     if (transformedResponse.bk_error_code === PermissionCode) {
-        popupPermissionModal(transformedResponse.permission)
-        return reject({ message: transformedResponse['bk_error_msg'], code: PermissionCode })
+        config.globalPermission && popupPermissionModal(transformedResponse.permission)
+        return reject({ message, permission, code: PermissionCode })
     }
     if (!transformedResponse.result && config.globalError) {
-        reject({ message: transformedResponse['bk_error_msg'] })
+        reject({ message })
     } else {
         resolve(config.originalResponse ? response : config.transformData ? transformedResponse.data : transformedResponse)
     }
@@ -181,11 +181,15 @@ function handleReject (error, config) {
     if (Axios.isCancel(error)) {
         return Promise.reject(error)
     }
-    if (config.globalError && error.response) {
+    if (error.response) {
         const { status, data } = error.response
-        const nextError = { message: error.message }
+        const nextError = { message: error.message, status }
         if (status === 401) {
-            window.location.href = window.Site.login
+            if (window.loginModal) {
+                window.loginModal.show()
+            } else {
+                window.Site.login && (window.location.href = window.Site.login)
+            }
         } else if (data && data['bk_error_msg']) {
             nextError.message = data['bk_error_msg']
         } else if (status === 403) {
@@ -193,37 +197,16 @@ function handleReject (error, config) {
         } else if (status === 500) {
             nextError.message = language === 'en' ? 'System error, please contact developers.' : '系统出现异常, 请记录下错误场景并与开发人员联系, 谢谢!'
         }
-        $error(nextError.message)
+        config.globalError && status !== 401 && $error(nextError.message)
         return Promise.reject(nextError)
+    } else {
+        config.globalError && $error(error.message)
     }
-    $error(error.message)
     return Promise.reject(error)
 }
 
 function popupPermissionModal (permission = []) {
-    const data = permission.map(datum => {
-        const scope = [datum.scope_type_name]
-        if (datum.scope_id) {
-            scope.push(datum.scope_name)
-        }
-        return {
-            scope: getPermissionText(datum, 'scope_type_name', 'scope_name'),
-            resource: datum.resources.map(resource => {
-                const resourceInfo = resource.map(info => getPermissionText(info, 'resource_type_name', 'resource_name')).join('\n')
-                return resourceInfo
-            }).join('\n'),
-            action: datum.action_name
-        }
-    })
-    window.permissionModal && window.permissionModal.show(data, true)
-}
-
-function getPermissionText (data, necessaryKey, extraKey, split = '：') {
-    const text = [data[necessaryKey]]
-    if (data[extraKey]) {
-        text.push(data[extraKey])
-    }
-    return text.join(split)
+    window.permissionModal && window.permissionModal.show(permission)
 }
 
 /**
@@ -233,6 +216,7 @@ function getPermissionText (data, necessaryKey, extraKey, split = '：') {
  * @param {userConfig} 用户配置，包含axios的配置与本系统自定义配置
  * @return {Promise} 本次http请求的Promise
  */
+
 function initConfig (method, url, userConfig) {
     if (userConfig.hasOwnProperty('requestGroup')) {
         userConfig.requestGroup = userConfig.requestGroup instanceof Array ? userConfig.requestGroup : [userConfig.requestGroup]
@@ -242,6 +226,7 @@ function initConfig (method, url, userConfig) {
         // http请求默认id
         requestId: md5(method + url),
         requestGroup: [],
+        requestSymbol: Symbol('requestSymbol'),
         // 是否全局捕获异常
         globalError: true,
         // 是否直接复用缓存的请求
@@ -253,9 +238,11 @@ function initConfig (method, url, userConfig) {
         // 转换返回数据，仅返回data对象
         transformData: true,
         // 当路由变更时取消请求
-        cancelWhenRouteChange: true,
+        cancelWhenRouteChange: false,
         // 取消上次请求
-        cancelPrevious: false
+        cancelPrevious: false,
+        // 是否全局捕获权限异常
+        globalPermission: true
     }
     return Object.assign(defaultConfig, userConfig)
 }
@@ -277,7 +264,7 @@ function getCancelToken () {
     }
 }
 
-function download (options = {}) {
+async function download (options = {}) {
     const { url, method = 'post', data } = options
     const config = Object.assign({
         globalError: false,
@@ -294,25 +281,25 @@ function download (options = {}) {
     } else {
         promise = $http[method](url, config)
     }
-    promise.then(response => {
-        try {
-            const disposition = response.headers['content-disposition']
-            const fileName = disposition.substring(disposition.indexOf('filename') + 9)
-            const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {
-                type: response.headers['content-type']
-            }))
-            const link = document.createElement('a')
-            link.style.display = 'none'
-            link.href = downloadUrl
-            link.setAttribute('download', fileName)
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-        } catch (e) {
-            $error('Download failure')
-        }
-        return response
-    })
+    try {
+        const response = await promise
+        const disposition = response.headers['content-disposition']
+        const fileName = disposition.substring(disposition.indexOf('filename') + 9)
+        const downloadUrl = window.URL.createObjectURL(new Blob([response.data], {
+            type: response.headers['content-type']
+        }))
+        const link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = downloadUrl
+        link.setAttribute('download', fileName)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        return Promise.resolve(response)
+    } catch (e) {
+        $error('Download failure')
+        return Promise.reject(e)
+    }
 }
 
 export default $http

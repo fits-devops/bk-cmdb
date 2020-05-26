@@ -22,6 +22,7 @@ import (
 	"configcenter/src/common"
 	"configcenter/src/common/blog"
 	"configcenter/src/common/condition"
+	"configcenter/src/common/mapstr"
 	"configcenter/src/common/metadata"
 	"configcenter/src/common/util"
 )
@@ -36,7 +37,7 @@ func (am *AuthManager) CollectInstancesByModelID(ctx context.Context, header htt
 	cond := metadata.QueryCondition{
 		Condition: condition.CreateCondition().Field(common.BKObjIDField).Eq(objectID).ToMapStr(),
 	}
-	result, err := am.clientSet.CoreService().Instance().ReadInstance(ctx, header, common.BKInnerObjIDObject, &cond)
+	result, err := am.clientSet.CoreService().Instance().ReadInstance(ctx, header, objectID, &cond)
 	if err != nil {
 		blog.V(3).Infof("get instances by model id %s failed, err: %+v, rid: %s", objectID, err, rid)
 		return nil, fmt.Errorf("get instances by model id %s failed, err: %+v", objectID, err)
@@ -105,23 +106,15 @@ func (am *AuthManager) collectInstancesByRawIDs(ctx context.Context, header http
 	return instances, nil
 }
 
-func (am *AuthManager) extractBusinessIDFromInstances(ctx context.Context, instances ...InstanceSimplify) (int64, error) {
-	rid := util.ExtractRequestIDFromContext(ctx)
-
+func (am *AuthManager) extractBusinessIDFromInstances(ctx context.Context, instances ...InstanceSimplify) (map[int64]int64, error) {
+	businessIDMap := make(map[int64]int64)
 	if len(instances) == 0 {
-		return 0, fmt.Errorf("empty instances")
+		return businessIDMap, fmt.Errorf("empty instances")
 	}
-	businessIDs := make([]int64, 0)
 	for _, instance := range instances {
-		// we should ignore metadata.LabelBusinessID field not found error
-		businessIDs = append(businessIDs, instance.BizID)
+		businessIDMap[instance.InstanceID] = instance.BizID
 	}
-	businessIDs = util.IntArrayUnique(businessIDs)
-	if len(businessIDs) > 1 {
-		blog.V(5).Infof("extractBusinessIDFromInstances failed, get multiple business ID from instances, businessIDs: %+v, rid: %s", businessIDs, rid)
-		return 0, fmt.Errorf("get multiple business ID from objects")
-	}
-	return businessIDs[0], nil
+	return businessIDMap, nil
 }
 
 // collectObjectsByInstances collect all instances's related model, group by map
@@ -160,13 +153,13 @@ func (am *AuthManager) collectObjectsByInstances(ctx context.Context, header htt
 	instanceIDObjectMap := map[int64]metadata.Object{}
 	for _, instance := range instances {
 		objectMap, exist := bizIDObjID2ObjMap[instance.BizID]
-		if exist == false {
+		if !exist {
 			blog.Errorf("extractObjectIDFromInstances failed, instance's model not found, biz id %d not in bizIDObjID2ObjMap %+v, rid: %s", instance.BizID, bizIDObjID2ObjMap, rid)
 			return nil, fmt.Errorf("get model by instance failed, unexpected err, business id:%d related models not found", instance.BizID)
 		}
 
 		object, exist := objectMap[instance.ObjectID]
-		if exist == false {
+		if !exist {
 			blog.Errorf("extractObjectIDFromInstances failed, instance's model not found, instances: %+v, objectMap: %+v, rid: %s", instance, objectMap, rid)
 			return nil, fmt.Errorf("get model by instance failed, not found")
 		}
@@ -184,7 +177,7 @@ func (am *AuthManager) MakeResourcesByInstances(ctx context.Context, header http
 		return nil, nil
 	}
 
-	businessID, err := am.extractBusinessIDFromInstances(ctx, instances...)
+	businessIDMap, err := am.extractBusinessIDFromInstances(ctx, instances...)
 	if err != nil {
 		return nil, fmt.Errorf("extract business id from instances failed, err: %+v", err)
 	}
@@ -200,7 +193,7 @@ func (am *AuthManager) MakeResourcesByInstances(ctx context.Context, header http
 	objectIDMap := map[int64]metadata.Object{}
 	for _, instance := range instances {
 		object, exist := instanceIDObjectMap[instance.InstanceID]
-		if exist == false {
+		if !exist {
 			blog.Errorf("MakeResourcesByInstances failed, unexpected err, instance related object not found, instance: %+v, instanceIDObjectMap: %+v, rid: %s", instance, instanceIDObjectMap, rid)
 			return nil, errors.New("unexpected err, get instance related model failed, not found")
 		}
@@ -208,9 +201,23 @@ func (am *AuthManager) MakeResourcesByInstances(ctx context.Context, header http
 		objectIDMap[object.ID] = object
 	}
 
+	mainlineAsst, err := am.clientSet.CoreService().Association().ReadModelAssociation(ctx, header,
+		&metadata.QueryCondition{Condition: mapstr.MapStr{common.AssociationKindIDField: common.AssociationKindMainline}})
+	if err != nil {
+		blog.Errorf("list mainline models failed, err: %+v, rid: %s", err, rid)
+		return nil, err
+	}
+
 	resultResources := make([]meta.ResourceAttribute, 0)
 	for objID, instances := range objectIDInstancesMap {
 		object := objectIDMap[objID]
+
+		resourceType := meta.ModelInstance
+		for _, mainline := range mainlineAsst.Data.Info {
+			if mainline.ObjectID == mainline.ObjectID {
+				resourceType = meta.MainlineInstance
+			}
+		}
 
 		parentResources, err := am.MakeResourcesByObjects(ctx, header, meta.EmptyAction, object)
 		if err != nil {
@@ -235,12 +242,12 @@ func (am *AuthManager) MakeResourcesByInstances(ctx context.Context, header http
 			resource := meta.ResourceAttribute{
 				Basic: meta.Basic{
 					Action:     action,
-					Type:       meta.ModelInstance,
+					Type:       resourceType,
 					Name:       instance.Name,
 					InstanceID: instance.InstanceID,
 				},
 				SupplierAccount: util.GetOwnerID(header),
-				BusinessID:      businessID,
+				BusinessID:      businessIDMap[instance.InstanceID],
 				Layers:          layers,
 			}
 
@@ -252,12 +259,25 @@ func (am *AuthManager) MakeResourcesByInstances(ctx context.Context, header http
 }
 
 func (am *AuthManager) AuthorizeByInstanceID(ctx context.Context, header http.Header, action meta.Action, objID string, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
 	if len(ids) == 0 {
 		return nil
+	}
+
+	switch objID {
+	case common.BKInnerObjIDPlat:
+		return am.AuthorizeByPlatIDs(ctx, header, action, ids...)
+	case common.BKInnerObjIDHost:
+		return am.AuthorizeByHostsIDs(ctx, header, action, ids...)
+	case common.BKInnerObjIDModule:
+		return am.AuthorizeByModuleID(ctx, header, action, ids...)
+	case common.BKInnerObjIDSet:
+		return am.AuthorizeBySetID(ctx, header, action, ids...)
+	case common.BKInnerObjIDApp:
+		return am.AuthorizeByBusinessID(ctx, header, action, ids...)
 	}
 
 	instances, err := am.collectInstancesByRawIDs(ctx, header, objID, ids...)
@@ -270,7 +290,7 @@ func (am *AuthManager) AuthorizeByInstanceID(ctx context.Context, header http.He
 func (am *AuthManager) AuthorizeByInstances(ctx context.Context, header http.Header, action meta.Action, instances ...InstanceSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -292,7 +312,7 @@ func (am *AuthManager) AuthorizeByInstances(ctx context.Context, header http.Hea
 func (am *AuthManager) UpdateRegisteredInstances(ctx context.Context, header http.Header, instances ...InstanceSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -305,7 +325,7 @@ func (am *AuthManager) UpdateRegisteredInstances(ctx context.Context, header htt
 
 	for _, resource := range resources {
 		if err := am.Authorize.UpdateResource(ctx, &resource); err != nil {
-			return err
+			return fmt.Errorf("update resource %s/%d to iam failed, err: %v", resource.Type, resource.InstanceID, err)
 		}
 	}
 
@@ -313,7 +333,7 @@ func (am *AuthManager) UpdateRegisteredInstances(ctx context.Context, header htt
 }
 
 func (am *AuthManager) UpdateRegisteredInstanceByID(ctx context.Context, header http.Header, objectID string, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -338,7 +358,7 @@ func (am *AuthManager) UpdateRegisteredInstanceByID(ctx context.Context, header 
 }
 
 func (am *AuthManager) UpdateRegisteredInstanceByRawID(ctx context.Context, header http.Header, objectID string, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -363,7 +383,7 @@ func (am *AuthManager) UpdateRegisteredInstanceByRawID(ctx context.Context, head
 }
 
 func (am *AuthManager) DeregisterInstanceByRawID(ctx context.Context, header http.Header, objectID string, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 	switch objectID {
@@ -387,7 +407,7 @@ func (am *AuthManager) DeregisterInstanceByRawID(ctx context.Context, header htt
 }
 
 func (am *AuthManager) RegisterInstancesByID(ctx context.Context, header http.Header, objectID string, ids ...int64) error {
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 	switch objectID {
@@ -413,7 +433,7 @@ func (am *AuthManager) RegisterInstancesByID(ctx context.Context, header http.He
 func (am *AuthManager) registerInstances(ctx context.Context, header http.Header, instances ...InstanceSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 
@@ -430,7 +450,7 @@ func (am *AuthManager) registerInstances(ctx context.Context, header http.Header
 func (am *AuthManager) DeregisterInstances(ctx context.Context, header http.Header, instances ...InstanceSimplify) error {
 	rid := util.ExtractRequestIDFromContext(ctx)
 
-	if am.Enabled() == false {
+	if !am.Enabled() {
 		return nil
 	}
 

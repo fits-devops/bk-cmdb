@@ -11,46 +11,48 @@
             <div class="info-pagination fr" v-show="pagination.count">
                 <span class="pagination-info">{{getPaginationInfo()}}</span>
                 <span class="pagination-toggle">
-                    <i class="pagination-icon bk-icon icon-angle-left"
+                    <i class="pagination-icon bk-icon icon-cc-arrow-down left"
                         :class="{ disabled: pagination.current === 1 }"
                         @click="togglePage(-1)">
                     </i>
-                    <i class="pagination-icon bk-icon icon-angle-right"
+                    <i class="pagination-icon bk-icon icon-cc-arrow-down right"
                         :class="{ disabled: pagination.current === totalPage }"
                         @click="togglePage(1)">
                     </i>
                 </span>
             </div>
         </div>
-        <cmdb-collapse-transition>
-            <cmdb-table class="association-table"
-                v-show="expanded"
-                :header="header"
-                :list="flatternList"
-                :show-footer="false"
-                :sortable="false"
-                :max-height="462"
-                :empty-height="40">
-                <template slot="__operation__" slot-scope="{ item }">
-                    <span class="text-primary" @click="showTips($event, item)" v-if="$isAuthorized(updateAuth)">
-                        {{$t('Association["取消关联"]')}}
-                    </span>
-                    <span class="text-primary disabled"
-                        v-else
-                        v-cursor="{
-                            active: true,
-                            auth: [updateAuth]
-                        }">
-                        {{$t('Association["取消关联"]')}}
-                    </span>
+        <bk-table class="association-table"
+            v-show="expanded"
+            :data="list"
+            :max-height="462">
+            <bk-table-column v-for="column in header"
+                :key="column.id"
+                :prop="column.id"
+                :label="column.name"
+                show-overflow-tooltip>
+                <template slot-scope="{ row }">{{row[column.id] | formatter(column.property)}}</template>
+            </bk-table-column>
+            <bk-table-column :label="$t('操作')">
+                <template slot-scope="{ row }">
+                    <cmdb-auth :auth="updateAuthResources">
+                        <bk-button slot-scope="{ disabled }"
+                            text
+                            theme="primary"
+                            :disabled="disabled"
+                            @click="showTips($event, row)">
+                            {{$t('取消关联')}}
+                        </bk-button>
+                    </cmdb-auth>
                 </template>
-            </cmdb-table>
-        </cmdb-collapse-transition>
-        <div class="confirm-tips" ref="confirmTips" v-click-outside="hideTips" v-show="confirm.item">
-            <p class="tips-content">{{$t('Association["确认取消"]')}}</p>
+            </bk-table-column>
+            <cmdb-table-empty slot="empty" :stuff="table.stuff" :auth="permissionAuth"></cmdb-table-empty>
+        </bk-table>
+        <div class="confirm-tips" ref="confirmTips" v-click-outside="hideTips" v-show="confirm.show">
+            <p class="tips-content">{{$t('确认取消')}}</p>
             <div class="tips-option">
-                <bk-button class="tips-button" type="primary" @click="cancelAssociation">{{$t('Common["确认"]')}}</bk-button>
-                <bk-button class="tips-button" type="default" @click="hideTips">{{$t('Common["取消"]')}}</bk-button>
+                <bk-button class="tips-button" theme="primary" @click.stop="cancelAssociation">{{$t('确认')}}</bk-button>
+                <bk-button class="tips-button" theme="default" @click.stop="hideTips">{{$t('取消')}}</bk-button>
             </div>
         </div>
     </div>
@@ -58,7 +60,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { RESOURCE_HOST } from '../router.config.js'
+    import { MENU_RESOURCE_HOST_DETAILS } from '@/dictionary/menu-symbol'
     export default {
         name: 'cmdb-host-association-list-table',
         props: {
@@ -84,11 +86,21 @@
                     current: 1,
                     size: 10
                 },
+                table: {
+                    stuff: {
+                        type: 'default',
+                        payload: {
+                            emptyText: this.$t('bk.table.emptyText')
+                        }
+                    }
+                },
                 expanded: false,
                 confirm: {
                     instance: null,
                     item: null,
-                    target: null
+                    target: null,
+                    id: null,
+                    show: false
                 }
             }
         },
@@ -97,21 +109,36 @@
                 'sourceInstances',
                 'targetInstances'
             ]),
-            updateAuth () {
-                const isResourceHost = this.$route.name === RESOURCE_HOST
+            updateAuthResources () {
+                const isResourceHost = this.$route.name === MENU_RESOURCE_HOST_DETAILS
                 if (isResourceHost) {
-                    return this.$OPERATION.U_RESOURCE_HOST
+                    return this.$authResources({ type: this.$OPERATION.U_RESOURCE_HOST })
                 }
-                return this.$OPERATION.U_HOST
-            },
-            flatternList () {
-                return this.$tools.flatternList(this.properties, this.list)
+                return this.$authResources({ type: this.$OPERATION.U_HOST })
             },
             hostId () {
                 return parseInt(this.$route.params.id)
             },
             model () {
                 return this.$store.getters['objectModelClassify/getModelById'](this.id)
+            },
+            permissionAuth () {
+                const map = {
+                    host: this.$OPERATION.R_HOST,
+                    biz: this.$OPERATION.R_BUSINESS
+                }
+                const auth = {
+                    type: map[this.model.bk_obj_id]
+                }
+                // 通用模型
+                if (!auth.type) {
+                    auth.type = this.$OPERATION.R_INST
+                    auth.parent_layers = [{
+                        resource_id: this.model.id,
+                        resource_type: 'model'
+                    }]
+                }
+                return auth
             },
             isBusinessModel () {
                 return !!this.$tools.getMetadataBiz(this.model)
@@ -148,13 +175,9 @@
                 const header = headerProperties.map(property => {
                     return {
                         id: property.bk_property_id,
-                        name: property.bk_property_name
+                        name: this.$tools.getHeaderPropertyName(property),
+                        property
                     }
-                })
-                header.push({
-                    id: '__operation__',
-                    name: this.$t('Common["操作"]'),
-                    width: 150
                 })
                 return header
             },
@@ -185,11 +208,9 @@
             async getProperties () {
                 try {
                     this.properties = await this.$store.dispatch('objectModelProperty/searchObjectAttribute', {
-                        params: this.$injectMetadata({
+                        params: {
                             bk_obj_id: this.id
-                        }, {
-                            inject: this.isBusinessModel
-                        }),
+                        },
                         config: {
                             fromCache: true,
                             requestId: this.propertyRequest
@@ -205,18 +226,28 @@
                 const config = {
                     requestId: this.instanceRequest,
                     cancelPrevious: true,
-                    globalError: false
+                    globalError: false,
+                    globalPermission: false
                 }
                 try {
-                    switch (this.id) {
-                        case 'host':
-                            promise = this.getHostInstances(config)
-                            break
-                        case 'biz':
-                            promise = this.getBusinessInstances(config)
-                            break
-                        default:
-                            promise = this.getModelInstances(config)
+                    if (!this.instanceIds.length) {
+                        // 业务查询会走权限中心进行数据拼接，导致为空时返回了有权限的数据
+                        // 此处为空后不走查询
+                        promise = Promise.resolve({
+                            info: [],
+                            count: 0
+                        })
+                    } else {
+                        switch (this.id) {
+                            case 'host':
+                                promise = this.getHostInstances(config)
+                                break
+                            case 'biz':
+                                promise = this.getBusinessInstances(config)
+                                break
+                            default:
+                                promise = this.getModelInstances(config)
+                        }
                     }
                     const data = await promise
                     this.list = data.info
@@ -318,9 +349,7 @@
                     await this.$store.dispatch('objectAssociation/deleteInstAssociation', {
                         id: associationInstance.asso_id,
                         config: {
-                            data: this.$injectMetadata({}, {
-                                inject: !!this.$tools.getMetadataBiz(this.model)
-                            })
+                            data: {}
                         }
                     })
                     this.$store.commit('hostDetails/deleteAssociation', {
@@ -332,13 +361,14 @@
                         this.pagination.current = 1
                         this.getInstances()
                     })
-                    this.$success(this.$t('Association["取消关联成功"]'))
+                    this.$success(this.$t('取消关联成功'))
+                    this.hideTips()
                 } catch (e) {
                     console.error(e)
                 }
             },
             getPaginationInfo () {
-                return this.$tc('Common["页码"]', this.pagination.current, {
+                return this.$tc('页码', this.pagination.current, {
                     current: this.pagination.current,
                     count: this.pagination.count,
                     total: this.totalPage
@@ -357,21 +387,26 @@
                 if (event && event.target === this.confirm.target) {
                     return false
                 }
-                this.confirm.instance && this.confirm.instance.setVisible(false)
+                this.confirm.instance && this.confirm.instance.hide()
             },
             showTips (event, item) {
                 this.confirm.item = item
-                this.confirm.target = event.target
+                this.confirm.id = item.bk_inst_id
                 this.confirm.instance && this.confirm.instance.destroy()
-                this.confirm.instance = this.$tooltips({
-                    duration: 100,
+                this.confirm.instance = this.$bkPopover(event.target, {
+                    content: this.$refs.confirmTips,
                     theme: 'light',
                     zIndex: 9999,
                     width: 200,
-                    container: document.body,
-                    target: event.target
+                    trigger: 'manual',
+                    boundary: 'window',
+                    arrow: true,
+                    interactive: true
                 })
-                this.confirm.instance.$el.append(this.$refs.confirmTips)
+                this.confirm.show = true
+                this.$nextTick(() => {
+                    this.confirm.instance.show()
+                })
             }
         }
     }
@@ -409,20 +444,26 @@
     .info-pagination {
         color: #8b8d95;
         .pagination-toggle {
+            margin-left: 10px;
             .pagination-icon {
-                transform: scale(.5);
-                font-size: 20px;
+                font-size: 14px;
                 color: #979BA5;
                 cursor: pointer;
                 &.disabled {
                     color: #C4C6CC;
                     cursor: not-allowed;
                 }
+                &.left {
+                    transform: rotate(90deg);
+                }
+                &.right {
+                    transform: rotate(-90deg);
+                }
             }
         }
     }
     .confirm-tips {
-        padding: 9px;
+        padding: 9px 0;
         text-align: center;
         .tips-content {
             color: $cmdbTextColor;

@@ -1,39 +1,27 @@
 import Meta from '@/router/meta'
-import { NAV_MODEL_MANAGEMENT } from '@/dictionary/menu'
+import { MENU_RESOURCE_EVENTPUSH } from '@/dictionary/menu-symbol'
 import {
     C_EVENT,
     U_EVENT,
     D_EVENT,
-    R_EVENT
-} from '@/dictionary/auth'
-
-export const OPERATION = {
-    C_EVENT,
     R_EVENT,
-    U_EVENT,
-    D_EVENT
-}
-
-const path = '/eventpush'
-
+    GET_AUTH_META
+} from '@/dictionary/auth'
 export default {
-    name: 'eventpush',
-    path: path,
+    name: MENU_RESOURCE_EVENTPUSH,
+    path: 'eventpush',
     component: () => import('./index.vue'),
     meta: new Meta({
         menu: {
-            id: 'eventpush',
-            i18n: 'Nav["事件推送"]',
-            path: path,
-            order: 5,
-            parent: NAV_MODEL_MANAGEMENT,
-            businessView: false
+            i18n: '事件订阅'
         },
         auth: {
-            view: OPERATION.R_EVENT,
-            operation: Object.values(OPERATION),
-            setAuthScope () {
-                this.authScope = 'global'
+            view: { ...GET_AUTH_META(R_EVENT) },
+            operation: {
+                C_EVENT,
+                U_EVENT,
+                D_EVENT,
+                R_EVENT
             }
         }
     })

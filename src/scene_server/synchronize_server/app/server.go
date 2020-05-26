@@ -34,7 +34,7 @@ import (
 	synchronizeUtil "configcenter/src/apimachinery/synchronize/util"
 )
 
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
 		return fmt.Errorf("wrap server info failed, err: %v", err)
@@ -75,10 +75,15 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 	}
 	service.SetSynchronizeServer(synchronizeClientInst)
 	go synchronSrv.Service.InitBackground()
-	if err := backbone.StartServer(ctx, engine, restful.NewContainer().Add(service.WebService())); err != nil {
+	handler := restful.NewContainer().Add(service.WebService())
+	err = backbone.StartServer(ctx, cancel, engine, handler, true)
+	if err != nil {
 		return err
 	}
-	select {}
+	select {
+	case <-ctx.Done():
+	}
+	return nil
 }
 
 type SynchronizeServer struct {
@@ -91,7 +96,7 @@ type SynchronizeServer struct {
 func (s *SynchronizeServer) onSynchronizeServerConfigUpdate(previous, current cc.ProcessConfig) {
 	configInfo := &options.Config{}
 	names := current.ConfigMap["synchronize.name"]
-	configInfo.Names = strings.Split(names, ",")
+	configInfo.Names = SplitFilter(names, ",")
 
 	configInfo.Trigger.TriggerType = current.ConfigMap["trigger.type"]
 	// role  unit minute.
@@ -110,22 +115,35 @@ func (s *SynchronizeServer) onSynchronizeServerConfigUpdate(previous, current cc
 		fieldSign := current.ConfigMap[name+".FieldSign"]
 		dataSign := current.ConfigMap[name+".Flag"]
 		supplerAccount := current.ConfigMap[name+".SupplerAccount"]
-		witeList := current.ConfigMap[name+".WiteList"]
+		whiteList := current.ConfigMap[name+".WhiteList"]
 		objectIDs := current.ConfigMap[name+".ObjectID"]
+		ignoreModelAttr := current.ConfigMap[name+".IgnoreModelAttribute"]
+		strEnableInstFilter := current.ConfigMap[name+".EnableInstFilter"]
 
-		configItem.AppNames = strings.Split(appNames, ",")
+		configItem.AppNames = SplitFilter(appNames, ",")
 		if syncResource == "1" {
 			configItem.SyncResource = true
 		}
-		if witeList == "1" {
-			configItem.WiteList = true
+		if whiteList == "1" {
+			configItem.WhiteList = true
 		}
-		configItem.ObjectIDArr = strings.Split(objectIDs, ",")
+		// 使用忽略模型属性变的模式。 模型属性，模型分组 将不做同步
+		// 但是数据源cmdb中满足条件的实例会同步到目标cmdb。
+		// 目标cmdb中新建相同的唯一标识模型或者模型的字段。内容会自动展示出来
+		if ignoreModelAttr == "1" {
+			configItem.IgnoreModelAttr = true
+		}
+
+		configItem.ObjectIDArr = SplitFilter(objectIDs, ",")
 		configItem.Name = name
 		configItem.TargetHost = targetHost
 		configItem.FieldSign = fieldSign
 		configItem.SynchronizeFlag = dataSign
-		configItem.SupplerAccount = strings.Split(supplerAccount, ",")
+		configItem.SupplerAccount = SplitFilter(supplerAccount, ",")
+		if strEnableInstFilter == "1" {
+			configItem.EnableInstFilter = true
+		}
+
 		configInfo.ConifgItemArray = append(configInfo.ConifgItemArray, configItem)
 		if targetHost != "" {
 			s.synchronizeClientConfig <- synchronizeUtil.SychronizeConfig{
@@ -133,9 +151,24 @@ func (s *SynchronizeServer) onSynchronizeServerConfigUpdate(previous, current cc
 				Addrs: []string{targetHost},
 			}
 		}
+
 	}
 	s.Config = configInfo
 
+}
+
+// SplitFilter split string with sep. remove blanks for blank item children and children
+func SplitFilter(s, sep string) []string {
+	itemArr := strings.Split(s, sep)
+	var strArr []string
+	for _, item := range itemArr {
+		item = strings.TrimSpace(item)
+		if item == "" {
+			continue
+		}
+		strArr = append(strArr, item)
+	}
+	return strArr
 }
 
 func newServerInfo(op *options.ServerOption) (*types.ServerInfo, error) {

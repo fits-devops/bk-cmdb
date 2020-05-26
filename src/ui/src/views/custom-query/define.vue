@@ -7,10 +7,10 @@
             'getUserAPIDetail'
         ])
     }">
-        <div class="define-box">
+        <div class="define-box" ref="defineBox">
             <div class="userapi-group">
                 <label class="userapi-label">
-                    {{$t("Common['业务']")}}<span class="color-danger"> * </span>
+                    {{$t('业务')}}<span class="color-danger"> * </span>
                 </label>
                 <cmdb-business-selector
                     class="business-selector"
@@ -19,161 +19,155 @@
             </div>
             <div class="userapi-group">
                 <label class="userapi-label">
-                    {{$t("CustomQuery['查询名称']")}}<span class="color-danger"> * </span>
+                    {{$t('查询名称')}}<span class="color-danger"> * </span>
                 </label>
-                <div v-cursor="{
-                    active: !editable,
-                    auth: [$OPERATION.U_CUSTOM_QUERY]
-                }">
-                    <input type="text" class="cmdb-form-input"
+                <cmdb-auth style="display: block;" :auth="authResources">
+                    <bk-input slot-scope="{ disabled }"
+                        type="text"
+                        class="cmdb-form-input"
                         v-model.trim="name"
-                        :name="$t('CustomQuery[\'查询名称\']')"
-                        :disabled="!editable"
-                        v-validate="'required|max:15'">
-                </div>
-                <span v-show="errors.has($t('CustomQuery[\'查询名称\']'))" class="color-danger">{{ errors.first($t('CustomQuery[\'查询名称\']')) }}</span>
+                        :name="$t('查询名称')"
+                        :placeholder="$t('请输入xx', { name: $t('查询名称') })"
+                        :disabled="disabled"
+                        v-validate="'required|length:256'">
+                    </bk-input>
+                </cmdb-auth>
+                <span v-show="errors.has($t('查询名称'))" class="color-danger">{{ errors.first($t('查询名称')) }}</span>
             </div>
-            <div class="userapi-group content">
-                <label class="userapi-label">
-                    {{$t("CustomQuery['查询内容']")}}<span class="color-danger"> * </span>
-                </label>
-                <div class="userapi-content-display">
-                    <div class="text-content"
-                        v-cursor="{
-                            active: !editable,
-                            auth: [$OPERATION.U_CUSTOM_QUERY]
-                        }"
-                        :class="{
-                            open: attribute.isShow,
-                            disabled: !editable
-                        }"
-                        @click="toggleContentSelector(true)">
-                        <span class="default-name">{{attribute.defaultName}}</span><span v-if="selectedName.length">,{{selectedName}}</span>
-                        <i class="bk-icon icon-angle-down"></i>
-                    </div>
-                    <div class="userapi-content-display-mask" v-if="attribute.isShow"></div>
-                    <bk-selector class="fl userapi-content-selector"
-                        :searchable="true"
-                        search-key="bk_property_name"
-                        ref="content"
-                        :list="attribute.list"
-                        @visible-toggle="toggleContentSelector"
-                        :content-max-height="200"
-                        setting-key="bk_property_id"
-                        display-key="bk_property_name"
-                        :selected.sync="attribute.selected"
-                        :multi-select="true"
-                        :disabled="!editable">
-                    </bk-selector>
+            <div class="query-conditons" ref="queryConditions">
+                <div class="query-title">
+                    <span>{{$t('查询条件')}}</span>
+                    <i class="icon-cc-tips" v-bk-tooltips.right="$t('针对查询内容进行条件过滤')"></i>
                 </div>
-            </div>
-            <ul class="userapi-list">
-                <li v-for="(property, index) in userProperties" :key="`${property.propertyId}-${property.objId}`">
-                    <label class="filter-label">
-                        {{property.objName}} - {{property.propertyName}}
-                    </label>
-                    <div class="filter-content clearfix" :class="{ disabled: !editable }"
-                        v-cursor="{
-                            active: !editable,
-                            auth: [$OPERATION.U_CUSTOM_QUERY]
-                        }">
-                        <filter-field-operator class="filter-field-operator fl"
-                            v-if="!['date', 'time'].includes(property.propertyType)"
-                            :type="getOperatorType(property)"
-                            :disabled="!editable"
-                            v-model="property.operator">
-                        </filter-field-operator>
-                        <cmdb-form-enum class="filter-field-value filter-field-enum fl"
-                            v-if="property.propertyType === 'enum'"
-                            :allow-clear="true"
-                            :options="getEnumOptions(property)"
-                            :disabled="!editable"
-                            v-model="property.value">
-                        </cmdb-form-enum>
-                        <cmdb-form-bool-input class="filter-field-value filter-field-bool-input fl"
-                            v-else-if="property.propertyType === 'bool'"
-                            v-model="property.value"
-                            :disabled="!editable">
-                        </cmdb-form-bool-input>
-                        <cmdb-form-associate-input class="filter-field-value filter-field-associate fl"
-                            v-else-if="['singleasst', 'multiasst'].includes(property.propertyType)"
-                            v-model="property.value"
-                            :disabled="!editable">
-                        </cmdb-form-associate-input>
-                        <component class="filter-field-value fl" :class="`filter-field-${property.propertyType}`"
-                            v-else
-                            :is="`cmdb-form-${property.propertyType}`"
-                            :disabled="!editable"
-                            v-model="property.value">
-                        </component>
-                        <i class="userapi-delete fr bk-icon icon-close"
-                            v-if="editable"
-                            @click="deleteUserProperty(property, index)">
-                        </i>
-                    </div>
-                </li>
-            </ul>
-            <div class="userapi-new">
-                <div v-cursor="{
-                    active: !editable,
-                    auth: [$OPERATION.U_CUSTOM_QUERY]
-                }">
-                    <button class="userapi-new-btn"
-                        :disabled="!editable"
-                        @click="toggleUserAPISelector(true)">
-                        {{$t("CustomQuery['新增查询条件']")}}
-                    </button>
-                </div>
-                <div class="userapi-new-mask" v-if="filter.isShow"></div>
-                <bk-selector class="userapi-new-selector"
-                    v-if="filter.isShow"
-                    :searchable="true"
-                    search-key="filter_name"
-                    ref="propertySelector"
-                    :list="filterList"
-                    @visible-toggle="toggleUserAPISelector"
-                    :content-max-height="200"
-                    setting-key="filter_id"
-                    display-key="filter_name"
-                    @item-selected="addUserProperties"
-                    :selected="''">
-                </bk-selector>
-            </div>
-            <div class="userapi-btn-group">
-                <bk-button type="primary" class="userapi-btn" :disabled="errors.any()" @click.stop="previewUserAPI">
-                    {{$t("CustomQuery['预览']")}}
-                </bk-button>
-                <span class="inline-block-middle"
-                    v-cursor="{
-                        active: !editable,
-                        auth: [$OPERATION.U_CUSTOM_QUERY]
-                    }">
-                    <bk-button type="primary" class="userapi-btn"
-                        v-tooltip="$t('CustomQuery[\'保存后的查询可通过接口调用生效\']')"
-                        :loading="$loading(['createCustomQuery', 'updateCustomQuery'])"
-                        :disabled="errors.any() || !editable"
-                        @click="saveUserAPI">
-                        {{$t("Common['保存']")}}
+                <ul class="userapi-list">
+                    <li v-for="(property, index) in userProperties" :key="`${property.propertyId}-${property.objId}`">
+                        <label class="filter-label">
+                            {{property.objName}} - {{property.propertyName}}
+                        </label>
+                        <cmdb-auth style="display: block;"
+                            :auth="authResources">
+                            <template slot-scope="{ disabled }">
+                                <div class="filter-main">
+                                    <div class="filter-content clearfix" :class="{ disabled: disabled }">
+                                        <filter-field-operator class="filter-field-operator fl"
+                                            v-if="!['date', 'time'].includes(property.propertyType)"
+                                            :type="getOperatorType(property)"
+                                            :disabled="disabled"
+                                            v-model="property.operator">
+                                        </filter-field-operator>
+                                        <component class="filter-field-value filter-field-enum fl"
+                                            v-if="['list', 'enum'].includes(property.propertyType)"
+                                            :is="`cmdb-form-${property.propertyType}`"
+                                            v-validate="'required'"
+                                            :data-vv-name="property.propertyId"
+                                            :allow-clear="true"
+                                            :options="getEnumOptions(property)"
+                                            :disabled="disabled"
+                                            v-model="property.value">
+                                        </component>
+                                        <cmdb-form-bool-input class="filter-field-value filter-field-bool-input fl"
+                                            v-else-if="property.propertyType === 'bool'"
+                                            v-model="property.value"
+                                            v-validate="'required'"
+                                            :data-vv-name="property.propertyId"
+                                            :disabled="disabled">
+                                        </cmdb-form-bool-input>
+                                        <cmdb-search-input class="filter-field-value filter-field-char fl" :style="{ '--index': 99 - index }"
+                                            v-else-if="['singlechar', 'longchar'].includes(property.propertyType)"
+                                            v-model="property.value"
+                                            v-validate="'required'"
+                                            :data-vv-name="property.propertyId"
+                                            :disabled="disabled">
+                                        </cmdb-search-input>
+                                        <cmdb-form-date-range class="filter-field-value"
+                                            v-validate="'required'"
+                                            :data-vv-name="property.propertyId"
+                                            v-else-if="['date', 'time'].includes(property.propertyType)"
+                                            v-model="property.value">
+                                        </cmdb-form-date-range>
+                                        <cmdb-cloud-selector
+                                            v-else-if="property.propertyId === 'bk_cloud_id'"
+                                            class="filter-field-value fl"
+                                            v-validate="'required'"
+                                            :data-vv-name="property.propertyId"
+                                            :allow-clear="true"
+                                            v-model="property.value">
+                                        </cmdb-cloud-selector>
+                                        <component class="filter-field-value fl" :class="`filter-field-${property.propertyType}`"
+                                            v-else
+                                            v-validate="'required'"
+                                            :unit="property.unit"
+                                            :data-vv-name="property.propertyId"
+                                            :is="`cmdb-form-${property.propertyType}`"
+                                            :disabled="disabled"
+                                            v-model="property.value">
+                                        </component>
+                                        <i class="userapi-delete fr bk-icon icon-close"
+                                            v-if="!disabled"
+                                            @click="deleteUserProperty(property, index)">
+                                        </i>
+                                    </div>
+                                    <span class="error-tips" v-if="errors.has(property.propertyId)"
+                                        :style="{ 'margin-left': ['date', 'time'].includes(property.propertyType) ? '0' : '120px' }">
+                                        {{errors.first(property.propertyId)}}
+                                    </span>
+                                </div>
+                            </template>
+                        </cmdb-auth>
+                    </li>
+                </ul>
+                <cmdb-auth :auth="authResources">
+                    <bk-button slot-scope="{ disabled }"
+                        class="add-conditon-btn"
+                        theme="primary"
+                        :text="true"
+                        :disabled="disabled"
+                        icon="icon-plus-circle"
+                        @click="handleAddQueryCondition">
+                        {{$t('继续添加')}}
                     </bk-button>
-                </span>
-                <bk-button type="default" class="userapi-btn" @click="closeSlider">
-                    {{$t("Common['取消']")}}
-                </bk-button>
-                <span class="inline-block-middle"
-                    v-cursor="{
-                        active: !editable,
-                        auth: [$OPERATION.U_CUSTOM_QUERY]
-                    }">
-                    <bk-button type="danger" class="userapi-btn button-delete"
-                        v-if="type === 'update'"
-                        :loading="$loading('deleteCustomQuery')"
-                        :disabled="!editable"
-                        @click="deleteUserAPI">
-                        {{$t("Common['删除']")}}
-                    </bk-button>
-                </span>
+                </cmdb-auth>
             </div>
         </div>
+        <div class="userapi-btn-group" :class="{ 'sticky': hasScrollbar }">
+            <cmdb-auth :auth="authResources">
+                <bk-button slot-scope="{ disabled }"
+                    theme="primary"
+                    class="userapi-btn"
+                    v-bk-tooltips="$t('保存后的查询可通过接口调用生效')"
+                    :loading="$loading(['createCustomQuery', 'updateCustomQuery'])"
+                    :disabled="errors.any() || disabled"
+                    @click="saveUserAPI">
+                    {{type === 'create' ? $t('提交') : $t('保存')}}
+                </bk-button>
+            </cmdb-auth>
+            <bk-button class="userapi-btn" :disabled="errors.any()" @click.stop="previewUserAPI">
+                {{$t('预览')}}
+            </bk-button>
+            <bk-button theme="default" class="userapi-btn" @click="closeSlider">
+                {{$t('取消')}}
+            </bk-button>
+        </div>
+        <bk-sideslider
+            v-transfer-dom
+            :is-show.sync="propertySlider.isShow"
+            :width="394"
+            :title="$t('添加分组条件')"
+            :before-close="handleBeforeClose">
+            <property-selector slot="content"
+                ref="propertySeletor"
+                v-if="propertySlider.isShow"
+                :properties="propertySlider.properties"
+                :selected-properties="selectedProperties">
+            </property-selector>
+            <div slot="footer" class="property-btn-group">
+                <bk-button theme="primary"
+                    @click="addUserProperties">
+                    {{$t('确定')}}
+                </bk-button>
+                <bk-button @click="handleHideQueryCondition">{{$t('取消')}}</bk-button>
+            </div>
+        </bk-sideslider>
         <!-- eslint-disable vue/space-infix-ops -->
         <v-preview ref="preview"
             v-if="isPreviewShow"
@@ -190,10 +184,13 @@
     import { mapActions, mapGetters } from 'vuex'
     import filterFieldOperator from '@/components/hosts/filter/_filter-field-operator'
     import vPreview from './preview'
+    import propertySelector from './query-property-seletor'
+    import { addResizeListener, removeResizeListener } from '@/utils/resize-events'
     export default {
         components: {
             filterFieldOperator,
-            vPreview
+            vPreview,
+            propertySelector
         },
         props: {
             type: {
@@ -205,6 +202,10 @@
             id: {
                 type: [String, Number],
                 default: ''
+            },
+            object: {
+                type: Object,
+                required: true
             }
         },
         data () {
@@ -214,53 +215,27 @@
                     list: [],
                     selected: [],
                     isShow: false,
-                    defaultName: `${this.$t("Common['内网IP']")},${this.$t("Hosts['集群']")},${this.$t("Hosts['模块']")},${this.$t("Common['业务']")},${this.$t("Hosts['云区域']")}`,
+                    defaultName: ['内网IP', '集群', '模块', '业务', '云区域'].map(i18n => this.$t(i18n)).join(','),
                     default: [{
                         'bk_property_id': 'bk_host_innerip',
-                        'bk_property_name': this.$t("Common['内网IP']")
+                        'bk_property_name': this.$t('内网IP')
                     }, {
                         'bk_property_id': 'bk_set_name',
-                        'bk_property_name': this.$t("Hosts['集群']")
+                        'bk_property_name': this.$t('集群')
                     }, {
                         'bk_property_id': 'bk_module_name',
-                        'bk_property_name': this.$t("Hosts['模块']")
+                        'bk_property_name': this.$t('模块')
                     }, {
                         'bk_property_id': 'bk_biz_name',
-                        'bk_property_name': this.$t("Common['业务']")
+                        'bk_property_name': this.$t('业务')
                     }, {
                         'bk_property_id': 'bk_cloud_id',
-                        'bk_property_name': this.$t("Hosts['云区域']")
+                        'bk_property_name': this.$t('云区域')
                     }]
                 },
                 filter: {
                     isShow: false,
                     allList: []
-                },
-                object: {
-                    'host': {
-                        id: 'host',
-                        name: this.$t("Hosts['主机']"),
-                        properties: [],
-                        selected: []
-                    },
-                    'set': {
-                        id: 'set',
-                        name: this.$t("Hosts['集群']"),
-                        properties: [],
-                        selected: []
-                    },
-                    'module': {
-                        id: 'module',
-                        name: this.$t("Hosts['模块']"),
-                        properties: [],
-                        selected: []
-                    },
-                    'biz': {
-                        id: 'biz',
-                        name: this.$t("Common['业务']"),
-                        properties: [],
-                        selected: []
-                    }
                 },
                 userProperties: [],
                 operatorMap: {
@@ -270,38 +245,21 @@
                 isPreviewShow: false,
                 dataCopy: {
                     name: '',
-                    userProperties: [],
-                    attributeSelectd: ''
-                }
+                    userProperties: []
+                },
+                propertySlider: {
+                    isShow: false,
+                    properties: {}
+                },
+                hasScrollbar: false
             }
         },
         computed: {
             ...mapGetters([
                 'supplierAccount'
             ]),
-            editable () {
-                if (this.type === 'update') {
-                    return this.$isAuthorized(this.$OPERATION.U_CUSTOM_QUERY)
-                }
-                return true
-            },
-            selectedName () {
-                const nameList = []
-                this.attribute.selected.map(propertyId => {
-                    const attr = this.attribute.list.find(({ bk_property_id: bkPropertyId }) => {
-                        return bkPropertyId === propertyId
-                    })
-                    if (attr) {
-                        nameList.push(attr['bk_property_name'])
-                    }
-                })
-                return nameList.join(',')
-            },
             filterList () {
                 return this.filter.allList.filter(item => {
-                    if (['foreignkey'].includes(item['bk_property_type'])) {
-                        return false
-                    }
                     return !this.userProperties.some(property => {
                         return item['bk_obj_id'] === property.objId && item['bk_property_id'] === property.propertyId
                     })
@@ -348,7 +306,7 @@
                             }]
                         })
                     } else if (property.propertyType === 'time' || property.propertyType === 'date') {
-                        const value = property['value'].split(' - ')
+                        const value = property['value']
                         param['condition'].push({
                             field: property.propertyId,
                             operator: value[0] === value[1] ? '$eq' : '$gte',
@@ -364,6 +322,12 @@
                             field: property.propertyId,
                             operator: property.operator,
                             value: property.value === 'true'
+                        })
+                    } else if (property.operator === '$multilike') {
+                        param.condition.push({
+                            field: property.propertyId,
+                            operator: property.operator,
+                            value: property.value.split('\n').filter(str => str.trim().length).map(str => str.trim())
                         })
                     } else {
                         let operator = property.operator
@@ -397,10 +361,66 @@
                     params['id'] = this.id
                 }
                 return params
+            },
+            selectedProperties () {
+                return this.userProperties.map(property => `${property.objId}-${property.propertyId}`)
+            },
+            authResources () {
+                if (this.type === 'update') {
+                    return this.$authResources({ type: this.$OPERATION.U_CUSTOM_QUERY })
+                }
+                return {}
             }
         },
-        watch: {
-            'object.host.properties' (properties) {
+        async created () {
+            await this.initObjectProperties()
+            if (this.type !== 'create') {
+                await this.getUserAPIDetail()
+            }
+            await this.initAttributeObject()
+        },
+        mounted () {
+            addResizeListener(this.$refs.queryConditions, this.handleResize)
+        },
+        beforeDestroy () {
+            removeResizeListener(this.$refs.queryConditions, this.handleResize)
+        },
+        methods: {
+            ...mapActions('objectModelProperty', [
+                'searchObjectAttribute'
+            ]),
+            ...mapActions('hostCustomApi', [
+                'getCustomQueryDetail',
+                'createCustomQuery',
+                'updateCustomQuery',
+                'deleteCustomQuery'
+            ]),
+            handleResize () {
+                this.$nextTick(() => {
+                    const scroller = this.$refs.defineBox
+                    if (scroller) {
+                        this.hasScrollbar = scroller.scrollHeight > scroller.offsetHeight
+                    }
+                })
+            },
+            isCloseConfirmShow () {
+                if (this.name !== this.dataCopy.name || this.userProperties.length !== this.dataCopy.userProperties.length) {
+                    return true
+                }
+                return this.userProperties.some((property, index) => {
+                    const propertyCopy = this.dataCopy.userProperties[index]
+                    let res = false
+                    for (const key in property) {
+                        if (JSON.stringify(property[key]) !== JSON.stringify(propertyCopy[key])) {
+                            res = true
+                            break
+                        }
+                    }
+                    return res
+                })
+            },
+            initAttributeObject () {
+                const properties = this.object.host.properties
                 let selected = []
                 const tempList = []
                 properties.map(property => {
@@ -415,44 +435,8 @@
                         tempList.push(property)
                     }
                 })
-                // this.attribute.list = tempList.concat(this.attribute.default)
                 this.attribute.list = tempList
                 this.attribute.selected = selected
-                this.dataCopy.attributeSelected = this.$tools.clone(selected)
-            }
-        },
-        async created () {
-            await this.initObjectProperties()
-            if (this.type !== 'create') {
-                await this.getUserAPIDetail()
-                this.toggleUserAPISelector(false)
-            }
-        },
-        methods: {
-            ...mapActions('objectModelProperty', [
-                'searchObjectAttribute'
-            ]),
-            ...mapActions('hostCustomApi', [
-                'getCustomQueryDetail',
-                'createCustomQuery',
-                'updateCustomQuery',
-                'deleteCustomQuery'
-            ]),
-            isCloseConfirmShow () {
-                if (this.name !== this.dataCopy.name || JSON.stringify(this.dataCopy.attributeSelected) !== JSON.stringify(this.attribute.selected) || this.userProperties.length !== this.dataCopy.userProperties.length) {
-                    return true
-                }
-                return this.userProperties.some((property, index) => {
-                    const propertyCopy = this.dataCopy.userProperties[index]
-                    let res = false
-                    for (const key in property) {
-                        if (property[key] !== propertyCopy[key]) {
-                            res = true
-                            break
-                        }
-                    }
-                    return res
-                })
             },
             async getUserAPIDetail () {
                 const res = await this.getCustomQueryDetail({
@@ -473,7 +457,7 @@
                         if (originalProperty) {
                             if (['time', 'date'].includes(originalProperty['bk_property_type']) && properties.some(({ propertyId }) => propertyId === originalProperty['bk_property_id'])) {
                                 const repeatProperty = properties.find(({ propertyId }) => propertyId === originalProperty['bk_property_id'])
-                                repeatProperty.value = [repeatProperty.value, property.value].join(' - ')
+                                repeatProperty.value = [repeatProperty.value, property.value]
                             } else {
                                 properties.push({
                                     'objId': originalProperty['bk_obj_id'],
@@ -482,24 +466,23 @@
                                     'propertyName': originalProperty['bk_property_name'],
                                     'propertyId': originalProperty['bk_property_id'],
                                     'asstObjId': originalProperty['bk_asst_obj_id'],
+                                    'unit': originalProperty['unit'],
                                     'operator': property.operator,
                                     'value': this.getUserPropertyValue(property, originalProperty)
                                 })
                             }
                         }
                     })
-                    if (condition['bk_obj_id'] === 'host') {
-                        this.attribute.selected = condition['fields']
-                    }
                 })
                 this.userProperties = properties
-                this.toggleUserAPISelector(false)
                 this.name = detail['name']
-                this.dataCopy = {
-                    name: detail['name'],
-                    userProperties: this.$tools.clone(properties),
-                    attributeSelected: this.attribute.selected
-                }
+                const timer = setTimeout(() => {
+                    this.dataCopy = {
+                        name: detail['name'],
+                        userProperties: this.$tools.clone(properties)
+                    }
+                    clearTimeout(timer)
+                })
             },
             getUserPropertyValue (property, originalProperty) {
                 if (
@@ -507,8 +490,10 @@
                     && ['bk_module_name', 'bk_set_name'].includes(originalProperty['bk_property_id'])
                 ) {
                     return property.value[property.value.length - 1]
+                } else if (property.operator === '$multilike' && Array.isArray(property.value)) {
+                    return property.value.join('\n')
                 }
-                return property.value
+                return (property.value === null || property.value === undefined) ? '' : property.value
             },
             async previewUserAPI () {
                 if (!await this.$validator.validateAll()) {
@@ -533,7 +518,7 @@
                             requestId: 'createCustomQuery'
                         }
                     })
-                    this.$success(this.$t("Common['保存成功']"))
+                    this.$success(this.$t('保存成功'))
                     this.$emit('create', res)
                 } else {
                     const res = await this.updateCustomQuery({
@@ -544,34 +529,16 @@
                             requestId: 'updateCustomQuery'
                         }
                     })
-                    this.$success(this.$t("Common['修改成功']"))
+                    this.$success(this.$t('修改成功'))
                     this.$emit('update', res)
                 }
                 this.dataCopy = {
                     name: this.name,
-                    userProperties: this.$tools.clone(this.userProperties),
-                    attributeSelected: this.attribute.selected
+                    userProperties: this.$tools.clone(this.userProperties)
                 }
             },
             closeSlider () {
                 this.$emit('cancel')
-            },
-            deleteUserAPI () {
-                this.$bkInfo({
-                    title: this.$t("CustomQuery['确认要删除']", { name: this.apiParams.name }),
-                    confirmFn: async () => {
-                        await this.deleteCustomQuery({
-                            bizId: this.bizId,
-                            id: this.id,
-                            config: {
-                                requestId: 'deleteCustomQuery'
-                            }
-                        })
-                        this.$success(this.$t("Common['删除成功']"))
-                        this.$emit('delete')
-                        this.$emit('cancel')
-                    }
-                })
             },
             deleteUserProperty (userProperty, index) {
                 this.userProperties.splice(index, 1)
@@ -644,7 +611,7 @@
                         ...property,
                         ...{
                             filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t("Hosts['主机']")}-${property['bk_property_name']}`
+                            filter_name: `${this.$t('主机')}-${property['bk_property_name']}`
                         }
                     }
                 })
@@ -653,7 +620,7 @@
                         ...property,
                         ...{
                             filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t("Hosts['集群']")}-${property['bk_property_name']}`
+                            filter_name: `${this.$t('集群')}-${property['bk_property_name']}`
                         }
                     }
                 })
@@ -662,15 +629,26 @@
                         ...property,
                         ...{
                             filter_id: `${property['bk_obj_id']}-${property['bk_property_id']}`,
-                            filter_name: `${this.$t("Hosts['模块']")}-${property['bk_property_name']}`
+                            filter_name: `${this.$t('模块')}-${property['bk_property_name']}`
                         }
                     }
                 })
                 this.filter.allList = [...hostList, ...setList, ...moduleList]
-                this.object['host']['properties'] = res[0].filter(property => !property['bk_isapi'])
-                this.object['set']['properties'] = res[1].filter(property => !property['bk_isapi'])
-                this.object['module']['properties'] = res[2].filter(property => !property['bk_isapi'])
-                this.object['biz']['properties'] = res[3].filter(property => !property['bk_isapi'])
+                const propertyMap = {}
+                this.filter.allList.forEach(item => {
+                    if (propertyMap.hasOwnProperty(item['bk_obj_id'])) {
+                        propertyMap[item['bk_obj_id']].push({
+                            ...item,
+                            __selected__: false
+                        })
+                    } else {
+                        propertyMap[item['bk_obj_id']] = [{
+                            ...item,
+                            __selected__: false
+                        }]
+                    }
+                })
+                this.propertySlider.properties = propertyMap
             },
             /* 通过选择的propertyId, 查找其对应的对象，以获得更多信息 */
             getOriginalProperty (bkPropertyId, bkObjId) {
@@ -689,38 +667,65 @@
                 }
                 return property
             },
-            addUserProperties (key, property) {
-                const {
-                    'bk_property_id': propertyId,
-                    'bk_property_name': propertyName,
-                    'bk_property_type': propertyType,
-                    'bk_asst_obj_id': asstObjId,
-                    'bk_obj_id': objId
-                } = property
-                this.userProperties.push({
-                    objId,
-                    propertyId,
-                    propertyType,
-                    propertyName,
-                    objName: this.object[objId].name,
-                    asstObjId,
-                    operator: this.operatorMap.hasOwnProperty(propertyType) ? this.operatorMap[propertyType] : '',
-                    value: ''
-                })
-            },
-            toggleContentSelector (isShow) {
-                if (this.editable) {
-                    this.$refs.content.open = isShow
-                    this.attribute.isShow = isShow
+            addUserProperties () {
+                const propertySeletorElm = this.$refs.propertySeletor
+                const hasChanged = propertySeletorElm.hasChanged
+                if (!hasChanged) {
+                    this.handleHideQueryCondition()
+                    return
                 }
-            },
-            toggleUserAPISelector (isPropertiesShow) {
-                this.filter.isShow = isPropertiesShow
-                if (isPropertiesShow) {
-                    this.$nextTick(() => {
-                        this.$refs.propertySelector.open = isPropertiesShow
+                const addPropertyList = propertySeletorElm.addPropertyList
+                const removePropertyList = propertySeletorElm.removePropertyList
+                this.userProperties = this.userProperties.filter(property => !removePropertyList.includes(`${property.objId}-${property.propertyId}`))
+                for (let i = 0; i < addPropertyList.length; i++) {
+                    const {
+                        'bk_property_id': propertyId,
+                        'bk_property_name': propertyName,
+                        'bk_property_type': propertyType,
+                        'bk_asst_obj_id': asstObjId,
+                        'bk_obj_id': objId,
+                        unit
+                    } = this.filterList.find(property => property.filter_id === addPropertyList[i].filter_id)
+                    this.userProperties.push({
+                        objId,
+                        propertyId,
+                        propertyType,
+                        propertyName,
+                        objName: this.object[objId].name,
+                        asstObjId,
+                        unit,
+                        operator: this.operatorMap.hasOwnProperty(propertyType) ? this.operatorMap[propertyType] : '',
+                        value: ''
                     })
                 }
+                this.handleHideQueryCondition()
+            },
+            handleAddQueryCondition () {
+                this.propertySlider.isShow = true
+            },
+            handleHideQueryCondition () {
+                this.propertySlider.isShow = false
+            },
+            handleBeforeClose () {
+                const hasChanged = this.$refs.propertySeletor.hasChanged
+                if (hasChanged) {
+                    return new Promise((resolve, reject) => {
+                        this.$bkInfo({
+                            title: this.$t('确认退出'),
+                            subTitle: this.$t('退出会导致未保存信息丢失'),
+                            extCls: 'bk-dialog-sub-header-center',
+                            confirmFn: () => {
+                                this.handleHideQueryCondition()
+                                resolve(true)
+                            },
+                            cancelFn: () => {
+                                resolve(false)
+                            }
+                        })
+                    })
+                }
+                this.handleHideQueryCondition()
+                return true
             }
         }
     }
@@ -728,236 +733,131 @@
 
 <style lang="scss" scoped>
     .define-wrapper {
-        padding: 30px 15px 30px 30px;
         height: 100%;
         .define-box {
-            height: 100%;
-            @include scrollbar;
+            max-height: calc(100% - 55px);
+            padding: 18px 20px;
+            overflow: auto;
         }
         .userapi-group {
-            margin-bottom: 15px;
-            width: 370px;
-            &.content {
-                margin-bottom: 30px;
-            }
+            margin-bottom: 20px;
+            width: 100%;
+            font-size: 14px;
             .userapi-label {
                 display: block;
                 margin-bottom: 5px;
             }
-            .userapi-content-display {
-                position: relative;
-                .text-content {
-                    border-radius: 2px;
-                    border: 1px solid $cmdbBorderColor;
-                    padding: 0 28px 0 16px;
-                    height: 32px;
-                    line-height: 30px;
-                    overflow: hidden;
-                    &.open {
-                        padding: 5px 28px 5px 16px;
-                        height: auto;
-                        line-height: 20px;
-                        overflow: visible;
-                        border-color: $cmdbBorderFocusColor;
-                        .icon-angle-down {
-                            color: $cmdbBorderFocusColor;
-                            transform: rotate(180deg);
-                        }
-                    }
-                    &.disabled {
-                        background-color: #fafafa;
-                        color: #aaa;
-                        cursor: not-allowed;
-                    }
-                    .default-name {
-                        color: $cmdbBorderColor;
-                    }
+            .business-selector {
+                width: 100%;
+            }
+        }
+        .query-conditons {
+            .query-title {
+                font-size: 14px;
+                span {
+                    color: #63656e;
+                    font-weight: bold;
                 }
-                .userapi-content-display-mask {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    width: 100%;
-                    height: 100%;
+                .icon-cc-tips {
+                    color: #979ba5;
                 }
-                .icon-angle-down {
-                    position: absolute;
-                    right: 8px;
-                    top: 8px;
-                    font-size: 12px;
-                    transition: transform .2s linear;
+            }
+            .add-conditon-btn {
+                margin: 10px 0 0 0;
+                /deep/ .icon-plus-circle {
+                    font-size: 16px;
+                    margin: -2px 2px 0 0;
                 }
             }
         }
         .userapi-list {
-            width: 370px;
+            font-size: 14px;
             .filter-label {
                 display: block;
                 margin-top: 20px;
                 line-height: 1;
             }
+            .filter-main {
+                position: relative;
+                .error-tips {
+                    color: #ff5656;
+                }
+            }
             .filter-content {
+                display: flex;
                 margin-top: 10px;
-                width: 100%;
-                &.disabled {
-                    .filter-field-value {
-                        width: 273px;
+                &:hover {
+                    .userapi-delete {
+                        opacity: 1;
                     }
                 }
                 .content-right {
                     margin-left: 97px;
                 }
                 .filter-field-operator {
-                    width: 87px;
+                    flex: 110px 0 0;
                     margin-right: 10px;
                 }
                 .filter-field-value {
-                    width: 237px;
-                    &.filter-field-time,
-                    &.filter-field-date {
-                        width: 334px;
+                    flex: 1;
+                    width: 0;
+                    &.cmdb-search-input {
+                        /deep/ .search-input-wrapper {
+                            z-index: var(--index);
+                        }
+                    }
+                    &.filter-field-objuser {
+                        /deep/ .suggestion-list {
+                            z-index: 100 !important;
+                        }
                     }
                 }
                 .userapi-delete {
-                    margin: 11px 12px 0 0;
-                    color: #c3cdd7;
+                    width: 32px;
+                    height: 32px;
+                    line-height: 32px;
+                    text-align: center;
+                    font-size: 16px;
+                    color: #C4C6CC;
                     cursor: pointer;
-                }
-            }
-        }
-        .userapi-new{
-            width: 370px;
-            margin-top: 20px;
-            font-size: 14px;
-            .userapi-new-btn{
-                width: 100%;
-                height: 32px;
-                background-color: #ffffff;
-                border-radius: 2px;
-                border: 1px dashed #c3cdd7;
-                outline: 0;
-                color: $cmdbBorderFocusColor;
-                &:hover{
-                    box-shadow: 0px 3px 6px 0px rgba(51, 60, 72, 0.1);
-                }
-                &:disabled {
-                    background-color: #fafafa;
-                    color: #aaa;
-                    cursor: not-allowed;
-                }
-            }
-            .userapi-new-mask {
-                position: absolute;
-                left: 0;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                width: 100%;
-                height: 100%;
-            }
-            .userapi-pop-wrapper {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 99;
-            }
-            .userapi-new-selector-pop {
-                position: absolute;
-                top: calc(50% - 218px);
-                right: 30px;
-                padding: 30px;
-                width: 370px;
-                background: #fff;
-                box-shadow: 0px 3px 6px 0.12px rgba(175, 177, 180, 0.61);
-                border: 1px solid #fff;
-                border-image: linear-gradient(#f5f5f5, #d2d4d9) 30 30;
-                .pop-title {
-                    margin-bottom: 20px;
-                    line-height: 1;
-                }
-                .btn-wrapper {
-                    margin-top: 20px;
-                    text-align: right;
-                    .bk-button {
-                        min-width: 110px;
-                        height: 34px;
-                        line-height: 32px;
-                        &:first-child {
-                            margin-right: 10px;
-                        }
+                    opacity: 0;
+                    &:hover {
+                        color: #7d8088;
                     }
                 }
             }
         }
         .userapi-btn-group {
             position: sticky;
-            margin-top: 30px;
             bottom: 0;
-            left: 0;
-            background: #fff;
-            line-height: 36px;
-            height: 37px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
             font-size: 0;
+            padding-left: 10px;
+            &.sticky {
+                border-top: 1px solid #dcdee5;
+                width: 100%;
+                height: 54px;
+                line-height: 54px;
+            }
             .bk-button {
-                margin-right: 10px;
+                margin-left: 10px;
             }
             .button-delete {
                 background-color: #fff;
                 color: #ff5656;
+                &:disabled {
+                    color: #dcdee5;
+                }
             }
         }
     }
-</style>
-
-<style lang="scss">
-    .api-wrapper {
-        .define-wrapper {
-            .userapi-new {
-                position: relative;
-                .userapi-new-selector {
-                    position: absolute;
-                    left: 0;
-                    bottom: 32px;
-                }
-                .bk-selector-wrapper {
-                    display: none;
-                }
-                .bk-selector-list {
-                    top: 36px;
-                    left: 1px;
-                }
-            }
-            .userapi-new-selector-wrapper {
-                .bk-selector-wrapper {
-                    display: none;
-                }
-                .bk-selector-list {
-                    display: block !important;
-                    position: static;
-                    margin-top: 5px;
-                    z-index: 1;
-                    box-shadow: none;
-                    border: solid 1px $cmdbFnMainColor;
-                }
-            }
-            .userapi-content-display {
-                .userapi-content-selector {
-                    position: absolute;
-                    left: 0;
-                    bottom: 32px;
-                }
-                .bk-selector-wrapper {
-                    display: none;
-                }
-                .bk-selector-list {
-                    top: 36px;
-                    left: 1px;
-                }
-            }
+    .property-btn-group {
+        font-size: 0;
+        padding: 0 20px;
+        /deep/ .bk-button {
+            margin: 0 10px 0 0;
         }
     }
 </style>

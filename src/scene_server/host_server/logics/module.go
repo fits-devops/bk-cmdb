@@ -15,9 +15,12 @@ package logics
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"configcenter/src/common"
 	"configcenter/src/common/blog"
+	"configcenter/src/common/condition"
 	"configcenter/src/common/errors"
 	"configcenter/src/common/mapstr"
 	types "configcenter/src/common/mapstr"
@@ -27,7 +30,7 @@ import (
 	hutil "configcenter/src/scene_server/host_server/util"
 )
 
-func (lgc *Logics) GetResoulePoolModuleID(ctx context.Context, condition mapstr.MapStr) (int64, errors.CCError) {
+func (lgc *Logics) GetResourcePoolModuleID(ctx context.Context, condition mapstr.MapStr) (int64, errors.CCError) {
 	query := &metadata.QueryCondition{
 		Limit:     metadata.SearchLimit{Offset: 0, Limit: 1},
 		SortArr:   metadata.NewSearchSortParse().String(common.BKModuleIDField).ToSearchSortArr(),
@@ -36,16 +39,16 @@ func (lgc *Logics) GetResoulePoolModuleID(ctx context.Context, condition mapstr.
 	}
 	result, err := lgc.CoreAPI.CoreService().Instance().ReadInstance(ctx, lgc.header, common.BKInnerObjIDModule, query)
 	if err != nil {
-		blog.Errorf("GetResoulePoolModuleID http do error, err:%s,input:%+v,rid:%s", err.Error(), query, lgc.rid)
+		blog.Errorf("GetResourcePoolModuleID http do error, err:%s,input:%+v,rid:%s", err.Error(), query, lgc.rid)
 		return -1, lgc.ccErr.Error(common.CCErrCommHTTPDoRequestFailed)
 	}
 	if !result.Result {
-		blog.Errorf("GetResoulePoolModuleID http reponse error, err code:%d, err msg:%s,input:%+v,rid:%s", result.Code, result.ErrMsg, query, lgc.rid)
+		blog.Errorf("GetResourcePoolModuleID http reponse error, err code:%d, err msg:%s,input:%+v,rid:%s", result.Code, result.ErrMsg, query, lgc.rid)
 		return -1, lgc.ccErr.New(result.Code, result.ErrMsg)
 	}
 
 	if len(result.Data.Info) == 0 {
-		blog.Errorf("GetResoulePoolModuleID http reponse error, err code:%d, err msg:%s,input:%+v,rid:%s", result.Code, result.ErrMsg, query, lgc.rid)
+		blog.Errorf("GetResourcePoolModuleID http reponse error, err code:%d, err msg:%s,input:%+v,rid:%s", result.Code, result.ErrMsg, query, lgc.rid)
 		return -1, lgc.ccErr.Error(common.CCErrTopoGetAppFailed)
 	}
 
@@ -75,7 +78,10 @@ func (lgc *Logics) GetNormalModuleByModuleID(ctx context.Context, appID, moduleI
 
 func (lgc *Logics) GetModuleIDByCond(ctx context.Context, cond []metadata.ConditionItem) ([]int64, errors.CCError) {
 	condc := make(map[string]interface{})
-	parse.ParseCommonParams(cond, condc)
+	if err := parse.ParseCommonParams(cond, condc); err != nil {
+		blog.Errorf("ParseCommonParams failed, err: %+v, rid: %s", err, lgc.rid)
+		return nil, lgc.ccErr.Errorf(common.CCErrCommUtilHandleFail, "parse condition", err.Error())
+	}
 
 	query := &metadata.QueryCondition{
 		Limit:     metadata.SearchLimit{Offset: 0, Limit: common.BKNoLimit},
@@ -99,7 +105,7 @@ func (lgc *Logics) GetModuleIDByCond(ctx context.Context, cond []metadata.Condit
 		moduleID, err := i.Int64(common.BKModuleIDField)
 		if err != nil {
 			blog.Errorf("GetModuleIDByCond convert  module id to int error, err:%s, module:%+v,input:%+v,rid:%s", err.Error(), i, query, lgc.rid)
-			return nil, lgc.ccErr.Errorf(common.CCErrCommInstFieldConvFail, common.BKInnerObjIDModule, common.BKModuleIDField, "int", err.Error())
+			return nil, lgc.ccErr.Errorf(common.CCErrCommInstFieldConvertFail, common.BKInnerObjIDModule, common.BKModuleIDField, "int", err.Error())
 		}
 		moduleIDArr = append(moduleIDArr, moduleID)
 	}
@@ -130,7 +136,7 @@ func (lgc *Logics) GetModuleMapByCond(ctx context.Context, fields []string, cond
 		id, err := info.Int64(common.BKModuleIDField)
 		if err != nil {
 			blog.Errorf("GetModuleMapByCond convert  module id to int error, err:%s, module:%+v,input:%+v,rid:%s", err.Error(), info, query, lgc.rid)
-			return nil, lgc.ccErr.Errorf(common.CCErrCommInstFieldConvFail, common.BKInnerObjIDModule, common.BKModuleIDField, "int", err.Error())
+			return nil, lgc.ccErr.Errorf(common.CCErrCommInstFieldConvertFail, common.BKInnerObjIDModule, common.BKModuleIDField, "int", err.Error())
 		}
 		moduleMap[id] = info
 	}
@@ -138,6 +144,7 @@ func (lgc *Logics) GetModuleMapByCond(ctx context.Context, fields []string, cond
 	return moduleMap, nil
 }
 
+//
 func (lgc *Logics) MoveHostToResourcePool(ctx context.Context, conf *metadata.DefaultModuleHostConfigParams) ([]metadata.ExceptionResult, error) {
 
 	ownerAppID, err := lgc.GetDefaultAppID(ctx)
@@ -152,41 +159,42 @@ func (lgc *Logics) MoveHostToResourcePool(ctx context.Context, conf *metadata.De
 		return nil, lgc.ccErr.Errorf(common.CCErrHostBelongResourceFail)
 	}
 	owenerModuleIDconds := hutil.NewOperation().WithDefaultField(int64(common.DefaultResModuleFlag)).WithModuleName(common.DefaultResModuleName).WithAppID(ownerAppID)
-	ownerModuleID, err := lgc.GetResoulePoolModuleID(ctx, owenerModuleIDconds.MapStr())
+	ownerModuleID, err := lgc.GetResourcePoolModuleID(ctx, owenerModuleIDconds.MapStr())
 	if err != nil {
 		blog.Errorf("move host to resource pool, but get module id failed, err: %v, input:%+v,param:%+v,rid:%s", err, conf, owenerModuleIDconds.Data(), lgc.rid)
 		return nil, err
 	}
 
 	conds := hutil.NewOperation().WithDefaultField(int64(common.DefaultResModuleFlag)).WithModuleName(common.DefaultResModuleName).WithAppID(conf.ApplicationID)
-	moduleID, err := lgc.GetResoulePoolModuleID(ctx, conds.MapStr())
+	moduleID, err := lgc.GetResourcePoolModuleID(ctx, conds.MapStr())
 	if err != nil {
 		blog.Errorf("move host to resource pool, but get module id failed, err: %v, input:%+v,param:%+v,rid:%s", err, conf, conds.Data(), lgc.rid)
 		return nil, err
 	}
-	errHostID, err := lgc.notExistAppModuleHost(ctx, conf.ApplicationID, moduleID, conf.HostID)
+	errHostID, err := lgc.notExistAppModuleHost(ctx, conf.ApplicationID, moduleID, conf.HostIDs)
 	if err != nil {
 		blog.Errorf("move host to resource pool, notExistAppModuleHost error, err: %v, owneAppID: %d, input:%#v, rid:%s", err, ownerAppID, conf, lgc.rid)
 		return nil, err
 	}
 	if len(errHostID) > 0 {
-		blog.Errorf("move host to resource pool, notExistAppModuleHost error, has host not belong to idle module , owneAppID: %d, input:%#v, rid:%s", ownerAppID, conf, lgc.rid)
-		return nil, lgc.ccErr.Errorf(common.CCErrHostNotBelongIDLEModuleErr, util.Int64Join(errHostID, ","))
+		errHostIP := lgc.convertHostIDToHostIP(ctx, errHostID)
+		blog.Errorf("move host to resource pool, notExistAppModuleHost error, has host not belong to idle module , owneAppID: %d, input:%#v, err host inner ip:%#v, rid:%s", ownerAppID, conf, errHostIP, lgc.rid)
+		return nil, lgc.ccErr.Errorf(common.CCErrHostNotBelongIDLEModuleErr, util.PrettyIPStr(errHostIP))
 	}
 
 	param := &metadata.TransferHostsCrossBusinessRequest{
 		SrcApplicationID: conf.ApplicationID,
-		HostIDArr:        conf.HostID,
+		HostIDArr:        conf.HostIDs,
 		DstApplicationID: ownerAppID,
 		DstModuleIDArr:   []int64{ownerModuleID},
 	}
 
-	audit := lgc.NewHostModuleLog(conf.HostID)
+	audit := lgc.NewHostModuleLog(conf.HostIDs)
 	if err := audit.WithPrevious(ctx); err != nil {
 		blog.Errorf("move host to resource pool, but get prev module host config failed, err: %v, input:%+v,rid:%s", err, conf, lgc.rid)
 		return nil, lgc.ccErr.Errorf(common.CCErrCommResourceInitFailed, "audit server")
 	}
-	result, err := lgc.CoreAPI.CoreService().Host().TransferHostCrossBusiness(ctx, lgc.header, param)
+	result, err := lgc.CoreAPI.CoreService().Host().TransferToAnotherBusiness(ctx, lgc.header, param)
 	if err != nil {
 		blog.Errorf("move host to resource pool, but update host module http do error, err: %v, input:%#v,params:%#v,rid:%v", err, conf, param, lgc.rid)
 		return nil, lgc.ccErr.Error(common.CCErrCommHTTPDoRequestFailed)
@@ -206,7 +214,7 @@ func (lgc *Logics) MoveHostToResourcePool(ctx context.Context, conf *metadata.De
 		businessMetadata.Label = make(metadata.Label)
 	}
 	businessMetadata.Label.SetBusinessID(conf.ApplicationID)
-	if err := lgc.DeleteHostBusinessAttributes(ctx, conf.HostID, &businessMetadata); err != nil {
+	if err := lgc.DeleteHostBusinessAttributes(ctx, conf.HostIDs, &businessMetadata); err != nil {
 		blog.Errorf("move host to resource pool, delete host bussiness private, err: %v, input:%+v,rid:%s", err, conf, lgc.rid)
 		return nil, lgc.ccErr.Errorf(common.CCErrCommResourceInitFailed, "audit server")
 	}
@@ -232,7 +240,7 @@ func (lgc *Logics) notExistAppModuleHost(ctx context.Context, appID, moduleID in
 		return nil, lgc.ccErr.New(hmResult.Code, hmResult.ErrMsg)
 	}
 	hostIDMap := make(map[int64]bool, 0)
-	for _, row := range hmResult.Data {
+	for _, row := range hmResult.Data.Info {
 		hostIDMap[row.HostID] = true
 	}
 	var errHostIDArr []int64
@@ -273,7 +281,7 @@ func (lgc *Logics) AssignHostToApp(ctx context.Context, conf *metadata.DefaultMo
 	}
 
 	conds := hutil.NewOperation().WithDefaultField(int64(common.DefaultResModuleFlag)).WithModuleName(common.DefaultResModuleName).WithAppID(ownerAppID)
-	ownerModuleID, err := lgc.GetResoulePoolModuleID(ctx, conds.MapStr())
+	ownerModuleID, err := lgc.GetResourcePoolModuleID(ctx, conds.MapStr())
 	if err != nil {
 		blog.Errorf("assign host to app, but get module id failed, err: %v,input:%+v,rid:%s", err, conds.MapStr(), lgc.rid)
 		return nil, err
@@ -282,18 +290,19 @@ func (lgc *Logics) AssignHostToApp(ctx context.Context, conf *metadata.DefaultMo
 		blog.Errorf("assign host to app, but get module id failed, err: %v,input:%+v,rid:%s", err, conds.MapStr(), lgc.rid)
 		return nil, lgc.ccErr.Errorf(common.CCErrHostModuleNotExist, common.DefaultResModuleName)
 	}
-	errHostID, err := lgc.notExistAppModuleHost(ctx, ownerAppID, ownerModuleID, conf.HostID)
+	errHostID, err := lgc.notExistAppModuleHost(ctx, ownerAppID, ownerModuleID, conf.HostIDs)
 	if err != nil {
 		blog.Errorf("move host to resource pool, notExistAppModuleHost error, err: %v, input:%+v, rid:%s", err, conf, lgc.rid)
 		return nil, err
 	}
 	if len(errHostID) > 0 {
+		errHostIP := lgc.convertHostIDToHostIP(ctx, errHostID)
 		blog.Errorf("move host to resource pool, notExistAppModuleHost error, has host not belong to idle module , input:%+v, rid:%s", conf, lgc.rid)
-		return nil, lgc.ccErr.Errorf(common.CCErrHostNotBelongIDLEModuleErr, util.Int64Join(errHostID, ","))
+		return nil, lgc.ccErr.Errorf(common.CCErrHostNotBelongIDLEModuleErr, strings.Join(errHostIP, ","))
 	}
 
 	mConds := hutil.NewOperation().WithDefaultField(int64(common.DefaultResModuleFlag)).WithModuleName(common.DefaultResModuleName).WithAppID(conf.ApplicationID)
-	moduleID, err := lgc.GetResoulePoolModuleID(ctx, mConds.MapStr())
+	moduleID, err := lgc.GetResourcePoolModuleID(ctx, mConds.MapStr())
 	if err != nil {
 		blog.Errorf("assign host to app, but get module id failed, err: %v,input:%+v,params:%+v,rid:%s", err, conf, mConds.MapStr(), lgc.rid)
 		return nil, err
@@ -306,14 +315,16 @@ func (lgc *Logics) AssignHostToApp(ctx context.Context, conf *metadata.DefaultMo
 	assignParams := &metadata.TransferHostsCrossBusinessRequest{
 		SrcApplicationID: ownerAppID,
 		DstApplicationID: conf.ApplicationID,
-		HostIDArr:        conf.HostID,
+		HostIDArr:        conf.HostIDs,
 		DstModuleIDArr:   []int64{moduleID},
 	}
 
-	audit := lgc.NewHostModuleLog(conf.HostID)
-	audit.WithPrevious(ctx)
+	audit := lgc.NewHostModuleLog(conf.HostIDs)
+	if err := audit.WithPrevious(ctx); err != nil {
+		blog.Warnf("WithPrevious failed, err: %+v, rid: %s", err, lgc.rid)
+	}
 
-	result, err := lgc.CoreAPI.CoreService().Host().TransferHostCrossBusiness(ctx, lgc.header, assignParams) //.AssignHostToApp(ctx, srvData.header, params)
+	result, err := lgc.CoreAPI.CoreService().Host().TransferToAnotherBusiness(ctx, lgc.header, assignParams) //.AssignHostToApp(ctx, srvData.header, params)
 	if err != nil {
 		blog.Errorf("assign host to app, but assign to app http do error. err: %v, input:%+v,param:%+v,rid:%s", err, conf, assignParams, lgc.rid)
 		return nil, lgc.ccErr.Error(common.CCErrHostEditRelationPoolFail)
@@ -329,4 +340,57 @@ func (lgc *Logics) AssignHostToApp(ctx context.Context, conf *metadata.DefaultMo
 	}
 
 	return nil, nil
+}
+
+// convertHostIDToHostIP  该方法为专用方法。出现任何错误都会被忽略。
+// 尝试将主机ID转换为内网IP，如果转换中出现问题返回主机ID。
+func (lgc *Logics) convertHostIDToHostIP(ctx context.Context, hostIDArr []int64) []string {
+
+	if len(hostIDArr) == 0 {
+		return nil
+	}
+	cond := condition.CreateCondition()
+	cond.Field(common.BKHostIDField).In(hostIDArr)
+	input := &metadata.QueryCondition{
+		Condition: cond.ToMapStr(),
+		Fields:    []string{common.BKHostIDField, common.BKHostInnerIPField},
+	}
+
+	// 找不到主机ID对应的IP， 返回主机ID
+	hostIDIPMap := make(map[int64]string, 0)
+	for _, hostID := range hostIDArr {
+		hostIDIPMap[hostID] = strconv.FormatInt(hostID, 10)
+	}
+
+	result, err := lgc.CoreAPI.
+		CoreService().
+		Instance().
+		ReadInstance(ctx, lgc.header, common.BKInnerObjIDHost, input)
+	if err != nil {
+		blog.Warnf("convertHostIDToHostIP http do error. err:%s, input:%#v, rid:%s", err.Error(), input, lgc.rid)
+	}
+	if !result.Result {
+		blog.Warnf("convertHostIDToHostIP http response error. result:%#v, input:%#v, rid:%s", result, input, lgc.rid)
+	}
+	for _, host := range result.Data.Info {
+		hostID, err := host.Int64(common.BKHostIDField)
+		if err != nil {
+			// can't not foud host id , skip
+			blog.Warnf("convertHostIDToHostIP convert host id to int64 error. err:%s, host:%#v, input:%#v, rid:%s", err.Error(), host, input, lgc.rid)
+			continue
+		}
+		innerIP, err := host.String(common.BKHostInnerIPField)
+		if err != nil {
+			// can't not foud host inner ip , skip
+			blog.Warnf("convertHostIDToHostIP convert host inner ip to string error. err:%s, host:%#v, input:%#v, rid:%s", err.Error(), host, input, lgc.rid)
+			continue
+		}
+		hostIDIPMap[hostID] = innerIP
+	}
+	var ips []string
+	for _, ip := range hostIDIPMap {
+		ips = append(ips, ip)
+	}
+
+	return ips
 }

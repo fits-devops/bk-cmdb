@@ -22,8 +22,11 @@ import (
 	"sync/atomic"
 
 	"configcenter/src/common"
+	"configcenter/src/common/errors"
 	"configcenter/src/storage/dal"
+
 	"github.com/emicklei/go-restful"
+	"github.com/gin-gonic/gin"
 	"github.com/rs/xid"
 )
 
@@ -74,6 +77,33 @@ func ExtractRequestIDFromContext(ctx context.Context) string {
 	return ""
 }
 
+func ExtractOwnerFromContext(ctx context.Context) string {
+	if ctx == nil {
+		return ""
+	}
+	owner := ctx.Value(common.ContextRequestOwnerField)
+	ownerValue, ok := owner.(string)
+	if ok == true {
+		return ownerValue
+	}
+	return ""
+}
+
+func NewContextFromGinContext(c *gin.Context) context.Context {
+	return NewContextFromHTTPHeader(c.Request.Header)
+}
+
+func NewContextFromHTTPHeader(header http.Header) context.Context {
+	rid := GetHTTPCCRequestID(header)
+	user := GetUser(header)
+	owner := GetOwnerID(header)
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, common.ContextRequestIDField, rid)
+	ctx = context.WithValue(ctx, common.ContextRequestUserField, user)
+	ctx = context.WithValue(ctx, common.ContextRequestOwnerField, owner)
+	return ctx
+}
+
 func ExtractRequestUserFromContext(ctx context.Context) string {
 	if ctx == nil {
 		return ""
@@ -109,12 +139,15 @@ func GetHTTPCCTransaction(header http.Header) string {
 func GetDBContext(parent context.Context, header http.Header) context.Context {
 	rid := header.Get(common.BKHTTPCCRequestID)
 	user := GetUser(header)
+	owner := GetOwnerID(header)
 	ctx := context.WithValue(parent, common.CCContextKeyJoinOption, dal.JoinOption{
 		RequestID: rid,
 		TxnID:     header.Get(common.BKHTTPCCTransactionID),
+		TMAddr:    header.Get(common.BKHTTPCCTxnTMServerAddr),
 	})
 	ctx = context.WithValue(ctx, common.ContextRequestIDField, rid)
 	ctx = context.WithValue(ctx, common.ContextRequestUserField, user)
+	ctx = context.WithValue(ctx, common.ContextRequestOwnerField, owner)
 	return ctx
 }
 
@@ -180,4 +213,23 @@ func Int64Join(data []int64, separator string) string {
 		ret += strconv.FormatInt(item, 10) + separator
 	}
 	return strings.Trim(ret, separator)
+}
+
+// BuildMongoField build mongodb sub item field key
+func BuildMongoField(key ...string) string {
+	return strings.Join(key, ".")
+}
+
+// BuildMongoSyncItemField build mongodb sub item synchronize field key
+func BuildMongoSyncItemField(key string) string {
+	return BuildMongoField(common.MetadataField, common.MetaDataSynchronizeField, key)
+}
+
+func GetDefaultCCError(header http.Header) errors.DefaultCCErrorIf {
+	globalCCError := errors.GetGlobalCCError()
+	if globalCCError == nil {
+		return nil
+	}
+	language := GetLanguage(header)
+	return globalCCError.CreateDefaultCCErrorIf(language)
 }

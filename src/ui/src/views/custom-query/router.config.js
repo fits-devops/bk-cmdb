@@ -1,40 +1,36 @@
 import Meta from '@/router/meta'
-import { NAV_BUSINESS_RESOURCE } from '@/dictionary/menu'
+import { MENU_BUSINESS, MENU_BUSINESS_CUSTOM_QUERY } from '@/dictionary/menu-symbol'
 import {
     C_CUSTOM_QUERY,
     U_CUSTOM_QUERY,
     D_CUSTOM_QUERY,
-    R_CUSTOM_QUERY
+    R_CUSTOM_QUERY,
+    GET_AUTH_META
 } from '@/dictionary/auth'
 
-export const OPERATION = {
-    R_CUSTOM_QUERY,
-    C_CUSTOM_QUERY,
-    U_CUSTOM_QUERY,
-    D_CUSTOM_QUERY
-}
-
-const path = '/custom-query'
-
 export default {
-    name: 'customQuery',
-    path: path,
+    name: MENU_BUSINESS_CUSTOM_QUERY,
+    path: 'custom-query',
     component: () => import('./index.vue'),
     meta: new Meta({
+        owner: MENU_BUSINESS,
         menu: {
-            id: 'customQuery',
-            i18n: 'Nav["动态分组"]',
-            path: path,
-            order: 4,
-            parent: NAV_BUSINESS_RESOURCE,
-            adminView: false
+            i18n: '动态分组'
         },
         auth: {
-            operation: Object.values(OPERATION),
-            setAuthScope () {
-                this.authScope = 'business'
+            view: (to, app) => {
+                const bizId = app.$store.getters['objectBiz/bizId']
+                return {
+                    bk_biz_id: bizId,
+                    ...GET_AUTH_META(R_CUSTOM_QUERY)
+                }
+            },
+            operation: {
+                C_CUSTOM_QUERY,
+                U_CUSTOM_QUERY,
+                D_CUSTOM_QUERY,
+                R_CUSTOM_QUERY
             }
-        },
-        requireBusiness: true
+        }
     })
 }

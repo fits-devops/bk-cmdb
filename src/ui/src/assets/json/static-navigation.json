@@ -41,7 +41,7 @@
         "classificationId": "bk_business_resource",
         "order": 3,
         "children": [{
-            "i18n": "Nav['主机查询']",
+            "i18n": "Nav['业务主机']",
             "path": "/hosts",
             "id": "host",
             "icon": "icon-cc-host",
@@ -102,6 +102,13 @@
             "path": "/auditing",
             "id": "audit",
             "name": "操作审计",
+            "authorized": true,
+            "classificationId": "bk_audit_analysis"
+        }, {
+            "i18n": "Nav['统计报表']",
+            "path": "/statistics",
+            "id": "statistics",
+            "name": "统计报表",
             "authorized": true,
             "classificationId": "bk_audit_analysis"
         }]

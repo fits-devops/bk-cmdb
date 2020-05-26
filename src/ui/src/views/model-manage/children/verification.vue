@@ -1,63 +1,76 @@
 <template>
     <div class="verification-layout">
-        <span class="inline-block-middle"
-            v-if="!isTopoModel"
-            v-cursor="{
-                active: !$isAuthorized($OPERATION.U_MODEL),
-                auth: [$OPERATION.U_MODEL]
-            }">
-            <bk-button class="create-btn" type="primary"
-                :disabled="isReadOnly || !updateAuth"
-                @click="createVerification">
-                {{$t('ModelManagement["新建校验"]')}}
-            </bk-button>
-        </span>
-        <cmdb-table
+        <div class="options">
+            <cmdb-auth class="inline-block-middle"
+                v-if="!isTopoModel"
+                :auth="$authResources({ resource_id: modelId, type: $OPERATION.U_MODEL })"
+                @update-auth="handleReceiveAuth">
+                <bk-button slot-scope="{ disabled }"
+                    class="create-btn"
+                    theme="primary"
+                    :disabled="isReadOnly || disabled"
+                    @click="createVerification">
+                    {{$t('新建校验')}}
+                </bk-button>
+            </cmdb-auth>
+        </div>
+        <bk-table
             class="verification-table"
-            :loading="$loading(['searchObjectUniqueConstraints', 'deleteObjectUniqueConstraints'])"
-            :sortable="false"
-            :header="table.header"
-            :list="table.list"
-            :pagination.sync="table.pagination"
-            :wrapper-minus-height="220">
-            <template v-for="(header, index) in table.header" :slot="header.id" slot-scope="{ item }">
-                <div :key="index" :class="{ 'disabled': isReadOnly }">
-                    <template v-if="header.id === 'keys'">
-                        {{getRuleName(item.keys)}}
-                    </template>
-                    <template v-else-if="header.id === 'must_check'">
-                        {{item['must_check'] ? $t('ModelManagement["是"]') : $t('ModelManagement["否"]')}}
-                    </template>
-                    <template v-else-if="header.id === 'operation'">
-                        <button class="text-primary mr10"
-                            :disabled="!isEditable(item)"
-                            @click.stop="editVerification(item)">
-                            {{$t('Common["编辑"]')}}
-                        </button>
-                        <button class="text-primary"
-                            :disabled="!isEditable(item)"
-                            @click.stop="deleteVerification(item)">
-                            {{$t('Common["删除"]')}}
-                        </button>
-                    </template>
-                </div>
-            </template>
-        </cmdb-table>
-        <cmdb-slider
+            v-bkloading="{
+                isLoading: $loading(['searchObjectUniqueConstraints', 'deleteObjectUniqueConstraints'])
+            }"
+            :data="table.list"
+            :max-height="$APP.height - 220"
+            :row-style="{
+                cursor: 'pointer'
+            }"
+            @cell-click="handleShowDetails">
+            <bk-table-column :label="$t('校验规则')" class-name="is-highlight" show-overflow-tooltip>
+                <template slot-scope="{ row }">
+                    {{getRuleName(row.keys)}}
+                </template>
+            </bk-table-column>
+            <bk-table-column :label="$t('属性为空值是否校验')">
+                <template slot-scope="{ row }">
+                    {{row.must_check ? $t('是') : $t('否')}}
+                </template>
+            </bk-table-column>
+            <bk-table-column prop="operation"
+                v-if="updateAuth && !isTopoModel"
+                :label="$t('操作')">
+                <template slot-scope="{ row }">
+                    <button class="text-primary mr10 operation-btn"
+                        :disabled="!isEditable(row)"
+                        @click.stop="editVerification(row)">
+                        {{$t('编辑')}}
+                    </button>
+                    <button class="text-primary operation-btn"
+                        :disabled="!isEditable(row) || row.must_check"
+                        @click.stop="deleteVerification(row)">
+                        {{$t('删除')}}
+                    </button>
+                </template>
+            </bk-table-column>
+            <cmdb-table-empty slot="empty" :stuff="table.stuff"></cmdb-table-empty>
+        </bk-table>
+        <bk-sideslider
+            v-transfer-dom
             :width="450"
             :title="slider.title"
-            :is-show.sync="slider.isShow">
+            :is-show.sync="slider.isShow"
+            :before-close="handleSliderBeforeClose">
             <the-verification-detail
-                class="slider-content"
+                ref="verificationForm"
                 slot="content"
-                :is-read-only="isReadOnly"
+                v-if="slider.isShow"
+                :is-read-only="isReadOnly || slider.isReadOnly"
                 :is-edit="slider.isEdit"
                 :verification="slider.verification"
                 :attribute-list="attributeList"
                 @save="saveVerification"
-                @cancel="slider.isShow = false">
+                @cancel="handleSliderBeforeClose">
             </the-verification-detail>
-        </cmdb-slider>
+        </bk-sideslider>
     </div>
 </template>
 
@@ -68,6 +81,12 @@
         components: {
             theVerificationDetail
         },
+        props: {
+            modelId: {
+                type: Number,
+                default: null
+            }
+        },
         data () {
             return {
                 slider: {
@@ -76,19 +95,16 @@
                     verification: {}
                 },
                 table: {
-                    header: [{
-                        id: 'keys',
-                        name: this.$t('ModelManagement["校验规则"]')
-                    }, {
-                        id: 'must_check',
-                        name: this.$t('ModelManagement["是否为必须校验"]')
-                    }, {
-                        id: 'operation',
-                        name: this.$t('Common["操作"]')
-                    }],
-                    list: []
+                    list: [],
+                    stuff: {
+                        type: 'default',
+                        payload: {
+                            emptyText: this.$t('bk.table.emptyText')
+                        }
+                    }
                 },
-                attributeList: []
+                attributeList: [],
+                updateAuth: false
             }
         },
         computed: {
@@ -98,27 +114,16 @@
                 'isInjectable'
             ]),
             isTopoModel () {
-                return this.activeModel.bk_classification_id === 'bk_biz_topo'
+                return ['bk_biz_topo', 'bk_organization'].includes(this.activeModel.bk_classification_id)
             },
             isReadOnly () {
                 if (this.activeModel) {
                     return this.activeModel['bk_ispaused']
                 }
                 return false
-            },
-            updateAuth () {
-                const cantEdit = ['process', 'plat']
-                if (cantEdit.includes(this.$route.params.modelId)) {
-                    return false
-                }
-                const editable = this.isAdminView || (this.isBusinessSelected && this.isInjectable)
-                return editable && this.$isAuthorized(this.$OPERATION.U_MODEL)
             }
         },
         async created () {
-            if (!this.updateAuth || this.isTopoModel) {
-                this.table.header.pop()
-            }
             this.initAttrList()
             this.searchVerification()
         },
@@ -164,14 +169,16 @@
                 })
             },
             createVerification () {
-                this.slider.title = this.$t('ModelManagement["新建校验"]')
+                this.slider.title = this.$t('新建校验')
                 this.slider.isEdit = false
+                this.slider.isReadOnly = false
                 this.slider.isShow = true
             },
             editVerification (verification) {
-                this.slider.title = this.$t('ModelManagement["编辑校验"]')
+                this.slider.title = this.$t('编辑校验')
                 this.slider.verification = verification
                 this.slider.isEdit = true
+                this.slider.isReadOnly = false
                 this.slider.isShow = true
             },
             saveVerification () {
@@ -180,7 +187,7 @@
             },
             deleteVerification (verification) {
                 this.$bkInfo({
-                    title: this.$tc('ModelManagement["确定删除唯一校验？"]', this.getRuleName(verification.keys), { name: this.getRuleName(verification.keys) }),
+                    title: this.$tc('确定删除唯一校验', this.getRuleName(verification.keys), { name: this.getRuleName(verification.keys) }),
                     confirmFn: async () => {
                         await this.deleteObjectUniqueConstraints({
                             objId: verification['bk_obj_id'],
@@ -205,6 +212,38 @@
                     }
                 })
                 this.table.list = res
+            },
+            handleShowDetails (row, column, cell) {
+                if (column.property === 'operation') return
+                this.slider.title = this.$t('查看校验')
+                this.slider.verification = row
+                this.slider.isEdit = true
+                this.slider.isReadOnly = true
+                this.slider.isShow = true
+            },
+            handleReceiveAuth (auth) {
+                this.updateAuth = auth
+            },
+            handleSliderBeforeClose () {
+                const hasChanged = Object.keys(this.$refs.verificationForm.changedValues).length
+                if (hasChanged) {
+                    return new Promise((resolve, reject) => {
+                        this.$bkInfo({
+                            title: this.$t('确认退出'),
+                            subTitle: this.$t('退出会导致未保存信息丢失'),
+                            extCls: 'bk-dialog-sub-header-center',
+                            confirmFn: () => {
+                                this.slider.isShow = false
+                                resolve(true)
+                            },
+                            cancelFn: () => {
+                                resolve(false)
+                            }
+                        })
+                    })
+                }
+                this.slider.isShow = false
+                return true
             }
         }
     }
@@ -212,9 +251,13 @@
 
 <style lang="scss" scoped>
     .verification-layout {
-        padding: 10px 0;
+        padding: 20px;
     }
     .verification-table {
-        margin: 10px 0 0 0;
+        margin: 14px 0 0 0;
+    }
+    .operation-btn[disabled] {
+        color: #dcdee5 !important;
+        opacity: 1 !important;
     }
 </style>

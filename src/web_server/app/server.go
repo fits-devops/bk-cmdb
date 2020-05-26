@@ -38,7 +38,7 @@ type WebServer struct {
 	Config options.Config
 }
 
-func Run(ctx context.Context, op *options.ServerOption) error {
+func Run(ctx context.Context, cancel context.CancelFunc, op *options.ServerOption) error {
 
 	svrInfo, err := newServerInfo(op)
 	if err != nil {
@@ -82,9 +82,8 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 
 	var redisErr error
 	if 0 == len(webSvr.Config.Session.Address) {
-		// address 为空，表示使用直连redis 。 使用Host,Port 做链接redis参数不
-		address := webSvr.Config.Session.Host + ":" + webSvr.Config.Session.Port
-		service.Session, redisErr = sessions.NewRedisStore(10, "tcp", address, webSvr.Config.Session.Secret, []byte("secret"))
+		// address 为空，表示使用直连redis 。 使用Host,Port 做链接redis参数
+		service.Session, redisErr = sessions.NewRedisStore(10, "tcp", redisAddress, webSvr.Config.Session.Secret, []byte("secret"))
 		if redisErr != nil {
 			return fmt.Errorf("failed to create new redis store, error info is %v", redisErr)
 		}
@@ -120,11 +119,16 @@ func Run(ctx context.Context, op *options.ServerOption) error {
 		}
 	}
 
-	if err := backbone.StartServer(ctx, engine, service.WebService()); err != nil {
+	err = backbone.StartServer(ctx, cancel, engine, service.WebService(), false)
+	if err != nil {
 		return err
 	}
 
-	select {}
+	select {
+	case <-ctx.Done():
+	}
+
+	return nil
 }
 
 func (w *WebServer) onServerConfigUpdate(previous, current cc.ProcessConfig) {
@@ -137,6 +141,10 @@ func (w *WebServer) onServerConfigUpdate(previous, current cc.ProcessConfig) {
 	w.Config.Site.AuthScheme = current.ConfigMap["site.authscheme"]
 	if w.Config.Site.AuthScheme == "" {
 		w.Config.Site.AuthScheme = "internal"
+	}
+	w.Config.Site.FullTextSearch = current.ConfigMap["site.full_text_search"]
+	if w.Config.Site.FullTextSearch == "" {
+		w.Config.Site.FullTextSearch = "off"
 	}
 	w.Config.Site.AccountUrl = current.ConfigMap["site.bk_account_url"]
 	w.Config.Site.BkHttpsLoginUrl = current.ConfigMap["site.bk_https_login_url"]

@@ -9,27 +9,36 @@
                 v-model="operator"
                 :exclude="false"
                 :multiple="false"
+                :palceholder="$t('操作账号')"
                 @input="handlePageChange(1)">
             </cmdb-form-objuser>
         </div>
-        <cmdb-table class="history-table"
-            :loading="$loading('getHostAuditLog')"
-            :header="header"
-            :list="history"
-            :pagination.sync="pagination"
-            @handlePageChange="handlePageChange"
-            @handleSizeChange="handleSizeChange"
-            @handleSortChange="handleSortChange"
-            @handleRowClick="handleRowClick">
-            <template slot="op_time" slot-scope="{ item }">
-                {{$tools.formatTime(item['op_time'])}}
-            </template>
-        </cmdb-table>
-        <cmdb-slider
+        <bk-table class="history-table"
+            v-bkloading="{ isLoading: $loading('getHostAuditLog') }"
+            :data="history"
+            :pagination="pagination"
+            :max-height="$APP.height - 325"
+            :row-style="{ cursor: 'pointer' }"
+            @page-change="handlePageChange"
+            @page-limit-change="handleSizeChange"
+            @sort-change="handleSortChange"
+            @row-click="handleRowClick">
+            <bk-table-column prop="op_desc" :label="$t('变更内容')" sortable="custom" show-overflow-tooltip></bk-table-column>
+            <bk-table-column prop="operator" :label="$t('操作账号')" sortable="custom" show-overflow-tooltip></bk-table-column>
+            <bk-table-column prop="op_time" :label="$t('操作时间')" sortable="custom" show-overflow-tooltip>
+                <template slot-scope="{ row }">
+                    {{$tools.formatTime(row['op_time'])}}
+                </template>
+            </bk-table-column>
+            <cmdb-table-empty slot="empty" :stuff="table.stuff"></cmdb-table-empty>
+        </bk-table>
+        <bk-sideslider
+            v-transfer-dom
             :is-show.sync="details.show"
-            :title="$t('OperationAudit[\'操作详情\']')">
-            <cmdb-host-history-details :details="details.data" slot="content"></cmdb-host-history-details>
-        </cmdb-slider>
+            :width="800"
+            :title="$t('操作详情')">
+            <cmdb-host-history-details :details="details.data" slot="content" v-if="details.show"></cmdb-host-history-details>
+        </bk-sideslider>
     </div>
 </template>
 
@@ -44,21 +53,19 @@
             return {
                 dateRange: [],
                 operator: '',
-                header: [{
-                    id: 'op_desc',
-                    name: this.$t("HostResourcePool['变更内容']")
-                }, {
-                    id: 'operator',
-                    name: this.$t("HostResourcePool['操作账号']")
-                }, {
-                    id: 'op_time',
-                    name: this.$t("HostResourcePool['操作时间']")
-                }],
                 history: [],
                 pagination: {
                     count: 0,
                     current: 1,
-                    size: 10
+                    limit: 10
+                },
+                table: {
+                    stuff: {
+                        type: 'default',
+                        payload: {
+                            emptyText: this.$t('bk.table.emptyText')
+                        }
+                    }
                 },
                 sort: '-op_time',
                 details: {
@@ -76,7 +83,7 @@
             this.getHistory()
         },
         methods: {
-            async getHistory () {
+            async getHistory (event) {
                 try {
                     const condition = {
                         op_target: 'host',
@@ -90,14 +97,18 @@
                     }
                     const data = await this.$http.post('object/host/audit/search', {
                         condition,
-                        limit: this.pagination.size,
+                        limit: this.pagination.limit,
                         sort: this.sort,
-                        start: (this.pagination.current - 1) * this.pagination.size
+                        start: (this.pagination.current - 1) * this.pagination.limit
                     }, {
                         requestId: 'getHostAuditLog'
                     })
                     this.history = data.info
                     this.pagination.count = data.count
+
+                    if (event) {
+                        this.table.stuff.type = 'search'
+                    }
                 } catch (e) {
                     console.log(e)
                     this.history = []
@@ -106,15 +117,15 @@
             },
             handlePageChange (page) {
                 this.pagination.current = page
-                this.getHistory()
+                this.getHistory(true)
             },
             handleSizeChange (size) {
-                this.pagination.size = size
+                this.pagination.limit = size
                 this.pagination.current = 1
                 this.getHistory()
             },
             handleSortChange (sort) {
-                this.sort = sort
+                this.sort = this.$tools.getSort(sort)
                 this.getHistory()
             },
             handleRowClick (item) {
@@ -135,11 +146,12 @@
             display: inline-block;
             vertical-align: middle;
             &.filter-range {
-                width: 300px;
+                width: 300px !important;
                 margin: 0 5px 0 0;
             }
             &.filter-user {
                 width: 240px;
+                height: 32px;
             }
         }
     }

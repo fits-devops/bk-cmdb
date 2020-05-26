@@ -1,64 +1,91 @@
 <template>
-    <div class="property" v-bkloading="{
-        isLoading: $loading('updateHostInfo')
-    }">
+    <div class="property">
         <div class="group"
             v-for="(group, index) in groupedProperties"
             :key="index">
             <h2 class="group-name">{{group.bk_group_name}}</h2>
-            <ul class="property-list clearfix">
-                <li class="property-item fl"
+            <ul class="property-list">
+                <li class="property-item"
                     v-for="property in group.properties"
-                    :key="property.id">
-                    <span class="property-name"
-                        :title="property.bk_property_name">
+                    :key="property.id"
+                    :id="`property-item-${property.id}`">
+                    <span class="property-name" v-overflow-tips>
                         {{property.bk_property_name}}
                     </span>
-                    <v-popover class="property-popover"
-                        trigger="hover"
-                        placement="bottom"
-                        :disabled="!tooltipState[property.bk_property_id]"
-                        :delay="300"
-                        :offset="-5">
-                        <span class="property-value"
-                            v-show="property !== editState.property"
-                            @mouseover="handleHover($event, property)">
-                            {{$tools.getPropertyText(property, host)}}
-                        </span>
-                        <span class="popover-content" slot="popover">
-                            {{$tools.getPropertyText(property, host)}}
-                        </span>
-                    </v-popover>
-                    <template v-if="isPropertyEditable(property)">
-                        <i class="property-edit icon-cc-edit"
-                            v-if="$isAuthorized(updateAuth)"
-                            v-show="property !== editState.property"
-                            @click="setEditState(property)">
-                        </i>
-                        <i class="property-edit icon-cc-edit disabled"
-                            v-else
-                            v-cursor="{
-                                active: true,
-                                auth: [updateAuth]
-                            }">
-                        </i>
-                        <div class="property-form" v-if="property === editState.property">
-                            <component class="form-component"
-                                :is="`cmdb-form-${property.bk_property_type}`"
-                                :class="{ error: errors.has(property.bk_property_id) }"
-                                :options="property.option || []"
-                                :data-vv-name="property.bk_property_id"
-                                :data-vv-as="property.bk_property_name"
-                                v-validate="$tools.getValidateRules(property)"
-                                v-model.trim="editState.value">
-                            </component>
-                            <i class="form-confirm bk-icon icon-check-1" @click="confirm"></i>
-                            <i class="form-cancel bk-icon icon-close" @click="exitForm"></i>
-                            <span class="form-error"
-                                v-if="errors.has(property.bk_property_id)">
-                                {{errors.first(property.bk_property_id)}}
+                    <span :class="['property-value', { 'is-loading': loadingState.includes(property) }]"
+                        v-overflow-tips
+                        v-show="property !== editState.property">
+                        {{$tools.getPropertyText(property, host) | filterShowText(property.unit)}}
+                    </span>
+                    <template v-if="!loadingState.includes(property)">
+                        <template v-if="hasRelatedRules(property) || !isPropertyEditable(property)">
+                            <span :id="`rule-${property.id}`">
+                                <i18n path="已配置属性自动应用提示" v-if="hasRelatedRules(property)">
+                                    <bk-button text place="link" @click="handleViewRules(property)">{{$t('点击跳转查看配置详情')}}</bk-button>
+                                </i18n>
+                                <span v-else>{{$t('系统限定不可修改')}}</span>
                             </span>
-                        </div>
+                            <i class="is-related property-edit icon-cc-edit"
+                                v-bk-tooltips="{
+                                    allowHtml: true,
+                                    content: `#rule-${property.id}`,
+                                    placement: 'top',
+                                    onShow: () => {
+                                        setFocus(`#property-item-${property.id}`, true)
+                                    },
+                                    onHide: () => {
+                                        setFocus(`#property-item-${property.id}`, false)
+                                    }
+                                }">
+                            </i>
+                        </template>
+                        <template v-else>
+                            <cmdb-auth style="margin: 8px 0 0 8px; font-size: 0;" :auth="updateAuthResources" v-show="property !== editState.property">
+                                <bk-button slot-scope="{ disabled }"
+                                    text
+                                    theme="primary"
+                                    class="property-edit-btn"
+                                    :disabled="disabled"
+                                    @click="setEditState(property)">
+                                    <i class="property-edit icon-cc-edit"></i>
+                                </bk-button>
+                            </cmdb-auth>
+                            <div class="property-form" v-if="property === editState.property">
+                                <div :class="['form-component', property.bk_property_type]">
+                                    <component
+                                        :is="`cmdb-form-${property.bk_property_type}`"
+                                        :class="[property.bk_property_type, { error: errors.has(property.bk_property_id) }]"
+                                        :unit="property.unit"
+                                        :options="property.option || []"
+                                        :data-vv-name="property.bk_property_id"
+                                        :data-vv-as="property.bk_property_name"
+                                        :placeholder="getPlaceholder(property)"
+                                        :auto-check="false"
+                                        v-validate="$tools.getValidateRules(property)"
+                                        v-model.trim="editState.value"
+                                        :ref="`component-${property.bk_property_id}`">
+                                    </component>
+                                </div>
+                                <i class="form-confirm bk-icon icon-check-1" @click="confirm"></i>
+                                <i class="form-cancel bk-icon icon-close" @click="exitForm"></i>
+                                <span class="form-error"
+                                    v-if="errors.has(property.bk_property_id)">
+                                    {{errors.first(property.bk_property_id)}}
+                                </span>
+                            </div>
+                        </template>
+                        <template v-if="$tools.getPropertyText(property, host) !== '--' && property !== editState.property">
+                            <div class="copy-box">
+                                <i class="property-copy icon-cc-details-copy" @click="handleCopy($tools.getPropertyText(property, host), property.bk_property_id)"></i>
+                                <transition name="fade">
+                                    <span class="copy-tips"
+                                        :style="{ width: $i18n.locale === 'en' ? '100px' : '70px' }"
+                                        v-if="showCopyTips === property.bk_property_id">
+                                        {{$t('复制成功')}}
+                                    </span>
+                                </transition>
+                            </div>
+                        </template>
                     </template>
                 </li>
             </ul>
@@ -68,16 +95,26 @@
 
 <script>
     import { mapGetters, mapState } from 'vuex'
-    import { RESOURCE_HOST } from '../router.config.js'
+    import { MENU_RESOURCE_HOST_DETAILS, MENU_BUSINESS_HOST_APPLY } from '@/dictionary/menu-symbol'
     export default {
         name: 'cmdb-host-property',
+        filters: {
+            filterShowText (value, unit) {
+                return value === '--' ? '--' : value + unit
+            }
+        },
         data () {
             return {
                 editState: {
                     property: null,
                     value: null
                 },
-                tooltipState: {}
+                loadingState: [],
+                showCopyTips: false,
+                hostRelatedRules: [],
+                request: {
+                    rules: Symbol('rules')
+                }
             }
         },
         computed: {
@@ -86,15 +123,62 @@
             host () {
                 return this.info.host || {}
             },
-            updateAuth () {
-                const isResourceHost = this.$route.name === RESOURCE_HOST
+            updateAuthResources () {
+                const isResourceHost = this.$route.name === MENU_RESOURCE_HOST_DETAILS
                 if (isResourceHost) {
-                    return this.$OPERATION.U_RESOURCE_HOST
+                    return this.$authResources({ type: this.$OPERATION.U_RESOURCE_HOST })
                 }
-                return this.$OPERATION.U_HOST
+                return this.$authResources({ type: this.$OPERATION.U_HOST })
+            }
+        },
+        watch: {
+            host () {
+                this.getHostRelatedRules()
             }
         },
         methods: {
+            setFocus (id, focus) {
+                const item = this.$el.querySelector(id)
+                focus ? item.classList.add('focus') : item.classList.remove('focus')
+            },
+            handleViewRules (property) {
+                const rule = this.hostRelatedRules.find(rule => rule.bk_attribute_id === property.id) || {}
+                this.$router.push({
+                    name: MENU_BUSINESS_HOST_APPLY,
+                    query: {
+                        module: rule.bk_module_id
+                    }
+                })
+            },
+            hasRelatedRules (property) {
+                return this.hostRelatedRules.some(rule => rule.bk_attribute_id === property.id)
+            },
+            async getHostRelatedRules () {
+                try {
+                    const defaultType = this.$tools.getValue(this.info, 'biz.0.default')
+                    if (defaultType) { // 为0时非业务模块，不存在属性自动应用
+                        this.hostRelatedRules = []
+                    } else {
+                        const data = await this.$store.dispatch('hostApply/getHostRelatedRules', {
+                            bizId: this.$tools.getValue(this.info, 'biz.0.bk_biz_id'),
+                            params: {
+                                bk_host_ids: [this.host.bk_host_id]
+                            },
+                            config: {
+                                requestId: this.request.rules
+                            }
+                        })
+                        this.hostRelatedRules = data[this.host.bk_host_id] || []
+                    }
+                } catch (e) {
+                    this.hostRelatedRules = []
+                    console.error(e)
+                }
+            },
+            getPlaceholder (property) {
+                const placeholderTxt = ['enum', 'list'].includes(property.bk_property_type) ? '请选择xx' : '请输入xx'
+                return this.$t(placeholderTxt, { name: property.bk_property_name })
+            },
             isPropertyEditable (property) {
                 return property.editable && !property.bk_isapi
             },
@@ -102,18 +186,24 @@
                 const value = this.host[property.bk_property_id]
                 this.editState.value = value === null ? '' : value
                 this.editState.property = property
+                this.$nextTick(() => {
+                    const component = this.$refs[`component-${property.bk_property_id}`]
+                    component[0] && component[0].focus && component[0].focus()
+                })
             },
             async confirm () {
+                const { property, value } = this.editState
                 try {
                     const isValid = await this.$validator.validateAll()
                     if (!isValid) {
                         return false
                     }
-                    const { property, value } = this.editState
+                    this.loadingState.push(property)
+                    this.exitForm()
                     await this.$store.dispatch('hostUpdate/updateHost', {
                         params: this.$injectMetadata({
                             [property.bk_property_id]: value,
-                            bk_host_id: this.host.bk_host_id
+                            bk_host_id: String(this.host.bk_host_id)
                         }),
                         config: {
                             requestId: 'updateHostInfo'
@@ -122,22 +212,26 @@
                     this.$store.commit('hostDetails/updateInfo', {
                         [property.bk_property_id]: value
                     })
-                    this.exitForm()
+                    this.loadingState = this.loadingState.filter(exist => exist !== property)
                 } catch (e) {
                     console.error(e)
+                    this.loadingState = this.loadingState.filter(exist => exist !== property)
                 }
             },
             exitForm () {
                 this.editState.property = null
                 this.editState.value = null
             },
-            handleHover (event, property) {
-                const target = event.target
-                const range = document.createRange()
-                range.selectNode(target)
-                const rangeWidth = range.getBoundingClientRect().width
-                const threshold = Math.max(rangeWidth - target.offsetWidth, target.scrollWidth - target.offsetWidth)
-                this.$set(this.tooltipState, property.bk_property_id, threshold > 0.5)
+            handleCopy (copyText, propertyId) {
+                this.$copyText(copyText).then(() => {
+                    this.showCopyTips = propertyId
+                    const timer = setTimeout(() => {
+                        this.showCopyTips = false
+                        clearTimeout(timer)
+                    }, 200)
+                }, () => {
+                    this.$error(this.$t('复制失败'))
+                })
             }
         }
     }
@@ -155,7 +249,7 @@
             line-height: 21px;
             font-size: 16px;
             font-weight: normal;
-            color: #313238;
+            color: #333948;
             &:before {
                 content: "";
                 display: inline-block;
@@ -170,22 +264,28 @@
     .property-list {
         width: 1000px;
         margin: 25px 0 0 0;
-        line-height: 38px;
         color: #63656e;
+        display: flex;
+        flex-wrap: wrap;
         .property-item {
-            width: 50%;
-            font-size: 0;
-            &:hover {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding-bottom: 8px;
+            display: flex;
+            &:hover,
+            &.focus {
                 .property-edit {
+                    opacity: 1;
+                }
+                .property-copy {
                     display: inline-block;
                 }
             }
             .property-name {
                 position: relative;
-                display: inline-block;
-                width: 150px;
+                width: 160px;
+                line-height: 32px;
                 padding: 0 16px 0 36px;
-                vertical-align: middle;
                 font-size: 14px;
                 color: #63656E;
                 @include ellipsis;
@@ -196,43 +296,83 @@
                 }
             }
             .property-value {
-                display: inline-block;
-                margin: 0 0 0 4px;
-                max-width: 310px;
+                margin: 6px 0 0 4px;
+                max-width: 286px;
                 font-size: 14px;
-                vertical-align: middle;
-                color: #313238;
-                @include ellipsis;
+                color: #313237;
+                overflow:hidden;
+                text-overflow:ellipsis;
+                word-break: break-all;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                &.is-loading {
+                    font-size: 0;
+                    &:before {
+                        content: "";
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        margin: 2px 0;
+                        background-image: url("../../../assets/images/icon/loading.svg");
+                    }
+                }
+            }
+            .property-edit-btn {
+                height: auto;
+                font-size: 0;
             }
             .property-edit {
-                display: none;
-                margin: 0 0 0 8px;
-                vertical-align: middle;
                 font-size: 16px;
-                color: #3c96ff;
-                cursor: pointer;
+                opacity: 0;
+                &.is-related {
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 16px;
+                    height: 16px;
+                    margin: 8px 0 0 8px;
+                    line-height: 1;
+                }
                 &:hover {
                     opacity: .8;
                 }
-                &.disabled {
-                    opacity: 1;
-                    color: #ccc;
+            }
+            .property-copy {
+                margin: 8px 0 0 8px;
+                color: #3c96ff;
+                cursor: pointer;
+                display: none;
+                font-size: 16px;
+            }
+            .copy-box {
+                position: relative;
+                font-size: 0;
+                .copy-tips {
+                    position: absolute;
+                    top: -22px;
+                    left: -18px;
+                    min-width: 70px;
+                    height: 26px;
+                    line-height: 26px;
+                    font-size: 12px;
+                    color: #ffffff;
+                    text-align: center;
+                    background-color: #9f9f9f;
+                    border-radius: 2px;
+                }
+                .fade-enter-active, .fade-leave-active {
+                    transition: all 0.5s;
+                }
+                .fade-enter {
+                    top: -14px;
+                    opacity: 0;
+                }
+                .fade-leave-to {
+                    top: -28px;
+                    opacity: 0;
                 }
             }
-            .property-form {
-                display: inline-block;
-                vertical-align: middle;
-            }
         }
-    }
-    .property-popover {
-        display: inline-block;
-    }
-    .popover-content {
-        display: inline-block;
-        max-width: 300px;
-        white-space: normal;
-        word-break: break-all;
     }
     .property-form {
         font-size: 0;
@@ -240,27 +380,27 @@
         .bk-icon {
             display: inline-block;
             vertical-align: middle;
-            width: 26px;
-            height: 26px;
+            width: 32px;
+            height: 32px;
             margin: 0 0 0 6px;
             border-radius: 2px;
             border: 1px solid #c4c6cc;
-            line-height: 24px;
+            line-height: 30px;
             font-size: 12px;
             text-align: center;
             cursor: pointer;
             &.form-confirm {
                 color: #0082ff;
+                font-size: 20px;
                 &:before {
                     display: inline-block;
-                    transform: scale(0.83);
                 }
             }
             &.form-cancel {
                 color: #979ba5;
+                font-size: 20px;
                 &:before {
                     display: inline-block;
-                    transform: scale(0.66);
                 }
             }
             &:hover {
@@ -271,62 +411,20 @@
             position: absolute;
             top: 100%;
             left: 0;
-            margin: -2px 0 0 0;
             font-size: 12px;
             line-height: 1;
             color: $cmdbDangerColor;
         }
         .form-component {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             vertical-align: middle;
-            width: 280px;
-            height: 30px;
+            height: 32px;
+            width: 260px;
             margin: 0 4px 0 0;
-            /deep/ {
-                .bk-date-picker,
-                .bk-selector-input,
-                .form-float-input,
-                .form-singlechar-input,
-                .form-longchar-input,
-                .form-int-input,
-                [name="date-select"] {
-                    height: 30px ;
-                    font-size: 14px !important;
-                }
-                .bk-date-picker:after {
-                    width: 30px;
-                    height: 30px;
-                }
-                .date-dropdown-panel,
-                .bk-selector-list {
-                    margin-top: -10px;
-                }
-                .bk-selector-icon {
-                    top: 9px;
-                }
-                .bk-selector-node .text {
-                    line-height: 30px;
-                    font-size: 14px;
-                }
-                .objuser-layout {
-                    font-size: 14px;
-                    .objuser-container {
-                        min-height: 30px;
-                    }
-                    .objuser-container.placeholder:after {
-                        line-height: 28px;
-                    }
-                    .objuser-selected {
-                        height: 18px;
-                        margin: 1px 3px;
-                        line-height: 16px;
-                    }
-                    .objuser-input {
-                        height: 18px;
-                        line-height: 18px;
-                        margin: 1px 0 0;
-                    }
-                }
+            &.bool {
+                width: 42px;
+                height: 24px;
             }
         }
     }

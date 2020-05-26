@@ -16,6 +16,12 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
+
+	"configcenter/src/common/backbone"
+	"configcenter/src/storage/dal"
+	"configcenter/src/storage/dal/mongo/local"
+	"configcenter/src/storage/dal/mongo/remote"
 )
 
 // Config config
@@ -29,7 +35,7 @@ type Config struct {
 	Mechanism    string
 	MaxOpenConns string
 	MaxIdleConns string
-	Transaction  string
+	Enable       string
 }
 
 // BuildURI return mongo uri according to  https://docs.mongodb.com/manual/reference/connection-string/
@@ -71,16 +77,40 @@ func (c Config) GetMaxIdleConns() int {
 }
 
 // ParseConfigFromKV returns a new config
-func ParseConfigFromKV(prefix string, conifgmap map[string]string) Config {
+func ParseConfigFromKV(prefix string, configmap map[string]string) Config {
 	return Config{
-		Address:      conifgmap[prefix+".host"],
-		Port:         conifgmap[prefix+".port"],
-		User:         conifgmap[prefix+".usr"],
-		Password:     conifgmap[prefix+".pwd"],
-		Database:     conifgmap[prefix+".database"],
-		MaxOpenConns: conifgmap[prefix+".maxOpenConns"],
-		MaxIdleConns: conifgmap[prefix+".maxIDleConns"],
-		Mechanism:    conifgmap[prefix+".mechanism"],
-		Transaction:  conifgmap[prefix+".transaction"],
+		Address:      configmap[prefix+".host"],
+		Port:         configmap[prefix+".port"],
+		User:         configmap[prefix+".usr"],
+		Password:     configmap[prefix+".pwd"],
+		Database:     configmap[prefix+".database"],
+		MaxOpenConns: configmap[prefix+".maxOpenConns"],
+		MaxIdleConns: configmap[prefix+".maxIDleConns"],
+		Mechanism:    configmap[prefix+".mechanism"],
+		Enable:       configmap[prefix+".enable"],
 	}
+}
+
+func (c Config) GetMongoClient(engine *backbone.Engine) (db dal.RDB, err error) {
+	if c.Enable == "true" {
+		db, err = local.NewMgo(c.BuildURI(), time.Minute)
+	} else {
+		db, err = remote.NewWithDiscover(engine)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("connect mongo server failed %s", err.Error())
+	}
+	return
+}
+
+func (c Config) GetTransactionClient(engine *backbone.Engine) (client dal.Transcation, err error) {
+	if c.Enable == "true" {
+		client, err = local.NewMgo(c.BuildURI(), time.Minute)
+	} else {
+		client, err = remote.NewWithDiscover(engine)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("connect mongo server failed %s", err.Error())
+	}
+	return
 }

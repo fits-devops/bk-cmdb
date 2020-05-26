@@ -13,11 +13,11 @@
 package logics
 
 import (
-    "context"
-    
-    "configcenter/src/common"
-    "configcenter/src/common/mapstr"
-    "configcenter/src/common/metadata"
+	"context"
+
+	"configcenter/src/common"
+	"configcenter/src/common/mapstr"
+	"configcenter/src/common/metadata"
 )
 
 func (lgc *Logics) FindHostByModuleIDs(ctx context.Context, data *metadata.HostModuleFind, isDetail bool) (*metadata.SearchHost, error) {
@@ -25,14 +25,23 @@ func (lgc *Logics) FindHostByModuleIDs(ctx context.Context, data *metadata.HostM
 		Info: make([]mapstr.MapStr, 0),
 	}
 	hostSearchParam := new(metadata.HostCommonSearch)
+	hostSearchParam.Page = data.Page
 
 	condItem := metadata.ConditionItem{Field: common.BKModuleIDField, Operator: common.BKDBIN, Value: data.ModuleIDS}
 	moduleFindCond := metadata.SearchCondition{ObjectID: common.BKInnerObjIDModule, Condition: []metadata.ConditionItem{condItem}, Fields: []string{}}
 	setFindCond := metadata.SearchCondition{ObjectID: common.BKInnerObjIDSet, Condition: []metadata.ConditionItem{}, Fields: []string{}}
 	bizFindCond := metadata.SearchCondition{ObjectID: common.BKInnerObjIDApp, Condition: []metadata.ConditionItem{}, Fields: []string{}}
-	bizID, err := data.Metadata.Label.GetBusinessID()
-	if nil != err {
-		return retHostInfo, err
+	bizID := data.AppID
+	var err error
+	if bizID == 0 {
+		// if bk_biz_id and metadata are both not set, then return error
+		if data.Metadata == nil {
+			return retHostInfo, lgc.ccErr.Errorf(common.CCErrCommParamsIsInvalid, common.BKAppIDField+", "+common.MetadataField)
+		}
+		bizID, err = data.Metadata.Label.GetBusinessID()
+		if nil != err {
+			return retHostInfo, err
+		}
 	}
 	hostSearchParam.AppID = bizID
 

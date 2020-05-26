@@ -1,23 +1,21 @@
-import { NAV_AUDIT_ANALYSE } from '@/dictionary/menu'
-import { R_AUDIT } from '@/dictionary/auth'
+import { R_AUDIT, GET_AUTH_META } from '@/dictionary/auth'
+import { MENU_ANALYSIS_AUDIT } from '@/dictionary/menu-symbol'
 import Meta from '@/router/meta'
-const path = '/auditing'
 
 export default {
-    name: 'audit',
-    path: path,
+    name: MENU_ANALYSIS_AUDIT,
+    path: 'audit',
     component: () => import('./index.vue'),
     meta: new Meta({
         menu: {
-            id: 'audit',
-            i18n: 'Nav["操作审计"]',
-            path: path,
-            parent: NAV_AUDIT_ANALYSE
+            i18n: '操作审计'
         },
         auth: {
-            view: R_AUDIT,
-            setAuthScope () {
-                this.authScope = 'global'
+            view: {
+                ...GET_AUTH_META(R_AUDIT)
+            },
+            operation: {
+                R_AUDIT
             }
         }
     })

@@ -52,74 +52,78 @@ type ClientViaRedis struct {
 	queueLock sync.Mutex
 }
 
-func NewClientViaRedis(cache *redis.Client, rdb dal.RDB) *ClientViaRedis {
-	// we limit the queue size to 4k*2500=10M， assume that 4k per event
-	const queuesize = 2500
+// we limit the queue size to 4k*2500=10M， assume that 4k per event
+const queueSize = 2500
 
+func NewClientViaRedis(cache *redis.Client, rdb dal.RDB) *ClientViaRedis {
 	ec := &ClientViaRedis{
 		rdb:   rdb,
 		cache: cache,
-		queue: make(chan *eventtmp, queuesize),
+		queue: make(chan *eventtmp, queueSize),
 	}
 	go ec.runPusher()
 	return ec
 }
 
 func (c *ClientViaRedis) Push(ctx context.Context, events ...*metadata.EventInst) error {
-	c.queueLock.Lock()
 	for i := range events {
-		if events[i] != nil {
-			var allEqual = true
-			for _, data := range events[i].Data {
-				equal, err := instEqual(data)
-				if err != nil {
-					return fmt.Errorf("[event] compare failed: %v, source data is %#v", err, data)
-				}
-				if !equal {
-					allEqual = false
-					break
-				}
-			}
-
-			if allEqual {
-				continue
-			}
-
-			eventID, err := c.rdb.NextSequence(ctx, common.EventCacheEventIDKey)
-			if err != nil {
-				c.queueLock.Unlock()
-				return fmt.Errorf("[event] generate eventID failed: %v", err)
-			}
-			events[i].ID = int64(eventID)
-
-			value, err := json.Marshal(events[i])
-			if err != nil {
-				c.queueLock.Unlock()
-				return fmt.Errorf("[event] marshal json error: %v, raw: %#v", err, events[i])
-			}
-			et := &eventtmp{EventInst: events[i], data: value}
-			select {
-			case c.queue <- et:
-			default:
-				// channel fulled, so we drop 200 oldest events from queue
-				// TODO save to disk if possible
-				c.pending = nil
-				var ok bool
-				for i := 0; i < 200; i-- {
-					_, ok = <-c.queue
-					if !ok {
-						break
-					}
-				}
-				c.queue <- et
-			}
-
-		} else {
-			c.queueLock.Unlock()
+		if events[i] == nil {
 			return fmt.Errorf("[event] event could not be nil")
 		}
+
+		var allEqual = true
+		for _, data := range events[i].Data {
+			changed, err := hasInstanceChanged(data)
+			if err != nil {
+				return fmt.Errorf("[event] compare failed: %v, source data is %#v", err, data)
+			}
+			if !changed {
+				allEqual = false
+				break
+			}
+		}
+
+		if allEqual {
+			continue
+		}
+
+		eventID, err := c.rdb.NextSequence(ctx, common.EventCacheEventIDKey)
+		if err != nil {
+			return fmt.Errorf("[event] generate eventID failed: %v", err)
+		}
+		events[i].ID = int64(eventID)
+
+		value, err := json.Marshal(events[i])
+		if err != nil {
+			return fmt.Errorf("[event] marshal json error: %v, raw: %#v", err, events[i])
+		}
+		et := &eventtmp{EventInst: events[i], data: value}
+		select {
+		case c.queue <- et:
+		default:
+			// queue is already full
+			c.queueLock.Lock()
+			c.pending = nil
+			var ok bool
+		loop:
+			for i := 0; i < 200; i++ {
+				select {
+				case _, ok = <-c.queue:
+					if !ok {
+						// c.queue has already been closed
+						blog.Errorf("queue closed")
+						c.queueLock.Unlock()
+						return fmt.Errorf("queue closed")
+					}
+				default:
+					// c.queue is already empty.
+					break loop
+				}
+			}
+			c.queue <- et
+			c.queueLock.Unlock()
+		}
 	}
-	c.queueLock.Unlock()
 	return nil
 }
 
@@ -146,7 +150,7 @@ func (c *ClientViaRedis) runPusher() {
 			continue
 		}
 
-		// 3. push event to reids
+		// 3. push event to redis
 		if err = c.pushToRedis(event); err != nil {
 			c.queueLock.Lock()
 			c.pending = event
@@ -177,8 +181,8 @@ func (c *ClientViaRedis) pushToRedis(event *eventtmp) error {
 	return c.cache.LPush(common.EventCacheEventQueueKey, event.data).Err()
 }
 
-// instEqual Determine whether the data is consistent before and after the change
-func instEqual(data metadata.EventData) (bool, error) {
+// hasInstanceChanged Determine whether the data is consistent before and after the change
+func hasInstanceChanged(data metadata.EventData) (bool, error) {
 	switch {
 	case data.PreData == nil && data.CurData != nil:
 		return false, nil

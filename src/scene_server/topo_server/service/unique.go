@@ -19,15 +19,20 @@ import (
 	"configcenter/src/common/blog"
 	"configcenter/src/common/mapstr"
 	"configcenter/src/common/metadata"
+	"configcenter/src/common/util"
 	"configcenter/src/scene_server/topo_server/core/types"
 )
+
+var ForbiddenModifyMainlineObjectUniqueWhiteList = []string{
+	common.BKInnerObjIDHost,
+}
 
 // CreateObjectUnique create a new object unique
 func (s *Service) CreateObjectUnique(params types.ContextParams, pathParams, queryParams ParamsGetter, data mapstr.MapStr) (interface{}, error) {
 	request := &metadata.CreateUniqueRequest{}
 
 	if err := data.MarshalJSONInto(request); err != nil {
-		blog.Errorf("[CreateObjectUnique] unmarshal error: %v, data: %#v", err, data)
+		blog.Errorf("[CreateObjectUnique] unmarshal error: %v, data: %#v, rid: %s", err, data, params.ReqID)
 		return nil, params.Err.New(common.CCErrCommParamsInvalid, err.Error())
 	}
 
@@ -39,12 +44,14 @@ func (s *Service) CreateObjectUnique(params types.ContextParams, pathParams, que
 		return nil, err
 	}
 	if yes {
-		return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		if util.InStrArr(ForbiddenModifyMainlineObjectUniqueWhiteList, objectID) == false {
+			return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		}
 	}
 
 	id, err := s.Core.UniqueOperation().Create(params, objectID, request)
 	if err != nil {
-		blog.Errorf("[CreateObjectUnique] create for [%s] failed: %v, raw: %#v", objectID, err, data)
+		blog.Errorf("[CreateObjectUnique] create for [%s] failed: %v, raw: %#v, rid: %s", objectID, err, data, params.ReqID)
 		return nil, err
 	}
 
@@ -52,7 +59,7 @@ func (s *Service) CreateObjectUnique(params types.ContextParams, pathParams, que
 
 	// auth: register model unique
 	if err := s.AuthManager.RegisterModuleUniqueByID(params.Context, params.Header, uniqueID); err != nil {
-		blog.Errorf("register model unique to iam failed, uniqueID: %d, err: %+v", uniqueID, err)
+		blog.Errorf("register model unique to iam failed, uniqueID: %d, err: %+v, rid: %s", uniqueID, err, params.ReqID)
 		return nil, params.Err.New(common.CCErrCommUnRegistResourceToIAMFailed, err.Error())
 	}
 
@@ -64,7 +71,7 @@ func (s *Service) UpdateObjectUnique(params types.ContextParams, pathParams, que
 	request := &metadata.UpdateUniqueRequest{}
 
 	if err := data.MarshalJSONInto(request); err != nil {
-		blog.Errorf("[UpdateObjectUnique] unmarshal error: %v, data: %#v", err, data)
+		blog.Errorf("[UpdateObjectUnique] unmarshal error: %v, data: %#v, rid: %s", err, data, params.ReqID)
 		return nil, params.Err.New(common.CCErrCommParamsInvalid, err.Error())
 	}
 
@@ -92,17 +99,19 @@ func (s *Service) UpdateObjectUnique(params types.ContextParams, pathParams, que
 		return nil, err
 	}
 	if yes {
-		return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		if util.InStrArr(ForbiddenModifyMainlineObjectUniqueWhiteList, objectID) == false {
+			return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		}
 	}
 
 	err = s.Core.UniqueOperation().Update(params, objectID, id, request)
 	if err != nil {
-		blog.Errorf("[UpdateObjectUnique] update for [%s](%d) failed: %v, raw: %#v", objectID, id, err, data)
+		blog.Errorf("[UpdateObjectUnique] update for [%s](%d) failed: %v, raw: %#v, rid: %s", objectID, id, err, data, params.ReqID)
 		return nil, err
 	}
 	// auth: update registered model unique
 	if err := s.AuthManager.UpdateRegisteredModelUniqueByID(params.Context, params.Header, int64(id)); err != nil {
-		blog.Errorf("update register model unique to iam failed, uniqueID: %d, err: %+v", id, err)
+		blog.Errorf("update register model unique to iam failed, uniqueID: %d, err: %+v, rid: %s", id, err, params.ReqID)
 		return nil, params.Err.New(common.CCErrCommRegistResourceToIAMFailed, err.Error())
 	}
 	return nil, nil
@@ -123,7 +132,9 @@ func (s *Service) DeleteObjectUnique(params types.ContextParams, pathParams, que
 		return nil, err
 	}
 	if yes {
-		return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		if util.InStrArr(ForbiddenModifyMainlineObjectUniqueWhiteList, objectID) == false {
+			return nil, params.Err.Error(common.CCErrorTopoMainlineObjectCanNotBeChanged)
+		}
 	}
 
 	uniques, err := s.Core.UniqueOperation().Search(params, objectID)
@@ -132,19 +143,19 @@ func (s *Service) DeleteObjectUnique(params types.ContextParams, pathParams, que
 	}
 
 	if len(uniques) <= 1 {
-		blog.Errorf("[DeleteObjectUnique][%s] unique should have more than one", objectID)
+		blog.Errorf("[DeleteObjectUnique][%s] unique should have more than one, rid: %s", objectID, params.ReqID)
 		return nil, params.Err.Error(common.CCErrTopoObjectUniqueShouldHaveMoreThanOne)
 	}
 
 	err = s.Core.UniqueOperation().Delete(params, objectID, id)
 	if err != nil {
-		blog.Errorf("[DeleteObjectUnique] delete [%s](%d) failed: %v", objectID, id, err)
+		blog.Errorf("[DeleteObjectUnique] delete [%s](%d) failed: %v, rid: %s", objectID, id, err, params.ReqID)
 		return nil, err
 	}
 
-	// auth: update registered model unique
+	// auth: delete registered model unique
 	if err := s.AuthManager.DeregisterModelUniqueByID(params.Context, params.Header, int64(id)); err != nil {
-		blog.Errorf("deregister model unique from iam failed, uniqueID: %d, err: %+v", id, err)
+		blog.Errorf("deregister model unique from iam failed, uniqueID: %d, err: %+v, rid: %s", id, err, params.ReqID)
 		return nil, params.Err.New(common.CCErrCommUnRegistResourceToIAMFailed, err.Error())
 	}
 
@@ -156,7 +167,7 @@ func (s *Service) SearchObjectUnique(params types.ContextParams, pathParams, que
 	objectID := pathParams(common.BKObjIDField)
 	uniques, err := s.Core.UniqueOperation().Search(params, objectID)
 	if err != nil {
-		blog.Errorf("[SearchObjectUnique] search for [%s] failed: %v", objectID, err)
+		blog.Errorf("[SearchObjectUnique] search for [%s] failed: %v, rid: %s", objectID, err, params.ReqID)
 		return nil, err
 	}
 
@@ -172,7 +183,7 @@ func (s *Service) SearchObjectUnique(params types.ContextParams, pathParams, que
 
 	/*
 		if err := s.AuthManager.AuthorizeModelUniqueByID(params.Context, params.Header, meta.Find, ids...); err != nil {
-			blog.Errorf("authorize model unique failed, unique: %+v, err: %+v", uniques, err)
+			blog.Errorf("authorize model unique failed, unique: %+v, err: %+v, rid: %s", uniques, err, params.ReqID)
 			return nil, params.Err.New(common.CCErrCommAuthNotHavePermission, err.Error())
 		}
 	*/

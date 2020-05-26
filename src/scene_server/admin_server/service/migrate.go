@@ -26,21 +26,49 @@ import (
 
 func (s *Service) migrate(req *restful.Request, resp *restful.Response) {
 	rHeader := req.Request.Header
+	rid := util.GetHTTPCCRequestID(rHeader)
 	defErr := s.CCErr.CreateDefaultCCErrorIf(util.GetLanguage(rHeader))
 	ownerID := common.BKDefaultOwnerID
-
-	err := upgrader.Upgrade(s.ctx, s.db, &upgrader.Config{
+	updateCfg := &upgrader.Config{
 		OwnerID:      ownerID,
 		SupplierID:   common.BKDefaultSupplierID,
-		User:         "migrate",
+		User:         common.CCSystemOperatorUserName,
 		CCApiSrvAddr: s.ccApiSrvAddr,
-	})
+	}
 
-	if nil != err {
-		blog.Errorf("db upgrade error: %v", err)
-		resp.WriteError(http.StatusInternalServerError, &metadata.RespError{Msg: defErr.Errorf(common.CCErrCommMigrateFailed, err.Error())})
+	preVersion, finishedVersions, err := upgrader.Upgrade(s.ctx, s.db, updateCfg)
+	if err != nil {
+		blog.Errorf("db upgrade failed, err: %+v, rid: %s", err, rid)
+		result := &metadata.RespError{
+			Msg: defErr.Errorf(common.CCErrCommMigrateFailed, err.Error()),
+		}
+		resp.WriteError(http.StatusInternalServerError, result)
 		return
 	}
 
-	resp.WriteEntity(metadata.NewSuccessResp("migrate success"))
+	currentVersion := preVersion
+	if len(finishedVersions) > 0 {
+		currentVersion = finishedVersions[len(finishedVersions)-1]
+	}
+
+	type MigrationResponse struct {
+		metadata.BaseResp `json:",inline"`
+		Data              interface{} `json:"data"`
+		PreVersion        string      `json:"pre_version"`
+		CurrentVersion    string      `json:"current_version"`
+		FinishedVersions  []string    `json:"finished_migrations"`
+	}
+	result := MigrationResponse{
+		BaseResp: metadata.BaseResp{
+			Result:      true,
+			Code:        0,
+			ErrMsg:      "",
+			Permissions: nil,
+		},
+		Data:             "migrate success",
+		PreVersion:       preVersion,
+		CurrentVersion:   currentVersion,
+		FinishedVersions: finishedVersions,
+	}
+	resp.WriteEntity(result)
 }
